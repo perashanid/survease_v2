@@ -63,7 +63,7 @@ const Dashboard: React.FC = () => {
   const activeSurveys = surveys.filter(s => s.is_active).length;
   const publicSurveys = surveys.filter(s => s.is_public).length;
 
-  if (activeTab === 'analytics') {
+  if (activeTab !== 'overview') {
     return <Analytics />;
   }
 

@@ -34,7 +34,7 @@ const SurveyResponse: React.FC = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   
   // Timing tracking states
-  const [setCompletionTime] = useState<number | null>(null);
+  const [, setCompletionTime] = useState<number | null>(null);
 
   useEffect(() => {
     if (slug) {
@@ -115,11 +115,7 @@ const SurveyResponse: React.FC = () => {
     setShowAuthChoice(false);
   };
 
-  const handleAuthSuccess = () => {
-    setShowAuthModal(false);
-    // Refresh survey data to check permissions
-    fetchSurvey();
-  };
+
 
   const handleSubmit = async () => {
     if (!survey || !slug) return;
@@ -443,7 +439,7 @@ const SurveyResponse: React.FC = () => {
           <AuthModal
             mode="login"
             onClose={() => setShowAuthModal(false)}
-            onSwitchMode={(mode) => {}}
+            onSwitchMode={(_mode) => {}}
           />
         )}
       </div>
@@ -563,7 +559,7 @@ const SurveyResponse: React.FC = () => {
         <AuthModal
           mode="login"
           onClose={() => setShowAuthModal(false)}
-          onSwitchMode={(mode) => {}}
+          onSwitchMode={(_mode) => {}}
         />
       )}
     </div>
