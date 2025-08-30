@@ -7,7 +7,7 @@ import './Navbar.css';
 
 const Navbar: React.FC = () => {
   const { user, logout, isAuthenticated } = useAuth();
-  const { toggleTheme, isDark, themeMode, setThemeMode } = useTheme();
+  const { isDark, themeMode, setThemeMode } = useTheme();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
   const [showThemeMenu, setShowThemeMenu] = useState(false);

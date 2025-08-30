@@ -45,7 +45,7 @@ interface SurveyAnalyticsData {
 const SurveyAnalytics: React.FC = () => {
   const { surveyId } = useParams<{ surveyId: string }>();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { } = useAuth();
   const [analyticsData, setAnalyticsData] = useState<SurveyAnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -111,7 +111,6 @@ const SurveyAnalytics: React.FC = () => {
         <div className="pie-chart">
           <svg viewBox="0 0 200 200" className="pie-svg">
             {Object.entries(data).map(([key, value], index) => {
-              const percentage = (value / total) * 100;
               const angle = (value / total) * 360;
               const startAngle = currentAngle;
               const endAngle = currentAngle + angle;
@@ -449,7 +448,7 @@ const SurveyAnalytics: React.FC = () => {
                 {analyticsData.responses.slice(0, 10).map((response, index) => (
                   <tr key={response.id || index}>
                     <td>#{(response.id || '').substring(0, 8)}...</td>
-                    <td>{new Date(response.submitted_at || response.createdAt).toLocaleString()}</td>
+                    <td>{new Date(response.submitted_at).toLocaleString()}</td>
                     <td>
                       {response.is_anonymous ? (
                         <span className="anonymous-badge">Anonymous</span>

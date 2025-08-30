@@ -39,7 +39,7 @@ describe('TimeTrackingService', () => {
   describe('startSurvey', () => {
     it('should start tracking time for a survey', () => {
       const mockDate = new Date('2024-01-01T10:00:00Z');
-      jest.spyOn(global, 'Date').mockImplementation(() => mockDate);
+      jest.spyOn(global, 'Date').mockImplementation(() => mockDate.toISOString() as any);
 
       timeTrackingService.startSurvey(testSurveyId);
 
@@ -174,7 +174,7 @@ describe('TimeTrackingService', () => {
       const endTime = new Date('2024-01-01T10:02:30Z'); // 2.5 minutes later
       
       jest.spyOn(timeTrackingService, 'getStartTime').mockReturnValue(startTime);
-      jest.spyOn(global, 'Date').mockImplementation(() => endTime);
+      jest.spyOn(global, 'Date').mockImplementation(() => endTime.toISOString() as any);
 
       const result = timeTrackingService.calculateCompletionTime(testSurveyId);
 
@@ -194,7 +194,7 @@ describe('TimeTrackingService', () => {
       const endTime = new Date('2024-01-01T10:00:00Z'); // Earlier than start
       
       jest.spyOn(timeTrackingService, 'getStartTime').mockReturnValue(startTime);
-      jest.spyOn(global, 'Date').mockImplementation(() => endTime);
+      jest.spyOn(global, 'Date').mockImplementation(() => endTime.toISOString() as any);
 
       const result = timeTrackingService.calculateCompletionTime(testSurveyId);
 
@@ -207,7 +207,7 @@ describe('TimeTrackingService', () => {
       const endTime = new Date('2024-01-02T11:00:00Z'); // 25 hours later
       
       jest.spyOn(timeTrackingService, 'getStartTime').mockReturnValue(startTime);
-      jest.spyOn(global, 'Date').mockImplementation(() => endTime);
+      jest.spyOn(global, 'Date').mockImplementation(() => endTime.toISOString() as any);
 
       const result = timeTrackingService.calculateCompletionTime(testSurveyId);
 
@@ -220,7 +220,7 @@ describe('TimeTrackingService', () => {
       const endTime = new Date('2024-01-01T10:00:00.500Z'); // 0.5 seconds later
       
       jest.spyOn(timeTrackingService, 'getStartTime').mockReturnValue(startTime);
-      jest.spyOn(global, 'Date').mockImplementation(() => endTime);
+      jest.spyOn(global, 'Date').mockImplementation(() => endTime.toISOString() as any);
 
       const result = timeTrackingService.calculateCompletionTime(testSurveyId);
 

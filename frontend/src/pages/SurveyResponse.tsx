@@ -13,7 +13,7 @@ interface QuestionResponse {
 const SurveyResponse: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
   
   // Get invitation token from URL parameters
   const urlParams = new URLSearchParams(window.location.search);
@@ -32,11 +32,9 @@ const SurveyResponse: React.FC = () => {
   // New states for anonymous voting flow
   const [showAuthChoice, setShowAuthChoice] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const [proceedAnonymously, setProceedAnonymously] = useState(false);
   
   // Timing tracking states
-  const [startTime, setStartTime] = useState<Date | null>(null);
-  const [completionTime, setCompletionTime] = useState<number | null>(null);
+  const [setCompletionTime] = useState<number | null>(null);
 
   useEffect(() => {
     if (slug) {
@@ -52,20 +50,8 @@ const SurveyResponse: React.FC = () => {
       setShowProgress(surveyData.settings.show_results || false);
       
       // Start time tracking when survey is loaded
-      if (surveyData.id) {
-        timeTrackingService.startSurvey(surveyData.id);
-        const existingStartTime = timeTrackingService.getStartTime(surveyData.id);
-        setStartTime(existingStartTime);
-      }
       if (slug && !timeTrackingService.isSurveyTracked(slug)) {
         timeTrackingService.startSurvey(slug);
-        setStartTime(new Date());
-      } else if (slug) {
-        // Restore start time if already tracking
-        const existingStartTime = timeTrackingService.getStartTime(slug);
-        if (existingStartTime) {
-          setStartTime(existingStartTime);
-        }
       }
       
       // Show authentication choice for unauthenticated users
@@ -125,8 +111,6 @@ const SurveyResponse: React.FC = () => {
   const handleAuthChoice = (choice: 'login' | 'anonymous') => {
     if (choice === 'login') {
       setShowAuthModal(true);
-    } else {
-      setProceedAnonymously(true);
     }
     setShowAuthChoice(false);
   };
@@ -457,9 +441,9 @@ const SurveyResponse: React.FC = () => {
         
         {showAuthModal && (
           <AuthModal
-            isOpen={showAuthModal}
+            mode="login"
             onClose={() => setShowAuthModal(false)}
-            onSuccess={handleAuthSuccess}
+            onSwitchMode={(mode) => {}}
           />
         )}
       </div>
@@ -577,9 +561,9 @@ const SurveyResponse: React.FC = () => {
       
       {showAuthModal && (
         <AuthModal
-          isOpen={showAuthModal}
+          mode="login"
           onClose={() => setShowAuthModal(false)}
-          onSuccess={handleAuthSuccess}
+          onSwitchMode={(mode) => {}}
         />
       )}
     </div>
