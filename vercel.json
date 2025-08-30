@@ -22,8 +22,20 @@
             "dest": "/api/index.js"
         },
         {
-            "src": "/(.*)",
+            "src": "/favicon.ico",
+            "dest": "/frontend/dist/favicon.ico"
+        },
+        {
+            "src": "/assets/(.*)",
+            "dest": "/frontend/dist/assets/$1"
+        },
+        {
+            "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot))",
             "dest": "/frontend/dist/$1"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/frontend/dist/index.html"
         }
     ],
     "env": {
