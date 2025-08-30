@@ -581,8 +581,9 @@
   .raw-data-section {
     padding: 20px;
   }
-}/
-* Hour Chart Styles */
+}
+
+/* Hour Chart Styles */
 .hour-chart {
   background: var(--color-surface-elevated);
   border-radius: 16px;

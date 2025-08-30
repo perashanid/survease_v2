@@ -215,8 +215,9 @@
 [data-theme="dark"] .checkbox-label div {
   color: var(--color-text-secondary) !important;
   background: transparent !important;
-}/* UL
-TRA-BRIGHT CHECKBOX OVERRIDE FOR QUESTION EDITOR */
+}
+
+/* ULTRA-BRIGHT CHECKBOX OVERRIDE FOR QUESTION EDITOR */
 [data-theme="light"] .checkbox-label input[type="checkbox"],
 [data-theme="light"] .question-editor input[type="checkbox"],
 [data-theme="light"] .question-content input[type="checkbox"],
@@ -272,8 +273,9 @@ TRA-BRIGHT CHECKBOX OVERRIDE FOR QUESTION EDITOR */
   background-color: #fff0f5 !important;
   transform: scale(1.08) !important;
   box-shadow: 0 10px 30px rgba(255, 20, 147, 0.7) !important;
-}/* BRIG
-HT GREEN CHECKBOX OVERRIDE - BOTH THEMES */
+}
+
+/* BRIGHT GREEN CHECKBOX OVERRIDE - BOTH THEMES */
 [data-theme="light"] .checkbox-label input[type="checkbox"],
 [data-theme="light"] .question-editor input[type="checkbox"],
 [data-theme="light"] .question-content input[type="checkbox"],

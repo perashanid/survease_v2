@@ -661,11 +661,8 @@ Enhanced light mode visual hierarchy */
 }
 
 /* Survey creator specific styling */
-:root[data-theme="light"] .survey-creator {
-  background: linear-gradient(135deg, #f0f9f4 0%, #ecfdf5 100%);
-}
-
-/* NUCLEAR OPTION - MAXIMUM SPECIFICITY CHECKBOX OVERRIDE */
+:root[data-t/* NUC
+LEAR OPTION - MAXIMUM SPECIFICITY CHECKBOX OVERRIDE */
 html[data-theme="light"] body input[type="checkbox"],
 html[data-theme="light"] input[type="checkbox"],
 :root[data-theme="light"] html body input[type="checkbox"],

@@ -255,8 +255,9 @@
   background-color: #fff0f5 !important;
   transform: scale(1.08) !important;
   box-shadow: 0 10px 30px rgba(255, 20, 147, 0.7) !important;
-}/
-* BRIGHT GREEN CHECKBOX OVERRIDE - BOTH THEMES */
+}
+
+/* BRIGHT GREEN CHECKBOX OVERRIDE - BOTH THEMES */
 [data-theme="light"] .survey-creator input[type="checkbox"],
 [data-theme="light"] .creator-container input[type="checkbox"],
 [data-theme="light"] .creator-main input[type="checkbox"],
