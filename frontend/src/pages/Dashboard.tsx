@@ -84,7 +84,7 @@ const Dashboard: React.FC = () => {
                 📊 Overview
               </button>
               <button 
-                className={`tab-btn ${activeTab === 'analytics' ? 'active' : ''}`}
+                className={`tab-btn ${activeTab !== 'overview' ? 'active' : ''}`}
                 onClick={() => setActiveTab('analytics')}
               >
                 📈 Analytics
