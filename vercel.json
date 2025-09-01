@@ -1,78 +1,38 @@
 {
     "version": 2,
-    "buildCommand": "npm run build:backend && cd frontend && npm run build",
-    "outputDirectory": "frontend/dist",
-    "routes": [
+    "builds": [
         {
-            "src": "/api/(.*)",
-            "dest": "/api/index.js",
-            "headers": {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-                "Access-Control-Allow-Headers": "Content-Type, Authorization"
+            "src": "api/index.js",
+            "use": "@vercel/node",
+            "config": {
+                "maxLambdaSize": "50mb",
+                "runtime": "nodejs18.x"
             }
         },
         {
-            "src": "/survey/([^/]+)",
-            "dest": "/frontend/dist/index.html"
-        },
-        {
-            "src": "/dashboard",
-            "dest": "/frontend/dist/index.html"
-        },
-        {
-            "src": "/create",
-            "dest": "/frontend/dist/index.html"
-        },
-        {
-            "src": "/analytics",
-            "dest": "/frontend/dist/index.html"
-        },
-        {
-            "src": "/surveys",
-            "dest": "/frontend/dist/index.html"
-        },
-        {
-            "src": "/contact",
-            "dest": "/frontend/dist/index.html"
-        },
-        {
-            "src": "/privacy",
-            "dest": "/frontend/dist/index.html"
-        },
-        {
-            "src": "/survey-analytics/([^/]+)",
-            "dest": "/frontend/dist/index.html"
-        },
-        {
-            "src": "/public-survey-analytics/([^/]+)",
-            "dest": "/frontend/dist/index.html"
-        },
-        {
-            "src": "/static/(.*)",
-            "dest": "/frontend/dist/static/$1",
-            "headers": {
-                "Cache-Control": "public, max-age=31536000, immutable"
+            "src": "frontend/package.json",
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "dist",
+                "buildCommand": "npm run build"
             }
-        },
-        {
-            "src": "/assets/(.*)",
-            "dest": "/frontend/dist/assets/$1",
-            "headers": {
-                "Cache-Control": "public, max-age=31536000, immutable"
-            }
-        },
-        {
-            "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot))",
-            "dest": "/frontend/dist/$1",
-            "headers": {
-                "Cache-Control": "public, max-age=31536000, immutable"
-            }
-        },
-        {
-            "src": "/(.*)",
-            "dest": "/frontend/dist/index.html"
         }
+    ],
+    "rewrites": [
+        { "source": "/api/(.*)", "destination": "/api/index.js" },
+        { "source": "/survey/([^/]+)", "destination": "/frontend/dist/index.html" },
+        { "source": "/dashboard", "destination": "/frontend/dist/index.html" },
+        { "source": "/create", "destination": "/frontend/dist/index.html" },
+        { "source": "/analytics", "destination": "/frontend/dist/index.html" },
+        { "source": "/surveys", "destination": "/frontend/dist/index.html" },
+        { "source": "/contact", "destination": "/frontend/dist/index.html" },
+        { "source": "/privacy", "destination": "/frontend/dist/index.html" },
+        { "source": "/survey-analytics/([^/]+)", "destination": "/frontend/dist/index.html" },
+        { "source": "/public-survey-analytics/([^/]+)", "destination": "/frontend/dist/index.html" },
+        { "source": "/static/(.*)", "destination": "/frontend/dist/static/$1" },
+        { "source": "/assets/(.*)", "destination": "/frontend/dist/assets/$1" },
+        { "source": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot))", "destination": "/frontend/dist/$1" },
+        { "source": "/(.*)", "destination": "/frontend/dist/index.html" }
     ],
     "headers": [
         {
@@ -155,13 +115,10 @@
     "functions": {
         "api/index.js": {
             "maxDuration": 30,
-            "memory": 1024,
-            "runtime": "nodejs18.x"
+            "memory": 1024
         }
     },
-    "regions": [
-        "iad1"
-    ],
+    "regions": ["iad1"],
     "framework": null,
     "cleanUrls": true,
     "trailingSlash": false,
