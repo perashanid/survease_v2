@@ -112,12 +112,6 @@
             ]
         }
     ],
-    "functions": {
-        "api/index.js": {
-            "maxDuration": 30,
-            "memory": 1024
-        }
-    },
     "regions": ["iad1"],
     "framework": null,
     "cleanUrls": true,
