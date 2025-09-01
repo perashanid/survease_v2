@@ -1,23 +1,7 @@
 {
     "version": 2,
-    "builds": [
-        {
-            "src": "api/index.js",
-            "use": "@vercel/node",
-            "config": {
-                "maxLambdaSize": "50mb",
-                "runtime": "nodejs18.x"
-            }
-        },
-        {
-            "src": "frontend/package.json",
-            "use": "@vercel/static-build",
-            "config": {
-                "distDir": "dist",
-                "buildCommand": "npm run build"
-            }
-        }
-    ],
+    "buildCommand": "npm run build:backend && cd frontend && npm run build",
+    "outputDirectory": "frontend/dist",
     "routes": [
         {
             "src": "/api/(.*)",
@@ -171,10 +155,13 @@
     "functions": {
         "api/index.js": {
             "maxDuration": 30,
-            "memory": 1024
+            "memory": 1024,
+            "runtime": "nodejs18.x"
         }
     },
-    "regions": ["iad1"],
+    "regions": [
+        "iad1"
+    ],
     "framework": null,
     "cleanUrls": true,
     "trailingSlash": false,
