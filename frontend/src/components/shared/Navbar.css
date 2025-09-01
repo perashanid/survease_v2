@@ -1,0 +1,339 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  height: 80px;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .navbar {
+  background: rgba(24, 24, 27, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 32px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar-brand {
+  font-size: 28px;
+  font-weight: 800;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  letter-spacing: -0.5px;
+}
+
+.navbar-brand:hover {
+  transform: scale(1.05);
+}
+
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-right: auto;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.navbar-link {
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  padding: 12px 20px;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.navbar-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--gradient-primary);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 12px;
+}
+
+.navbar-link:hover {
+  color: white;
+  transform: translateY(-2px);
+}
+
+.navbar-link:hover::before {
+  opacity: 1;
+}
+
+.navbar-link span {
+  position: relative;
+  z-index: 1;
+}
+
+.navbar-auth {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-email {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Modern Theme Toggle Button */
+.theme-toggle {
+  background: var(--gradient-secondary);
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 12px;
+  border-radius: 16px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 24px rgba(6, 182, 212, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-toggle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
+}
+
+.theme-toggle:hover::before {
+  left: 100%;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 16px 40px rgba(6, 182, 212, 0.4);
+}
+
+.theme-toggle:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+/* Theme-specific styling for the toggle button */
+[data-theme="dark"] .theme-toggle {
+  box-shadow: 0 8px 24px rgba(134, 239, 172, 0.3);
+}
+
+[data-theme="dark"] .theme-toggle:hover {
+  box-shadow: 0 16px 40px rgba(134, 239, 172, 0.4);
+}
+
+/* Add a subtle indicator for system mode */
+.theme-toggle[title*="system"] {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 50%, var(--color-accent) 100%);
+  animation: subtle-pulse 3s ease-in-out infinite;
+}
+
+@keyframes subtle-pulse {
+  0%, 100% { 
+    box-shadow: 0 8px 24px rgba(6, 182, 212, 0.3);
+  }
+  50% { 
+    box-shadow: 0 8px 24px rgba(134, 239, 172, 0.4);
+  }
+}
+
+/* Theme Selector Dropdown */
+.theme-selector {
+  position: relative;
+}
+
+.theme-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: 0 16px 48px var(--color-shadow-medium);
+  padding: 8px;
+  min-width: 160px;
+  z-index: 1001;
+  animation: theme-menu-appear 0.2s ease-out;
+}
+
+@keyframes theme-menu-appear {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-primary);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.theme-option:hover {
+  background: var(--color-primary-50);
+  color: var(--color-primary);
+}
+
+.theme-option.active {
+  background: var(--color-primary);
+  color: white;
+}
+
+.theme-option.active:hover {
+  background: var(--color-primary-dark);
+}
+
+.theme-icon {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+}
+
+.theme-label {
+  flex: 1;
+  text-align: left;
+}
+
+.theme-hint {
+  font-size: 12px;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+/* Dark mode adjustments for theme menu */
+[data-theme="dark"] .theme-menu {
+  background: var(--color-surface-elevated);
+  border-color: var(--color-border);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] .theme-option:hover {
+  background: var(--color-primary-100);
+}
+
+.btn-sm {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .navbar {
+    height: 60px;
+  }
+  
+  .navbar-container {
+    padding: 0 16px;
+  }
+  
+  .navbar-brand {
+    font-size: 20px;
+  }
+  
+  .navbar-menu {
+    gap: 12px;
+  }
+  
+  .navbar-nav {
+    gap: 12px;
+  }
+  
+  .navbar-actions {
+    gap: 8px;
+  }
+  
+  .navbar-nav .navbar-link {
+    display: none;
+  }
+  
+  .user-email {
+    display: none;
+  }
+  
+  .theme-toggle {
+    font-size: 18px;
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-menu {
+    gap: 6px;
+  }
+  
+  .navbar-actions {
+    gap: 6px;
+  }
+  
+  .navbar-auth {
+    gap: 6px;
+  }
+  
+  .btn-sm {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}

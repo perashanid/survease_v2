@@ -1,0 +1,350 @@
+.question-editor {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.question-editor:hover {
+  border-color: var(--color-primary);
+}
+
+.question-header {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  background: var(--color-background);
+  border-bottom: 1px solid var(--color-border);
+  cursor: pointer;
+}
+
+.expand-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  margin-right: 12px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.expand-btn:hover {
+  background: var(--color-border-light);
+}
+
+.question-title-preview {
+  flex: 1;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.question-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-icon:hover {
+  background: var(--color-border-light);
+}
+
+.question-content {
+  padding: 20px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  margin-top: 28px;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.option-item .form-input {
+  flex: 1;
+}
+
+.option-item .btn-icon {
+  color: var(--color-error);
+  font-size: 20px;
+  padding: 8px;
+}
+
+.option-item .btn-icon:hover {
+  background: rgba(220, 53, 69, 0.1);
+}
+
+.btn-sm {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .question-header {
+    padding: 12px 16px;
+  }
+  
+  .question-content {
+    padding: 16px;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .checkbox-label {
+    margin-top: 16px;
+  }
+}/* Enhanced
+ checkbox styling for dark mode */
+[data-theme="dark"] .checkbox-label {
+  color: var(--color-text-secondary);
+}
+
+[data-theme="dark"] .checkbox-label:hover {
+  color: var(--color-text-primary);
+}
+
+[data-theme="dark"] .checkbox-label input[type="checkbox"] {
+  background-color: #1e293b;
+  border: 2px solid #475569;
+  border-radius: 4px;
+  width: 18px;
+  height: 18px;
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+[data-theme="dark"] .checkbox-label input[type="checkbox"]:checked {
+  background-color: #86efac;
+  border-color: #86efac;
+}
+
+[data-theme="dark"] .checkbox-label input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #1e293b;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+[data-theme="dark"] .checkbox-label input[type="checkbox"]:hover {
+  border-color: #86efac;
+  background-color: #334155;
+}
+
+/* Ensure checkbox is visible and properly styled */
+.checkbox-label input[type="checkbox"] {
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+/* Fix checkbox container backgrounds in dark mode */
+[data-theme="dark"] .question-editor {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+[data-theme="dark"] .question-content {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+[data-theme="dark"] .form-group {
+  background: transparent;
+  color: var(--color-text-primary);
+}
+
+[data-theme="dark"] .checkbox-label {
+  background: transparent !important;
+  color: var(--color-text-secondary) !important;
+}
+
+/* Ensure all text in checkbox areas is visible */
+[data-theme="dark"] .checkbox-label,
+[data-theme="dark"] .checkbox-label span,
+[data-theme="dark"] .checkbox-label div {
+  color: var(--color-text-secondary) !important;
+  background: transparent !important;
+}
+
+/* ULTRA-BRIGHT CHECKBOX OVERRIDE FOR QUESTION EDITOR */
+[data-theme="light"] .checkbox-label input[type="checkbox"],
+[data-theme="light"] .question-editor input[type="checkbox"],
+[data-theme="light"] .question-content input[type="checkbox"],
+[data-theme="light"] .option-item input[type="checkbox"] {
+  width: 30px !important;
+  height: 30px !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  border: 6px solid #ff1493 !important;
+  border-color: #ff1493 !important;
+  box-shadow: 0 8px 25px rgba(255, 20, 147, 0.6) !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  position: relative !important;
+  cursor: pointer !important;
+  border-radius: 8px !important;
+  margin-right: 15px !important;
+}
+
+[data-theme="light"] .checkbox-label input[type="checkbox"]:checked,
+[data-theme="light"] .question-editor input[type="checkbox"]:checked,
+[data-theme="light"] .question-content input[type="checkbox"]:checked,
+[data-theme="light"] .option-item input[type="checkbox"]:checked {
+  background: #ff1493 !important;
+  background-color: #ff1493 !important;
+  border-color: #ff1493 !important;
+  transform: scale(1.15) !important;
+  box-shadow: 0 12px 35px rgba(255, 20, 147, 0.8), 0 0 0 6px rgba(255, 20, 147, 0.3) !important;
+}
+
+[data-theme="light"] .checkbox-label input[type="checkbox"]:checked::after,
+[data-theme="light"] .question-editor input[type="checkbox"]:checked::after,
+[data-theme="light"] .question-content input[type="checkbox"]:checked::after,
+[data-theme="light"] .option-item input[type="checkbox"]:checked::after {
+  content: '✓' !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  color: #ffffff !important;
+  font-size: 24px !important;
+  font-weight: 900 !important;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8) !important;
+  line-height: 1 !important;
+  z-index: 999 !important;
+}
+
+[data-theme="light"] .checkbox-label input[type="checkbox"]:hover,
+[data-theme="light"] .question-editor input[type="checkbox"]:hover,
+[data-theme="light"] .question-content input[type="checkbox"]:hover,
+[data-theme="light"] .option-item input[type="checkbox"]:hover {
+  border-color: #dc143c !important;
+  background-color: #fff0f5 !important;
+  transform: scale(1.08) !important;
+  box-shadow: 0 10px 30px rgba(255, 20, 147, 0.7) !important;
+}
+
+/* BRIGHT GREEN CHECKBOX OVERRIDE - BOTH THEMES */
+[data-theme="light"] .checkbox-label input[type="checkbox"],
+[data-theme="light"] .question-editor input[type="checkbox"],
+[data-theme="light"] .question-content input[type="checkbox"],
+[data-theme="light"] .option-item input[type="checkbox"],
+[data-theme="dark"] .checkbox-label input[type="checkbox"],
+[data-theme="dark"] .question-editor input[type="checkbox"],
+[data-theme="dark"] .question-content input[type="checkbox"],
+[data-theme="dark"] .option-item input[type="checkbox"] {
+  width: 30px !important;
+  height: 30px !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  border: 6px solid #00ff00 !important; /* Bright green */
+  border-color: #00ff00 !important;
+  box-shadow: 0 8px 25px rgba(0, 255, 0, 0.6) !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  position: relative !important;
+  cursor: pointer !important;
+  border-radius: 8px !important;
+  margin-right: 15px !important;
+}
+
+[data-theme="light"] .checkbox-label input[type="checkbox"]:checked,
+[data-theme="light"] .question-editor input[type="checkbox"]:checked,
+[data-theme="light"] .question-content input[type="checkbox"]:checked,
+[data-theme="light"] .option-item input[type="checkbox"]:checked,
+[data-theme="dark"] .checkbox-label input[type="checkbox"]:checked,
+[data-theme="dark"] .question-editor input[type="checkbox"]:checked,
+[data-theme="dark"] .question-content input[type="checkbox"]:checked,
+[data-theme="dark"] .option-item input[type="checkbox"]:checked {
+  background: #00ff00 !important; /* Bright green background */
+  background-color: #00ff00 !important;
+  border-color: #00ff00 !important;
+  transform: scale(1.15) !important;
+  box-shadow: 0 12px 35px rgba(0, 255, 0, 0.8), 0 0 0 6px rgba(0, 255, 0, 0.3) !important;
+}
+
+[data-theme="light"] .checkbox-label input[type="checkbox"]:checked::after,
+[data-theme="light"] .question-editor input[type="checkbox"]:checked::after,
+[data-theme="light"] .question-content input[type="checkbox"]:checked::after,
+[data-theme="light"] .option-item input[type="checkbox"]:checked::after,
+[data-theme="dark"] .checkbox-label input[type="checkbox"]:checked::after,
+[data-theme="dark"] .question-editor input[type="checkbox"]:checked::after,
+[data-theme="dark"] .question-content input[type="checkbox"]:checked::after,
+[data-theme="dark"] .option-item input[type="checkbox"]:checked::after {
+  content: '✓' !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  color: #ffffff !important;
+  font-size: 24px !important;
+  font-weight: 900 !important;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8) !important;
+  line-height: 1 !important;
+  z-index: 999 !important;
+}
+
+[data-theme="light"] .checkbox-label input[type="checkbox"]:hover,
+[data-theme="light"] .question-editor input[type="checkbox"]:hover,
+[data-theme="light"] .question-content input[type="checkbox"]:hover,
+[data-theme="light"] .option-item input[type="checkbox"]:hover,
+[data-theme="dark"] .checkbox-label input[type="checkbox"]:hover,
+[data-theme="dark"] .question-editor input[type="checkbox"]:hover,
+[data-theme="dark"] .question-content input[type="checkbox"]:hover,
+[data-theme="dark"] .option-item input[type="checkbox"]:hover {
+  border-color: #00cc00 !important; /* Darker green on hover */
+  background-color: #f0fff0 !important; /* Light green background on hover */
+  transform: scale(1.08) !important;
+  box-shadow: 0 10px 30px rgba(0, 255, 0, 0.7) !important;
+}

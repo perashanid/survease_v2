@@ -1,0 +1,205 @@
+.survey-creator {
+  min-height: 100vh;
+  background: var(--color-background);
+}
+
+.creator-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.creator-main {
+  background: var(--color-surface);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px var(--color-shadow-light);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.creator-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 40px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.creator-header h1 {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.creator-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.creator-content.with-preview {
+  grid-template-columns: 1fr 400px;
+}
+
+.creator-form {
+  padding: 40px;
+}
+
+.creator-preview {
+  background: var(--color-background);
+  padding: 40px 30px;
+  border-left: 1px solid var(--color-border);
+}
+
+.card {
+  margin-bottom: 30px;
+}
+
+.card:last-child {
+  margin-bottom: 0;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
+.question-types {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.questions-list {
+  margin-top: 20px;
+}
+
+.empty-questions {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--color-text-muted);
+  background: var(--color-background);
+  border-radius: 8px;
+  border: 2px dashed var(--color-border);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Show preview when enabled */
+.survey-creator .creator-content:has(.creator-preview) {
+  grid-template-columns: 1fr 400px;
+}
+
+/* Mobile responsive */
+@media (max-width: 1200px) {
+  .creator-content {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .creator-preview {
+    border-left: none;
+    border-top: 1px solid var(--color-border);
+    padding: 30px 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .creator-container {
+    padding: 10px;
+  }
+  
+  .creator-header {
+    padding: 20px;
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+  }
+  
+  .header-actions {
+    justify-content: center;
+  }
+  
+  .creator-form {
+    padding: 20px;
+  }
+  
+  .creator-preview {
+    padding: 20px;
+  }
+  
+  .creator-header h1 {
+    font-size: 24px;
+    text-align: center;
+  }
+  
+  .question-types {
+    justify-content: center;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Animation for smooth transitions */
+.creator-content {
+  transition: grid-template-columns 0.3s ease;
+}
+
+.creator-preview {
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}/* Survey Creator uses global checkbox styling from index.css */

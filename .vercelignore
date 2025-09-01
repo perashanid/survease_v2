@@ -1,0 +1,88 @@
+# Development files
+*.md
+!README.md
+.env.example
+.env.local
+.env.development.local
+.env.test.local
+
+# Test files
+**/*.test.*
+**/*.spec.*
+**/tests/
+**/test/
+coverage/
+.nyc_output/
+
+# Development tools
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Source maps (optional)
+**/*.map
+
+# Documentation
+docs/
+database/
+
+# Backup files
+*.backup
+*.bak
+*.old
+*.orig
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Node modules (handled by Vercel)
+node_modules/
+
+# Build artifacts (will be rebuilt)
+dist/
+build/
+
+# Git
+.git/
+.gitignore
+
+# Package manager files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Editor files
+.eslintcache
+.stylelintcache
+
+# Additional development files
+*.config.js
+!vercel.json
+!package.json
+tsconfig.json
+jest.config.js
+.babelrc
+.prettierrc
+
+# Cache directories
+.cache/
+.parcel-cache/
+.turbo/
+
+# Deployment files
+DEPLOYMENT.md
+DEPLOYMENT_CHECKLIST.md
+
+# Kiro specs (development only)
+.kiro/
