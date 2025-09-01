@@ -1,5 +1,6 @@
 {
     "version": 2,
+<<<<<<< HEAD
     "buildCommand": "npm run build:backend && cd frontend && npm run build",
     "outputDirectory": "frontend/dist",
     "routes": [
@@ -74,6 +75,42 @@
             "dest": "/frontend/dist/index.html"
         }
     ],
+=======
+    "builds": [
+        {
+            "src": "api/index.js",
+            "use": "@vercel/node",
+            "config": {
+                "maxLambdaSize": "50mb",
+                "runtime": "nodejs18.x"
+            }
+        },
+        {
+            "src": "frontend/package.json",
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "dist",
+                "buildCommand": "npm run build"
+            }
+        }
+    ],
+    "rewrites": [
+        { "source": "/api/(.*)", "destination": "/api/index.js" },
+        { "source": "/survey/([^/]+)", "destination": "/frontend/dist/index.html" },
+        { "source": "/dashboard", "destination": "/frontend/dist/index.html" },
+        { "source": "/create", "destination": "/frontend/dist/index.html" },
+        { "source": "/analytics", "destination": "/frontend/dist/index.html" },
+        { "source": "/surveys", "destination": "/frontend/dist/index.html" },
+        { "source": "/contact", "destination": "/frontend/dist/index.html" },
+        { "source": "/privacy", "destination": "/frontend/dist/index.html" },
+        { "source": "/survey-analytics/([^/]+)", "destination": "/frontend/dist/index.html" },
+        { "source": "/public-survey-analytics/([^/]+)", "destination": "/frontend/dist/index.html" },
+        { "source": "/static/(.*)", "destination": "/frontend/dist/static/$1" },
+        { "source": "/assets/(.*)", "destination": "/frontend/dist/assets/$1" },
+        { "source": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot))", "destination": "/frontend/dist/$1" },
+        { "source": "/(.*)", "destination": "/frontend/dist/index.html" }
+    ],
+>>>>>>> main
     "headers": [
         {
             "source": "/api/(.*)",
@@ -152,6 +189,7 @@
             ]
         }
     ],
+<<<<<<< HEAD
     "functions": {
         "api/index.js": {
             "maxDuration": 30,
@@ -162,10 +200,17 @@
     "regions": [
         "iad1"
     ],
+=======
+    "regions": ["iad1"],
+>>>>>>> main
     "framework": null,
     "cleanUrls": true,
     "trailingSlash": false,
     "env": {
         "NODE_ENV": "production"
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> main

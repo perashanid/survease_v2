@@ -39,5 +39,9 @@ Thumbs.db
 *.old
 
 # Vercel
+<<<<<<< HEAD
 .vercel
 .vercel
+=======
+.vercel
+>>>>>>> main
