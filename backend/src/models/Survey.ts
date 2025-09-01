@@ -32,6 +32,9 @@ export interface ISurvey extends Document {
   configuration: ISurveyConfiguration;
   is_public: boolean;
   is_active: boolean;
+  allow_import: boolean;
+  import_count: number;
+  original_survey_id?: mongoose.Types.ObjectId;
   start_date?: Date;
   end_date?: Date;
   created_at: Date;
@@ -91,6 +94,19 @@ const SurveySchema = new Schema<ISurvey>({
     type: Boolean,
     default: true
   },
+  allow_import: {
+    type: Boolean,
+    default: true
+  },
+  import_count: {
+    type: Number,
+    default: 0
+  },
+  original_survey_id: {
+    type: Schema.Types.ObjectId,
+    ref: 'Survey',
+    required: false
+  },
   start_date: Date,
   end_date: Date
 }, {
@@ -101,6 +117,8 @@ const SurveySchema = new Schema<ISurvey>({
 SurveySchema.index({ user_id: 1 });
 // Note: slug index is automatically created by unique: true
 SurveySchema.index({ is_public: 1, is_active: 1 });
+SurveySchema.index({ is_public: 1, allow_import: 1, is_active: 1 });
 SurveySchema.index({ created_at: -1 });
+SurveySchema.index({ original_survey_id: 1 });
 
 export const Survey = mongoose.model<ISurvey>('Survey', SurveySchema);

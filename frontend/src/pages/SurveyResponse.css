@@ -1,7 +1,8 @@
 .survey-response {
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  background: var(--color-background);
   padding: 20px 0;
+  transition: background-color 0.3s ease;
 }
 
 .survey-response .container {
@@ -15,7 +16,7 @@
   align-items: center;
   justify-content: center;
   min-height: 60vh;
-  color: white;
+  color: var(--color-text-primary);
 }
 
 .loading p {
@@ -66,7 +67,7 @@
   align-items: center;
   justify-content: center;
   font-size: 40px;
-  color: white;
+  color: var(--color-surface);
   margin: 0 auto 24px;
   font-weight: bold;
 }
@@ -116,7 +117,7 @@
 .progress-bar {
   width: 100%;
   height: 8px;
-  background: #e9ecef;
+  background: var(--color-border);
   border-radius: 4px;
   overflow: hidden;
   margin-bottom: 12px;
@@ -124,7 +125,7 @@
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #007bff, #0056b3);
+  background: var(--color-primary);
   border-radius: 4px;
   transition: width 0.3s ease;
 }
@@ -133,7 +134,7 @@
   display: block;
   text-align: center;
   font-size: 14px;
-  color: #666;
+  color: var(--color-text-muted);
   font-weight: 500;
 }
 
@@ -161,7 +162,7 @@
 }
 
 .required {
-  color: #dc3545;
+  color: var(--color-error);
   margin-left: 4px;
 }
 
@@ -177,16 +178,18 @@
   border: 2px solid var(--color-border);
   border-radius: 8px;
   font-size: 16px;
-  transition: border-color 0.2s ease;
-  background: var(--color-surface-elevated);
-  color: var(--color-text-primary);
+  transition: all 0.3s ease;
+  background-color: var(--color-surface-elevated) !important;
+  color: var(--color-text-primary) !important;
 }
 
 .form-input:focus,
 .form-textarea:focus {
   outline: none;
   border-color: var(--color-primary);
-  background: var(--color-surface);
+  box-shadow: 0 0 0 3px var(--color-primary-100);
+  background-color: var(--color-surface-elevated) !important;
+  color: var(--color-text-primary) !important;
 }
 
 .form-textarea {
@@ -287,42 +290,43 @@
 .rating-button.selected {
   background: var(--color-primary);
   border-color: var(--color-primary);
-  color: white;
+  color: var(--color-surface);
 }
 
 /* Email Collection */
 .email-collection {
   margin-top: 32px;
   padding: 24px;
-  background: #f8f9fa;
+  background: var(--color-surface-elevated);
   border-radius: 8px;
-  border: 2px solid #e1e5e9;
+  border: 2px solid var(--color-border);
 }
 
 .form-label {
   display: block;
   font-weight: 600;
-  color: #333;
+  color: var(--color-text-primary);
   margin-bottom: 8px;
   font-size: 16px;
 }
 
 /* Error Message */
 .error-message {
-  background: #f8d7da;
-  color: #721c24;
+  background: var(--color-error);
+  color: var(--color-surface);
   padding: 12px 16px;
   border-radius: 6px;
-  border: 1px solid #f5c6cb;
+  border: 1px solid var(--color-error);
   margin-top: 16px;
   font-size: 14px;
+  opacity: 0.9;
 }
 
 /* Question Actions */
 .question-actions {
   margin-top: 40px;
   padding-top: 32px;
-  border-top: 1px solid #e1e5e9;
+  border-top: 1px solid var(--color-border);
 }
 
 .nav-buttons {
@@ -345,16 +349,16 @@
 
 /* Survey Footer */
 .survey-footer {
-  background: white;
+  background: var(--color-surface);
   padding: 20px 40px;
   border-radius: 0 0 16px 16px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px var(--color-shadow-light);
   text-align: center;
 }
 
 .survey-info {
   font-size: 14px;
-  color: #666;
+  color: var(--color-text-muted);
   margin: 0;
 }
 
@@ -440,12 +444,11 @@
     transform: translateY(0);
   }
 }
-/* A
-uthentication Choice Modal */
+/* Authentication Choice Modal */
 .auth-choice-modal {
-  background: white;
+  background: var(--color-surface);
   border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 40px var(--color-shadow);
   margin-top: 60px;
   overflow: hidden;
 }
@@ -458,13 +461,13 @@ uthentication Choice Modal */
 .auth-choice-content h1 {
   font-size: 32px;
   font-weight: 700;
-  color: #333;
+  color: var(--color-text-primary);
   margin-bottom: 12px;
 }
 
 .auth-choice-content .survey-description {
   font-size: 18px;
-  color: #666;
+  color: var(--color-text-secondary);
   margin-bottom: 40px;
   line-height: 1.6;
 }
@@ -477,13 +480,13 @@ uthentication Choice Modal */
 .auth-choice-section h2 {
   font-size: 24px;
   font-weight: 600;
-  color: #333;
+  color: var(--color-text-primary);
   margin-bottom: 12px;
 }
 
 .auth-choice-section p {
   font-size: 16px;
-  color: #666;
+  color: var(--color-text-secondary);
   margin-bottom: 32px;
   line-height: 1.5;
 }
@@ -500,34 +503,34 @@ uthentication Choice Modal */
   text-align: left;
   border-radius: 12px;
   transition: all 0.2s ease;
-  border: 2px solid #e1e5e9;
+  border: 2px solid var(--color-border);
 }
 
 .auth-choice-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 25px var(--color-shadow);
 }
 
 .auth-choice-btn.btn-primary {
-  background: #007bff;
-  border-color: #007bff;
-  color: white;
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-surface);
 }
 
 .auth-choice-btn.btn-primary:hover {
-  background: #0056b3;
-  border-color: #0056b3;
+  background: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
 }
 
 .auth-choice-btn.btn-outline {
-  background: white;
-  border-color: #e1e5e9;
-  color: #333;
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text-primary);
 }
 
 .auth-choice-btn.btn-outline:hover {
-  background: #f8f9fa;
-  border-color: #007bff;
+  background: var(--color-surface-elevated);
+  border-color: var(--color-primary);
 }
 
 .choice-content {
@@ -545,13 +548,13 @@ uthentication Choice Modal */
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--color-primary-100);
   border-radius: 8px;
   flex-shrink: 0;
 }
 
 .auth-choice-btn.btn-outline .choice-icon {
-  background: #f8f9fa;
+  background: var(--color-surface-elevated);
 }
 
 .choice-text {
@@ -618,121 +621,254 @@ uthentication Choice Modal */
 .auth-requirement-note {
   margin-top: 24px;
   padding: 16px;
-  background: #fff3cd;
-  border: 1px solid #ffeaa7;
+  background: var(--color-warning);
+  border: 1px solid var(--color-warning);
   border-radius: 8px;
   text-align: center;
+  opacity: 0.9;
 }
 
 .auth-requirement-note p {
   margin: 0;
   font-size: 14px;
-  color: #856404;
+  color: var(--color-surface);
 }
 
 .auth-requirement-note strong {
-  color: #533f03;
+  color: var(--color-surface);
 }
 
-/* SURVEY RESPONSE CHECKBOX CONSISTENCY - BRIGHT GREEN FOR BOTH THEMES */
-.survey-response input[type="checkbox"],
-.question-container input[type="checkbox"],
-.options-container input[type="checkbox"],
-.radio-label input[type="checkbox"],
+/* Survey Response uses global checkbox and radio styling from index.css */
+
+/* Enhanced Dark Mode Support */
+.survey-response {
+  transition: background 0.3s ease;
+}
+
+/* Ensure proper contrast in dark mode */
+.form-input,
+.form-textarea {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Enhanced focus states for dark mode */
+.form-input:focus,
+.form-textarea:focus {
+  box-shadow: 0 0 0 3px var(--color-primary-200);
+}
+
+/* Improved radio and checkbox styling for dark mode */
+.radio-label input[type="radio"],
 .checkbox-label input[type="checkbox"] {
-  width: 30px !important;
-  height: 30px !important;
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-  border: 6px solid #00ff00 !important; /* Bright green border */
-  border-color: #00ff00 !important;
-  box-shadow: 0 8px 25px rgba(0, 255, 0, 0.6) !important;
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  -moz-appearance: none !important;
-  position: relative !important;
-  cursor: pointer !important;
-  border-radius: 8px !important;
-  margin-right: 15px !important;
-  padding: 0 !important;
-  outline: none !important;
-  vertical-align: middle !important;
-  display: inline-block !important;
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+  transition: all 0.3s ease;
 }
 
-.survey-response input[type="checkbox"]:checked,
-.question-container input[type="checkbox"]:checked,
-.options-container input[type="checkbox"]:checked,
-.radio-label input[type="checkbox"]:checked,
+.radio-label input[type="radio"]:checked,
 .checkbox-label input[type="checkbox"]:checked {
-  background: #00ff00 !important; /* Bright green background when checked */
-  background-color: #00ff00 !important;
-  border-color: #00ff00 !important;
-  transform: scale(1.15) !important;
-  box-shadow: 0 12px 35px rgba(0, 255, 0, 0.8), 0 0 0 6px rgba(0, 255, 0, 0.3) !important;
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
-.survey-response input[type="checkbox"]:checked::after,
-.question-container input[type="checkbox"]:checked::after,
-.options-container input[type="checkbox"]:checked::after,
-.radio-label input[type="checkbox"]:checked::after,
-.checkbox-label input[type="checkbox"]:checked::after {
-  content: '✓' !important;
-  position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  color: #ffffff !important;
-  font-size: 24px !important;
-  font-weight: 900 !important;
-  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8) !important;
-  line-height: 1 !important;
-  z-index: 999 !important;
+/* Enhanced rating button dark mode support */
+.rating-button {
+  transition: all 0.3s ease;
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text-secondary);
 }
 
-.survey-response input[type="checkbox"]:hover,
-.question-container input[type="checkbox"]:hover,
-.options-container input[type="checkbox"]:hover,
-.radio-label input[type="checkbox"]:hover,
-.checkbox-label input[type="checkbox"]:hover {
-  border-color: #00cc00 !important; /* Darker green on hover */
-  background-color: #f0fff0 !important; /* Light green background on hover */
-  transform: scale(1.08) !important;
-  box-shadow: 0 10px 30px rgba(0, 255, 0, 0.7) !important;
+.rating-button:hover {
+  background-color: var(--color-primary-50);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
 }
 
-/* Ensure checkbox containers have proper backgrounds */
-.survey-response .checkbox-label,
-.survey-response .radio-label,
-.question-container .checkbox-label,
-.question-container .radio-label {
-  background-color: transparent !important;
-  color: var(--color-text-primary) !important;
+.rating-button.selected {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-surface);
 }
 
-/* Override any framework checkbox styles */
-.survey-response .form-check-input,
-.survey-response .form-control,
-.survey-response .custom-checkbox,
-.question-container .form-check-input,
-.question-container .form-control,
-.question-container .custom-checkbox {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-  border: 6px solid #00ff00 !important;
-  width: 30px !important;
-  height: 30px !important;
-  appearance: none !important;
-  -webkit-appearance: none !important;
+/* Enhanced modal and card transitions */
+.auth-choice-modal,
+.question-container,
+.survey-header,
+.survey-footer {
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.survey-response .form-check-input:checked,
-.survey-response .form-control:checked,
-.survey-response .custom-checkbox:checked,
-.question-container .form-check-input:checked,
-.question-container .form-control:checked,
-.question-container .custom-checkbox:checked {
-  background: #00ff00 !important;
-  background-color: #00ff00 !important;
-  border-color: #00ff00 !important;
+/* Improved text contrast in dark mode */
+.question-text,
+.form-label,
+.choice-text strong {
+  color: var(--color-text-primary);
+  transition: color 0.3s ease;
+}
+
+.survey-description,
+.progress-text,
+.survey-info,
+.choice-text small {
+  color: var(--color-text-secondary);
+  transition: color 0.3s ease;
+}
+
+/* Enhanced button transitions */
+.auth-choice-btn,
+.btn {
+  transition: all 0.3s ease;
+}
+
+/* Improved shadow transitions for dark mode */
+.survey-header,
+.question-container,
+.survey-footer,
+.auth-choice-modal {
+  box-shadow: 0 2px 10px var(--color-shadow-light);
+}
+
+.auth-choice-btn:hover {
+  box-shadow: 0 8px 25px var(--color-shadow);
+}
+
+/* Enhanced error and success state styling */
+.error-message {
+  background-color: var(--color-error);
+  color: var(--color-surface);
+  border-color: var(--color-error);
+  transition: all 0.3s ease;
+}
+
+.auth-requirement-note {
+  background-color: var(--color-warning);
+  border-color: var(--color-warning);
+  color: var(--color-surface);
+  transition: all 0.3s ease;
+}
+
+/* Ensure proper icon contrast in dark mode */
+.success-icon {
+  background-color: var(--color-success);
+  color: var(--color-surface);
+  transition: all 0.3s ease;
+}
+
+.choice-icon {
+  background-color: var(--color-primary-100);
+  transition: all 0.3s ease;
+}
+
+.auth-choice-btn.btn-outline .choice-icon {
+  background-color: var(--color-surface-elevated);
+}
+
+/* Enhanced progress bar for dark mode */
+.progress-bar {
+  background-color: var(--color-border);
+  transition: background-color 0.3s ease;
+}
+
+.progress-fill {
+  background-color: var(--color-primary);
+  transition: background-color 0.3s ease, width 0.3s ease;
+}
+
+/* Improved option container styling */
+.radio-label,
+.checkbox-label {
+  background-color: var(--color-surface-elevated);
+  border-color: var(--color-border);
+  transition: all 0.3s ease;
+}
+
+.radio-label:hover,
+.checkbox-label:hover {
+  background-color: var(--color-surface);
+  border-color: var(--color-primary);
+}
+
+/* Enhanced email collection section */
+.email-collection {
+  background-color: var(--color-surface-elevated);
+  border-color: var(--color-border);
+  transition: all 0.3s ease;
+}
+
+/* Improved rating scale container */
+.rating-scale {
+  background-color: var(--color-surface-elevated);
+  border-color: var(--color-border);
+  transition: all 0.3s ease;
+}
+
+/* Enhanced loading state */
+.loading {
+  color: var(--color-text-primary);
+  transition: color 0.3s ease;
+}
+
+/* Ensure all interactive elements have proper focus states */
+.auth-choice-btn:focus,
+.rating-button:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Improved animation for theme transitions */
+@media (prefers-reduced-motion: no-preference) {
+  * {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+}/* 
+Enhanced error state styling */
+.error-help {
+  background: var(--color-surface-elevated);
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 24px 0;
+  text-align: left;
+}
+
+.error-help h3 {
+  color: var(--color-text-primary);
+  margin: 0 0 12px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.error-help ul {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--color-text-secondary);
+}
+
+.error-help li {
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.error-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.error-actions .btn {
+  min-width: 140px;
+}
+
+@media (max-width: 768px) {
+  .error-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .error-actions .btn {
+    width: 100%;
+    max-width: 280px;
+  }
 }

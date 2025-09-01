@@ -65,6 +65,16 @@ const SurveyResponse: React.FC = () => {
       
       if (errorCode === 'ALREADY_RESPONDED') {
         setSubmitted(true); // Show the "already responded" state
+      } else if (errorCode === 'SURVEY_PRIVATE') {
+        setError('This survey is private. You need a valid invitation link to access it.');
+      } else if (errorCode === 'INVITATION_EXPIRED') {
+        setError('This invitation has expired. Please contact the survey creator for a new invitation.');
+      } else if (errorCode === 'INVITATION_USAGE_EXCEEDED') {
+        setError('This invitation has reached its usage limit. Please contact the survey creator for a new invitation.');
+      } else if (errorCode === 'SURVEY_NOT_FOUND') {
+        setError('Survey not found. The survey may have been deleted or the link is incorrect.');
+      } else if (errorCode === 'SURVEY_CLOSED') {
+        setError('This survey is no longer accepting responses.');
       } else {
         setError(errorMessage);
       }
@@ -147,7 +157,7 @@ const SurveyResponse: React.FC = () => {
 
       const submissionData = {
         responses,
-        ...(survey.settings.collect_email && respondentEmail && { respondent_email: respondentEmail }),
+        ...(respondentEmail && { respondent_email: respondentEmail }),
         ...(calculatedCompletionTime && { completion_time: calculatedCompletionTime }),
         ...(surveyStartTime && { started_at: surveyStartTime })
       };
@@ -339,15 +349,32 @@ const SurveyResponse: React.FC = () => {
   }
 
   if (error && !survey) {
+    const isPrivateError = error.includes('private') || error.includes('invitation');
+    
     return (
       <div className="survey-response">
         <div className="container">
           <div className="error-state">
             <h1>Survey Not Available</h1>
             <p>{error}</p>
-            <button onClick={() => navigate('/')} className="btn btn-primary">
-              Go Home
-            </button>
+            {isPrivateError && (
+              <div className="error-help">
+                <h3>Need access to this survey?</h3>
+                <ul>
+                  <li>Check that you're using the complete invitation link</li>
+                  <li>Make sure the invitation hasn't expired</li>
+                  <li>Contact the survey creator for a new invitation</li>
+                </ul>
+              </div>
+            )}
+            <div className="error-actions">
+              <button onClick={() => navigate('/')} className="btn btn-primary">
+                Go Home
+              </button>
+              <button onClick={() => navigate('/surveys')} className="btn btn-outline">
+                Browse Public Surveys
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -60,9 +60,6 @@ const HomePage: React.FC = () => {
         </div>
         <div className="container">
           <div className="hero-content">
-            <div className="hero-badge">
-              <span>🚀 New Platform Launch</span>
-            </div>
             <h1 className="hero-title">
               Create Powerful Surveys in <span className="gradient-text">Minutes</span>
             </h1>
@@ -253,68 +250,6 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </section>
-
-      <footer className="footer">
-        <div className="container">
-          <div className="footer-content">
-            <div className="footer-section">
-              <div className="footer-brand">
-                <h3>Survey Platform</h3>
-                <p>Create, share, and analyze surveys with ease. Get insights that matter.</p>
-              </div>
-            </div>
-            
-            <div className="footer-section">
-              <h4>Product</h4>
-              <ul>
-                <li><Link to="/surveys">Browse Surveys</Link></li>
-                <li><Link to="/create">Create Survey</Link></li>
-                <li><Link to="/dashboard">Dashboard</Link></li>
-                <li><a href="#features">Features</a></li>
-              </ul>
-            </div>
-            
-            <div className="footer-section">
-              <h4>Company</h4>
-              <ul>
-                <li><a href="#about">About Us</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="#privacy">Privacy Policy</a></li>
-                <li><a href="#terms">Terms of Service</a></li>
-              </ul>
-            </div>
-            
-            <div className="footer-section">
-              <h4>Connect</h4>
-              <div className="social-links">
-                <a href="#" className="social-link">📧</a>
-                <a href="#" className="social-link">🐦</a>
-                <a href="#" className="social-link">💼</a>
-                <a href="#" className="social-link">📱</a>
-              </div>
-              <div className="newsletter">
-                <p>Stay updated with our latest features</p>
-                <div className="newsletter-form">
-                  <input type="email" placeholder="Enter your email" />
-                  <button className="btn btn-primary btn-sm">Subscribe</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="footer-bottom">
-            <div className="footer-divider"></div>
-            <div className="footer-bottom-content">
-              <p>&copy; 2024 Survey Platform. All rights reserved.</p>
-              <div className="footer-links">
-                <a href="#privacy">Privacy</a>
-                <a href="#terms">Terms</a>
-                <a href="#cookies">Cookies</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };

@@ -251,7 +251,7 @@ const Analytics: React.FC = () => {
 
         {/* Survey Quick Access */}
         <div className="survey-quick-access">
-          <h3>Survey Analytics</h3>
+          <h3>Your Survey Analytics</h3>
           <p>Click on any survey below to view detailed analytics with charts and export options</p>
           <div className="survey-grid">
             {analyticsData.topPerformingSurveys.map((survey) => (
@@ -275,6 +275,31 @@ const Analytics: React.FC = () => {
                 </div>
               </Link>
             ))}
+          </div>
+        </div>
+
+        {/* Public Survey Analytics Access */}
+        <div className="public-survey-analytics-section">
+          <h3>Public Survey Analytics</h3>
+          <p>Explore analytics for public surveys created by the community</p>
+          <div className="public-analytics-actions">
+            <Link to="/surveys" className="btn btn-primary">
+              Browse Public Surveys
+            </Link>
+            <div className="public-analytics-info">
+              <div className="info-item">
+                <span className="info-icon">🌐</span>
+                <span className="info-text">View analytics for any public survey</span>
+              </div>
+              <div className="info-item">
+                <span className="info-icon">📊</span>
+                <span className="info-text">Access the same detailed charts and insights</span>
+              </div>
+              <div className="info-item">
+                <span className="info-icon">📥</span>
+                <span className="info-text">Download public survey data</span>
+              </div>
+            </div>
           </div>
         </div>
 

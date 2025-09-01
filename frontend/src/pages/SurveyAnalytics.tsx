@@ -13,6 +13,7 @@ interface SurveyAnalyticsData {
     questions: any[];
     responseCount: number;
     createdAt: string;
+    is_public: boolean;
   };
   responses: Array<{
     id: string;
@@ -207,6 +208,7 @@ const SurveyAnalytics: React.FC = () => {
         <div className="timeline-bars">
           {data.map((item, index) => (
             <div key={index} className="timeline-bar">
+              <span className="timeline-count">{item.count}</span>
               <div 
                 className="timeline-fill"
                 style={{ height: `${(item.count / maxResponses) * 100}%` }}
@@ -215,7 +217,6 @@ const SurveyAnalytics: React.FC = () => {
               <span className="timeline-label">
                 {new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
               </span>
-              <span className="timeline-count">{item.count}</span>
             </div>
           ))}
         </div>
@@ -317,6 +318,17 @@ const SurveyAnalytics: React.FC = () => {
             </button>
             <h1>{analyticsData.survey.title}</h1>
             <p>{analyticsData.survey.description}</p>
+            <div className="survey-privacy-indicator">
+              {analyticsData.survey.is_public ? (
+                <span className="privacy-badge public">
+                  🌐 Public Survey
+                </span>
+              ) : (
+                <span className="privacy-badge private">
+                  🔒 Private Survey
+                </span>
+              )}
+            </div>
           </div>
           <div className="header-actions">
             <button 

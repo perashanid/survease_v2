@@ -1,6 +1,22 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
+// Validate required environment variables
+function validateEnvironment() {
+  const required = ['MONGODB_URI', 'JWT_SECRET'];
+  const missing = required.filter(key => !process.env[key]);
+  
+  if (missing.length > 0) {
+    console.error('❌ Missing required environment variables:', missing.join(', '));
+    console.error('Please check your .env file');
+    process.exit(1);
+  }
+  
+  console.log('✅ Environment variables validated');
+}
+
+validateEnvironment();
+
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -80,6 +96,14 @@ app.use('/api/surveys', invitationRoutes);
 // Import stats routes
 import statsRoutes from './routes/stats';
 app.use('/api/stats', statsRoutes);
+
+// Import contact routes
+import contactRoutes from './routes/contact';
+app.use('/api/contact', contactRoutes);
+
+// Import public routes
+import publicRoutes from './routes/public';
+app.use('/api/public', publicRoutes);
 
 // 404 handler
 app.use('*', (req, res) => {

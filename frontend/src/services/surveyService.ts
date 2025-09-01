@@ -16,6 +16,7 @@ export interface Survey {
   responses?: any[];
   views?: number;
   createdAt: string;
+  original_survey_id?: string;
 }
 
 export interface Question {
@@ -99,7 +100,7 @@ export class SurveyService {
 
   static async getPublicSurveys(page: number = 1, limit: number = 12): Promise<PublicSurveysResponse> {
     console.log('Fetching public surveys...', { page, limit });
-    const response = await api.get('/surveys/public', {
+    const response = await api.get('/public/surveys', {
       params: { page, limit }
     });
     console.log('Public surveys response:', response.data);
@@ -145,5 +146,24 @@ export class SurveyService {
         throw new Error('Failed to export survey data. Please check your connection and try again.');
       }
     }
+  }
+
+  static async getImportableSurveys(page: number = 1, limit: number = 12): Promise<PublicSurveysResponse> {
+    const response = await api.get('/surveys/public/importable', {
+      params: { page, limit }
+    });
+    return response.data.data;
+  }
+
+  static async importSurvey(surveyId: string): Promise<Survey> {
+    const response = await api.post(`/surveys/${surveyId}/import`);
+    return response.data.data.survey;
+  }
+
+  static async toggleSurveyVisibility(surveyId: string, isPublic: boolean): Promise<Survey> {
+    const response = await api.put(`/surveys/${surveyId}/visibility`, {
+      is_public: isPublic
+    });
+    return response.data.data.survey;
   }
 }

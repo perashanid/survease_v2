@@ -14,11 +14,11 @@
 .auth-modal {
   background: var(--color-surface);
   border-radius: 12px;
-  padding: 32px;
+  padding: 40px;
   width: 100%;
-  max-width: 450px;
+  max-width: 500px;
   margin: 20px;
-  box-shadow: 0 10px 30px var(--color-shadow);
+  box-shadow: 0 2px 10px var(--color-shadow-light);
   border: 1px solid var(--color-border);
 }
 
@@ -195,29 +195,57 @@
   border-color: var(--color-primary);
 }
 
-/* Ensure password input is visible in dark mode */
-.password-input {
+/* Form input styling to match survey creator */
+.auth-modal .form-input {
+  width: 100%;
+  padding: 16px;
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.2s ease;
   background-color: var(--color-surface) !important;
   color: var(--color-text-primary) !important;
 }
 
-.password-input:focus {
+.auth-modal .form-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.2);
   background-color: var(--color-surface) !important;
   color: var(--color-text-primary) !important;
 }
 
-.password-input::placeholder {
+.auth-modal .form-input::placeholder {
   color: var(--color-text-muted) !important;
   opacity: 0.7;
 }
 
-/* Fix autofill for password input */
-.password-input:-webkit-autofill,
-.password-input:-webkit-autofill:hover,
-.password-input:-webkit-autofill:focus,
-.password-input:-webkit-autofill:active {
+/* Fix autofill styling */
+.auth-modal .form-input:-webkit-autofill,
+.auth-modal .form-input:-webkit-autofill:hover,
+.auth-modal .form-input:-webkit-autofill:focus,
+.auth-modal .form-input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px var(--color-surface) inset !important;
   -webkit-text-fill-color: var(--color-text-primary) !important;
   background-color: var(--color-surface) !important;
   color: var(--color-text-primary) !important;
+}
+
+/* Form label styling */
+.auth-modal .form-label {
+  display: block;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+/* Form group styling */
+.auth-modal .form-group {
+  margin-bottom: 24px;
+}
+
+/* Password input specific styling */
+.password-input {
+  padding-right: 70px !important;
 }

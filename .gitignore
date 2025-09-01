@@ -1,19 +1,9 @@
 # Dependencies
 node_modules/
-*/node_modules/
-backend/node_modules/
-frontend/node_modules/
-**/node_modules/
 
 # Build outputs
 dist/
 build/
-*/dist/
-*/build/
-backend/dist/
-frontend/dist/
-**/dist/
-**/build/
 
 # Environment variables
 .env
@@ -23,144 +13,30 @@ frontend/dist/
 .env.production.local
 
 # Logs
-logs
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+logs/
 
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
-
-# Coverage directory used by tools like istanbul
-coverage/
-*.lcov
-
-# nyc test coverage
-.nyc_output
-
-# Dependency directories
-jspm_packages/
-
-# TypeScript cache
-*.tsbuildinfo
-
-# Optional npm cache directory
-.npm
-
-# Optional eslint cache
-.eslintcache
-
-# Optional stylelint cache
-.stylelintcache
-
-# Microbundle cache
-.rpt2_cache/
-.rts2_cache_cjs/
-.rts2_cache_es/
-.rts2_cache_umd/
-
-# Optional REPL history
-.node_repl_history
-
-# Output of 'npm pack'
-*.tgz
-
-# Yarn Integrity file
-.yarn-integrity
-
-# parcel-bundler cache (https://parceljs.org/)
-.cache
-.parcel-cache
-
-# Next.js build output
-.next
-out
-
-# Nuxt.js build / generate output
-.nuxt
-
-# Gatsby files
+# Cache directories
 .cache/
-public
-
-# Vuepress build output
-.vuepress/dist
-
-# Serverless directories
-.serverless/
-
-# FuseBox cache
-.fusebox/
-
-# DynamoDB Local files
-.dynamodb/
-
-# TernJS port file
-.tern-port
-
-# Stores VSCode versions used for testing VSCode extensions
-.vscode-test
-
-# yarn v2
-.yarn/cache
-.yarn/unplugged
-.yarn/build-state.yml
-.yarn/install-state.gz
-.pnp.*
+.parcel-cache/
+*.tsbuildinfo
 
 # IDE files
 .vscode/
 .idea/
 *.swp
 *.swo
-*~
 
 # OS generated files
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
 
-# Test files
-test-*.js
-*.test.js
-*.spec.js
-
-# Temporary files
+# Temporary and backup files
 *.tmp
 *.temp
-
-# Database files
-*.db
-*.sqlite
-*.sqlite3
+*.backup
+*.bak
+*.old
 
 # Vercel
 .vercel
-
-# Package lock files (optional - some prefer to keep them)
-# package-lock.json
-# yarn.lock
-
-# Additional build artifacts
-*.tsbuildinfo
-.turbo
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?

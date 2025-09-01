@@ -14,6 +14,7 @@ const Dashboard: React.FC = () => {
   const [copiedUrl, setCopiedUrl] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'overview' | 'analytics'>('overview');
   const [showInvitationManager, setShowInvitationManager] = useState<{ surveyId: string; surveyTitle: string } | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     fetchSurveys();
@@ -58,6 +59,31 @@ const Dashboard: React.FC = () => {
       }
     }
   };
+
+  const handleToggleVisibility = async (surveyId: string, currentVisibility: boolean, surveyTitle: string) => {
+    const newVisibility = !currentVisibility;
+    const action = newVisibility ? 'public' : 'private';
+    
+    if (window.confirm(`Are you sure you want to make "${surveyTitle}" ${action}?`)) {
+      try {
+        await SurveyService.toggleSurveyVisibility(surveyId, newVisibility);
+        setSurveys(surveys.map(s => 
+          s.id === surveyId 
+            ? { ...s, is_public: newVisibility }
+            : s
+        ));
+      } catch (err: any) {
+        setError('Failed to update survey visibility');
+        console.error('Error updating survey visibility:', err);
+      }
+    }
+  };
+
+  // Filter surveys based on search query
+  const filteredSurveys = surveys.filter(survey =>
+    survey.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (survey.description && survey.description.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
 
   const totalResponses = surveys.reduce((sum, survey) => sum + survey.response_count, 0);
   const activeSurveys = surveys.filter(s => s.is_active).length;
@@ -120,7 +146,27 @@ const Dashboard: React.FC = () => {
 
         {/* Surveys List */}
         <div className="surveys-section">
-          <h2>Your Surveys</h2>
+          <div className="surveys-header">
+            <h2>Your Surveys</h2>
+            <div className="search-container">
+              <input
+                type="text"
+                placeholder="🔍 Search surveys by title..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="search-input"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="clear-search"
+                  title="Clear search"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+          </div>
           {loading ? (
             <div className="loading">
               <div className="spinner"></div>
@@ -135,8 +181,14 @@ const Dashboard: React.FC = () => {
               </Link>
             </div>
           ) : (
-            <div className="surveys-list">
-              {surveys.map((survey) => (
+            <>
+              {searchQuery && (
+                <div className="search-results-info">
+                  Found {filteredSurveys.length} survey{filteredSurveys.length !== 1 ? 's' : ''} matching "{searchQuery}"
+                </div>
+              )}
+              <div className="surveys-list">
+                {(searchQuery ? filteredSurveys : surveys).map((survey) => (
                 <div key={survey.id} className="survey-item">
                   <div className="survey-info">
                     <div className="survey-header">
@@ -147,6 +199,9 @@ const Dashboard: React.FC = () => {
                         )}
                         {!survey.is_active && (
                           <span className="badge badge-inactive">Inactive</span>
+                        )}
+                        {survey.original_survey_id && (
+                          <span className="badge badge-imported">Imported</span>
                         )}
                       </div>
                     </div>
@@ -173,6 +228,13 @@ const Dashboard: React.FC = () => {
                     >
                       📊 Analytics
                     </Link>
+                    <button
+                      onClick={() => handleToggleVisibility(survey.id, survey.is_public, survey.title)}
+                      className={`btn btn-sm ${survey.is_public ? 'btn-warning' : 'btn-success'}`}
+                      title={survey.is_public ? 'Make survey private' : 'Make survey public'}
+                    >
+                      {survey.is_public ? '🔒 Make Private' : '🌐 Make Public'}
+                    </button>
                     {survey.is_public ? (
                       <button
                         onClick={() => handleCopyUrl(survey.slug)}
@@ -206,8 +268,22 @@ const Dashboard: React.FC = () => {
                     </button>
                   </div>
                 </div>
-              ))}
-            </div>
+                ))}
+              </div>
+              {searchQuery && filteredSurveys.length === 0 && (
+                <div className="no-search-results">
+                  <div className="empty-icon">🔍</div>
+                  <h3>No surveys found</h3>
+                  <p>No surveys match your search for "{searchQuery}"</p>
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="btn btn-outline"
+                  >
+                    Clear search
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>

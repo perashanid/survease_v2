@@ -76,6 +76,9 @@ const Navbar: React.FC = () => {
                   <Link to="/analytics" className="navbar-link"><span>Analytics</span></Link>
                 </>
               )}
+              
+              <Link to="/contact" className="navbar-link"><span>Contact</span></Link>
+              <Link to="/privacy" className="navbar-link"><span>Privacy</span></Link>
             </div>
             
             <div className="navbar-actions">
