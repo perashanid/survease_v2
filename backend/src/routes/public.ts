@@ -76,7 +76,7 @@ router.get('/surveys', async (req: Request, res: Response): Promise<void> => {
       title: survey.title,
       description: survey.description,
       slug: survey.slug,
-      url: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/survey/${survey.slug}`,
+      url: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/#/survey/${survey.slug}`,
       created_at: survey.created_at,
       response_count: survey.response_count,
       allow_import: survey.allow_import || false,

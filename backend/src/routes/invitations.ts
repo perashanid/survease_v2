@@ -108,7 +108,7 @@ router.post('/:id/invitations', authenticateToken, async (req: Request, res: Res
           usage_count: invitationToken.usage_count,
           is_active: invitationToken.is_active,
           created_at: invitationToken.created_at,
-          invitation_url: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/survey/${survey.slug}?token=${token}`
+          invitation_url: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/#/survey/${survey.slug}?token=${token}`
         }
       }
     });
@@ -171,7 +171,7 @@ router.get('/:id/invitations', authenticateToken, async (req: Request, res: Resp
       usage_count: invitation.usage_count,
       is_active: invitation.is_active,
       created_at: invitation.created_at,
-      invitation_url: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/survey/${survey.slug}?token=${invitation.token}`,
+      invitation_url: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/#/survey/${survey.slug}?token=${invitation.token}`,
       is_expired: invitation.expires_at ? new Date() > invitation.expires_at : false,
       is_usage_exceeded: invitation.max_uses ? invitation.usage_count >= invitation.max_uses : false
     }));
@@ -271,7 +271,7 @@ router.put('/:id/invitations/:tokenId', authenticateToken, async (req: Request, 
           usage_count: invitation.usage_count,
           is_active: invitation.is_active,
           created_at: invitation.created_at,
-          invitation_url: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/survey/${survey.slug}?token=${invitation.token}`
+          invitation_url: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/#/survey/${survey.slug}?token=${invitation.token}`
         }
       }
     });
