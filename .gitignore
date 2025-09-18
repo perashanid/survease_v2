@@ -1,12 +1,9 @@
 # Dependencies
 node_modules/
-*/node_modules/
 
 # Build outputs
 dist/
 build/
-*/dist/
-*/build/
 
 # Environment variables
 .env
@@ -14,23 +11,15 @@ build/
 .env.development.local
 .env.test.local
 .env.production.local
-*/.env
-*/.env.local
-*/.env.development.local
-*/.env.test.local
-*/.env.production.local
 
 # Logs
 *.log
 logs/
-*/logs/
 
 # Cache directories
 .cache/
 .parcel-cache/
 *.tsbuildinfo
-*/.cache/
-*/.parcel-cache/
 
 # IDE files
 .vscode/
@@ -55,43 +44,3 @@ Thumbs.db
 # Survey Platform specific
 backend/.env
 frontend/.env
-
-# System files (Windows)
-NTUSER.DAT*
-ntuser.dat*
-ntuser.ini
-
-# User directories that shouldn't be tracked
-AppData/
-Documents/
-Downloads/
-Music/
-Pictures/
-Videos/
-Contacts/
-Favorites/
-OneDrive/
-Searches/
-.aws/
-.cache/
-.codeverse/
-.codex/
-.cursor/
-.expo/
-.gitconfig
-.ipython/
-.kiro/
-.lesshst/
-.marscode/
-.ssh/
-.trae-aicc/
-.trae/
-.vscode/
-java/
-labs/
-practice/
-ENV_VARIABLES.md
-STEP_BY_STEP_DEPLOYMENT.md
-FRONTEND_DEBUG.md
-DEBUG_DEPLOYMENT.md
-ROUTING_FIX_FINAL.md

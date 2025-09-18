@@ -1,9 +1,1 @@
-# Redirect all routes to index.html for React Router
-/survey/*    /index.html   200
-/dashboard   /index.html   200
-/create      /index.html   200
-/analytics   /index.html   200
-/surveys     /index.html   200
-/contact     /index.html   200
-/privacy     /index.html   200
-/*           /index.html   200
+/*    /index.html   200
