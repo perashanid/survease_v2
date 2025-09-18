@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Survey Platform</title>
     <script>
-        // Redirect to main app for client-side routing
+        // Preserve the current URL and redirect to main app
+        const currentPath = window.location.pathname + window.location.search + window.location.hash;
+        sessionStorage.setItem('redirectPath', currentPath);
         window.location.href = '/';
     </script>
 </head>
 <body>
-    <p>Redirecting...</p>
+    <p>Loading survey...</p>
 </body>
 </html>

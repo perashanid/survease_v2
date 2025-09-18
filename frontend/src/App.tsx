@@ -1,6 +1,8 @@
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import Navbar from './components/shared/Navbar';
+import ApiTest from './components/ApiTest';
 import Footer from './components/shared/Footer';
 import HomePage from './pages/HomePage';
 import Dashboard from './pages/Dashboard';
@@ -17,12 +19,30 @@ import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import './App.css';
 
+function RedirectHandler() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    // Check if we need to redirect from 404 page
+    const redirectPath = sessionStorage.getItem('redirectPath');
+    if (redirectPath && location.pathname === '/') {
+      sessionStorage.removeItem('redirectPath');
+      navigate(redirectPath, { replace: true });
+    }
+  }, [navigate, location]);
+
+  return null;
+}
+
 function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
         <Router>
           <div className="App">
+            <RedirectHandler />
+            <ApiTest />
             <Navbar />
             <main className="main-content">
               <Routes>
