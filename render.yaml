@@ -4,7 +4,7 @@ services:
     name: survease-backend
     env: node
     plan: starter
-    buildCommand: cd backend && npm install && npm run build
+    buildCommand: cd backend && npm ci && npm run build
     startCommand: cd backend && npm start
     envVars:
       - key: NODE_ENV
@@ -41,7 +41,7 @@ services:
     name: survease-frontend
     env: static
     plan: starter
-    buildCommand: cd frontend && npm install && npm run build
+    buildCommand: cd frontend && npm ci && npm run build
     staticPublishPath: frontend/dist
     envVars:
       - key: VITE_API_BASE_URL
