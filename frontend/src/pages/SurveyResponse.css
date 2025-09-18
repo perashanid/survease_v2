@@ -1,0 +1,874 @@
+.survey-response {
+  min-height: 100vh;
+  background: var(--color-background);
+  padding: 20px 0;
+  transition: background-color 0.3s ease;
+}
+
+.survey-response .container {
+  max-width: 800px;
+}
+
+/* Loading State */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  color: var(--color-text-primary);
+}
+
+.loading p {
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+/* Error State */
+.error-state {
+  text-align: center;
+  background: var(--color-surface);
+  padding: 60px 40px;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px var(--color-shadow);
+  margin-top: 60px;
+  border: 1px solid var(--color-border);
+}
+
+.error-state h1 {
+  color: var(--color-error);
+  margin-bottom: 16px;
+  font-size: 32px;
+}
+
+.error-state p {
+  color: var(--color-text-secondary);
+  font-size: 18px;
+  margin-bottom: 32px;
+}
+
+/* Success State */
+.success-state {
+  text-align: center;
+  background: var(--color-surface);
+  padding: 60px 40px;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px var(--color-shadow);
+  margin-top: 60px;
+  border: 1px solid var(--color-border);
+}
+
+.success-icon {
+  width: 80px;
+  height: 80px;
+  background: var(--color-success);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  color: var(--color-surface);
+  margin: 0 auto 24px;
+  font-weight: bold;
+}
+
+.success-state h1 {
+  color: var(--color-success);
+  margin-bottom: 16px;
+  font-size: 32px;
+}
+
+.success-state p {
+  color: var(--color-text-secondary);
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+/* Survey Header */
+.survey-header {
+  background: var(--color-surface);
+  padding: 40px;
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 2px 10px var(--color-shadow-light);
+  margin-top: 40px;
+}
+
+.survey-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.survey-description {
+  font-size: 18px;
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+/* Progress Bar */
+.progress-container {
+  margin-top: 32px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--color-border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  display: block;
+  text-align: center;
+  font-size: 14px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+/* Question Container */
+.question-container {
+  background: var(--color-surface);
+  box-shadow: 0 2px 10px var(--color-shadow-light);
+  border: 1px solid var(--color-border);
+}
+
+.question-card {
+  padding: 40px;
+}
+
+.question-header {
+  margin-bottom: 32px;
+}
+
+.question-text {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.required {
+  color: var(--color-error);
+  margin-left: 4px;
+}
+
+/* Question Content */
+.question-content {
+  margin-bottom: 32px;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 16px;
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background-color: var(--color-surface-elevated) !important;
+  color: var(--color-text-primary) !important;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-100);
+  background-color: var(--color-surface-elevated) !important;
+  color: var(--color-text-primary) !important;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Options */
+.options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.radio-label,
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: var(--color-surface-elevated);
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.radio-label:hover,
+.checkbox-label:hover {
+  background: var(--color-surface);
+  border-color: var(--color-primary);
+}
+
+.radio-label input[type="radio"],
+.checkbox-label input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+}
+
+.radio-text,
+.checkbox-text {
+  font-size: 16px;
+  color: var(--color-text-primary);
+  flex: 1;
+}
+
+/* Rating Scale */
+.rating-container {
+  display: flex;
+  justify-content: center;
+}
+
+.rating-scale {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: var(--color-surface-elevated);
+  border-radius: 12px;
+  border: 2px solid var(--color-border);
+}
+
+.rating-label {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.rating-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.rating-button {
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--color-border);
+  background: var(--color-surface);
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rating-button:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: var(--color-primary-50);
+}
+
+.rating-button.selected {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-surface);
+}
+
+/* Email Collection */
+.email-collection {
+  margin-top: 32px;
+  padding: 24px;
+  background: var(--color-surface-elevated);
+  border-radius: 8px;
+  border: 2px solid var(--color-border);
+}
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+/* Error Message */
+.error-message {
+  background: var(--color-error);
+  color: var(--color-surface);
+  padding: 12px 16px;
+  border-radius: 6px;
+  border: 1px solid var(--color-error);
+  margin-top: 16px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* Question Actions */
+.question-actions {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--color-border);
+}
+
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-buttons .btn {
+  min-width: 120px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.nav-buttons .btn:only-child {
+  margin-left: auto;
+}
+
+/* Survey Footer */
+.survey-footer {
+  background: var(--color-surface);
+  padding: 20px 40px;
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 2px 10px var(--color-shadow-light);
+  text-align: center;
+}
+
+.survey-info {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .survey-response {
+    padding: 10px 0;
+  }
+
+  .survey-header {
+    padding: 24px 20px;
+    margin-top: 20px;
+  }
+
+  .survey-header h1 {
+    font-size: 24px;
+  }
+
+  .survey-description {
+    font-size: 16px;
+  }
+
+  .question-card {
+    padding: 24px 20px;
+  }
+
+  .question-text {
+    font-size: 20px;
+  }
+
+  .rating-scale {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .rating-buttons {
+    justify-content: center;
+  }
+
+  .rating-button {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .nav-buttons {
+    flex-direction: column;
+  }
+
+  .nav-buttons .btn {
+    width: 100%;
+  }
+
+  .survey-footer {
+    padding: 16px 20px;
+  }
+
+  .success-state,
+  .error-state {
+    padding: 40px 20px;
+    margin-top: 20px;
+  }
+
+  .success-state h1,
+  .error-state h1 {
+    font-size: 24px;
+  }
+}
+
+/* Animation */
+.question-card {
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Authentication Choice Modal */
+.auth-choice-modal {
+  background: var(--color-surface);
+  border-radius: 16px;
+  box-shadow: 0 20px 40px var(--color-shadow);
+  margin-top: 60px;
+  overflow: hidden;
+}
+
+.auth-choice-content {
+  padding: 40px;
+  text-align: center;
+}
+
+.auth-choice-content h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 12px;
+}
+
+.auth-choice-content .survey-description {
+  font-size: 18px;
+  color: var(--color-text-secondary);
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+.auth-choice-section {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.auth-choice-section h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 12px;
+}
+
+.auth-choice-section p {
+  font-size: 16px;
+  color: var(--color-text-secondary);
+  margin-bottom: 32px;
+  line-height: 1.5;
+}
+
+.auth-choice-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.auth-choice-btn {
+  padding: 0;
+  height: auto;
+  text-align: left;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  border: 2px solid var(--color-border);
+}
+
+.auth-choice-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px var(--color-shadow);
+}
+
+.auth-choice-btn.btn-primary {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-surface);
+}
+
+.auth-choice-btn.btn-primary:hover {
+  background: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+}
+
+.auth-choice-btn.btn-outline {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text-primary);
+}
+
+.auth-choice-btn.btn-outline:hover {
+  background: var(--color-surface-elevated);
+  border-color: var(--color-primary);
+}
+
+.choice-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  width: 100%;
+}
+
+.choice-icon {
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary-100);
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.auth-choice-btn.btn-outline .choice-icon {
+  background: var(--color-surface-elevated);
+}
+
+.choice-text {
+  flex: 1;
+  text-align: left;
+}
+
+.choice-text strong {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.choice-text small {
+  display: block;
+  font-size: 14px;
+  opacity: 0.8;
+  font-weight: normal;
+}
+
+/* Responsive Design for Auth Choice */
+@media (max-width: 768px) {
+  .auth-choice-modal {
+    margin-top: 20px;
+  }
+
+  .auth-choice-content {
+    padding: 24px 20px;
+  }
+
+  .auth-choice-content h1 {
+    font-size: 24px;
+  }
+
+  .auth-choice-content .survey-description {
+    font-size: 16px;
+    margin-bottom: 32px;
+  }
+
+  .auth-choice-section h2 {
+    font-size: 20px;
+  }
+
+  .choice-content {
+    padding: 16px 20px;
+  }
+
+  .choice-icon {
+    font-size: 20px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .choice-text strong {
+    font-size: 15px;
+  }
+
+  .choice-text small {
+    font-size: 13px;
+  }
+}
+
+.auth-requirement-note {
+  margin-top: 24px;
+  padding: 16px;
+  background: var(--color-warning);
+  border: 1px solid var(--color-warning);
+  border-radius: 8px;
+  text-align: center;
+  opacity: 0.9;
+}
+
+.auth-requirement-note p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-surface);
+}
+
+.auth-requirement-note strong {
+  color: var(--color-surface);
+}
+
+/* Survey Response uses global checkbox and radio styling from index.css */
+
+/* Enhanced Dark Mode Support */
+.survey-response {
+  transition: background 0.3s ease;
+}
+
+/* Ensure proper contrast in dark mode */
+.form-input,
+.form-textarea {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Enhanced focus states for dark mode */
+.form-input:focus,
+.form-textarea:focus {
+  box-shadow: 0 0 0 3px var(--color-primary-200);
+}
+
+/* Improved radio and checkbox styling for dark mode */
+.radio-label input[type="radio"],
+.checkbox-label input[type="checkbox"] {
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+  transition: all 0.3s ease;
+}
+
+.radio-label input[type="radio"]:checked,
+.checkbox-label input[type="checkbox"]:checked {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+/* Enhanced rating button dark mode support */
+.rating-button {
+  transition: all 0.3s ease;
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+.rating-button:hover {
+  background-color: var(--color-primary-50);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.rating-button.selected {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-surface);
+}
+
+/* Enhanced modal and card transitions */
+.auth-choice-modal,
+.question-container,
+.survey-header,
+.survey-footer {
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Improved text contrast in dark mode */
+.question-text,
+.form-label,
+.choice-text strong {
+  color: var(--color-text-primary);
+  transition: color 0.3s ease;
+}
+
+.survey-description,
+.progress-text,
+.survey-info,
+.choice-text small {
+  color: var(--color-text-secondary);
+  transition: color 0.3s ease;
+}
+
+/* Enhanced button transitions */
+.auth-choice-btn,
+.btn {
+  transition: all 0.3s ease;
+}
+
+/* Improved shadow transitions for dark mode */
+.survey-header,
+.question-container,
+.survey-footer,
+.auth-choice-modal {
+  box-shadow: 0 2px 10px var(--color-shadow-light);
+}
+
+.auth-choice-btn:hover {
+  box-shadow: 0 8px 25px var(--color-shadow);
+}
+
+/* Enhanced error and success state styling */
+.error-message {
+  background-color: var(--color-error);
+  color: var(--color-surface);
+  border-color: var(--color-error);
+  transition: all 0.3s ease;
+}
+
+.auth-requirement-note {
+  background-color: var(--color-warning);
+  border-color: var(--color-warning);
+  color: var(--color-surface);
+  transition: all 0.3s ease;
+}
+
+/* Ensure proper icon contrast in dark mode */
+.success-icon {
+  background-color: var(--color-success);
+  color: var(--color-surface);
+  transition: all 0.3s ease;
+}
+
+.choice-icon {
+  background-color: var(--color-primary-100);
+  transition: all 0.3s ease;
+}
+
+.auth-choice-btn.btn-outline .choice-icon {
+  background-color: var(--color-surface-elevated);
+}
+
+/* Enhanced progress bar for dark mode */
+.progress-bar {
+  background-color: var(--color-border);
+  transition: background-color 0.3s ease;
+}
+
+.progress-fill {
+  background-color: var(--color-primary);
+  transition: background-color 0.3s ease, width 0.3s ease;
+}
+
+/* Improved option container styling */
+.radio-label,
+.checkbox-label {
+  background-color: var(--color-surface-elevated);
+  border-color: var(--color-border);
+  transition: all 0.3s ease;
+}
+
+.radio-label:hover,
+.checkbox-label:hover {
+  background-color: var(--color-surface);
+  border-color: var(--color-primary);
+}
+
+/* Enhanced email collection section */
+.email-collection {
+  background-color: var(--color-surface-elevated);
+  border-color: var(--color-border);
+  transition: all 0.3s ease;
+}
+
+/* Improved rating scale container */
+.rating-scale {
+  background-color: var(--color-surface-elevated);
+  border-color: var(--color-border);
+  transition: all 0.3s ease;
+}
+
+/* Enhanced loading state */
+.loading {
+  color: var(--color-text-primary);
+  transition: color 0.3s ease;
+}
+
+/* Ensure all interactive elements have proper focus states */
+.auth-choice-btn:focus,
+.rating-button:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Improved animation for theme transitions */
+@media (prefers-reduced-motion: no-preference) {
+  * {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+}/* 
+Enhanced error state styling */
+.error-help {
+  background: var(--color-surface-elevated);
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 24px 0;
+  text-align: left;
+}
+
+.error-help h3 {
+  color: var(--color-text-primary);
+  margin: 0 0 12px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.error-help ul {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--color-text-secondary);
+}
+
+.error-help li {
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.error-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.error-actions .btn {
+  min-width: 140px;
+}
+
+@media (max-width: 768px) {
+  .error-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .error-actions .btn {
+    width: 100%;
+    max-width: 280px;
+  }
+}

@@ -1,0 +1,251 @@
+.auth-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.auth-modal {
+  background: var(--color-surface);
+  border-radius: 12px;
+  padding: 40px;
+  width: 100%;
+  max-width: 500px;
+  margin: 20px;
+  box-shadow: 0 2px 10px var(--color-shadow-light);
+  border: 1px solid var(--color-border);
+}
+
+.auth-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.auth-modal-header h2 {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 32px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+  background: var(--color-border-light);
+  color: var(--color-text-secondary);
+}
+
+.auth-form {
+  margin-bottom: 24px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.btn-full {
+  width: 100%;
+}
+
+.auth-switch {
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: inherit;
+}
+
+.link-btn:hover {
+  color: var(--color-primary-dark);
+}
+
+@media (max-width: 480px) {
+  .auth-modal {
+    padding: 24px;
+    margin: 16px;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}.password-requirements {
+  margin-top: 8px;
+  padding: 12px;
+  background: var(--color-background);
+  border-radius: 6px;
+  border-left: 3px solid var(--color-primary);
+}
+
+.password-requirements small {
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.password-requirements ul {
+  margin: 0;
+  padding-left: 16px;
+  list-style-type: disc;
+}
+
+.password-requirements li {
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+
+.password-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.password-input {
+  padding-right: 70px !important;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  font-size: 11px;
+  color: var(--color-primary);
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 50px;
+  height: 28px;
+  z-index: 10;
+}
+
+.password-toggle:hover {
+  background: var(--color-primary-50);
+  color: var(--color-primary-dark);
+  border-color: var(--color-primary);
+  transform: scale(1.05);
+}
+
+.password-toggle:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.password-toggle:active {
+  transform: scale(0.95);
+}
+
+/* Ensure the toggle button is always visible and clickable */
+.password-toggle {
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Make sure the button stands out in both light and dark modes */
+:root[data-theme="dark"] .password-toggle {
+  background: var(--color-surface-elevated);
+  border-color: var(--color-border);
+  color: var(--color-primary);
+}
+
+:root[data-theme="dark"] .password-toggle:hover {
+  background: var(--color-primary-100);
+  border-color: var(--color-primary);
+}
+
+/* Form input styling to match survey creator */
+.auth-modal .form-input {
+  width: 100%;
+  padding: 16px;
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  background-color: var(--color-surface) !important;
+  color: var(--color-text-primary) !important;
+}
+
+.auth-modal .form-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.2);
+  background-color: var(--color-surface) !important;
+  color: var(--color-text-primary) !important;
+}
+
+.auth-modal .form-input::placeholder {
+  color: var(--color-text-muted) !important;
+  opacity: 0.7;
+}
+
+/* Fix autofill styling */
+.auth-modal .form-input:-webkit-autofill,
+.auth-modal .form-input:-webkit-autofill:hover,
+.auth-modal .form-input:-webkit-autofill:focus,
+.auth-modal .form-input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--color-surface) inset !important;
+  -webkit-text-fill-color: var(--color-text-primary) !important;
+  background-color: var(--color-surface) !important;
+  color: var(--color-text-primary) !important;
+}
+
+/* Form label styling */
+.auth-modal .form-label {
+  display: block;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+/* Form group styling */
+.auth-modal .form-group {
+  margin-bottom: 24px;
+}
+
+/* Password input specific styling */
+.password-input {
+  padding-right: 70px !important;
+}

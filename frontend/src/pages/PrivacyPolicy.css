@@ -1,0 +1,596 @@
+.privacy-policy-page {
+  min-height: 100vh;
+  background: var(--color-background);
+  padding: 40px 0;
+}
+
+.privacy-header {
+  text-align: center;
+  margin-bottom: 60px;
+  padding: 40px;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  border-radius: 16px;
+  color: white;
+  box-shadow: 0 8px 32px var(--color-shadow);
+}
+
+.privacy-header h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: white;
+}
+
+.privacy-subtitle {
+  font-size: 1.2rem;
+  opacity: 0.95;
+  color: white;
+  margin: 0 0 32px 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+}
+
+.trust-badges {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin: 32px 0;
+  flex-wrap: wrap;
+}
+
+.trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 12px 20px;
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.trust-badge:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.badge-icon {
+  font-size: 1.2rem;
+}
+
+.badge-text {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: white;
+}
+
+.last-updated {
+  font-size: 1rem;
+  opacity: 0.8;
+  color: white;
+  margin: 24px 0 0 0;
+}
+
+.privacy-content {
+  max-width: 800px;
+  margin: 0 auto;
+  background: var(--color-surface);
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 4px 20px var(--color-shadow);
+  border: 1px solid var(--color-border);
+  line-height: 1.7;
+}
+
+.privacy-section {
+  margin-bottom: 40px;
+}
+
+.privacy-section:last-child {
+  margin-bottom: 0;
+}
+
+.privacy-section h2 {
+  color: var(--color-text-primary);
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--color-primary);
+}
+
+.privacy-section h3 {
+  color: var(--color-text-primary);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 24px 0 12px 0;
+}
+
+.privacy-section p {
+  color: var(--color-text-secondary);
+  margin-bottom: 16px;
+  font-size: 16px;
+}
+
+.privacy-section ul {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+
+.privacy-section li {
+  color: var(--color-text-secondary);
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.privacy-section li strong {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.contact-info {
+  background: var(--color-surface-elevated);
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  margin: 20px 0;
+}
+
+.contact-info p {
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.contact-info p:last-child {
+  margin-bottom: 0;
+}
+
+.contact-info a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.contact-info a:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+.privacy-footer {
+  margin-top: 60px;
+  padding: 40px;
+  background: var(--color-surface-elevated);
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  text-align: center;
+}
+
+.privacy-footer p {
+  color: var(--color-text-secondary);
+  font-size: 16px;
+  margin-bottom: 24px;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.footer-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 12px 24px;
+  border: 2px solid var(--color-primary);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.footer-link:hover {
+  background: var(--color-primary);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Table of Contents (if needed) */
+.toc {
+  background: var(--color-surface-elevated);
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  margin-bottom: 40px;
+}
+
+.toc h3 {
+  color: var(--color-text-primary);
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+}
+
+.toc ul {
+  list-style: none;
+  padding: 0;
+}
+
+.toc li {
+  margin-bottom: 8px;
+}
+
+.toc a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.toc a:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+/* Highlight boxes for important information */
+.highlight-box {
+  background: var(--color-primary-50);
+  border-left: 4px solid var(--color-primary);
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.highlight-box p {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+.warning-box {
+  background: var(--color-warning);
+  color: white;
+  border-left: 4px solid #f59e0b;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.warning-box p {
+  margin: 0;
+  color: white;
+  font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .privacy-policy-page {
+    padding: 20px 0;
+  }
+  
+  .privacy-header {
+    padding: 24px;
+    margin-bottom: 40px;
+  }
+  
+  .privacy-header h1 {
+    font-size: 2.5rem;
+  }
+  
+  .last-updated {
+    font-size: 1rem;
+  }
+  
+  .privacy-content {
+    padding: 24px;
+    margin: 0 16px;
+  }
+  
+  .privacy-section h2 {
+    font-size: 1.5rem;
+  }
+  
+  .privacy-section h3 {
+    font-size: 1.2rem;
+  }
+  
+  .privacy-section p,
+  .privacy-section li {
+    font-size: 15px;
+  }
+  
+  .privacy-footer {
+    margin: 40px 16px 0;
+    padding: 24px;
+  }
+  
+  .footer-links {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .footer-link {
+    width: 100%;
+    max-width: 200px;
+    text-align: center;
+  }
+  
+  .contact-info {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .privacy-header h1 {
+    font-size: 2rem;
+  }
+  
+  .privacy-content {
+    padding: 20px;
+  }
+  
+  .privacy-section h2 {
+    font-size: 1.3rem;
+  }
+  
+  .privacy-section h3 {
+    font-size: 1.1rem;
+  }
+  
+  .privacy-section ul {
+    padding-left: 20px;
+  }
+  
+  .contact-info {
+    padding: 16px;
+  }
+  
+  .footer-link {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+/* T
+rust-building sections */
+.intro-section {
+  background: linear-gradient(135deg, var(--color-primary-50) 0%, var(--color-secondary-50) 100%);
+  border-radius: 16px;
+  padding: 32px;
+  border: 2px solid var(--color-primary-100);
+  margin-bottom: 48px;
+}
+
+.promise-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  margin: 32px 0;
+}
+
+.promise-item {
+  background: var(--color-surface);
+  padding: 24px;
+  border-radius: 12px;
+  text-align: center;
+  border: 2px solid var(--color-border);
+  transition: all 0.3s ease;
+}
+
+.promise-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px var(--color-shadow);
+  border-color: var(--color-primary);
+}
+
+.promise-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.promise-item h3 {
+  color: var(--color-text-primary);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+}
+
+.promise-item p {
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.simple-explanation {
+  background: var(--color-surface);
+  padding: 24px;
+  border-radius: 12px;
+  border: 2px solid var(--color-success);
+  margin-top: 32px;
+}
+
+.simple-explanation h3 {
+  color: var(--color-success);
+  font-size: 1.3rem;
+  margin: 0 0 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.simple-explanation h3::before {
+  content: "💡";
+  font-size: 1.2rem;
+}
+
+.simple-explanation p {
+  color: var(--color-text-primary);
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Security section */
+.security-section {
+  background: linear-gradient(135deg, var(--color-success-50) 0%, var(--color-primary-50) 100%);
+  border-radius: 16px;
+  padding: 32px;
+  border: 2px solid var(--color-success-100);
+  margin-bottom: 48px;
+}
+
+.security-highlight {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.security-intro {
+  font-size: 1.2rem;
+  color: var(--color-text-primary);
+  font-weight: 600;
+  margin: 0;
+}
+
+.security-measures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin: 32px 0;
+}
+
+.security-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: var(--color-surface);
+  padding: 24px;
+  border-radius: 12px;
+  border: 2px solid var(--color-border);
+  transition: all 0.3s ease;
+}
+
+.security-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--color-shadow);
+  border-color: var(--color-success);
+}
+
+.security-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.security-content h3 {
+  color: var(--color-text-primary);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.security-content p {
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.honest-note {
+  background: var(--color-surface);
+  padding: 24px;
+  border-radius: 12px;
+  border: 2px solid var(--color-warning);
+  margin-top: 32px;
+}
+
+.honest-note h3 {
+  color: var(--color-warning);
+  font-size: 1.2rem;
+  margin: 0 0 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.honest-note h3::before {
+  content: "🤝";
+  font-size: 1.1rem;
+}
+
+.honest-note p {
+  color: var(--color-text-primary);
+  font-size: 1rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Responsive adjustments for trust elements */
+@media (max-width: 768px) {
+  .trust-badges {
+    gap: 16px;
+  }
+  
+  .trust-badge {
+    padding: 10px 16px;
+  }
+  
+  .badge-text {
+    font-size: 0.8rem;
+  }
+  
+  .promise-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .security-measures {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .security-item {
+    padding: 20px;
+  }
+  
+  .intro-section,
+  .security-section {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .trust-badges {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .trust-badge {
+    width: 100%;
+    max-width: 250px;
+    justify-content: center;
+  }
+  
+  .promise-item {
+    padding: 20px;
+  }
+  
+  .promise-icon {
+    font-size: 2rem;
+  }
+  
+  .security-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+  
+  .security-icon {
+    margin-top: 0;
+  }
+}

@@ -1,0 +1,48 @@
+services:
+  # Backend API Service
+  - type: web
+    name: survease-backend
+    env: node
+    plan: starter
+    buildCommand: cd backend && npm install && npm run build
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        value: cd01e001a0c44fc6a6c4f0a26e6a0df50
+      - key: JWT_EXPIRES_IN
+        value: 24h
+      - key: JWT_REFRESH_EXPIRES_IN
+        value: 7d
+      - key: FRONTEND_URL
+        value: https://survease-frontend.onrender.com
+      - key: RATE_LIMIT_WINDOW_MS
+        value: 900000
+      - key: RATE_LIMIT_MAX_REQUESTS
+        value: 100
+      - key: EMAIL_USER
+        value: your_email@gmail.com
+      - key: EMAIL_PASS
+        value: your_app_password
+      - key: EMAIL_FROM
+        value: noreply@surveyplatform.com
+      - key: CONTACT_EMAIL
+        value: support@surveyplatform.com
+      - key: SEND_AUTO_REPLY
+        value: false
+
+  # Frontend Static Site
+  - type: web
+    name: survease-frontend
+    env: static
+    plan: starter
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        value: https://survease-backend.onrender.com
