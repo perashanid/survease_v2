@@ -2,7 +2,6 @@
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import Navbar from './components/shared/Navbar';
-import ApiTest from './components/ApiTest';
 import Footer from './components/shared/Footer';
 import HomePage from './pages/HomePage';
 import Dashboard from './pages/Dashboard';
@@ -42,7 +41,6 @@ function App() {
         <Router>
           <div className="App">
             <RedirectHandler />
-            <ApiTest />
             <Navbar />
             <main className="main-content">
               <Routes>

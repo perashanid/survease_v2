@@ -3,15 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Survey Platform</title>
+    <title>Survey Platform - Loading</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center; 
+            padding: 50px;
+            background: #f5f5f5;
+        }
+        .loading { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 10px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: inline-block;
+        }
+    </style>
     <script>
+        console.log('404 page loaded, redirecting to React app...');
         // Preserve the current URL and redirect to main app
         const currentPath = window.location.pathname + window.location.search + window.location.hash;
+        console.log('Preserving path:', currentPath);
         sessionStorage.setItem('redirectPath', currentPath);
-        window.location.href = '/';
+        
+        // Small delay to ensure sessionStorage is set
+        setTimeout(() => {
+            window.location.href = '/';
+        }, 100);
     </script>
 </head>
 <body>
-    <p>Loading survey...</p>
+    <div class="loading">
+        <h2>🔄 Loading Survey...</h2>
+        <p>Redirecting to survey platform...</p>
+        <p><small>If this takes too long, <a href="/">click here</a></small></p>
+    </div>
 </body>
 </html>
