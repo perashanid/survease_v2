@@ -25,7 +25,8 @@ const HomePage: React.FC = () => {
 
   const fetchStats = async () => {
     try {
-      const response = await fetch('/api/stats/platform');
+      const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+      const response = await fetch(`${API_BASE_URL}/stats/platform`);
       const data = await response.json();
       
       if (data.success) {

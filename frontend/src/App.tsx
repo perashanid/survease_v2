@@ -1,5 +1,5 @@
 
-import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import Navbar from './components/shared/Navbar';
 import Footer from './components/shared/Footer';
