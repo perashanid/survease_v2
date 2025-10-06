@@ -2,6 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { SurveyService } from '../services/surveyService';
 import { useAuth } from '../contexts/AuthContext';
+import { motion } from 'framer-motion';
+import { 
+  FiSearch, FiX, FiUser, FiCalendar, FiBarChart2, 
+  FiDownload, FiChevronLeft, FiChevronRight, FiAlertCircle,
+  FiCheckCircle, FiInfo
+} from 'react-icons/fi';
 import './PublicSurveys.css';
 
 interface PublicSurvey {
@@ -38,7 +44,6 @@ const PublicSurveys: React.FC = () => {
   }, [page]);
 
   useEffect(() => {
-    // Filter surveys based on search term
     if (searchTerm.trim() === '') {
       setFilteredSurveys(surveys);
     } else {
@@ -53,15 +58,12 @@ const PublicSurveys: React.FC = () => {
 
   const fetchSurveys = async () => {
     try {
-      console.log('PublicSurveys: Starting to fetch surveys...');
       setLoading(true);
       const data = await SurveyService.getPublicSurveys(page, 12);
-      console.log('PublicSurveys: Received data:', data);
       setSurveys(data.surveys as PublicSurvey[]);
       setTotalPages(data.pagination.pages);
-      console.log('PublicSurveys: Set surveys:', data.surveys?.length);
     } catch (err: any) {
-      console.error('PublicSurveys: Error fetching surveys:', err);
+      console.error('Error fetching surveys:', err);
       setError('Failed to load surveys: ' + (err.message || 'Unknown error'));
     } finally {
       setLoading(false);
@@ -88,7 +90,6 @@ const PublicSurveys: React.FC = () => {
       setImportSuccess(`Successfully imported "${showImportDialog.title}"!`);
       setShowImportDialog(null);
       
-      // Clear success message after 5 seconds
       setTimeout(() => setImportSuccess(null), 5000);
     } catch (err: any) {
       console.error('Import error:', err);
@@ -105,13 +106,18 @@ const PublicSurveys: React.FC = () => {
   return (
     <div className="public-surveys">
       <div className="container">
-        <div className="page-header">
+        <motion.div 
+          className="page-header"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <h1>Public Surveys</h1>
           <p>Discover and participate in surveys created by our community</p>
           
-          {/* Search Bar */}
           <div className="search-container">
             <div className="search-input-wrapper">
+              <FiSearch className="search-icon" />
               <input
                 type="text"
                 placeholder="Search surveys by title, description, or author..."
@@ -119,7 +125,15 @@ const PublicSurveys: React.FC = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="search-input"
               />
-              <div className="search-icon">🔍</div>
+              {searchTerm && (
+                <button
+                  onClick={() => setSearchTerm('')}
+                  className="clear-search"
+                  aria-label="Clear search"
+                >
+                  <FiX />
+                </button>
+              )}
             </div>
             {searchTerm && (
               <div className="search-results-info">
@@ -130,18 +144,39 @@ const PublicSurveys: React.FC = () => {
               </div>
             )}
           </div>
-        </div>
+        </motion.div>
 
-        {error && <div className="error">{error}</div>}
-        {importSuccess && <div className="success">{importSuccess}</div>}
+        {error && (
+          <motion.div 
+            className="error"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+          >
+            <FiAlertCircle /> {error}
+          </motion.div>
+        )}
+        
+        {importSuccess && (
+          <motion.div 
+            className="success"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+          >
+            <FiCheckCircle /> {importSuccess}
+          </motion.div>
+        )}
 
         {loading ? (
           <div className="loading">
             <div className="spinner"></div>
           </div>
         ) : filteredSurveys.length === 0 && searchTerm ? (
-          <div className="empty-state">
-            <div className="empty-icon">🔍</div>
+          <motion.div 
+            className="empty-state"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+          >
+            <div className="empty-icon"><FiSearch /></div>
             <h3>No surveys found</h3>
             <p>No surveys match your search for "{searchTerm}"</p>
             <button 
@@ -150,21 +185,33 @@ const PublicSurveys: React.FC = () => {
             >
               Clear Search
             </button>
-          </div>
+          </motion.div>
         ) : surveys.length === 0 ? (
-          <div className="empty-state">
-            <div className="empty-icon">📊</div>
+          <motion.div 
+            className="empty-state"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+          >
+            <div className="empty-icon"><FiBarChart2 /></div>
             <h3>No Public Surveys Yet</h3>
             <p>Be the first to create a public survey!</p>
             <Link to="/create" className="btn btn-primary">
               Create Survey
             </Link>
-          </div>
+          </motion.div>
         ) : (
           <>
             <div className="surveys-grid">
-              {filteredSurveys.map((survey) => (
-                <div key={survey.id} className="survey-card">
+              {filteredSurveys.map((survey, index) => (
+                <motion.div 
+                  key={survey.id} 
+                  className="survey-card"
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.3, delay: Math.min(index * 0.03, 0.3), ease: "easeOut" }}
+                  whileHover={{ y: -8, transition: { duration: 0.2 } }}
+                >
                   <div className="survey-content">
                     <h3 className="survey-title">{survey.title}</h3>
                     {survey.description && (
@@ -173,15 +220,15 @@ const PublicSurveys: React.FC = () => {
                     <div className="survey-meta">
                       <div className="meta-row">
                         <span className="meta-item">
-                          👤 By {survey.author?.name || 'Anonymous'}
+                          <FiUser /> By {survey.author?.name || 'Anonymous'}
                         </span>
                         <span className="meta-item">
-                          📅 {new Date(survey.created_at).toLocaleDateString()}
+                          <FiCalendar /> {new Date(survey.created_at).toLocaleDateString()}
                         </span>
                       </div>
                       <div className="meta-row">
                         <span className="meta-item">
-                          📊 {survey.response_count} responses
+                          <FiBarChart2 /> {survey.response_count} responses
                         </span>
                       </div>
                     </div>
@@ -198,7 +245,7 @@ const PublicSurveys: React.FC = () => {
                       className="btn btn-outline btn-sm"
                       title="View survey analytics"
                     >
-                      📊 Analytics
+                      <FiBarChart2 /> Analytics
                     </Link>
                     {isAuthenticated && survey.allow_import && (
                       <button
@@ -206,23 +253,27 @@ const PublicSurveys: React.FC = () => {
                         disabled={importingId === survey.id}
                         className="btn btn-outline"
                       >
-                        {importingId === survey.id ? '⏳ Importing...' : '📥 Import'}
+                        {importingId === survey.id ? 'Importing...' : <><FiDownload /> Import</>}
                       </button>
                     )}
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
 
-            {/* Pagination - only show if not searching */}
             {totalPages > 1 && !searchTerm && (
-              <div className="pagination">
+              <motion.div 
+                className="pagination"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
+              >
                 <button
                   onClick={() => handlePageChange(page - 1)}
                   disabled={page === 1}
                   className="btn btn-outline"
                 >
-                  ← Previous
+                  <FiChevronLeft /> Previous
                 </button>
                 <div className="page-numbers">
                   {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
@@ -252,18 +303,27 @@ const PublicSurveys: React.FC = () => {
                   disabled={page === totalPages}
                   className="btn btn-outline"
                 >
-                  Next →
+                  Next <FiChevronRight />
                 </button>
-              </div>
+              </motion.div>
             )}
           </>
         )}
       </div>
 
-      {/* Import Confirmation Dialog */}
       {showImportDialog && (
-        <div className="modal-overlay">
-          <div className="modal-content">
+        <motion.div 
+          className="modal-overlay"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <motion.div 
+            className="modal-content"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+          >
             <div className="import-dialog">
               <div className="import-dialog-header">
                 <h3>Import Survey</h3>
@@ -272,7 +332,7 @@ const PublicSurveys: React.FC = () => {
                   onClick={handleImportCancel}
                   aria-label="Close dialog"
                 >
-                  ✕
+                  <FiX />
                 </button>
               </div>
               
@@ -305,7 +365,7 @@ const PublicSurveys: React.FC = () => {
                 
                 <div className="import-info">
                   <div className="info-box">
-                    <div className="info-icon">ℹ️</div>
+                    <div className="info-icon"><FiInfo /></div>
                     <div className="info-text">
                       <p><strong>What happens when you import?</strong></p>
                       <ul>
@@ -331,12 +391,12 @@ const PublicSurveys: React.FC = () => {
                   onClick={handleImportConfirm}
                   disabled={importingId === showImportDialog.id}
                 >
-                  {importingId === showImportDialog.id ? '⏳ Importing...' : '📥 Import Survey'}
+                  {importingId === showImportDialog.id ? 'Importing...' : <><FiDownload /> Import Survey</>}
                 </button>
               </div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
     </div>
   );

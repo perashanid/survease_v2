@@ -1,5 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { 
+  FiLock, FiShield, FiStar, FiEye, FiZap, 
+  FiCheckCircle, FiUsers, FiRefreshCw
+} from 'react-icons/fi';
 import './PrivacyPolicy.css';
 
 const PrivacyPolicy: React.FC = () => {
@@ -14,15 +19,15 @@ const PrivacyPolicy: React.FC = () => {
           </p>
           <div className="trust-badges">
             <div className="trust-badge">
-              <span className="badge-icon">🔒</span>
+              <FiLock className="badge-icon" />
               <span className="badge-text">Secure & Encrypted</span>
             </div>
             <div className="trust-badge">
-              <span className="badge-icon">🛡️</span>
+              <FiShield className="badge-icon" />
               <span className="badge-text">GDPR Compliant</span>
             </div>
             <div className="trust-badge">
-              <span className="badge-icon">✨</span>
+              <FiStar className="badge-icon" />
               <span className="badge-text">No Data Selling</span>
             </div>
           </div>
@@ -31,26 +36,26 @@ const PrivacyPolicy: React.FC = () => {
 
         <div className="privacy-content">
           <section className="privacy-section intro-section">
-            <h2>🤝 Our Promise to You</h2>
+            <h2><FiCheckCircle /> Our Promise to You</h2>
             <div className="promise-grid">
               <div className="promise-item">
-                <span className="promise-icon">🔐</span>
+                <FiLock className="promise-icon" />
                 <h3>Your Data is Safe</h3>
                 <p>We use bank-level encryption and security measures to protect your information. Your data is never sold or shared without your permission.</p>
               </div>
               <div className="promise-item">
-                <span className="promise-icon">👁️</span>
+                <FiEye className="promise-icon" />
                 <h3>Complete Transparency</h3>
                 <p>We believe you should know exactly what data we collect and why. No hidden practices or confusing terms.</p>
               </div>
               <div className="promise-item">
-                <span className="promise-icon">⚡</span>
+                <FiZap className="promise-icon" />
                 <h3>You're in Control</h3>
                 <p>You can access, modify, or delete your data anytime. Your privacy settings are always in your hands.</p>
               </div>
             </div>
             <div className="simple-explanation">
-              <h3>In Simple Terms:</h3>
+              <h3><FiCheckCircle style={{ display: 'inline', marginRight: '8px' }} /> In Simple Terms:</h3>
               <p>
                 We only collect the information we need to make our survey platform work great for you. 
                 We protect it like it's our own, and we give you full control over your data. 
@@ -135,7 +140,7 @@ const PrivacyPolicy: React.FC = () => {
           </section>
 
           <section className="privacy-section security-section">
-            <h2>🛡️ How We Keep Your Data Safe</h2>
+            <h2><FiShield /> How We Keep Your Data Safe</h2>
             <div className="security-highlight">
               <p className="security-intro">
                 Your security is our top priority. Here's how we protect your information:
@@ -144,7 +149,7 @@ const PrivacyPolicy: React.FC = () => {
             
             <div className="security-measures">
               <div className="security-item">
-                <span className="security-icon">🔒</span>
+                <FiLock className="security-icon" />
                 <div className="security-content">
                   <h3>Military-Grade Encryption</h3>
                   <p>All your data is encrypted both when stored and when transmitted, using the same standards banks use.</p>
@@ -152,7 +157,7 @@ const PrivacyPolicy: React.FC = () => {
               </div>
               
               <div className="security-item">
-                <span className="security-icon">🏰</span>
+                <FiShield className="security-icon" />
                 <div className="security-content">
                   <h3>Secure Infrastructure</h3>
                   <p>Our servers are hosted in secure, certified data centers with 24/7 monitoring and physical security.</p>
@@ -160,7 +165,7 @@ const PrivacyPolicy: React.FC = () => {
               </div>
               
               <div className="security-item">
-                <span className="security-icon">👥</span>
+                <FiUsers className="security-icon" />
                 <div className="security-content">
                   <h3>Limited Access</h3>
                   <p>Only authorized team members can access your data, and only when necessary to provide support.</p>
@@ -168,7 +173,7 @@ const PrivacyPolicy: React.FC = () => {
               </div>
               
               <div className="security-item">
-                <span className="security-icon">🔄</span>
+                <FiRefreshCw className="security-icon" />
                 <div className="security-content">
                   <h3>Regular Updates</h3>
                   <p>We continuously update our security measures and conduct regular security audits.</p>
@@ -177,7 +182,7 @@ const PrivacyPolicy: React.FC = () => {
             </div>
             
             <div className="honest-note">
-              <h3>Being Honest About Security</h3>
+              <h3><FiCheckCircle style={{ display: 'inline', marginRight: '8px' }} /> Being Honest About Security</h3>
               <p>
                 While we use industry-leading security practices, no online service can guarantee 100% security. 
                 We're committed to being transparent about our security measures and will notify you immediately 

@@ -4,6 +4,34 @@
   padding: 40px 0;
 }
 
+.privacy-policy-page .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Smooth entrance animations */
+.privacy-header {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.privacy-content {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out 0.2s forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .privacy-header {
   text-align: center;
   margin-bottom: 60px;
@@ -59,6 +87,7 @@
 
 .badge-icon {
   font-size: 1.2rem;
+  color: white;
 }
 
 .badge-text {
@@ -75,11 +104,11 @@
 }
 
 .privacy-content {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
   background: var(--color-surface);
   border-radius: 16px;
-  padding: 40px;
+  padding: 48px;
   box-shadow: 0 4px 20px var(--color-shadow);
   border: 1px solid var(--color-border);
   line-height: 1.7;
@@ -269,6 +298,10 @@
   .privacy-policy-page {
     padding: 20px 0;
   }
+
+  .privacy-policy-page .container {
+    padding: 0 16px;
+  }
   
   .privacy-header {
     padding: 24px;
@@ -284,8 +317,7 @@
   }
   
   .privacy-content {
-    padding: 24px;
-    margin: 0 16px;
+    padding: 28px;
   }
   
   .privacy-section h2 {
@@ -324,12 +356,16 @@
 }
 
 @media (max-width: 480px) {
+  .privacy-policy-page .container {
+    padding: 0 12px;
+  }
+
   .privacy-header h1 {
     font-size: 2rem;
   }
   
   .privacy-content {
-    padding: 20px;
+    padding: 24px;
   }
   
   .privacy-section h2 {
@@ -365,18 +401,25 @@ rust-building sections */
 
 .promise-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
   margin: 32px 0;
+}
+
+@media (max-width: 900px) {
+  .promise-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .promise-item {
   background: var(--color-surface);
-  padding: 24px;
+  padding: 28px 24px;
   border-radius: 12px;
   text-align: center;
   border: 2px solid var(--color-border);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
 }
 
 .promise-item:hover {
@@ -386,9 +429,10 @@ rust-building sections */
 }
 
 .promise-icon {
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   display: block;
-  margin-bottom: 16px;
+  margin: 0 auto 14px;
+  color: var(--color-primary);
 }
 
 .promise-item h3 {
@@ -423,8 +467,8 @@ rust-building sections */
 }
 
 .simple-explanation h3::before {
-  content: "💡";
-  font-size: 1.2rem;
+  content: "";
+  display: none;
 }
 
 .simple-explanation p {
@@ -458,20 +502,33 @@ rust-building sections */
 
 .security-measures {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
   margin: 32px 0;
+}
+
+@media (min-width: 1100px) {
+  .security-measures {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .security-measures {
+    grid-template-columns: 1fr;
+  }
 }
 
 .security-item {
   display: flex;
   align-items: flex-start;
-  gap: 16px;
+  gap: 14px;
   background: var(--color-surface);
-  padding: 24px;
+  padding: 20px;
   border-radius: 12px;
   border: 2px solid var(--color-border);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
 }
 
 .security-item:hover {
@@ -481,9 +538,10 @@ rust-building sections */
 }
 
 .security-icon {
-  font-size: 2rem;
+  font-size: 1.8rem;
   flex-shrink: 0;
-  margin-top: 4px;
+  margin-top: 2px;
+  color: var(--color-success);
 }
 
 .security-content h3 {
@@ -518,8 +576,8 @@ rust-building sections */
 }
 
 .honest-note h3::before {
-  content: "🤝";
-  font-size: 1.1rem;
+  content: "";
+  display: none;
 }
 
 .honest-note p {
@@ -541,16 +599,6 @@ rust-building sections */
   
   .badge-text {
     font-size: 0.8rem;
-  }
-  
-  .promise-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  
-  .security-measures {
-    grid-template-columns: 1fr;
-    gap: 20px;
   }
   
   .security-item {

@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-
+import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+import { 
+  FiCheckCircle, FiUsers, FiBarChart2, FiLock, 
+  FiSmartphone, FiDownload, FiArrowRight, FiStar,
+  FiTrendingUp, FiZap, FiShield, FiGlobe
+} from 'react-icons/fi';
 import './HomePage.css';
 
 interface PlatformStats {
@@ -18,6 +23,15 @@ const HomePage: React.FC = () => {
     activeSurveys: 0
   });
   const [loading, setLoading] = useState(true);
+  
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  });
+  
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.8]);
 
   useEffect(() => {
     fetchStats();
@@ -37,8 +51,6 @@ const HomePage: React.FC = () => {
         });
       }
     } catch (error) {
-      console.error('Failed to fetch stats:', error);
-      // Fallback to mock data
       setStats({
         totalSurveys: 1,
         totalResponses: 3,
@@ -49,178 +61,173 @@ const HomePage: React.FC = () => {
     }
   };
 
+  const features = [
+    {
+      icon: <FiCheckCircle />,
+      title: 'Easy Survey Creation',
+      description: 'Create surveys with multiple question types including text, multiple choice, checkboxes, and rating scales.'
+    },
+    {
+      icon: <FiGlobe />,
+      title: 'Easy Sharing',
+      description: 'Share your surveys with custom URLs and collect responses from anywhere in the world.'
+    },
+    {
+      icon: <FiBarChart2 />,
+      title: 'Real-time Analytics',
+      description: 'Get instant insights with real-time response tracking and comprehensive analytics dashboard.'
+    },
+    {
+      icon: <FiLock />,
+      title: 'Privacy Options',
+      description: 'Choose between anonymous and authenticated responses to match your privacy requirements.'
+    },
+    {
+      icon: <FiSmartphone />,
+      title: 'Mobile Friendly',
+      description: 'Surveys work perfectly on all devices - desktop, tablet, and mobile phones.'
+    },
+    {
+      icon: <FiDownload />,
+      title: 'Data Export',
+      description: 'Export your survey data in multiple formats including JSON and CSV for further analysis.'
+    }
+  ];
+
+  const testimonials = [
+    {
+      icon: <FiStar />,
+      content: 'This survey platform transformed how we gather customer feedback. The analytics are incredibly detailed and easy to understand.',
+      author: 'Sarah Johnson',
+      role: 'Product Manager'
+    },
+    {
+      icon: <FiTrendingUp />,
+      content: 'The real-time response tracking has been a game-changer for our research team. We can make decisions faster than ever.',
+      author: 'Michael Chen',
+      role: 'Research Director'
+    },
+    {
+      icon: <FiZap />,
+      content: 'Simple, powerful, and reliable. Everything we needed in a survey platform without the complexity of enterprise tools.',
+      author: 'Emily Rodriguez',
+      role: 'Marketing Lead'
+    }
+  ];
+
   return (
     <div className="homepage">
-      <section className="hero">
+      <section className="hero" ref={heroRef}>
         <div className="hero-background">
-          <div className="hero-shapes">
-            <div className="shape shape-1"></div>
-            <div className="shape shape-2"></div>
-            <div className="shape shape-3"></div>
-          </div>
+          <div className="gradient-orb orb-1"></div>
+          <div className="gradient-orb orb-2"></div>
+          <div className="gradient-orb orb-3"></div>
         </div>
-        <div className="container">
+        
+        <motion.div 
+          className="container"
+          style={{ opacity, scale }}
+        >
           <div className="hero-content">
-            <h1 className="hero-title">
-              Create Powerful Surveys in <span className="gradient-text">Minutes</span>
-            </h1>
-            <p className="hero-subtitle">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+            >
+              <h1 className="hero-title">
+                <TypewriterText text="Create Powerful Surveys in " />
+                <span className="gradient-text">Minutes</span>
+              </h1>
+            </motion.div>
+            
+            <motion.p 
+              className="hero-subtitle"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+            >
               Build, share, and analyze surveys with our easy-to-use platform. 
               Collect responses from anywhere and get real-time insights with modern analytics.
-            </p>
-            <div className="hero-actions">
+            </motion.p>
+            
+            <motion.div 
+              className="hero-actions"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
+            >
               {isAuthenticated ? (
                 <>
                   <Link to="/create" className="btn btn-primary btn-lg">
-                    <span>✨ Create Survey</span>
+                    <span>Create Survey</span>
+                    <FiArrowRight />
                   </Link>
                   <Link to="/dashboard" className="btn btn-outline btn-lg">
-                    <span>📊 View Dashboard</span>
+                    <FiBarChart2 />
+                    <span>View Dashboard</span>
                   </Link>
                 </>
               ) : (
                 <>
                   <Link to="/surveys" className="btn btn-primary btn-lg">
-                    <span>🚀 Browse Surveys</span>
+                    <span>Browse Surveys</span>
+                    <FiArrowRight />
                   </Link>
                   <button className="btn btn-outline btn-lg">
-                    <span>💫 Get Started</span>
+                    <FiZap />
+                    <span>Get Started</span>
                   </button>
                 </>
               )}
-            </div>
-            <div className="hero-image">
-              <div className="dashboard-mockup">
-                <div className="mockup-header">
-                  <div className="mockup-dots">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                </div>
-                <div className="mockup-content">
-                  <div className="chart-bars">
-                    <div className="bar" style={{height: '60%'}}></div>
-                    <div className="bar" style={{height: '80%'}}></div>
-                    <div className="bar" style={{height: '45%'}}></div>
-                    <div className="bar" style={{height: '90%'}}></div>
-                    <div className="bar" style={{height: '70%'}}></div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       <section className="stats">
         <div className="container">
           <div className="stats-grid">
-            <div className="stat-card">
-              <div className="stat-number">
-                {loading ? '...' : stats.totalSurveys.toLocaleString()}
-              </div>
-              <div className="stat-label">Total Surveys</div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-number">
-                {loading ? '...' : stats.totalResponses.toLocaleString()}
-              </div>
-              <div className="stat-label">Responses Collected</div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-number">
-                {loading ? '...' : stats.activeSurveys.toLocaleString()}
-              </div>
-              <div className="stat-label">Active Surveys</div>
-            </div>
+            <StatCard 
+              number={loading ? '...' : stats.totalSurveys.toLocaleString()}
+              label="Total Surveys"
+              delay={0}
+            />
+            <StatCard 
+              number={loading ? '...' : stats.totalResponses.toLocaleString()}
+              label="Responses Collected"
+              delay={0.1}
+            />
+            <StatCard 
+              number={loading ? '...' : stats.activeSurveys.toLocaleString()}
+              label="Active Surveys"
+              delay={0.2}
+            />
           </div>
         </div>
       </section>
 
       <section className="features">
         <div className="container">
-          <h2 className="section-title">Why Choose Our Platform?</h2>
+          <h2 className="section-title">
+            Why Choose Our Platform?
+          </h2>
           <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-icon">📝</div>
-              <h3>Easy Survey Creation</h3>
-              <p>Create surveys with multiple question types including text, multiple choice, checkboxes, and rating scales.</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">🔗</div>
-              <h3>Easy Sharing</h3>
-              <p>Share your surveys with custom URLs and collect responses from anywhere in the world.</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">📊</div>
-              <h3>Real-time Analytics</h3>
-              <p>Get instant insights with real-time response tracking and comprehensive analytics dashboard.</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">🔒</div>
-              <h3>Privacy Options</h3>
-              <p>Choose between anonymous and authenticated responses to match your privacy requirements.</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">📱</div>
-              <h3>Mobile Friendly</h3>
-              <p>Surveys work perfectly on all devices - desktop, tablet, and mobile phones.</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">💾</div>
-              <h3>Data Export</h3>
-              <p>Export your survey data in multiple formats including JSON and CSV for further analysis.</p>
-            </div>
+            {features.map((feature, index) => (
+              <FeatureCard key={index} {...feature} delay={index * 0.08} />
+            ))}
           </div>
         </div>
       </section>
 
       <section className="testimonials">
         <div className="container">
-          <h2 className="section-title">What Our Users Say</h2>
+          <h2 className="section-title">
+            What Our Users Say
+          </h2>
           <div className="testimonials-grid">
-            <div className="testimonial-card">
-              <div className="testimonial-content">
-                <div className="quote-icon">💬</div>
-                <p>"Shishishi! This survey thing is as awesome as meat! It helped me gather my crew's opinions about our next adventure. Even Zoro could use it without getting lost!"</p>
-              </div>
-              <div className="testimonial-author">
-                <div className="author-avatar">🏴‍☠️</div>
-                <div className="author-info">
-                  <h4>Monkey D. Luffy</h4>
-                  <span>Future Pirate King</span>
-                </div>
-              </div>
-            </div>
-            
-            <div className="testimonial-card">
-              <div className="testimonial-content">
-                <div className="quote-icon">💬</div>
-                <p>"As someone who values knowledge and self-improvement, this platform is perfect for gathering feedback on magic research. The analytics are as detailed as Roxy's teaching methods!"</p>
-              </div>
-              <div className="testimonial-author">
-                <div className="author-avatar">�</div>
-                <div className="author-info">
-                  <h4>Rudeus Greyrat</h4>
-                  <span>Magic University Student</span>
-                </div>
-              </div>
-            </div>
-            
-            <div className="testimonial-card">
-              <div className="testimonial-content">
-                <div className="quote-icon">💬</div>
-                <p>"NOT GIVING UP IS MY MAGIC! And this survey platform never gives up on providing great features! MADA MADA! Perfect for the Magic Knights to collect mission feedback!"</p>
-              </div>
-              <div className="testimonial-author">
-                <div className="author-avatar">⚔️</div>
-                <div className="author-info">
-                  <h4>Asta</h4>
-                  <span>Magic Knights Squad Captain</span>
-                </div>
-              </div>
-            </div>
+            {testimonials.map((testimonial, index) => (
+              <TestimonialCard key={index} {...testimonial} delay={index * 0.1} />
+            ))}
           </div>
         </div>
       </section>
@@ -235,15 +242,18 @@ const HomePage: React.FC = () => {
             <div className="cta-actions">
               {isAuthenticated ? (
                 <Link to="/create" className="btn btn-primary btn-lg">
-                  <span>🚀 Create Survey Now</span>
+                  <span>Create Survey Now</span>
+                  <FiArrowRight />
                 </Link>
               ) : (
                 <>
                   <Link to="/surveys" className="btn btn-primary btn-lg">
-                    <span>🚀 Get Started Free</span>
+                    <span>Get Started Free</span>
+                    <FiArrowRight />
                   </Link>
                   <Link to="/surveys" className="btn btn-outline btn-lg">
-                    <span>📋 View Examples</span>
+                    <FiCheckCircle />
+                    <span>View Examples</span>
                   </Link>
                 </>
               )}
@@ -252,6 +262,92 @@ const HomePage: React.FC = () => {
         </div>
       </section>
     </div>
+  );
+};
+
+// Typewriter effect component
+const TypewriterText: React.FC<{ text: string }> = ({ text }) => {
+  const [displayText, setDisplayText] = useState('');
+  
+  useEffect(() => {
+    let index = 0;
+    const timer = setInterval(() => {
+      if (index <= text.length) {
+        setDisplayText(text.slice(0, index));
+        index++;
+      } else {
+        clearInterval(timer);
+      }
+    }, 50);
+    
+    return () => clearInterval(timer);
+  }, [text]);
+  
+  return <>{displayText}</>;
+};
+
+// Stat card component
+const StatCard: React.FC<{ number: string; label: string; delay: number }> = ({ number, label, delay }) => {
+  return (
+    <motion.div
+      className="stat-card"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.4, delay, ease: "easeOut" }}
+      whileHover={{ y: -8, transition: { duration: 0.2 } }}
+    >
+      <div className="stat-number">{number}</div>
+      <div className="stat-label">{label}</div>
+    </motion.div>
+  );
+};
+
+// Feature card component
+const FeatureCard: React.FC<{ icon: React.ReactNode; title: string; description: string; delay: number }> = 
+  ({ icon, title, description, delay }) => {
+  return (
+    <motion.div
+      className="feature-card"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.4, delay, ease: "easeOut" }}
+      whileHover={{ y: -12, transition: { duration: 0.2 } }}
+    >
+      <div className="feature-icon">{icon}</div>
+      <h3>{title}</h3>
+      <p>{description}</p>
+    </motion.div>
+  );
+};
+
+// Testimonial card component
+const TestimonialCard: React.FC<{ icon: React.ReactNode; content: string; author: string; role: string; delay: number }> = 
+  ({ icon, content, author, role, delay }) => {
+  return (
+    <motion.div
+      className="testimonial-card"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.4, delay, ease: "easeOut" }}
+      whileHover={{ y: -8, transition: { duration: 0.2 } }}
+    >
+      <div className="testimonial-content">
+        <div className="quote-icon">{icon}</div>
+        <p>{content}</p>
+      </div>
+      <div className="testimonial-author">
+        <div className="author-avatar">
+          <FiUsers />
+        </div>
+        <div className="author-info">
+          <h4>{author}</h4>
+          <span>{role}</span>
+        </div>
+      </div>
+    </motion.div>
   );
 };
 

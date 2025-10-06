@@ -2,6 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { SurveyService, Survey } from '../services/surveyService';
 import { useAuth } from '../contexts/AuthContext';
+import { motion } from 'framer-motion';
+import { 
+  FiBarChart2, FiTrendingUp, FiPlus, FiSearch, FiX, 
+  FiGlobe, FiLock, FiEye, FiTrash2, FiLink, FiCopy,
+  FiCheckCircle, FiCalendar, FiHelpCircle
+} from 'react-icons/fi';
 import Analytics from './Analytics';
 import InvitationManager from '../components/survey/InvitationManager';
 import './Dashboard.css';
@@ -107,17 +113,17 @@ const Dashboard: React.FC = () => {
                 className={`tab-btn ${activeTab === 'overview' ? 'active' : ''}`}
                 onClick={() => setActiveTab('overview')}
               >
-                📊 Overview
+                <FiBarChart2 /> Overview
               </button>
               <button 
                 className={`tab-btn ${activeTab !== 'overview' ? 'active' : ''}`}
                 onClick={() => setActiveTab('analytics')}
               >
-                📈 Analytics
+                <FiTrendingUp /> Analytics
               </button>
             </div>
             <Link to="/create" className="btn btn-primary">
-              Create New Survey
+              <FiPlus /> Create New Survey
             </Link>
           </div>
         </div>
@@ -126,22 +132,42 @@ const Dashboard: React.FC = () => {
 
         {/* Statistics */}
         <div className="stats-grid">
-          <div className="stat-card">
+          <motion.div 
+            className="stat-card"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0 }}
+          >
             <div className="stat-number">{surveys.length}</div>
             <div className="stat-label">Total Surveys</div>
-          </div>
-          <div className="stat-card">
+          </motion.div>
+          <motion.div 
+            className="stat-card"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
+          >
             <div className="stat-number">{totalResponses}</div>
             <div className="stat-label">Total Responses</div>
-          </div>
-          <div className="stat-card">
+          </motion.div>
+          <motion.div 
+            className="stat-card"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
+          >
             <div className="stat-number">{activeSurveys}</div>
             <div className="stat-label">Active Surveys</div>
-          </div>
-          <div className="stat-card">
+          </motion.div>
+          <motion.div 
+            className="stat-card"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.3 }}
+          >
             <div className="stat-number">{publicSurveys}</div>
             <div className="stat-label">Public Surveys</div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Surveys List */}
@@ -149,9 +175,10 @@ const Dashboard: React.FC = () => {
           <div className="surveys-header">
             <h2>Your Surveys</h2>
             <div className="search-container">
+              <FiSearch className="search-icon" />
               <input
                 type="text"
-                placeholder="🔍 Search surveys by title..."
+                placeholder="Search surveys by title..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="search-input"
@@ -162,7 +189,7 @@ const Dashboard: React.FC = () => {
                   className="clear-search"
                   title="Clear search"
                 >
-                  ✕
+                  <FiX />
                 </button>
               )}
             </div>
@@ -172,14 +199,19 @@ const Dashboard: React.FC = () => {
               <div className="spinner"></div>
             </div>
           ) : surveys.length === 0 ? (
-            <div className="empty-state">
-              <div className="empty-icon">📊</div>
+            <motion.div 
+              className="empty-state"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4 }}
+            >
+              <div className="empty-icon"><FiBarChart2 /></div>
               <h3>No Surveys Yet</h3>
               <p>Create your first survey to start collecting responses!</p>
               <Link to="/create" className="btn btn-primary">
-                Create Your First Survey
+                <FiPlus /> Create Your First Survey
               </Link>
-            </div>
+            </motion.div>
           ) : (
             <>
               {searchQuery && (
@@ -210,13 +242,13 @@ const Dashboard: React.FC = () => {
                     )}
                     <div className="survey-meta">
                       <span className="meta-item">
-                        📊 {survey.response_count} responses
+                        <FiBarChart2 /> {survey.response_count} responses
                       </span>
                       <span className="meta-item">
-                        📅 {new Date(survey.created_at).toLocaleDateString()}
+                        <FiCalendar /> {new Date(survey.created_at).toLocaleDateString()}
                       </span>
                       <span className="meta-item">
-                        ❓ {survey.questions.length} questions
+                        <FiHelpCircle /> {survey.questions.length} questions
                       </span>
                     </div>
                   </div>
@@ -226,14 +258,14 @@ const Dashboard: React.FC = () => {
                       className="btn btn-primary btn-sm"
                       title="View detailed analytics"
                     >
-                      📊 Analytics
+                      <FiBarChart2 /> Analytics
                     </Link>
                     <button
                       onClick={() => handleToggleVisibility(survey.id, survey.is_public, survey.title)}
                       className={`btn btn-sm ${survey.is_public ? 'btn-warning' : 'btn-success'}`}
                       title={survey.is_public ? 'Make survey private' : 'Make survey public'}
                     >
-                      {survey.is_public ? '🔒 Make Private' : '🌐 Make Public'}
+                      {survey.is_public ? <><FiLock /> Make Private</> : <><FiGlobe /> Make Public</>}
                     </button>
                     {survey.is_public ? (
                       <button
@@ -241,7 +273,7 @@ const Dashboard: React.FC = () => {
                         className="btn btn-outline btn-sm"
                         title="Copy survey URL"
                       >
-                        {copiedUrl === `${window.location.origin}/survey/${survey.slug}` ? '✓ Copied!' : '🔗 Copy Link'}
+                        {copiedUrl === `${window.location.origin}/survey/${survey.slug}` ? <><FiCheckCircle /> Copied!</> : <><FiCopy /> Copy Link</>}
                       </button>
                     ) : (
                       <button
@@ -249,7 +281,7 @@ const Dashboard: React.FC = () => {
                         className="btn btn-outline btn-sm"
                         title="Manage invitation links"
                       >
-                        🔗 Invitations
+                        <FiLink /> Invitations
                       </button>
                     )}
                     <Link
@@ -257,22 +289,27 @@ const Dashboard: React.FC = () => {
                       className="btn btn-outline btn-sm"
                       target="_blank"
                     >
-                      👁️ Preview
+                      <FiEye /> Preview
                     </Link>
                     <button
                       onClick={() => handleDeleteSurvey(survey.id, survey.title)}
                       className="btn btn-danger btn-sm"
                       title="Delete survey"
                     >
-                      🗑️ Delete
+                      <FiTrash2 /> Delete
                     </button>
                   </div>
                 </div>
                 ))}
               </div>
               {searchQuery && filteredSurveys.length === 0 && (
-                <div className="no-search-results">
-                  <div className="empty-icon">🔍</div>
+                <motion.div 
+                  className="no-search-results"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="empty-icon"><FiSearch /></div>
                   <h3>No surveys found</h3>
                   <p>No surveys match your search for "{searchQuery}"</p>
                   <button
@@ -281,7 +318,7 @@ const Dashboard: React.FC = () => {
                   >
                     Clear search
                   </button>
-                </div>
+                </motion.div>
               )}
             </>
           )}

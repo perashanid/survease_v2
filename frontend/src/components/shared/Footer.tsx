@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FaTwitter, FaLinkedin, FaGithub } from 'react-icons/fa';
 import './Footer.css';
 
 const Footer: React.FC = () => {
@@ -16,14 +17,14 @@ const Footer: React.FC = () => {
               Build better insights with our powerful survey tools.
             </p>
             <div className="footer-social">
-              <a href="#" className="social-link" aria-label="Twitter">
-                🐦
+              <a href="https://twitter.com/surveyplatform" className="social-link" aria-label="Twitter" target="_blank" rel="noopener noreferrer">
+                <FaTwitter />
               </a>
-              <a href="#" className="social-link" aria-label="LinkedIn">
-                💼
+              <a href="https://linkedin.com/company/surveyplatform" className="social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+                <FaLinkedin />
               </a>
-              <a href="#" className="social-link" aria-label="GitHub">
-                🐙
+              <a href="https://github.com/surveyplatform" className="social-link" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
+                <FaGithub />
               </a>
             </div>
           </div>

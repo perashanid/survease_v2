@@ -24,7 +24,7 @@ router.get('/surveys', async (req: Request, res: Response): Promise<void> => {
       },
       {
         $lookup: {
-          from: 'surveyresponses',
+          from: 'responses',
           localField: '_id',
           foreignField: 'survey_id',
           as: 'responses'

@@ -106,14 +106,19 @@
   background: var(--color-surface);
   border: 2px solid var(--color-border);
   border-radius: 12px;
-  font-size: 1.2rem;
+  color: var(--color-text-secondary);
   text-decoration: none;
   transition: all 0.3s ease;
+}
+
+.social-link svg {
+  font-size: 18px;
 }
 
 .social-link:hover {
   background: var(--color-primary);
   border-color: var(--color-primary);
+  color: white;
   transform: translateY(-2px);
 }
 

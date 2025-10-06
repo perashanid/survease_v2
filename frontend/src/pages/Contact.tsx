@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
 import { apiClient as api } from '../services/api';
+import { motion } from 'framer-motion';
+import { 
+  FiMail, FiSend, FiCheckCircle, FiAlertCircle,
+  FiMessageSquare, FiBriefcase, FiClock, FiGlobe
+} from 'react-icons/fi';
+import { FaTwitter, FaLinkedin, FaGithub, FaDiscord } from 'react-icons/fa';
 import './Contact.css';
 
 interface ContactFormData {
@@ -31,13 +37,11 @@ const Contact: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Basic validation
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
       setError('Please fill in all required fields');
       return;
     }
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       setError('Please enter a valid email address');
@@ -67,17 +71,22 @@ const Contact: React.FC = () => {
     return (
       <div className="contact-page">
         <div className="container">
-          <div className="contact-success">
-            <div className="success-icon">✓</div>
+          <motion.div 
+            className="contact-success"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="success-icon"><FiCheckCircle /></div>
             <h1>Message Sent!</h1>
             <p>Thank you for contacting us. We'll get back to you as soon as possible.</p>
             <button 
               className="btn btn-primary"
               onClick={() => setSuccess(false)}
             >
-              Send Another Message
+              <FiSend /> Send Another Message
             </button>
-          </div>
+          </motion.div>
         </div>
       </div>
     );
@@ -86,15 +95,20 @@ const Contact: React.FC = () => {
   return (
     <div className="contact-page">
       <div className="container">
-        <div className="contact-header">
+        <motion.div 
+          className="contact-header"
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+        >
           <h1>Contact Us</h1>
           <p>Have a question, suggestion, or need help? We'd love to hear from you!</p>
-        </div>
+        </motion.div>
 
         <div className="contact-content">
           <div className="contact-info">
             <div className="info-section">
-              <h3>📧 Email Support</h3>
+              <h3><FiMail /> Email Support</h3>
               <p>For general inquiries and support:</p>
               <a href="mailto:support@surveyplatform.com" className="contact-link">
                 support@surveyplatform.com
@@ -102,7 +116,7 @@ const Contact: React.FC = () => {
             </div>
 
             <div className="info-section">
-              <h3>🚀 Feature Requests</h3>
+              <h3><FiMessageSquare /> Feature Requests</h3>
               <p>Have an idea for a new feature?</p>
               <a href="mailto:features@surveyplatform.com" className="contact-link">
                 features@surveyplatform.com
@@ -110,7 +124,7 @@ const Contact: React.FC = () => {
             </div>
 
             <div className="info-section">
-              <h3>🐛 Bug Reports</h3>
+              <h3><FiAlertCircle /> Bug Reports</h3>
               <p>Found a bug? Let us know:</p>
               <a href="mailto:bugs@surveyplatform.com" className="contact-link">
                 bugs@surveyplatform.com
@@ -118,7 +132,7 @@ const Contact: React.FC = () => {
             </div>
 
             <div className="info-section">
-              <h3>💼 Business Inquiries</h3>
+              <h3><FiBriefcase /> Business Inquiries</h3>
               <p>For partnerships and business matters:</p>
               <a href="mailto:business@surveyplatform.com" className="contact-link">
                 business@surveyplatform.com
@@ -126,12 +140,12 @@ const Contact: React.FC = () => {
             </div>
 
             <div className="info-section">
-              <h3>⏰ Response Time</h3>
+              <h3><FiClock /> Response Time</h3>
               <p>We typically respond within 24 hours during business days.</p>
             </div>
 
             <div className="info-section">
-              <h3>🌐 Connect With Us</h3>
+              <h3><FiGlobe /> Connect With Us</h3>
               <p>Follow us on social media for updates and tips:</p>
               <div className="social-links">
                 <a 
@@ -140,9 +154,9 @@ const Contact: React.FC = () => {
                   rel="noopener noreferrer" 
                   className="social-link twitter"
                   aria-label="Follow us on Twitter"
+                  title="Twitter"
                 >
-                  <span className="social-icon">🐦</span>
-                  <span className="social-text">Twitter</span>
+                  <FaTwitter />
                 </a>
                 <a 
                   href="https://linkedin.com/company/surveyplatform" 
@@ -150,9 +164,9 @@ const Contact: React.FC = () => {
                   rel="noopener noreferrer" 
                   className="social-link linkedin"
                   aria-label="Connect with us on LinkedIn"
+                  title="LinkedIn"
                 >
-                  <span className="social-icon">💼</span>
-                  <span className="social-text">LinkedIn</span>
+                  <FaLinkedin />
                 </a>
                 <a 
                   href="https://github.com/surveyplatform" 
@@ -160,9 +174,9 @@ const Contact: React.FC = () => {
                   rel="noopener noreferrer" 
                   className="social-link github"
                   aria-label="View our code on GitHub"
+                  title="GitHub"
                 >
-                  <span className="social-icon">🐙</span>
-                  <span className="social-text">GitHub</span>
+                  <FaGithub />
                 </a>
                 <a 
                   href="https://discord.gg/surveyplatform" 
@@ -170,9 +184,9 @@ const Contact: React.FC = () => {
                   rel="noopener noreferrer" 
                   className="social-link discord"
                   aria-label="Join our Discord community"
+                  title="Discord"
                 >
-                  <span className="social-icon">💬</span>
-                  <span className="social-text">Discord</span>
+                  <FaDiscord />
                 </a>
               </div>
             </div>
@@ -253,9 +267,13 @@ const Contact: React.FC = () => {
               </div>
 
               {error && (
-                <div className="error-message">
-                  {error}
-                </div>
+                <motion.div 
+                  className="error-message"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                >
+                  <FiAlertCircle /> {error}
+                </motion.div>
               )}
 
               <button
@@ -269,7 +287,9 @@ const Contact: React.FC = () => {
                     Sending...
                   </>
                 ) : (
-                  'Send Message'
+                  <>
+                    <FiSend /> Send Message
+                  </>
                 )}
               </button>
             </form>
@@ -280,25 +300,41 @@ const Contact: React.FC = () => {
           <div className="faq-section">
             <h3>Frequently Asked Questions</h3>
             <div className="faq-grid">
-              <div className="faq-item">
+              <motion.div 
+                className="faq-item"
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.2 }}
+              >
                 <h4>How do I create a survey?</h4>
                 <p>Simply sign up for an account and click "Create Survey" from your dashboard. Our intuitive builder makes it easy!</p>
-              </div>
-              <div className="faq-item">
+              </motion.div>
+              <motion.div 
+                className="faq-item"
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.2 }}
+              >
                 <h4>Can I make my surveys public?</h4>
                 <p>Yes! You can choose to make your surveys public so anyone can participate and view the results.</p>
-              </div>
-              <div className="faq-item">
+              </motion.div>
+              <motion.div 
+                className="faq-item"
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.2 }}
+              >
                 <h4>How do I export survey data?</h4>
                 <p>Go to your survey analytics page and use the export buttons to download your data in JSON or CSV format.</p>
-              </div>
-              <div className="faq-item">
+              </motion.div>
+              <motion.div 
+                className="faq-item"
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.2 }}
+              >
                 <h4>Is there a limit on responses?</h4>
                 <p>No, there's no limit on the number of responses you can collect for your surveys.</p>
-              </div>
+              </motion.div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

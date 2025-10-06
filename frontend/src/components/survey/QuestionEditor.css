@@ -126,19 +126,21 @@
   .question-header {
     padding: 12px 16px;
   }
-  
+
   .question-content {
     padding: 16px;
   }
-  
+
   .form-row {
     grid-template-columns: 1fr;
   }
-  
+
   .checkbox-label {
     margin-top: 16px;
   }
-}/* Enhanced
+}
+
+/* Enhanced
  checkbox styling for dark mode */
 [data-theme="dark"] .checkbox-label {
   color: var(--color-text-secondary);
@@ -217,35 +219,33 @@
   background: transparent !important;
 }
 
-/* ULTRA-BRIGHT CHECKBOX OVERRIDE FOR QUESTION EDITOR */
+
+
+/* Professional checkbox styling - Light theme */
 [data-theme="light"] .checkbox-label input[type="checkbox"],
 [data-theme="light"] .question-editor input[type="checkbox"],
 [data-theme="light"] .question-content input[type="checkbox"],
 [data-theme="light"] .option-item input[type="checkbox"] {
-  width: 30px !important;
-  height: 30px !important;
+  width: 20px !important;
+  height: 20px !important;
   background: #ffffff !important;
-  background-color: #ffffff !important;
-  border: 6px solid #ff1493 !important;
-  border-color: #ff1493 !important;
-  box-shadow: 0 8px 25px rgba(255, 20, 147, 0.6) !important;
+  border: 2px solid #cbd5e1 !important;
   appearance: none !important;
   -webkit-appearance: none !important;
   position: relative !important;
   cursor: pointer !important;
-  border-radius: 8px !important;
-  margin-right: 15px !important;
+  border-radius: 4px !important;
+  margin-right: 10px !important;
+  transition: all 0.2s ease !important;
 }
 
 [data-theme="light"] .checkbox-label input[type="checkbox"]:checked,
 [data-theme="light"] .question-editor input[type="checkbox"]:checked,
 [data-theme="light"] .question-content input[type="checkbox"]:checked,
 [data-theme="light"] .option-item input[type="checkbox"]:checked {
-  background: #ff1493 !important;
-  background-color: #ff1493 !important;
-  border-color: #ff1493 !important;
-  transform: scale(1.15) !important;
-  box-shadow: 0 12px 35px rgba(255, 20, 147, 0.8), 0 0 0 6px rgba(255, 20, 147, 0.3) !important;
+  background: #3b82f6 !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3) !important;
 }
 
 [data-theme="light"] .checkbox-label input[type="checkbox"]:checked::after,
@@ -258,66 +258,46 @@
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
   color: #ffffff !important;
-  font-size: 24px !important;
-  font-weight: 900 !important;
-  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8) !important;
+  font-size: 14px !important;
+  font-weight: bold !important;
   line-height: 1 !important;
-  z-index: 999 !important;
 }
 
 [data-theme="light"] .checkbox-label input[type="checkbox"]:hover,
 [data-theme="light"] .question-editor input[type="checkbox"]:hover,
 [data-theme="light"] .question-content input[type="checkbox"]:hover,
 [data-theme="light"] .option-item input[type="checkbox"]:hover {
-  border-color: #dc143c !important;
-  background-color: #fff0f5 !important;
-  transform: scale(1.08) !important;
-  box-shadow: 0 10px 30px rgba(255, 20, 147, 0.7) !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
 }
 
-/* BRIGHT GREEN CHECKBOX OVERRIDE - BOTH THEMES */
-[data-theme="light"] .checkbox-label input[type="checkbox"],
-[data-theme="light"] .question-editor input[type="checkbox"],
-[data-theme="light"] .question-content input[type="checkbox"],
-[data-theme="light"] .option-item input[type="checkbox"],
+/* Professional checkbox styling - Dark theme */
 [data-theme="dark"] .checkbox-label input[type="checkbox"],
 [data-theme="dark"] .question-editor input[type="checkbox"],
 [data-theme="dark"] .question-content input[type="checkbox"],
 [data-theme="dark"] .option-item input[type="checkbox"] {
-  width: 30px !important;
-  height: 30px !important;
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-  border: 6px solid #00ff00 !important; /* Bright green */
-  border-color: #00ff00 !important;
-  box-shadow: 0 8px 25px rgba(0, 255, 0, 0.6) !important;
+  width: 20px !important;
+  height: 20px !important;
+  background: #1e293b !important;
+  border: 2px solid #475569 !important;
   appearance: none !important;
   -webkit-appearance: none !important;
   position: relative !important;
   cursor: pointer !important;
-  border-radius: 8px !important;
-  margin-right: 15px !important;
+  border-radius: 4px !important;
+  margin-right: 10px !important;
+  transition: all 0.2s ease !important;
 }
 
-[data-theme="light"] .checkbox-label input[type="checkbox"]:checked,
-[data-theme="light"] .question-editor input[type="checkbox"]:checked,
-[data-theme="light"] .question-content input[type="checkbox"]:checked,
-[data-theme="light"] .option-item input[type="checkbox"]:checked,
 [data-theme="dark"] .checkbox-label input[type="checkbox"]:checked,
 [data-theme="dark"] .question-editor input[type="checkbox"]:checked,
 [data-theme="dark"] .question-content input[type="checkbox"]:checked,
 [data-theme="dark"] .option-item input[type="checkbox"]:checked {
-  background: #00ff00 !important; /* Bright green background */
-  background-color: #00ff00 !important;
-  border-color: #00ff00 !important;
-  transform: scale(1.15) !important;
-  box-shadow: 0 12px 35px rgba(0, 255, 0, 0.8), 0 0 0 6px rgba(0, 255, 0, 0.3) !important;
+  background: #60a5fa !important;
+  border-color: #60a5fa !important;
+  box-shadow: 0 2px 8px rgba(96, 165, 250, 0.3) !important;
 }
 
-[data-theme="light"] .checkbox-label input[type="checkbox"]:checked::after,
-[data-theme="light"] .question-editor input[type="checkbox"]:checked::after,
-[data-theme="light"] .question-content input[type="checkbox"]:checked::after,
-[data-theme="light"] .option-item input[type="checkbox"]:checked::after,
 [data-theme="dark"] .checkbox-label input[type="checkbox"]:checked::after,
 [data-theme="dark"] .question-editor input[type="checkbox"]:checked::after,
 [data-theme="dark"] .question-content input[type="checkbox"]:checked::after,
@@ -327,24 +307,16 @@
   top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
-  color: #ffffff !important;
-  font-size: 24px !important;
-  font-weight: 900 !important;
-  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8) !important;
+  color: #1e293b !important;
+  font-size: 14px !important;
+  font-weight: bold !important;
   line-height: 1 !important;
-  z-index: 999 !important;
 }
 
-[data-theme="light"] .checkbox-label input[type="checkbox"]:hover,
-[data-theme="light"] .question-editor input[type="checkbox"]:hover,
-[data-theme="light"] .question-content input[type="checkbox"]:hover,
-[data-theme="light"] .option-item input[type="checkbox"]:hover,
 [data-theme="dark"] .checkbox-label input[type="checkbox"]:hover,
 [data-theme="dark"] .question-editor input[type="checkbox"]:hover,
 [data-theme="dark"] .question-content input[type="checkbox"]:hover,
 [data-theme="dark"] .option-item input[type="checkbox"]:hover {
-  border-color: #00cc00 !important; /* Darker green on hover */
-  background-color: #f0fff0 !important; /* Light green background on hover */
-  transform: scale(1.08) !important;
-  box-shadow: 0 10px 30px rgba(0, 255, 0, 0.7) !important;
+  border-color: #60a5fa !important;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1) !important;
 }
