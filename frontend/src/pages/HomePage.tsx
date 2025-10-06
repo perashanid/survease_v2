@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { 
   FiCheckCircle, FiUsers, FiBarChart2, FiLock, 
   FiSmartphone, FiDownload, FiArrowRight, FiStar,
-  FiTrendingUp, FiZap, FiShield, FiGlobe
+  FiTrendingUp, FiZap, FiGlobe
 } from 'react-icons/fi';
 import './HomePage.css';
 
