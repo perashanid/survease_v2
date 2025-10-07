@@ -9,6 +9,7 @@ import {
   FiCheckCircle, FiInfo
 } from 'react-icons/fi';
 import './PublicSurveys.css';
+import './ImportDialog.css';
 
 interface PublicSurvey {
   id: string;
