@@ -1,0 +1,159 @@
+.attention-panel {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.attention-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.attention-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.attention-icon.high {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.attention-icon.medium {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.attention-icon.low {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.attention-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.attention-empty {
+  text-align: center;
+  padding: 40px;
+  color: #9ca3af;
+}
+
+.attention-empty-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.attention-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.attention-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  transition: all 0.2s;
+}
+
+.attention-item:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+}
+
+.attention-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 12px;
+}
+
+.attention-item-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 4px;
+}
+
+.attention-score {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.attention-score.high {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.attention-score.medium {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.attention-score.low {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.attention-issues {
+  margin-bottom: 12px;
+}
+
+.attention-issue {
+  display: flex;
+  align-items: start;
+  gap: 8px;
+  padding: 8px 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.attention-issue-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.attention-recommendations {
+  background: #f9fafb;
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.attention-recommendations-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.attention-recommendation {
+  display: flex;
+  align-items: start;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.attention-recommendation-icon {
+  color: #10b981;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
