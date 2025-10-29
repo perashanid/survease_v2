@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { SurveyService, Survey } from '../services/surveyService';
 import { useAuth } from '../contexts/AuthContext';
 import { timeTrackingService } from '../services/timeTrackingService';
+import { detectDevice } from '../utils/deviceDetection';
 import AuthModal from '../components/auth/AuthModal';
 import './SurveyResponse.css';
 
@@ -155,11 +156,15 @@ const SurveyResponse: React.FC = () => {
       
       setCompletionTime(calculatedCompletionTime);
 
+      // Detect device info
+      const deviceInfo = detectDevice();
+
       const submissionData = {
         responses,
         ...(respondentEmail && { respondent_email: respondentEmail }),
         ...(calculatedCompletionTime && { completion_time: calculatedCompletionTime }),
-        ...(surveyStartTime && { started_at: surveyStartTime })
+        ...(surveyStartTime && { started_at: surveyStartTime }),
+        device_info: deviceInfo
       };
 
       await SurveyService.submitResponse(slug, submissionData);
