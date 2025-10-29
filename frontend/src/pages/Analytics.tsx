@@ -3,6 +3,11 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { SurveyService as surveyService } from '../services/surveyService';
 import { timeTrackingService } from '../services/timeTrackingService';
+import { motion } from 'framer-motion';
+import { 
+  FiBarChart2, FiUsers, FiTrendingUp, FiGlobe, FiClock, 
+  FiAlertCircle, FiRefreshCw, FiCheckCircle, FiActivity
+} from 'react-icons/fi';
 import './Analytics.css';
 
 interface AnalyticsData {
@@ -121,10 +126,15 @@ const Analytics: React.FC = () => {
     return (
       <div className="analytics-page">
         <div className="analytics-container">
-          <div className="loading-state">
+          <motion.div 
+            className="loading-state"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
             <div className="spinner"></div>
             <p>Loading analytics...</p>
-          </div>
+          </motion.div>
         </div>
       </div>
     );
@@ -134,14 +144,19 @@ const Analytics: React.FC = () => {
     return (
       <div className="analytics-page">
         <div className="analytics-container">
-          <div className="error-state">
-            <div className="error-icon">⚠️</div>
+          <motion.div 
+            className="error-state"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="error-icon"><FiAlertCircle /></div>
             <h2>Error Loading Analytics</h2>
             <p>{error}</p>
             <button className="btn btn-primary" onClick={() => fetchAnalyticsData()}>
-              Try Again
+              <FiRefreshCw /> Try Again
             </button>
-          </div>
+          </motion.div>
         </div>
       </div>
     );
@@ -152,7 +167,12 @@ const Analytics: React.FC = () => {
   return (
     <div className="analytics-page">
       <div className="analytics-container">
-        <div className="analytics-header">
+        <motion.div 
+          className="analytics-header"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <h1>Analytics Dashboard</h1>
           <p>Track your survey performance and engagement metrics</p>
           
@@ -182,12 +202,18 @@ const Analytics: React.FC = () => {
               1 Year
             </button>
           </div>
-        </div>
+        </motion.div>
 
         {/* Key Metrics */}
         <div className="metrics-grid">
-          <div className="metric-card">
-            <div className="metric-icon">📊</div>
+          <motion.div 
+            className="metric-card"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+          >
+            <div className="metric-icon"><FiBarChart2 /></div>
             <div className="metric-content">
               <h3>Total Surveys</h3>
               <div className="metric-value">{analyticsData.totalSurveys}</div>
@@ -195,10 +221,16 @@ const Analytics: React.FC = () => {
                 {analyticsData.activeSurveys || 0} active
               </div>
             </div>
-          </div>
+          </motion.div>
           
-          <div className="metric-card">
-            <div className="metric-icon">👥</div>
+          <motion.div 
+            className="metric-card"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+          >
+            <div className="metric-icon"><FiUsers /></div>
             <div className="metric-content">
               <h3>Total Responses</h3>
               <div className="metric-value">{analyticsData.totalResponses}</div>
@@ -206,10 +238,16 @@ const Analytics: React.FC = () => {
                 {(analyticsData.responseGrowth || 0) >= 0 ? '+' : ''}{analyticsData.responseGrowth?.toFixed(1) || '0.0'}% growth
               </div>
             </div>
-          </div>
+          </motion.div>
           
-          <div className="metric-card">
-            <div className="metric-icon">📈</div>
+          <motion.div 
+            className="metric-card"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.3 }}
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+          >
+            <div className="metric-icon"><FiTrendingUp /></div>
             <div className="metric-content">
               <h3>Avg Completion Rate</h3>
               <div className="metric-value">{analyticsData.averageResponseRate.toFixed(1)}%</div>
@@ -217,10 +255,16 @@ const Analytics: React.FC = () => {
                 Based on real data
               </div>
             </div>
-          </div>
+          </motion.div>
           
-          <div className="metric-card">
-            <div className="metric-icon">🌐</div>
+          <motion.div 
+            className="metric-card"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.4 }}
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+          >
+            <div className="metric-icon"><FiGlobe /></div>
             <div className="metric-content">
               <h3>Public Surveys</h3>
               <div className="metric-value">
@@ -230,10 +274,16 @@ const Analytics: React.FC = () => {
                 {(((analyticsData.publicSurveys || 0) / Math.max(analyticsData.totalSurveys, 1)) * 100).toFixed(0)}% of total
               </div>
             </div>
-          </div>
+          </motion.div>
           
-          <div className="metric-card">
-            <div className="metric-icon">⏱️</div>
+          <motion.div 
+            className="metric-card"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.5 }}
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+          >
+            <div className="metric-icon"><FiClock /></div>
             <div className="metric-content">
               <h3>Avg Completion Time</h3>
               <div className="metric-value">
@@ -246,7 +296,7 @@ const Analytics: React.FC = () => {
                 {analyticsData.responsesWithTiming || 0} responses with timing
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Survey Quick Access */}
@@ -263,10 +313,10 @@ const Analytics: React.FC = () => {
                 <div className="survey-card-header">
                   <h4>{survey.title}</h4>
                   <div className="survey-metrics">
-                    <span className="metric">📊 {survey.responseCount} responses</span>
-                    <span className="metric">📈 {survey.responseRate.toFixed(1)}% rate</span>
+                    <span className="metric"><FiBarChart2 /> {survey.responseCount} responses</span>
+                    <span className="metric"><FiTrendingUp /> {survey.responseRate.toFixed(1)}% rate</span>
                     {survey.responsesPerDay && (
-                      <span className="metric">⚡ {survey.responsesPerDay} per day</span>
+                      <span className="metric"><FiActivity /> {survey.responsesPerDay} per day</span>
                     )}
                   </div>
                 </div>
@@ -288,15 +338,15 @@ const Analytics: React.FC = () => {
             </Link>
             <div className="public-analytics-info">
               <div className="info-item">
-                <span className="info-icon">🌐</span>
+                <span className="info-icon"><FiGlobe /></span>
                 <span className="info-text">View analytics for any public survey</span>
               </div>
               <div className="info-item">
-                <span className="info-icon">📊</span>
+                <span className="info-icon"><FiBarChart2 /></span>
                 <span className="info-text">Access the same detailed charts and insights</span>
               </div>
               <div className="info-item">
-                <span className="info-icon">📥</span>
+                <span className="info-icon"><FiCheckCircle /></span>
                 <span className="info-text">Download public survey data</span>
               </div>
             </div>
@@ -322,9 +372,9 @@ const Analytics: React.FC = () => {
                       return (
                         <div className="trends-chart-container">
                           <div className="chart-stats">
-                            <span className="stat">📊 Total: {totalResponses} responses</span>
-                            <span className="stat">📈 Peak: {maxResponses} responses</span>
-                            <span className="stat">📅 Period: {analyticsData.responsesByMonth.length} data points</span>
+                            <span className="stat"><FiBarChart2 /> Total: {totalResponses} responses</span>
+                            <span className="stat"><FiTrendingUp /> Peak: {maxResponses} responses</span>
+                            <span className="stat"><FiActivity /> Period: {analyticsData.responsesByMonth.length} data points</span>
                           </div>
                           <div className="simple-chart">
                             {analyticsData.responsesByMonth.map((data, index) => (
@@ -345,7 +395,7 @@ const Analytics: React.FC = () => {
                           {!hasData && (
                             <div className="chart-overlay">
                               <div className="no-data-message">
-                                <div className="no-data-icon">📊</div>
+                                <div className="no-data-icon"><FiBarChart2 /></div>
                                 <p>No responses recorded in this time period</p>
                                 <small>Try selecting a different time range or create some test responses</small>
                               </div>
@@ -357,7 +407,7 @@ const Analytics: React.FC = () => {
                   </div>
                 ) : (
                   <div className="chart-placeholder">
-                    <div className="no-data-icon">📊</div>
+                    <div className="no-data-icon"><FiBarChart2 /></div>
                     <p>No response data available for the selected time range</p>
                     <small>Response trends will appear here once you have survey responses</small>
                   </div>
@@ -413,7 +463,7 @@ const Analytics: React.FC = () => {
                   </table>
                 ) : (
                   <div className="empty-table">
-                    <div className="empty-icon">📋</div>
+                    <div className="empty-icon"><FiBarChart2 /></div>
                     <p>No surveys found</p>
                   </div>
                 )}
@@ -426,7 +476,7 @@ const Analytics: React.FC = () => {
                 {analyticsData.recentActivity.length > 0 ? (
                   analyticsData.recentActivity.map((activity) => (
                     <div key={activity.id} className="activity-item">
-                      <div className="activity-icon">📝</div>
+                      <div className="activity-icon"><FiActivity /></div>
                       <div className="activity-content">
                         <div className="activity-title">{activity.surveyTitle}</div>
                         <div className="activity-meta">
@@ -437,7 +487,7 @@ const Analytics: React.FC = () => {
                   ))
                 ) : (
                   <div className="empty-activity">
-                    <div className="empty-icon">🔍</div>
+                    <div className="empty-icon"><FiActivity /></div>
                     <p>No recent activity</p>
                   </div>
                 )}
