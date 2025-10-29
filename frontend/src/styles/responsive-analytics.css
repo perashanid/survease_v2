@@ -1,0 +1,298 @@
+/* Responsive Analytics Styles */
+
+/* Mobile First Approach */
+@media (max-width: 768px) {
+  /* Dashboard Layout */
+  .advanced-analytics,
+  .analytics-container {
+    padding: 12px;
+  }
+
+  .analytics-page-title {
+    font-size: 22px;
+  }
+
+  .analytics-page-subtitle {
+    font-size: 13px;
+  }
+
+  /* Tabs */
+  .analytics-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .analytics-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab-button {
+    padding: 10px 16px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  /* Charts */
+  .chart-card {
+    padding: 16px;
+  }
+
+  .chart-card h3 {
+    font-size: 16px;
+  }
+
+  .chart-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Metric Cards */
+  .metric-cards {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .metric-card {
+    padding: 16px;
+  }
+
+  .metric-value {
+    font-size: 24px;
+  }
+
+  /* Filter Panel */
+  .filter-panel {
+    padding: 16px;
+  }
+
+  .filter-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* Question Table */
+  .question-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .question-table {
+    min-width: 600px;
+  }
+
+  .question-table th,
+  .question-table td {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .question-text {
+    max-width: 200px;
+  }
+
+  /* Heatmap */
+  .heatmap-grid {
+    grid-template-columns: 80px repeat(24, 32px);
+    gap: 1px;
+  }
+
+  .heatmap-cell {
+    width: 32px;
+    height: 32px;
+  }
+
+  .heatmap-value {
+    font-size: 10px;
+  }
+
+  /* Funnel */
+  .funnel-stage-text {
+    font-size: 13px;
+  }
+
+  .funnel-bar-label {
+    font-size: 12px;
+  }
+
+  /* Segment Builder */
+  .segment-builder {
+    padding: 16px;
+  }
+
+  .segment-form {
+    gap: 12px;
+  }
+
+  /* Segment Comparison */
+  .segment-selector {
+    gap: 6px;
+  }
+
+  .segment-chip {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .comparison-table {
+    font-size: 12px;
+    overflow-x: auto;
+    display: block;
+  }
+
+  .comparison-table thead,
+  .comparison-table tbody,
+  .comparison-table tr {
+    display: block;
+  }
+
+  .comparison-table th,
+  .comparison-table td {
+    padding: 8px;
+  }
+
+  /* Modal */
+  .modal-content {
+    max-width: 100%;
+    max-height: 95vh;
+    margin: 0;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .modal-header {
+    padding: 16px;
+  }
+
+  .modal-title {
+    font-size: 18px;
+  }
+
+  .modal-body {
+    padding: 16px;
+  }
+
+  .metric-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .metric-box-value {
+    font-size: 20px;
+  }
+
+  /* Attention Panel */
+  .attention-panel {
+    padding: 16px;
+  }
+
+  .attention-item {
+    padding: 12px;
+  }
+
+  .attention-item-title {
+    font-size: 14px;
+  }
+
+  /* Export Button */
+  .export-menu {
+    right: auto;
+    left: 0;
+  }
+
+  /* Touch Optimizations */
+  .tab-button,
+  .segment-chip,
+  .filter-badge,
+  .segment-icon-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Reduce animations on mobile */
+  * {
+    animation-duration: 0.2s !important;
+    transition-duration: 0.2s !important;
+  }
+}
+
+/* Tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .chart-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .metric-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .filter-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Large Screens */
+@media (min-width: 1440px) {
+  .advanced-analytics,
+  .analytics-container {
+    max-width: 1600px;
+  }
+
+  .chart-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .metric-cards {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Print Styles */
+@media print {
+  .analytics-tabs,
+  .filter-panel,
+  .export-button,
+  .segment-icon-btn,
+  .modal-close {
+    display: none !important;
+  }
+
+  .chart-card {
+    page-break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #e5e7eb;
+  }
+
+  .advanced-analytics,
+  .analytics-container {
+    padding: 0;
+  }
+
+  * {
+    color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}
+
+/* Dark Mode Support (Optional) */
+@media (prefers-color-scheme: dark) {
+  .chart-card,
+  .filter-panel,
+  .segment-builder,
+  .attention-panel {
+    background: #1f2937;
+    color: #f9fafb;
+  }
+
+  .skeleton-line,
+  .skeleton-bar {
+    background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
