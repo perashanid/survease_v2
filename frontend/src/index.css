@@ -1,3 +1,6 @@
+/* Import animations */
+@import './utils/animations.css';
+
 /* Theme Variables */
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;

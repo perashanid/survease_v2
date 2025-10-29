@@ -4,6 +4,11 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { SurveyService } from '../services/surveyService';
 import QuestionEditor, { Question } from '../components/survey/QuestionEditor';
 import SurveyPreview from '../components/survey/SurveyPreview';
+import { motion } from 'framer-motion';
+import { 
+  FiSave, FiEye, FiEyeOff, FiType, FiCheckSquare, 
+  FiList, FiStar, FiChevronDown 
+} from 'react-icons/fi';
 import './SurveyCreator.css';
 
 interface SurveySettings {
@@ -151,16 +156,24 @@ const SurveyCreator: React.FC = () => {
   return (
     <div className="survey-creator">
       <div className="creator-container">
-        <div className="creator-main">
+        <motion.div 
+          className="creator-main"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <div className="creator-header">
-            <h1>Create Survey</h1>
+            <div className="header-title">
+              <h1>Create Survey</h1>
+              <p>Build your survey with multiple question types</p>
+            </div>
             <div className="header-actions">
               <button
                 type="button"
                 onClick={() => setShowPreview(!showPreview)}
                 className="btn btn-outline"
               >
-                {showPreview ? 'Hide Preview' : 'Show Preview'}
+                {showPreview ? <><FiEyeOff /> Hide Preview</> : <><FiEye /> Show Preview</>}
               </button>
               <button
                 type="button"
@@ -168,12 +181,20 @@ const SurveyCreator: React.FC = () => {
                 disabled={saving}
                 className="btn btn-primary"
               >
-                {saving ? 'Saving...' : 'Save Survey'}
+                {saving ? 'Saving...' : <><FiSave /> Save Survey</>}
               </button>
             </div>
           </div>
 
-          {error && <div className="error">{error}</div>}
+          {error && (
+            <motion.div 
+              className="error"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+            >
+              {error}
+            </motion.div>
+          )}
 
           <div className="creator-content">
             <div className="creator-form">
@@ -282,77 +303,99 @@ const SurveyCreator: React.FC = () => {
               <div className="card">
                 <div className="card-header">
                   <h3 className="card-title">Questions</h3>
+                </div>
+
+                <div className="questions-list">
+                  {questions.length === 0 ? (
+                    <motion.div 
+                      className="empty-questions"
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <FiList className="empty-icon" />
+                      <p>No questions added yet. Use the buttons below to add questions.</p>
+                    </motion.div>
+                  ) : (
+                    questions.map((question, index) => (
+                      <motion.div
+                        key={question.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: index * 0.05 }}
+                      >
+                        <QuestionEditor
+                          question={question}
+                          onUpdate={(updatedQuestion) => updateQuestion(index, updatedQuestion)}
+                          onDelete={() => deleteQuestion(index)}
+                          onDuplicate={() => duplicateQuestion(index)}
+                        />
+                      </motion.div>
+                    ))
+                  )}
+                </div>
+
+                {/* Add Question Buttons - Moved to Bottom */}
+                <div className="question-types-bottom">
+                  <h4>Add Question</h4>
                   <div className="question-types">
                     <button
                       type="button"
                       onClick={() => addQuestion('text')}
                       className="btn btn-outline btn-sm"
                     >
-                      + Text
+                      <FiType /> Text
                     </button>
                     <button
                       type="button"
                       onClick={() => addQuestion('multiple_choice')}
                       className="btn btn-outline btn-sm"
                     >
-                      + Multiple Choice
+                      <FiCheckSquare /> Multiple Choice
                     </button>
                     <button
                       type="button"
                       onClick={() => addQuestion('checkbox')}
                       className="btn btn-outline btn-sm"
                     >
-                      + Checkboxes
+                      <FiCheckSquare /> Checkboxes
                     </button>
                     <button
                       type="button"
                       onClick={() => addQuestion('dropdown')}
                       className="btn btn-outline btn-sm"
                     >
-                      + Dropdown
+                      <FiChevronDown /> Dropdown
                     </button>
                     <button
                       type="button"
                       onClick={() => addQuestion('rating')}
                       className="btn btn-outline btn-sm"
                     >
-                      + Rating
+                      <FiStar /> Rating
                     </button>
                   </div>
-                </div>
-
-                <div className="questions-list">
-                  {questions.length === 0 ? (
-                    <div className="empty-questions">
-                      <p>No questions added yet. Click the buttons above to add questions.</p>
-                    </div>
-                  ) : (
-                    questions.map((question, index) => (
-                      <QuestionEditor
-                        key={question.id}
-                        question={question}
-                        onUpdate={(updatedQuestion) => updateQuestion(index, updatedQuestion)}
-                        onDelete={() => deleteQuestion(index)}
-                        onDuplicate={() => duplicateQuestion(index)}
-                      />
-                    ))
-                  )}
                 </div>
               </div>
             </div>
 
             {/* Preview Panel */}
             {showPreview && (
-              <div className="creator-preview">
+              <motion.div 
+                className="creator-preview"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4 }}
+              >
                 <SurveyPreview
                   title={title}
                   description={description}
                   questions={questions}
                 />
-              </div>
+              </motion.div>
             )}
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

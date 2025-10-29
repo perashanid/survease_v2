@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FiChevronDown, FiChevronUp, FiCopy, FiTrash2, FiX, FiPlus } from 'react-icons/fi';
 import './QuestionEditor.css';
 
 export interface Question {
@@ -73,18 +74,19 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
           type="button"
           className="expand-btn"
           onClick={() => setIsExpanded(!isExpanded)}
+          title={isExpanded ? 'Collapse' : 'Expand'}
         >
-          {isExpanded ? '−' : '+'}
+          {isExpanded ? <FiChevronUp /> : <FiChevronDown />}
         </button>
         <span className="question-title-preview">
           {question.title || 'Untitled Question'}
         </span>
         <div className="question-actions">
           <button type="button" onClick={onDuplicate} className="btn-icon" title="Duplicate">
-            📋
+            <FiCopy />
           </button>
-          <button type="button" onClick={onDelete} className="btn-icon" title="Delete">
-            🗑️
+          <button type="button" onClick={onDelete} className="btn-icon btn-icon-danger" title="Delete">
+            <FiTrash2 />
           </button>
         </div>
       </div>
@@ -145,9 +147,10 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
                     <button
                       type="button"
                       onClick={() => removeOption(index)}
-                      className="btn-icon"
+                      className="btn-icon btn-icon-danger"
+                      title="Remove option"
                     >
-                      ×
+                      <FiX />
                     </button>
                   </div>
                 ))}
@@ -156,7 +159,7 @@ const QuestionEditor: React.FC<QuestionEditorProps> = ({
                   onClick={addOption}
                   className="btn btn-outline btn-sm"
                 >
-                  + Add Option
+                  <FiPlus /> Add Option
                 </button>
               </div>
             </div>
