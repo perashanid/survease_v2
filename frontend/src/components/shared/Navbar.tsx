@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import AuthModal from '../auth/AuthModal';
+import { FiSun, FiMoon, FiMonitor } from 'react-icons/fi';
 import './Navbar.css';
 
 const Navbar: React.FC = () => {
@@ -40,10 +41,10 @@ const Navbar: React.FC = () => {
 
   const getThemeIcon = (mode: string) => {
     switch (mode) {
-      case 'light': return '☀️';
-      case 'dark': return '🌙';
-      case 'system': return '🔄';
-      default: return '🔄';
+      case 'light': return <FiSun />;
+      case 'dark': return <FiMoon />;
+      case 'system': return <FiMonitor />;
+      default: return <FiMonitor />;
     }
   };
 
