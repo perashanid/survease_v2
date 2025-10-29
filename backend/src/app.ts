@@ -80,28 +80,20 @@ app.get('/health', (req, res) => {
   });
 });
 
-// API routes
-app.use('/auth', authRoutes); // Removed /api prefix to match frontend calls
-
-// Import survey routes
+// Import all routes
 import surveyRoutes from './routes/surveys';
-app.use('/surveys', surveyRoutes);
-
-// Import invitation routes
 import invitationRoutes from './routes/invitations';
-app.use('/surveys', invitationRoutes);
-
-// Import stats routes
 import statsRoutes from './routes/stats';
-app.use('/stats', statsRoutes);
-
-// Import contact routes
 import contactRoutes from './routes/contact';
-app.use('/contact', contactRoutes);
-
-// Import public routes
 import publicRoutes from './routes/public';
-app.use('/public', publicRoutes);
+
+// API routes with /api prefix
+app.use('/api/auth', authRoutes);
+app.use('/api/surveys', surveyRoutes);
+app.use('/api/surveys', invitationRoutes);
+app.use('/api/stats', statsRoutes);
+app.use('/api/contact', contactRoutes);
+app.use('/api/public', publicRoutes);
 
 // 404 handler
 app.use('*', (req, res) => {

@@ -174,7 +174,6 @@ const Analytics: React.FC = () => {
           transition={{ duration: 0.5 }}
         >
           <h1>Analytics Dashboard</h1>
-          <p>Track your survey performance and engagement metrics</p>
           
           <div className="time-range-selector">
             <button 
@@ -379,6 +378,7 @@ const Analytics: React.FC = () => {
                           <div className="simple-chart">
                             {analyticsData.responsesByMonth.map((data, index) => (
                               <div key={index} className="chart-bar">
+                                <span className="bar-value">{data.responses}</span>
                                 <div 
                                   className={`bar ${data.responses === 0 ? 'empty' : ''}`}
                                   style={{ 
@@ -388,7 +388,6 @@ const Analytics: React.FC = () => {
                                   title={`${data.month}: ${data.responses} responses`}
                                 ></div>
                                 <span className="bar-label">{data.month}</span>
-                                <span className="bar-value">{data.responses}</span>
                               </div>
                             ))}
                           </div>

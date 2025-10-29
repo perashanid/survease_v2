@@ -105,21 +105,22 @@
 /* Metrics Grid */
 .metrics-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
   margin-bottom: 40px;
 }
 
 .metric-card {
   background: var(--color-surface-elevated);
-  border: 1px solid var(--color-border);
-  border-radius: 20px;
-  padding: 32px;
+  border: 2px solid var(--color-border);
+  border-radius: 16px;
+  padding: 24px 20px;
   display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: 20px;
+  gap: 16px;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 8px 32px var(--color-shadow-light);
+  box-shadow: 0 4px 12px var(--color-shadow-light), 0 2px 4px var(--color-shadow);
   position: relative;
   overflow: hidden;
 }
@@ -132,49 +133,63 @@
   right: 0;
   height: 3px;
   background: var(--gradient-primary);
+  opacity: 0.8;
 }
 
 .metric-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 24px 64px var(--color-shadow-medium);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px var(--color-shadow-medium), 0 4px 8px var(--color-shadow);
   border-color: var(--color-primary);
 }
 
 .metric-icon {
-  font-size: 48px;
-  width: 80px;
-  height: 80px;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--gradient-primary);
-  border-radius: 20px;
-  box-shadow: 0 8px 24px rgba(74, 222, 128, 0.3);
+  color: #4ade80;
+}
+
+.metric-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.metric-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .metric-content h3 {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 10px;
+  font-weight: 700;
   color: var(--color-text-secondary);
-  margin-bottom: 8px;
+  margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  line-height: 1.2;
 }
 
 .metric-value {
-  font-size: 36px;
+  font-size: 28px;
   font-weight: 800;
   color: var(--color-text-primary);
-  margin-bottom: 8px;
+  margin: 0;
   line-height: 1;
 }
 
 .metric-change {
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 10px;
+  font-weight: 700;
   display: flex;
   align-items: center;
   gap: 4px;
+  line-height: 1.2;
+  margin: 0;
 }
 
 .metric-change.positive {
@@ -185,13 +200,18 @@
   color: var(--color-error);
 }
 
-.metric-change::before {
+.metric-change.neutral {
+  color: var(--color-text-secondary);
+}
+
+.metric-change.positive::before {
   content: '↗';
-  font-size: 16px;
+  font-size: 11px;
 }
 
 .metric-change.negative::before {
   content: '↘';
+  font-size: 11px;
 }
 
 /* Analytics Content */
@@ -814,7 +834,7 @@
   border-radius: 20px;
   padding: 32px;
   border: 2px solid var(--color-border);
-  box-shadow: 0 8px 32px var(--color-shadow-light);
+  box-shadow: 0 4px 12px var(--color-shadow-light), 0 2px 4px var(--color-shadow);
 }
 
 .chart-card h3, .table-card h3 {
@@ -1292,7 +1312,8 @@ Response Trends Chart Improvements */
 .simple-chart {
   display: flex;
   align-items: flex-end;
-  gap: 8px;
+  justify-content: space-around;
+  gap: 12px;
   height: 200px;
   padding: 20px 0;
   position: relative;
@@ -1303,7 +1324,10 @@ Response Trends Chart Improvements */
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 60px;
+  justify-content: flex-end;
+  min-width: 50px;
+  flex: 1;
+  max-width: 80px;
   height: 100%;
   position: relative;
 }
@@ -1311,10 +1335,10 @@ Response Trends Chart Improvements */
 .chart-bar .bar {
   background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
   border-radius: 4px 4px 0 0;
-  width: 40px;
+  width: 100%;
+  max-width: 40px;
   min-height: 2px;
   transition: all 0.3s ease;
-  margin-bottom: auto;
   position: relative;
 }
 
@@ -1330,22 +1354,20 @@ Response Trends Chart Improvements */
 }
 
 .bar-label {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--color-text-secondary);
   margin-top: 8px;
   text-align: center;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .bar-value {
-  font-size: 0.7rem;
-  color: var(--color-text-tertiary);
-  margin-top: 4px;
+  font-size: 0.75rem;
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
   font-weight: 700;
-  background: var(--color-surface-elevated);
-  padding: 2px 6px;
-  border-radius: 4px;
-  border: 1px solid var(--color-border);
+  text-align: center;
 }
 
 .chart-overlay {

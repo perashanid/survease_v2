@@ -392,7 +392,7 @@ const SurveyResponse: React.FC = () => {
             {survey?.settings.show_results && (
               <p>You can view the results once they are available.</p>
             )}
-            <button onClick={() => navigate('/')} className="btn btn-primary">
+            <button onClick={() => navigate('/surveys')} className="btn btn-primary">
               Take Another Survey
             </button>
           </div>
