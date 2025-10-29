@@ -21,6 +21,30 @@ export interface IResponse extends Document {
   submitted_at: Date;
   completion_time?: number; // Time in seconds to complete the survey
   started_at?: Date; // When the user started the survey
+  
+  // Advanced analytics fields
+  device_info?: {
+    type: 'mobile' | 'desktop' | 'tablet';
+    os: string;
+    browser: string;
+    browserVersion: string;
+  };
+  
+  question_timings?: {
+    [questionId: string]: {
+      startTime: Date;
+      endTime: Date;
+      duration: number; // seconds
+    };
+  };
+  
+  demographics?: {
+    [fieldName: string]: string;
+  };
+  
+  custom_fields?: {
+    [fieldName: string]: any;
+  };
 }
 
 const ResponseSchema = new Schema<IResponse>({
@@ -59,6 +83,24 @@ const ResponseSchema = new Schema<IResponse>({
   started_at: {
     type: Date,
     required: false
+  },
+  device_info: {
+    type: {
+      type: String,
+      enum: ['mobile', 'desktop', 'tablet']
+    },
+    os: String,
+    browser: String,
+    browserVersion: String
+  },
+  question_timings: {
+    type: Schema.Types.Mixed
+  },
+  demographics: {
+    type: Schema.Types.Mixed
+  },
+  custom_fields: {
+    type: Schema.Types.Mixed
   }
 });
 
@@ -67,5 +109,8 @@ ResponseSchema.index({ survey_id: 1 });
 ResponseSchema.index({ respondent_email: 1 });
 ResponseSchema.index({ submitted_at: -1 });
 ResponseSchema.index({ is_anonymous: 1 });
+// New indexes for analytics queries
+ResponseSchema.index({ survey_id: 1, submitted_at: -1 });
+ResponseSchema.index({ 'device_info.type': 1 });
 
 export const Response = mongoose.model<IResponse>('Response', ResponseSchema);

@@ -44,3 +44,5 @@ Thumbs.db
 # Survey Platform specific
 backend/.env
 frontend/.env
+.kiro
+*.md
