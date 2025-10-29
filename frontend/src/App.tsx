@@ -3,6 +3,7 @@ import { HashRouter as Router, Routes, Route, useNavigate, useLocation } from 'r
 import { useEffect } from 'react';
 import Navbar from './components/shared/Navbar';
 import Footer from './components/shared/Footer';
+import ConnectionStatus from './components/shared/ConnectionStatus';
 import HomePage from './pages/HomePage';
 import Dashboard from './pages/Dashboard';
 import SurveyCreator from './pages/SurveyCreator';
@@ -45,6 +46,7 @@ function App() {
           <div className="App">
             <RedirectHandler />
             <Navbar />
+            <ConnectionStatus />
             <main className="main-content">
               <Routes>
                 <Route path="/" element={<HomePage />} />

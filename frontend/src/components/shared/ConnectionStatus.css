@@ -1,0 +1,62 @@
+.connection-status-banner {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  background: #fef3c7;
+  border-bottom: 2px solid #f59e0b;
+  padding: 12px 20px;
+  z-index: 1000;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.connection-status-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-icon {
+  font-size: 20px;
+}
+
+.status-message {
+  flex: 1;
+  color: #92400e;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.retry-button {
+  padding: 6px 16px;
+  background: #f59e0b;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.retry-button:hover:not(:disabled) {
+  background: #d97706;
+}
+
+.retry-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

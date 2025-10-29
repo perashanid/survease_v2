@@ -91,7 +91,8 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
     return (
       <div className="advanced-analytics">
         <div className="analytics-page-header">
-          <h1 className="analytics-page-title">Analytics Dashboard</h1>
+          <h1 className="analytics-page-title">Comprehensive Analytics Dashboard</h1>
+          <p className="analytics-page-subtitle">Loading your analytics data...</p>
         </div>
         <LoadingSkeleton type="chart" />
         <LoadingSkeleton type="table" count={5} />
@@ -197,16 +198,37 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
             {overviewData && (
               <div className="metric-cards">
                 <div className="metric-card">
+                  <div className="metric-label">Total Responses</div>
+                  <div className="metric-value">{overviewData.totalResponses || 0}</div>
+                  <div className="metric-trend">
+                    <span style={{ fontSize: '12px', color: '#6b7280' }}>All time</span>
+                  </div>
+                </div>
+                <div className="metric-card">
+                  <div className="metric-label">Completion Rate</div>
+                  <div className="metric-value">{overviewData.completionRate ? `${overviewData.completionRate.toFixed(1)}%` : '0%'}</div>
+                  <div className="metric-trend">
+                    <span style={{ fontSize: '12px', color: '#6b7280' }}>Average</span>
+                  </div>
+                </div>
+                <div className="metric-card">
                   <div className="metric-label">Attention Score</div>
                   <div className="metric-value">{overviewData.attentionScore || 0}</div>
                   <div className="metric-trend">
-                    {overviewData.sparklineData && (
+                    {overviewData.sparklineData && overviewData.sparklineData.length > 0 && (
                       <SparklineComponent 
                         data={overviewData.sparklineData.map((d: any) => d.count)} 
                         width={80}
                         height={24}
                       />
                     )}
+                  </div>
+                </div>
+                <div className="metric-card">
+                  <div className="metric-label">Avg Time</div>
+                  <div className="metric-value">{overviewData.avgCompletionTime ? `${overviewData.avgCompletionTime}s` : 'N/A'}</div>
+                  <div className="metric-trend">
+                    <span style={{ fontSize: '12px', color: '#6b7280' }}>Per response</span>
                   </div>
                 </div>
               </div>
@@ -218,16 +240,24 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
                   <h3>Response Trends</h3>
                   <ExportButton data={trendData} type="trends" filename="response-trends" />
                 </div>
-                <LineChartComponent
-                  data={trendData.map(d => ({ date: d.label, count: d.count }))}
-                  xAxisKey="date"
-                  yAxisKey="count"
-                  height={300}
-                />
+                {trendData && trendData.length > 0 ? (
+                  <LineChartComponent
+                    data={trendData.map(d => ({ date: d.label, count: d.count }))}
+                    xAxisKey="date"
+                    yAxisKey="count"
+                    height={300}
+                  />
+                ) : (
+                  <EmptyState
+                    icon="📈"
+                    title="No Trend Data"
+                    message="Response trends will appear here once you have survey responses."
+                  />
+                )}
               </div>
             </ErrorBoundary>
 
-            {forecastData.length > 0 && (
+            {forecastData && forecastData.length > 0 && (
               <ErrorBoundary>
                 <div className="chart-card">
                   <h3>7-Day Response Forecast</h3>

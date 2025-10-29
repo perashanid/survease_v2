@@ -2,7 +2,7 @@
   "name": "survey-platform",
   "version": "1.0.0",
   "scripts": {
-    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev": "concurrently --kill-others-on-fail --prefix \"[{name}]\" --names \"BACKEND,FRONTEND\" --prefix-colors \"bgBlue.bold,bgMagenta.bold\" \"npm run dev:backend\" \"npm run dev:frontend\"",
     "dev:backend": "cd backend && npm run dev",
     "dev:frontend": "cd frontend && npm run dev",
     "build": "npm run build:backend && npm run build:frontend",
@@ -10,7 +10,8 @@
     "build:frontend": "cd frontend && npm run build",
     "deploy:backend": "cd backend && npm run render-build",
     "deploy:frontend": "cd frontend && npm run render-build",
-    "start:prod": "cd backend && npm start"
+    "start:prod": "cd backend && npm start",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

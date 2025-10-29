@@ -41,6 +41,12 @@ router.get('/:surveyId/overview', authenticateToken, verifySurveyAccess, cacheMi
   try {
     const { surveyId } = req.params;
     
+    // Get survey details
+    const survey = await Survey.findById(surveyId);
+    if (!survey) {
+      return res.status(404).json({ error: 'Survey not found' });
+    }
+
     // Get last 30 days data for sparklines
     const endDate = new Date();
     const startDate = new Date();
@@ -55,12 +61,25 @@ router.get('/:surveyId/overview', authenticateToken, verifySurveyAccess, cacheMi
 
     const attentionScore = await attentionService.calculateAttentionScore(surveyId);
     const issues = await attentionService.identifyIssues(surveyId);
+    
+    // Calculate basic metrics
+    const questionMetrics = await analyticsService.calculateQuestionMetrics(surveyId);
+    const totalResponses = trendData.reduce((sum: number, d: any) => sum + (d.count || 0), 0);
+    const avgCompletionRate = questionMetrics.length > 0
+      ? questionMetrics.reduce((sum, q) => sum + q.completionRate, 0) / questionMetrics.length
+      : 0;
+    const avgCompletionTime = questionMetrics.length > 0
+      ? questionMetrics.reduce((sum, q) => sum + q.avgTimeSpent, 0) / questionMetrics.length
+      : 0;
 
     res.json({
       sparklineData: trendData,
       attentionScore,
       hasIssues: issues.length > 0,
-      issueCount: issues.length
+      issueCount: issues.length,
+      totalResponses,
+      completionRate: avgCompletionRate,
+      avgCompletionTime: Math.round(avgCompletionTime)
     });
   } catch (error) {
     console.error('Error fetching overview:', error);
