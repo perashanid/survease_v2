@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import { authenticateToken } from '../middleware/auth';
+import { cacheMiddleware } from '../middleware/cache';
 import { AnalyticsAggregationService } from '../services/AnalyticsAggregationService';
 import { ForecastService } from '../services/ForecastService';
 import { SegmentationService } from '../services/SegmentationService';
@@ -36,7 +37,7 @@ async function verifySurveyAccess(req: Request, res: Response, next: any) {
 }
 
 // GET /api/analytics/:surveyId/overview
-router.get('/:surveyId/overview', authenticateToken, verifySurveyAccess, async (req: Request, res: Response) => {
+router.get('/:surveyId/overview', authenticateToken, verifySurveyAccess, cacheMiddleware({ ttl: 300 }), async (req: Request, res: Response) => {
   try {
     const { surveyId } = req.params;
     
@@ -68,7 +69,7 @@ router.get('/:surveyId/overview', authenticateToken, verifySurveyAccess, async (
 });
 
 // GET /api/analytics/:surveyId/trends
-router.get('/:surveyId/trends', authenticateToken, verifySurveyAccess, async (req: Request, res: Response) => {
+router.get('/:surveyId/trends', authenticateToken, verifySurveyAccess, cacheMiddleware({ ttl: 300 }), async (req: Request, res: Response) => {
   try {
     const { surveyId } = req.params;
     const { period = 'day', startDate, endDate } = req.query;
@@ -93,7 +94,7 @@ router.get('/:surveyId/trends', authenticateToken, verifySurveyAccess, async (re
 });
 
 // GET /api/analytics/:surveyId/heatmap
-router.get('/:surveyId/heatmap', authenticateToken, verifySurveyAccess, async (req: Request, res: Response) => {
+router.get('/:surveyId/heatmap', authenticateToken, verifySurveyAccess, cacheMiddleware({ ttl: 600 }), async (req: Request, res: Response) => {
   try {
     const { surveyId } = req.params;
     const { startDate, endDate } = req.query;
@@ -111,7 +112,7 @@ router.get('/:surveyId/heatmap', authenticateToken, verifySurveyAccess, async (r
 });
 
 // GET /api/analytics/:surveyId/funnel
-router.get('/:surveyId/funnel', authenticateToken, verifySurveyAccess, async (req: Request, res: Response) => {
+router.get('/:surveyId/funnel', authenticateToken, verifySurveyAccess, cacheMiddleware({ ttl: 300 }), async (req: Request, res: Response) => {
   try {
     const { surveyId } = req.params;
     const { startDate, endDate } = req.query;
@@ -134,7 +135,7 @@ router.get('/:surveyId/funnel', authenticateToken, verifySurveyAccess, async (re
 });
 
 // GET /api/analytics/:surveyId/questions
-router.get('/:surveyId/questions', authenticateToken, verifySurveyAccess, async (req: Request, res: Response) => {
+router.get('/:surveyId/questions', authenticateToken, verifySurveyAccess, cacheMiddleware({ ttl: 300 }), async (req: Request, res: Response) => {
   try {
     const { surveyId } = req.params;
     const { sortBy = 'completionRate', startDate, endDate } = req.query;
