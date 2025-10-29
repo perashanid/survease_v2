@@ -96,7 +96,7 @@ export class SegmentationService {
       // Calculate completion rate
       const Survey = mongoose.model('Survey');
       const survey = await Survey.findById(surveyId);
-      const totalQuestions = survey?.questions?.length || 0;
+      const totalQuestions = (survey as any)?.configuration?.questions?.length || 0;
       
       let totalCompletedQuestions = 0;
       let totalCompletionTime = 0;

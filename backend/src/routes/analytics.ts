@@ -25,7 +25,7 @@ async function verifySurveyAccess(req: Request, res: Response, next: any) {
       return res.status(404).json({ error: 'Survey not found' });
     }
 
-    if (survey.user_id.toString() !== userId && !survey.settings?.is_public) {
+    if (survey.user_id.toString() !== userId && !survey.configuration?.settings?.is_public) {
       return res.status(403).json({ error: 'Access denied' });
     }
 
@@ -223,7 +223,7 @@ router.post('/:surveyId/compare', authenticateToken, async (req: Request, res: R
       _id: { $in: surveyIds.map((id: string) => new mongoose.Types.ObjectId(id)) },
       $or: [
         { user_id: new mongoose.Types.ObjectId(userId) },
-        { 'settings.is_public': true }
+        { 'configuration.settings.is_public': true }
       ]
     });
 
@@ -233,10 +233,10 @@ router.post('/:surveyId/compare', authenticateToken, async (req: Request, res: R
 
     const comparisons = [];
     for (const survey of surveys) {
-      const surveyId = survey._id.toString();
+      const surveyId = (survey._id as mongoose.Types.ObjectId).toString();
       const questionMetrics = await analyticsService.calculateQuestionMetrics(surveyId);
       
-      const totalQuestions = survey.questions?.length || 0;
+      const totalQuestions = survey.configuration?.questions?.length || 0;
       const avgCompletionRate = questionMetrics.length > 0
         ? questionMetrics.reduce((sum, q) => sum + q.completionRate, 0) / questionMetrics.length
         : 0;

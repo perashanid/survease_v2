@@ -48,7 +48,7 @@ export class AttentionScoreService {
 
     // Check 1: Low completion rate
     if (totalResponses > 0) {
-      const totalQuestions = survey.questions?.length || 0;
+      const totalQuestions = survey.configuration?.questions?.length || 0;
       let totalCompletedQuestions = 0;
 
       for (const response of responses) {
@@ -101,15 +101,15 @@ export class AttentionScoreService {
     }
 
     // Check 3: High drop-off rates
-    if (totalResponses > 5 && survey.questions && survey.questions.length > 1) {
-      const questions = survey.questions;
+    if (totalResponses > 5 && survey.configuration?.questions && survey.configuration.questions.length > 1) {
+      const questions = survey.configuration.questions;
       
       for (let i = 0; i < questions.length - 1; i++) {
         const currentQ = questions[i];
         const nextQ = questions[i + 1];
         
-        const currentQId = currentQ._id || currentQ.id;
-        const nextQId = nextQ._id || nextQ.id;
+        const currentQId = currentQ.id;
+        const nextQId = nextQ.id;
 
         let currentCount = 0;
         let nextCount = 0;
@@ -187,7 +187,7 @@ export class AttentionScoreService {
     const attentionItems: SurveyAttentionItem[] = [];
 
     for (const survey of surveys) {
-      const surveyId = survey._id.toString();
+      const surveyId = (survey._id as mongoose.Types.ObjectId).toString();
       const attentionScore = await this.calculateAttentionScore(surveyId);
 
       if (attentionScore >= threshold) {

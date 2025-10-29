@@ -157,7 +157,7 @@ export class AnalyticsAggregationService {
     const survey = await Survey.findById(surveyId);
     if (!survey) return [];
 
-    const questions = survey.questions || [];
+    const questions = (survey as any).configuration?.questions || [];
     const totalResponses = responses.length;
     const funnel: FunnelStage[] = [];
 
@@ -165,15 +165,15 @@ export class AnalyticsAggregationService {
       const question = questions[i];
       const completionCount = responses.filter(r => {
         const responseData = r.response_data?.responses || r.response_data;
-        return responseData && responseData[question._id || question.id] !== undefined;
+        return responseData && responseData[question.id] !== undefined;
       }).length;
 
       const completionRate = (completionCount / totalResponses) * 100;
       const dropoffRate = i > 0 ? funnel[i - 1].completionRate - completionRate : 0;
 
       funnel.push({
-        questionId: question._id || question.id,
-        questionText: question.text || question.title || 'Untitled Question',
+        questionId: question.id,
+        questionText: question.question || 'Untitled Question',
         completionCount,
         completionRate,
         dropoffRate
@@ -205,11 +205,11 @@ export class AnalyticsAggregationService {
     const survey = await Survey.findById(surveyId);
     if (!survey) return [];
 
-    const questions = survey.questions || [];
+    const questions = (survey as any).configuration?.questions || [];
     const metrics: QuestionMetrics[] = [];
 
     for (const question of questions) {
-      const questionId = question._id || question.id;
+      const questionId = question.id;
       let completionCount = 0;
       let totalTime = 0;
       let timeCount = 0;
@@ -233,8 +233,8 @@ export class AnalyticsAggregationService {
 
       metrics.push({
         questionId,
-        questionText: question.text || question.title || 'Untitled Question',
-        questionType: question.type || 'text',
+        questionText: question.question || 'Untitled Question',
+        questionType: question.type,
         completionRate,
         avgTimeSpent,
         dropoffCount,
