@@ -159,7 +159,7 @@ router.post('/:surveyId/compare', authenticateToken, async (req: Request, res: R
     }
 
     const segmentData = segments.map(s => ({
-      id: s._id.toString(),
+      id: (s._id as mongoose.Types.ObjectId).toString(),
       name: s.name,
       criteria: s.criteria
     }));
