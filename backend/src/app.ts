@@ -86,6 +86,9 @@ import invitationRoutes from './routes/invitations';
 import statsRoutes from './routes/stats';
 import contactRoutes from './routes/contact';
 import publicRoutes from './routes/public';
+import analyticsRoutes from './routes/analytics';
+import segmentsRoutes from './routes/segments';
+import attentionRoutes from './routes/attention';
 
 // API routes with /api prefix
 app.use('/api/auth', authRoutes);
@@ -94,6 +97,9 @@ app.use('/api/surveys', invitationRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/public', publicRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/segments', segmentsRoutes);
+app.use('/api/attention', attentionRoutes);
 
 // 404 handler
 app.use('*', (req, res) => {
