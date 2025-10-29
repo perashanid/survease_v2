@@ -1,0 +1,48 @@
+.error-boundary {
+  background: white;
+  border-radius: 8px;
+  padding: 40px 20px;
+  text-align: center;
+  border: 1px solid #fee2e2;
+  background: #fef2f2;
+}
+
+.error-boundary-content {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.error-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.error-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #991b1b;
+  margin-bottom: 8px;
+}
+
+.error-message {
+  font-size: 14px;
+  color: #7f1d1d;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.error-retry-btn {
+  padding: 10px 20px;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.error-retry-btn:hover {
+  background: #b91c1c;
+}
