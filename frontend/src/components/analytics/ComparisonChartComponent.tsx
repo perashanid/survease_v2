@@ -12,20 +12,18 @@ interface SurveyComparisonData {
 interface ComparisonChartProps {
   surveys: SurveyComparisonData[];
   metrics: string[];
-  chartType?: 'bar' | 'line';
 }
 
 const ComparisonChartComponent: React.FC<ComparisonChartProps> = ({
   surveys,
-  metrics,
-  chartType = 'bar'
+  metrics
 }) => {
   const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
 
   // Transform data for chart
   const chartData = metrics.map(metric => {
     const dataPoint: any = { metric: metric.replace(/([A-Z])/g, ' $1').trim() };
-    surveys.forEach((survey, index) => {
+    surveys.forEach((survey) => {
       dataPoint[survey.title] = (survey as any)[metric] || 0;
     });
     return dataPoint;

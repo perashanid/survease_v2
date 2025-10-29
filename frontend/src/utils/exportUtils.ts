@@ -40,7 +40,7 @@ export function exportToCSV(data: any[], filename: string) {
   document.body.removeChild(link);
 }
 
-export function exportChartToImage(chartId: string, filename: string) {
+export function exportChartToImage(chartId: string, _filename: string) {
   const chartElement = document.getElementById(chartId);
   if (!chartElement) {
     alert('Chart not found');
@@ -111,7 +111,7 @@ export function exportFunnelData(funnelData: any[], filename: string = 'funnel-a
 
 // Generate a simple text-based dashboard report
 export function generateTextReport(analyticsData: any): string {
-  const { overview, trends, questions, devices } = analyticsData;
+  const { overview, questions, devices } = analyticsData;
   
   let report = '='.repeat(60) + '\n';
   report += 'SURVEY ANALYTICS REPORT\n';

@@ -148,9 +148,9 @@ const QuestionDetailModal: React.FC<QuestionDetailModalProps> = ({
                         cx="50%"
                         cy="50%"
                         outerRadius={80}
-                        label={({ percentage }) => `${percentage.toFixed(0)}%`}
+                        label={({ percentage }: any) => `${percentage.toFixed(0)}%`}
                       >
-                        {responseDistribution.slice(0, 5).map((entry, index) => (
+                        {responseDistribution.slice(0, 5).map((_, index) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Pie>

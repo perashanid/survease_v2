@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import analyticsService, { FilterCriteria } from '../services/analyticsService';
-import AttentionPanel from '../components/analytics/AttentionPanel';
+
 import LineChartComponent from '../components/analytics/LineChartComponent';
 import PieChartComponent from '../components/analytics/PieChartComponent';
 import HeatmapComponent from '../components/analytics/HeatmapComponent';
@@ -15,7 +15,7 @@ const AdvancedAnalyticsDashboard: React.FC = () => {
   const { surveyId } = useParams<{ surveyId?: string }>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'overview' | 'questions' | 'funnel' | 'heatmap' | 'devices' | 'attention'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'questions' | 'funnel' | 'heatmap' | 'devices'>('overview');
   
   const [filters, setFilters] = useState<FilterCriteria>({});
   const [overviewData, setOverviewData] = useState<any>(null);
@@ -120,9 +120,7 @@ const AdvancedAnalyticsDashboard: React.FC = () => {
         </p>
       </div>
 
-      {activeTab === 'attention' ? (
-        <AttentionPanel />
-      ) : (
+      {(
         <>
           <FilterPanel
             filters={filters}
@@ -161,12 +159,7 @@ const AdvancedAnalyticsDashboard: React.FC = () => {
             >
               Devices
             </button>
-            <button
-              className={`tab-button ${activeTab === 'attention' ? 'active' : ''}`}
-              onClick={() => setActiveTab('attention')}
-            >
-              Attention
-            </button>
+
           </div>
         </>
       )}

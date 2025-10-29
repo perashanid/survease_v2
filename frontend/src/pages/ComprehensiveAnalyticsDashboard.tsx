@@ -15,7 +15,7 @@ import QuestionDetailModal from '../components/analytics/QuestionDetailModal';
 import FilterPanel from '../components/analytics/FilterPanel';
 import SegmentBuilder from '../components/analytics/SegmentBuilder';
 import SegmentComparison from '../components/analytics/SegmentComparison';
-import ComparisonChartComponent from '../components/analytics/ComparisonChartComponent';
+
 import ExportButton from '../components/analytics/ExportButton';
 import SparklineComponent from '../components/analytics/SparklineComponent';
 import '../styles/responsive-analytics.css';

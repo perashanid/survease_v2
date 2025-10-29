@@ -1,5 +1,5 @@
 import React from 'react';
-import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 
 interface DeviceMetrics {
   mobile: number;
@@ -73,7 +73,7 @@ const DeviceBreakdownChart: React.FC<DeviceBreakdownProps> = ({
               outerRadius={80}
               label={({ name, percentage }) => `${name} ${percentage}%`}
             >
-              {deviceChartData.map((entry, index) => (
+              {deviceChartData.map((_, index) => (
                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
               ))}
             </Pie>
