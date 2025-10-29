@@ -253,13 +253,29 @@ const Dashboard: React.FC = () => {
                     </div>
                   </div>
                   <div className="survey-actions">
-                    <Link
-                      to={`/survey-analytics/${survey.id}`}
-                      className="btn btn-primary btn-sm"
-                      title="View detailed analytics"
-                    >
-                      <FiBarChart2 /> Analytics
-                    </Link>
+                    <div className="analytics-dropdown">
+                      <Link
+                        to={`/comprehensive-analytics/${survey.id}`}
+                        className="btn btn-primary btn-sm"
+                        title="View comprehensive analytics dashboard"
+                      >
+                        <FiBarChart2 /> Analytics
+                      </Link>
+                      <div className="analytics-dropdown-menu">
+                        <Link to={`/survey-analytics/${survey.id}`} className="dropdown-item">
+                          📊 Basic Analytics
+                        </Link>
+                        <Link to={`/enhanced-analytics/${survey.id}`} className="dropdown-item">
+                          📈 Enhanced Analytics
+                        </Link>
+                        <Link to={`/advanced-analytics/${survey.id}`} className="dropdown-item">
+                          🎯 Advanced Dashboard
+                        </Link>
+                        <Link to={`/comprehensive-analytics/${survey.id}`} className="dropdown-item">
+                          🚀 Comprehensive Dashboard
+                        </Link>
+                      </div>
+                    </div>
                     <button
                       onClick={() => handleToggleVisibility(survey.id, survey.is_public, survey.title)}
                       className={`btn btn-sm ${survey.is_public ? 'btn-warning' : 'btn-success'}`}

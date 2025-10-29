@@ -1,3 +1,7 @@
+/* Import Analytics Styles */
+@import './styles/responsive-analytics.css';
+@import './styles/accessibility.css';
+
 /* Global App Styles */
 .App {
   min-height: 100vh;
