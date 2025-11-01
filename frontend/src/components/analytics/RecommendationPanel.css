@@ -1,0 +1,137 @@
+.recommendation-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.recommendation-card {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #ecf0f1;
+  transition: all 0.3s ease;
+}
+
+.recommendation-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.recommendation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.priority-icon {
+  font-size: 24px;
+}
+
+.recommendation-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #2c3e50;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.priority-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.expand-button {
+  background: none;
+  border: none;
+  color: #7f8c8d;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px 8px;
+  transition: transform 0.3s ease;
+}
+
+.expand-button:hover {
+  color: #2c3e50;
+}
+
+.recommendation-description {
+  font-size: 15px;
+  color: #34495e;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.recommendation-details {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #ecf0f1;
+}
+
+.reasoning-section,
+.actions-section {
+  margin-bottom: 20px;
+}
+
+.reasoning-section h4,
+.actions-section h4 {
+  font-size: 14px;
+  color: #2c3e50;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.reasoning-section p {
+  font-size: 14px;
+  color: #7f8c8d;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.actions-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.actions-list li {
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  background: white;
+  border-left: 3px solid #3498db;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+.actions-list li:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .recommendation-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
