@@ -89,11 +89,15 @@ import publicRoutes from './routes/public';
 import analyticsRoutes from './routes/analytics';
 import segmentsRoutes from './routes/segments';
 import attentionRoutes from './routes/attention';
+import qualityRoutes from './routes/quality';
+import aiRoutes from './routes/ai';
 
 // API routes with /api prefix
 app.use('/api/auth', authRoutes);
 app.use('/api/surveys', surveyRoutes);
 app.use('/api/surveys', invitationRoutes);
+app.use('/api/surveys', qualityRoutes);
+app.use('/api/surveys', aiRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/public', publicRoutes);

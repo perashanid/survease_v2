@@ -45,6 +45,19 @@ export interface IResponse extends Document {
   custom_fields?: {
     [fieldName: string]: any;
   };
+  
+  // Quality classification fields
+  quality_status: 'quality' | 'low_quality' | 'manually_overridden';
+  quality_flags: Array<{
+    flag_type: 'completion_time' | 'custom';
+    flagged_at: Date;
+    threshold_value?: number;
+  }>;
+  manual_override?: {
+    overridden_by: mongoose.Types.ObjectId;
+    overridden_at: Date;
+    reason?: string;
+  };
 }
 
 const ResponseSchema = new Schema<IResponse>({
@@ -101,6 +114,31 @@ const ResponseSchema = new Schema<IResponse>({
   },
   custom_fields: {
     type: Schema.Types.Mixed
+  },
+  quality_status: {
+    type: String,
+    enum: ['quality', 'low_quality', 'manually_overridden'],
+    default: 'quality'
+  },
+  quality_flags: [{
+    flag_type: {
+      type: String,
+      enum: ['completion_time', 'custom'],
+      required: true
+    },
+    flagged_at: {
+      type: Date,
+      default: Date.now
+    },
+    threshold_value: Number
+  }],
+  manual_override: {
+    overridden_by: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    overridden_at: Date,
+    reason: String
   }
 });
 
@@ -112,5 +150,8 @@ ResponseSchema.index({ is_anonymous: 1 });
 // New indexes for analytics queries
 ResponseSchema.index({ survey_id: 1, submitted_at: -1 });
 ResponseSchema.index({ 'device_info.type': 1 });
+// Quality classification indexes
+ResponseSchema.index({ survey_id: 1, quality_status: 1 });
+ResponseSchema.index({ survey_id: 1, completion_time: 1 });
 
 export const Response = mongoose.model<IResponse>('Response', ResponseSchema);
