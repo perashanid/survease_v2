@@ -174,62 +174,7 @@ const Dashboard: React.FC = () => {
           </motion.div>
         </div>
 
-        {/* Analytics Features Highlight */}
-        {surveys.length > 0 && (
-          <motion.div 
-            className="features-highlight"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.4 }}
-          >
-            <h3>🚀 Advanced Analytics Features Available</h3>
-            <div className="features-grid">
-              <div className="feature-card">
-                <div className="feature-icon">📊</div>
-                <h4>Comprehensive Dashboard</h4>
-                <p>7 analytics tabs with detailed insights</p>
-              </div>
-              <div className="feature-card">
-                <div className="feature-icon">🎯</div>
-                <h4>Funnel Analysis</h4>
-                <p>Track user progression through questions</p>
-              </div>
-              <div className="feature-card">
-                <div className="feature-icon">🗓️</div>
-                <h4>Heatmap Visualization</h4>
-                <p>See when users respond most</p>
-              </div>
-              <div className="feature-card">
-                <div className="feature-icon">📱</div>
-                <h4>Device Analytics</h4>
-                <p>Mobile, desktop, and browser breakdown</p>
-              </div>
-              <div className="feature-card">
-                <div className="feature-icon">🎨</div>
-                <h4>User Segmentation</h4>
-                <p>Create and compare custom segments</p>
-              </div>
-              <div className="feature-card">
-                <div className="feature-icon">⚠️</div>
-                <h4>Attention Scoring</h4>
-                <p>Automated issue detection & recommendations</p>
-              </div>
-              <div className="feature-card">
-                <div className="feature-icon">📈</div>
-                <h4>Response Forecasting</h4>
-                <p>7-day predictions with confidence intervals</p>
-              </div>
-              <div className="feature-card">
-                <div className="feature-icon">💾</div>
-                <h4>Data Export</h4>
-                <p>Export to CSV, JSON, or PDF</p>
-              </div>
-            </div>
-            <div className="features-cta">
-              <p>Click the <strong>Analytics</strong> button on any survey to explore all features!</p>
-            </div>
-          </motion.div>
-        )}
+
 
         {/* Surveys List */}
         <div className="surveys-section">

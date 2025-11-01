@@ -326,8 +326,13 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
           <div className="analytics-section">
             <ErrorBoundary>
               <div className="chart-card">
-                <h3>Response Time Heatmap</h3>
-                {heatmapData.length > 0 ? (
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                  <h3>Response Time Heatmap</h3>
+                  <p style={{ fontSize: '14px', color: '#6b7280' }}>
+                    Shows when users typically respond to your survey
+                  </p>
+                </div>
+                {heatmapData && heatmapData.length > 0 && heatmapData[0] && heatmapData[0].length > 0 ? (
                   <HeatmapComponent
                     data={heatmapData}
                     xLabels={Array.from({ length: 24 }, (_, i) => `${i}:00`)}
@@ -337,7 +342,7 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
                   <EmptyState
                     icon="🗓️"
                     title="No Heatmap Data"
-                    message="Not enough responses to generate heatmap visualization."
+                    message="Not enough responses to generate heatmap visualization. Responses will appear here once users start submitting surveys."
                   />
                 )}
               </div>

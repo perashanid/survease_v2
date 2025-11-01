@@ -6,7 +6,6 @@
 
 .heatmap-grid {
   display: grid;
-  grid-template-columns: 100px repeat(24, 40px);
   gap: 2px;
   min-width: fit-content;
 }

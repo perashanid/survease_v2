@@ -1703,20 +1703,7 @@ dvanced Features Showcase */
   color: #6b7280;
 }
 
-.analytics-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 12px;
-}
 
-.analytics-options .option {
-  font-size: 12px;
-  padding: 4px 8px;
-  background: #f3f4f6;
-  border-radius: 6px;
-  color: #4b5563;
-}
 
 .view-analytics {
   display: inline-flex;

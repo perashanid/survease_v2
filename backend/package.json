@@ -10,7 +10,8 @@
     "vercel-build": "npm run build",
     "start": "node dist/app.js",
     "render-build": "npm run build",
-    "render-start": "npm start"
+    "render-start": "npm start",
+    "migrate:device-info": "ts-node src/scripts/migrateDeviceInfo.ts"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

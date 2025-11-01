@@ -1186,6 +1186,11 @@ router.post('/:slug/responses', optionalAuth, async (req: Request, res: Response
 
     const clientIP = req.ip || req.connection.remoteAddress || req.socket.remoteAddress;
     
+    // Parse device information from user agent
+    const userAgent = req.headers['user-agent'] || '';
+    const { parseUserAgent } = await import('../utils/deviceDetection');
+    const deviceInfo = parseUserAgent(userAgent);
+    
     const surveyResponse = new SurveyResponse({
       survey_id: survey._id,
       user_id: req.user?.id || null,
@@ -1194,7 +1199,8 @@ router.post('/:slug/responses', optionalAuth, async (req: Request, res: Response
       is_anonymous: !req.user && !respondent_email, // Only truly anonymous if no user AND no email provided
       ip_address: clientIP,
       completion_time: completion_time || null,
-      started_at: started_at ? new Date(started_at) : null
+      started_at: started_at ? new Date(started_at) : null,
+      device_info: deviceInfo
     });
 
     await surveyResponse.save();

@@ -21,6 +21,15 @@ const HeatmapComponent: React.FC<HeatmapProps> = ({
   yLabels,
   onCellClick
 }) => {
+  // Validate data
+  if (!data || data.length === 0 || !data[0] || data[0].length === 0) {
+    return (
+      <div className="heatmap-container" style={{ padding: '40px', textAlign: 'center', color: '#6b7280' }}>
+        <p>No data available for heatmap visualization</p>
+      </div>
+    );
+  }
+
   // Find max value for color scaling
   const maxValue = Math.max(...data.flat().map(cell => cell.value));
 
@@ -38,7 +47,7 @@ const HeatmapComponent: React.FC<HeatmapProps> = ({
 
   return (
     <div className="heatmap-container">
-      <div className="heatmap-grid">
+      <div className="heatmap-grid" style={{ gridTemplateColumns: `100px repeat(${xLabels.length}, 40px)` }}>
         <div className="heatmap-corner"></div>
         {xLabels.map((label, i) => (
           <div key={i} className="heatmap-xlabel">{label}</div>
@@ -46,7 +55,7 @@ const HeatmapComponent: React.FC<HeatmapProps> = ({
         
         {data.map((row, y) => (
           <React.Fragment key={y}>
-            <div className="heatmap-ylabel">{yLabels[y]}</div>
+            <div className="heatmap-ylabel">{yLabels[y] || `Row ${y}`}</div>
             {row.map((cell, x) => (
               <div
                 key={`${x}-${y}`}
@@ -60,6 +69,9 @@ const HeatmapComponent: React.FC<HeatmapProps> = ({
             ))}
           </React.Fragment>
         ))}
+      </div>
+      <div style={{ marginTop: '20px', fontSize: '12px', color: '#6b7280', textAlign: 'center' }}>
+        <p>Darker colors indicate more responses during that time period</p>
       </div>
     </div>
   );

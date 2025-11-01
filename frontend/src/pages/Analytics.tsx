@@ -298,47 +298,10 @@ const Analytics: React.FC = () => {
           </motion.div>
         </div>
 
-        {/* Advanced Features Showcase */}
-        <div className="advanced-features-showcase">
-          <h3>🚀 Advanced Analytics Features</h3>
-          <p className="showcase-subtitle">Click on any survey below to access comprehensive analytics</p>
-          
-          <div className="features-overview">
-            <div className="feature-highlight">
-              <div className="feature-highlight-icon">📊</div>
-              <div className="feature-highlight-content">
-                <h4>7 Analytics Tabs</h4>
-                <p>Overview • Questions • Funnel • Heatmap • Devices • Segments • Attention</p>
-              </div>
-            </div>
-            <div className="feature-highlight">
-              <div className="feature-highlight-icon">🎯</div>
-              <div className="feature-highlight-content">
-                <h4>Advanced Filtering</h4>
-                <p>Date ranges • Demographics • Custom fields • Search</p>
-              </div>
-            </div>
-            <div className="feature-highlight">
-              <div className="feature-highlight-icon">💾</div>
-              <div className="feature-highlight-content">
-                <h4>Data Export</h4>
-                <p>CSV • JSON • PDF • Full reports</p>
-              </div>
-            </div>
-            <div className="feature-highlight">
-              <div className="feature-highlight-icon">📈</div>
-              <div className="feature-highlight-content">
-                <h4>Forecasting</h4>
-                <p>7-day predictions • Confidence intervals • Trend detection</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Survey Quick Access */}
         <div className="survey-quick-access">
           <h3>Your Survey Analytics</h3>
-          <p>Click on any survey to access the comprehensive analytics dashboard</p>
+          <p>Click on any survey below to view detailed analytics with charts and export options</p>
           <div className="survey-grid">
             {analyticsData.topPerformingSurveys.map((survey) => (
               <Link
@@ -361,16 +324,7 @@ const Analytics: React.FC = () => {
                   )}
                 </div>
                 <div className="survey-card-footer">
-                  <div className="analytics-options">
-                    <span className="option">📊 Overview</span>
-                    <span className="option">📝 Questions</span>
-                    <span className="option">🎯 Funnel</span>
-                    <span className="option">🗓️ Heatmap</span>
-                    <span className="option">📱 Devices</span>
-                    <span className="option">🎨 Segments</span>
-                    <span className="option">⚠️ Attention</span>
-                  </div>
-                  <span className="view-analytics">Open Comprehensive Dashboard →</span>
+                  <span className="view-analytics">View Comprehensive Analytics →</span>
                 </div>
               </Link>
             ))}
