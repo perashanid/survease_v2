@@ -53,7 +53,7 @@ export class AIService {
     const lowQualityResponses = responses.filter(r => r.quality_status === 'low_quality').length;
 
     // Generate question-level insights
-    const questionInsights = await this.generateQuestionInsights(survey.questions, responses);
+    const questionInsights = await this.generateQuestionInsights(survey.configuration.questions, responses);
 
     // Create prompt for AI summary
     const prompt = this.createSummaryPrompt(survey, responses, questionInsights);
@@ -99,7 +99,7 @@ export class AIService {
 
     try {
       // Find correlations
-      const correlations = await this.patternDetector.findCorrelations(responses, survey.questions);
+      const correlations = await this.patternDetector.findCorrelations(responses, survey.configuration.questions);
       patterns.push(...correlations.map(p => ({
         type: p.type as 'correlation',
         description: p.description,
@@ -109,7 +109,7 @@ export class AIService {
       })));
 
       // Analyze trends
-      const trends = await this.patternDetector.analyzeTrends(responses, survey.questions);
+      const trends = await this.patternDetector.analyzeTrends(responses, survey.configuration.questions);
       patterns.push(...trends.map(p => ({
         type: p.type as 'temporal',
         description: p.description,
@@ -119,7 +119,7 @@ export class AIService {
       })));
 
       // Analyze demographics
-      const demographics = await this.patternDetector.analyzeDemographics(responses, survey.questions);
+      const demographics = await this.patternDetector.analyzeDemographics(responses, survey.configuration.questions);
       patterns.push(...demographics.map(p => ({
         type: p.type as 'demographic',
         description: p.description,
@@ -129,7 +129,7 @@ export class AIService {
       })));
 
       // Detect anomalies
-      const anomalies = await this.patternDetector.detectAnomalies(responses, survey.questions);
+      const anomalies = await this.patternDetector.detectAnomalies(responses, survey.configuration.questions);
       patterns.push(...anomalies.map(p => ({
         type: p.type as 'anomaly',
         description: p.description,
@@ -200,7 +200,7 @@ export class AIService {
     const insights = [];
 
     for (const question of questions) {
-      const questionId = question._id?.toString() || '';
+      const questionId = question.id || '';
       const responseValues = responses
         .map(r => r.response_data[questionId])
         .filter(v => v !== undefined && v !== null && v !== '');
@@ -212,7 +212,7 @@ export class AIService {
 
       insights.push({
         question_id: questionId,
-        question_text: question.text,
+        question_text: question.question,
         insight,
         response_distribution: distribution
       });
@@ -263,9 +263,9 @@ export class AIService {
         const percentage = ((topChoice[1] as number / responseCount) * 100).toFixed(1);
         return `Most respondents (${percentage}%) selected "${topChoice[0]}".`;
       }
-    } else if (question.type === 'rating' || question.type === 'scale') {
+    } else if (question.type === 'rating') {
       const mean = distribution.mean?.toFixed(1);
-      return `Average rating: ${mean} out of ${question.options?.length || 5}.`;
+      return `Average rating: ${mean} out of ${question.max_rating || 5}.`;
     } else if (question.type === 'text' || question.type === 'textarea') {
       return `Received ${responseCount} text responses.`;
     }

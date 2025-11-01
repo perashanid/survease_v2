@@ -41,6 +41,7 @@
     "ws": "^8.14.2"
   },
   "devDependencies": {
+    "@types/pdfkit": "^0.17.3",
     "nodemon": "^3.0.2",
     "ts-node": "^10.9.2"
   },

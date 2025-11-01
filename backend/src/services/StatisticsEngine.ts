@@ -81,9 +81,10 @@ export class StatisticsEngine {
       const yValues = data.map(d => d.value);
 
       // Calculate linear regression
-      const regression = ss.linearRegression([xValues, yValues].map((_, i) => [xValues[i], yValues[i]]));
+      const points = xValues.map((x, i) => [x, yValues[i]]);
+      const regression = ss.linearRegression(points);
       const slope = regression.m;
-      const rSquared = ss.rSquared([xValues, yValues].map((_, i) => [xValues[i], yValues[i]]), regression);
+      const rSquared = ss.rSquared(points, (x: number) => regression.m * x + regression.b);
 
       // Determine trend
       let trend: 'increasing' | 'decreasing' | 'stable';

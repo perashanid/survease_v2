@@ -43,7 +43,7 @@ export class ExportService {
           doc.text(`Description: ${survey.description}`);
           doc.moveDown(0.5);
         }
-        doc.text(`Total Questions: ${survey.questions.length}`);
+        doc.text(`Total Questions: ${survey.configuration.questions.length}`);
         doc.text(`Total Responses: ${insight.summary.response_statistics.total_responses}`);
         doc.text(`Completion Rate: ${insight.summary.response_statistics.completion_rate}%`);
         doc.text(`Quality Responses: ${insight.summary.response_statistics.quality_responses}`);
@@ -77,7 +77,7 @@ export class ExportService {
             if (index > 0 && index % 3 === 0) {
               doc.addPage();
             }
-            doc.fontSize(14).text(`Q: ${qi.question_text}`, { bold: true });
+            doc.fontSize(14).text(`Q: ${qi.question_text}`);
             doc.fontSize(12).text(qi.insight, { indent: 20 });
             doc.moveDown(1);
           });
@@ -90,7 +90,7 @@ export class ExportService {
           doc.moveDown(0.5);
 
           insight.patterns.forEach((pattern, index) => {
-            doc.fontSize(14).text(`Pattern ${index + 1}: ${pattern.type.toUpperCase()}`, { bold: true });
+            doc.fontSize(14).text(`Pattern ${index + 1}: ${pattern.type.toUpperCase()}`);
             doc.fontSize(12);
             doc.text(`Confidence: ${pattern.confidence}%`, { indent: 20 });
             doc.text(`Description: ${pattern.description}`, { indent: 20, align: 'justify' });
@@ -106,12 +106,12 @@ export class ExportService {
           doc.moveDown(0.5);
 
           insight.recommendations.forEach((rec, index) => {
-            doc.fontSize(14).text(`${index + 1}. ${rec.title}`, { bold: true });
+            doc.fontSize(14).text(`${index + 1}. ${rec.title}`);
             doc.fontSize(12);
             doc.text(`Priority: ${rec.priority.toUpperCase()}`, { indent: 20 });
             doc.text(`Description: ${rec.description}`, { indent: 20, align: 'justify' });
             doc.moveDown(0.3);
-            doc.text('Suggested Actions:', { indent: 20, bold: true });
+            doc.text('Suggested Actions:', { indent: 20 });
             rec.suggested_actions.forEach(action => {
               doc.text(`• ${action}`, { indent: 40 });
             });
@@ -129,7 +129,7 @@ export class ExportService {
         doc.text(`Date Range: ${insight.data_snapshot.date_range.start.toLocaleDateString()} - ${insight.data_snapshot.date_range.end.toLocaleDateString()}`);
         if (options.anonymizeData) {
           doc.moveDown(0.5);
-          doc.text('Note: Personal data has been anonymized in this report.', { italics: true });
+          doc.text('Note: Personal data has been anonymized in this report.');
         }
 
         doc.end();

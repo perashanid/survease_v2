@@ -62,7 +62,7 @@ export class PatternDetector {
     
     // Only analyze numeric or rating questions
     const numericQuestions = questions.filter(q => 
-      ['rating', 'number', 'scale'].includes(q.type)
+      ['rating', 'number'].includes(q.type)
     );
 
     if (numericQuestions.length < 2 || responses.length < 10) {
@@ -79,8 +79,8 @@ export class PatternDetector {
         const data2: number[] = [];
 
         responses.forEach(response => {
-          const val1 = this.extractNumericValue(response.response_data[q1._id?.toString() || '']);
-          const val2 = this.extractNumericValue(response.response_data[q2._id?.toString() || '']);
+          const val1 = this.extractNumericValue(response.response_data[q1.id]);
+          const val2 = this.extractNumericValue(response.response_data[q2.id]);
           
           if (val1 !== null && val2 !== null) {
             data1.push(val1);
@@ -97,11 +97,11 @@ export class PatternDetector {
 
             patterns.push({
               type: 'correlation',
-              question1: q1.text,
-              question2: q2.text,
+              question1: q1.question,
+              question2: q2.question,
               correlation,
               confidence,
-              description: this.generateCorrelationDescription(q1.text, q2.text, correlation),
+              description: this.generateCorrelationDescription(q1.question, q2.question, correlation),
               supporting_data: {
                 sample_size: data1.length,
                 correlation_coefficient: correlation
@@ -136,14 +136,14 @@ export class PatternDetector {
 
     // Analyze numeric questions for trends
     const numericQuestions = questions.filter(q => 
-      ['rating', 'number', 'scale'].includes(q.type)
+      ['rating', 'number'].includes(q.type)
     );
 
     for (const question of numericQuestions) {
       const timeSeriesData: TimeSeriesData[] = [];
 
       sortedResponses.forEach(response => {
-        const value = this.extractNumericValue(response.response_data[question._id?.toString() || '']);
+        const value = this.extractNumericValue(response.response_data[question.id]);
         if (value !== null) {
           timeSeriesData.push({
             timestamp: response.submitted_at,
@@ -158,10 +158,10 @@ export class PatternDetector {
         if (analysis.confidence > 30) {
           patterns.push({
             type: 'temporal',
-            question: question.text,
+            question: question.question,
             trend: analysis.trend,
             confidence: analysis.confidence,
-            description: this.generateTrendDescription(question.text, analysis.trend),
+            description: this.generateTrendDescription(question.question, analysis.trend),
             supporting_data: {
               sample_size: timeSeriesData.length,
               slope: analysis.slope,
@@ -206,7 +206,7 @@ export class PatternDetector {
 
     // Analyze each demographic field against numeric questions
     const numericQuestions = questions.filter(q => 
-      ['rating', 'number', 'scale'].includes(q.type)
+      ['rating', 'number'].includes(q.type)
     );
 
     for (const field of demographicFields) {
@@ -216,7 +216,7 @@ export class PatternDetector {
         responsesWithDemographics.forEach(response => {
           if (response.demographics && response.demographics[field]) {
             const demographicValue = response.demographics[field];
-            const questionValue = this.extractNumericValue(response.response_data[question._id?.toString() || '']);
+            const questionValue = this.extractNumericValue(response.response_data[question.id]);
             
             if (questionValue !== null) {
               if (!groupedData[demographicValue]) {
@@ -241,9 +241,9 @@ export class PatternDetector {
             patterns.push({
               type: 'demographic',
               demographic_field: field,
-              question: question.text,
+              question: question.question,
               confidence,
-              description: this.generateDemographicDescription(field, question.text, groupedData),
+              description: this.generateDemographicDescription(field, question.question, groupedData),
               supporting_data: {
                 groups: Object.keys(groupedData).map(key => ({
                   group: key,
@@ -275,14 +275,14 @@ export class PatternDetector {
     }
 
     const numericQuestions = questions.filter(q => 
-      ['rating', 'number', 'scale'].includes(q.type)
+      ['rating', 'number'].includes(q.type)
     );
 
     for (const question of numericQuestions) {
       const values: number[] = [];
 
       responses.forEach(response => {
-        const value = this.extractNumericValue(response.response_data[question._id?.toString() || '']);
+        const value = this.extractNumericValue(response.response_data[question.id]);
         if (value !== null) {
           values.push(value);
         }
@@ -296,10 +296,10 @@ export class PatternDetector {
 
           patterns.push({
             type: 'anomaly',
-            question: question.text,
+            question: question.question,
             anomaly_count: outliers.length,
             confidence,
-            description: this.generateAnomalyDescription(question.text, outliers.length, values.length),
+            description: this.generateAnomalyDescription(question.question, outliers.length, values.length),
             supporting_data: {
               outliers: outliers.slice(0, 10),
               total_responses: values.length,
