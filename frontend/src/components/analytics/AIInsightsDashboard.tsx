@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AIInsightsDashboard.css';
-import PatternVisualization from './PatternVisualization';
-import RecommendationPanel from './RecommendationPanel';
-import ConfidenceBadge from './ConfidenceBadge';
+import PatternVisualization from './PatternVisualization.tsx';
+import RecommendationPanel from './RecommendationPanel.tsx';
+import ConfidenceBadge from './ConfidenceBadge.tsx';
 import LoadingSkeleton from './LoadingSkeleton';
 
 interface AIInsight {
