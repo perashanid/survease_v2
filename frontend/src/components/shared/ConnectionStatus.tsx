@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { apiClient } from '../../services/api';
 import './ConnectionStatus.css';
 
 const ConnectionStatus: React.FC = () => {

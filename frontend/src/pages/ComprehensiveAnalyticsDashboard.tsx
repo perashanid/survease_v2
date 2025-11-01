@@ -15,6 +15,8 @@ import QuestionDetailModal from '../components/analytics/QuestionDetailModal';
 import FilterPanel from '../components/analytics/FilterPanel';
 import SegmentBuilder from '../components/analytics/SegmentBuilder';
 import SegmentComparison from '../components/analytics/SegmentComparison';
+import AIInsightsDashboard from '../components/analytics/AIInsightsDashboard';
+import DataQualityManager from '../components/analytics/DataQualityManager';
 
 import ExportButton from '../components/analytics/ExportButton';
 import SparklineComponent from '../components/analytics/SparklineComponent';
@@ -26,7 +28,7 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
   const { surveyId } = useParams<{ surveyId: string }>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'overview' | 'questions' | 'funnel' | 'heatmap' | 'devices' | 'segments' | 'attention'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'questions' | 'funnel' | 'heatmap' | 'devices' | 'segments' | 'attention' | 'ai-insights' | 'data-quality'>('overview');
   
   const [filters, setFilters] = useState<FilterCriteria>({});
   const [overviewData, setOverviewData] = useState<any>(null);
@@ -132,7 +134,7 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
         />
       </div>
 
-      {activeTab !== 'attention' && activeTab !== 'segments' && (
+      {activeTab !== 'attention' && activeTab !== 'segments' && activeTab !== 'ai-insights' && activeTab !== 'data-quality' && (
         <FilterPanel
           filters={filters}
           onFilterChange={handleFilterChange}
@@ -189,6 +191,20 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
           aria-label="Attention tab"
         >
           Attention
+        </button>
+        <button
+          className={`tab-button ${activeTab === 'ai-insights' ? 'active' : ''}`}
+          onClick={() => setActiveTab('ai-insights')}
+          aria-label="AI Insights tab"
+        >
+          🤖 AI Insights
+        </button>
+        <button
+          className={`tab-button ${activeTab === 'data-quality' ? 'active' : ''}`}
+          onClick={() => setActiveTab('data-quality')}
+          aria-label="Data Quality tab"
+        >
+          ⚙️ Data Quality
         </button>
       </div>
 
@@ -390,6 +406,22 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
           <div className="analytics-section">
             <ErrorBoundary>
               <AttentionPanel />
+            </ErrorBoundary>
+          </div>
+        )}
+
+        {activeTab === 'ai-insights' && surveyId && (
+          <div className="analytics-section">
+            <ErrorBoundary>
+              <AIInsightsDashboard surveyId={surveyId} />
+            </ErrorBoundary>
+          </div>
+        )}
+
+        {activeTab === 'data-quality' && surveyId && (
+          <div className="analytics-section">
+            <ErrorBoundary>
+              <DataQualityManager surveyId={surveyId} />
             </ErrorBoundary>
           </div>
         )}
