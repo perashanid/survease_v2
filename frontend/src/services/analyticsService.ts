@@ -134,9 +134,20 @@ class AnalyticsService {
 
     const cacheKey = this.getCacheKey(`heatmap_${surveyId}`, params);
     const cached = this.getFromCache(cacheKey);
-    if (cached) return cached;
+    if (cached) {
+      console.log('Heatmap: Using cached data', cached);
+      return cached;
+    }
 
+    console.log('Heatmap: Fetching from API', { surveyId, params });
     const response = await api.get(`/analytics/${surveyId}/heatmap`, { params });
+    console.log('Heatmap: API response', {
+      status: response.status,
+      dataType: typeof response.data.data,
+      isArray: Array.isArray(response.data.data),
+      length: response.data.data?.length
+    });
+    
     this.setCache(cacheKey, response.data);
     return response.data;
   }
@@ -148,9 +159,20 @@ class AnalyticsService {
 
     const cacheKey = this.getCacheKey(`funnel_${surveyId}`, params);
     const cached = this.getFromCache(cacheKey);
-    if (cached) return cached;
+    if (cached) {
+      console.log('Funnel: Using cached data', cached);
+      return cached;
+    }
 
+    console.log('Funnel: Fetching from API', { surveyId, params });
     const response = await api.get(`/analytics/${surveyId}/funnel`, { params });
+    console.log('Funnel: API response', {
+      status: response.status,
+      dataType: typeof response.data.data,
+      isArray: Array.isArray(response.data.data),
+      length: response.data.data?.length
+    });
+    
     this.setCache(cacheKey, response.data);
     return response.data;
   }
@@ -256,6 +278,27 @@ class AnalyticsService {
 
   async getAttentionDetails(surveyId: string) {
     const response = await api.get(`/attention/${surveyId}`);
+    return response.data;
+  }
+
+  async getBehavioralTrends(surveyId: string, startDate?: Date, endDate?: Date) {
+    const params: any = {};
+    if (startDate) params.startDate = startDate.toISOString();
+    if (endDate) params.endDate = endDate.toISOString();
+
+    const cacheKey = this.getCacheKey(`behavioral_trends_${surveyId}`, params);
+    const cached = this.getFromCache(cacheKey);
+    if (cached) return cached;
+
+    console.log('Behavioral Trends: Fetching from API', { surveyId, params });
+    const response = await api.get(`/analytics/${surveyId}/behavioral-trends`, { params });
+    console.log('Behavioral Trends: API response', {
+      status: response.status,
+      trendsCount: response.data.trends?.length || 0,
+      totalResponses: response.data.summary?.totalResponses || 0
+    });
+    
+    this.setCache(cacheKey, response.data);
     return response.data;
   }
 

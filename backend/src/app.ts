@@ -49,12 +49,16 @@ app.use((req, res, next) => {
   next();
 });
 
-// Rate limiting
+// Rate limiting - more lenient for development
 const limiter = rateLimit({
-  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '900000'), // 15 minutes
-  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '100'), // limit each IP to 100 requests per windowMs
+  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '60000'), // 1 minute (reduced from 15)
+  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '1000'), // 1000 requests per minute (increased from 100)
   standardHeaders: true,
   legacyHeaders: false,
+  skip: (req) => {
+    // Skip rate limiting for health checks
+    return req.path === '/health';
+  },
   handler: (req, res) => {
     res.status(429).json({
       success: false,
@@ -91,6 +95,7 @@ import segmentsRoutes from './routes/segments';
 import attentionRoutes from './routes/attention';
 import qualityRoutes from './routes/quality';
 import aiRoutes from './routes/ai';
+import predictionsRoutes from './routes/predictions';
 
 // API routes with /api prefix
 app.use('/api/auth', authRoutes);
@@ -104,6 +109,7 @@ app.use('/api/public', publicRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/segments', segmentsRoutes);
 app.use('/api/attention', attentionRoutes);
+app.use('/api/predictions', predictionsRoutes);
 
 // 404 handler
 app.use('*', (req, res) => {

@@ -164,7 +164,17 @@ export const submitResponseSchema = Joi.object({
   }),
   started_at: Joi.date().optional().messages({
     'date.base': 'Started at must be a valid date'
-  })
+  }),
+  device_info: Joi.object({
+    type: Joi.string().optional(),
+    browser: Joi.string().optional(),
+    browserVersion: Joi.string().optional(),
+    os: Joi.string().optional(),
+    device: Joi.string().optional(),
+    isMobile: Joi.boolean().optional(),
+    isTablet: Joi.boolean().optional(),
+    isDesktop: Joi.boolean().optional()
+  }).optional()
 });
 
 // Pagination validation schema
