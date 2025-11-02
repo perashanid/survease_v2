@@ -1,4 +1,4 @@
-import { Response, IResponse } from '../models';
+import { Response, IResponse, Survey } from '../models';
 import mongoose from 'mongoose';
 
 export interface FilterCriteria {
@@ -27,6 +27,11 @@ export class SegmentationService {
     criteria: FilterCriteria
   ): Promise<IResponse[]> {
     const query: any = { survey_id: new mongoose.Types.ObjectId(surveyId) };
+
+    // Handle undefined criteria (for "All Responses" segment)
+    if (!criteria) {
+      return await Response.find(query).lean() as IResponse[];
+    }
 
     // Date range filter
     if (criteria.dateRange) {
@@ -88,13 +93,15 @@ export class SegmentationService {
     surveyId: string,
     segments: Array<{ id: string; name: string; criteria: FilterCriteria }>
   ): Promise<SegmentComparison[]> {
+    console.log('SegmentationService.compareSegments called with:', { surveyId, segments });
     const comparisons: SegmentComparison[] = [];
 
     for (const segment of segments) {
+      console.log(`Processing segment: ${segment.name} with criteria:`, segment.criteria);
       const responses = await this.filterResponses(surveyId, segment.criteria);
+      console.log(`Found ${responses.length} responses for segment ${segment.name}`);
       
       // Calculate completion rate
-      const Survey = mongoose.model('Survey');
       const survey = await Survey.findById(surveyId);
       const totalQuestions = (survey as any)?.configuration?.questions?.length || 0;
       
@@ -133,6 +140,7 @@ export class SegmentationService {
       });
     }
 
+    console.log('SegmentationService.compareSegments completed with comparisons:', comparisons);
     return comparisons;
   }
 

@@ -1,4 +1,4 @@
-import { Response, IResponse } from '../models';
+import { Response } from '../models';
 import mongoose from 'mongoose';
 
 export interface TimeSeriesData {
@@ -92,46 +92,68 @@ export class AnalyticsAggregationService {
     startDate: Date,
     endDate: Date
   ): Promise<HeatmapCell[][]> {
-    const results = await Response.aggregate([
-      {
-        $match: {
-          survey_id: new mongoose.Types.ObjectId(surveyId),
-          submitted_at: { $gte: startDate, $lte: endDate }
+    try {
+      const results = await Response.aggregate([
+        {
+          $match: {
+            survey_id: new mongoose.Types.ObjectId(surveyId),
+            submitted_at: { $gte: startDate, $lte: endDate }
+          }
+        },
+        {
+          $project: {
+            dayOfWeek: { $dayOfWeek: '$submitted_at' },
+            hour: { $hour: '$submitted_at' }
+          }
+        },
+        {
+          $group: {
+            _id: { day: '$dayOfWeek', hour: '$hour' },
+            count: { $sum: 1 }
+          }
         }
-      },
-      {
-        $project: {
-          dayOfWeek: { $dayOfWeek: '$submitted_at' },
-          hour: { $hour: '$submitted_at' }
-        }
-      },
-      {
-        $group: {
-          _id: { day: '$dayOfWeek', hour: '$hour' },
-          count: { $sum: 1 }
-        }
-      }
-    ]);
+      ]);
 
-    // Initialize 7x24 grid
-    const heatmap: HeatmapCell[][] = [];
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    
-    for (let day = 0; day < 7; day++) {
-      const row: HeatmapCell[] = [];
-      for (let hour = 0; hour < 24; hour++) {
-        const match = results.find(r => r._id.day === day + 1 && r._id.hour === hour);
-        row.push({
-          x: hour,
-          y: day,
-          value: match ? match.count : 0,
-          label: `${days[day]} ${hour}:00`
-        });
+      // Initialize 7x24 grid (ALWAYS return grid, even with no data)
+      const heatmap: HeatmapCell[][] = [];
+      const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      
+      for (let day = 0; day < 7; day++) {
+        const row: HeatmapCell[] = [];
+        for (let hour = 0; hour < 24; hour++) {
+          const match = results.find(r => r._id.day === day + 1 && r._id.hour === hour);
+          row.push({
+            x: hour,
+            y: day,
+            value: match ? match.count : 0,
+            label: `${days[day]} ${hour}:00`
+          });
+        }
+        heatmap.push(row);
       }
-      heatmap.push(row);
+
+      console.log(`Heatmap generated for survey ${surveyId}: ${results.length} data points, date range: ${startDate.toISOString()} to ${endDate.toISOString()}`);
+      return heatmap;
+    } catch (error) {
+      console.error('Error generating heatmap data:', error);
+      // Return empty grid on error instead of empty array
+      const heatmap: HeatmapCell[][] = [];
+      const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      
+      for (let day = 0; day < 7; day++) {
+        const row: HeatmapCell[] = [];
+        for (let hour = 0; hour < 24; hour++) {
+          row.push({
+            x: hour,
+            y: day,
+            value: 0,
+            label: `${days[day]} ${hour}:00`
+          });
+        }
+        heatmap.push(row);
+      }
+      return heatmap;
     }
-
-    return heatmap;
   }
 
   /**
@@ -268,7 +290,11 @@ export class AnalyticsAggregationService {
     for (const response of responses) {
       if (response.device_info) {
         const deviceType = response.device_info.type || 'desktop';
-        devices[deviceType]++;
+        if (deviceType in devices) {
+          (devices as any)[deviceType]++;
+        } else {
+          devices.desktop++;
+        }
 
         const browser = response.device_info.browser || 'Unknown';
         browsers[browser] = (browsers[browser] || 0) + 1;

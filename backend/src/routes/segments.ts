@@ -11,7 +11,7 @@ const segmentationService = new SegmentationService();
 router.get('/:surveyId', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { surveyId } = req.params;
-    const userId = (req as any).user.userId;
+    const userId = (req as any).user.id;
 
     // Verify survey access
     const survey = await Survey.findById(surveyId);
@@ -39,7 +39,7 @@ router.get('/:surveyId', authenticateToken, async (req: Request, res: Response) 
 router.post('/:surveyId', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { surveyId } = req.params;
-    const userId = (req as any).user.userId;
+    const userId = (req as any).user.id;
     const { name, criteria, color } = req.body;
 
     if (!name || !criteria) {
@@ -77,7 +77,7 @@ router.post('/:surveyId', authenticateToken, async (req: Request, res: Response)
 router.put('/:segmentId', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { segmentId } = req.params;
-    const userId = (req as any).user.userId;
+    const userId = (req as any).user.id;
     const { name, criteria, color } = req.body;
 
     const segment = await Segment.findById(segmentId);
@@ -106,7 +106,7 @@ router.put('/:segmentId', authenticateToken, async (req: Request, res: Response)
 router.delete('/:segmentId', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { segmentId } = req.params;
-    const userId = (req as any).user.userId;
+    const userId = (req as any).user.id;
 
     const segment = await Segment.findById(segmentId);
     if (!segment) {
@@ -130,7 +130,7 @@ router.delete('/:segmentId', authenticateToken, async (req: Request, res: Respon
 router.post('/:surveyId/compare', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { surveyId } = req.params;
-    const userId = (req as any).user.userId;
+    const userId = (req as any).user.id;
     const { segmentIds } = req.body;
 
     if (!Array.isArray(segmentIds) || segmentIds.length < 2 || segmentIds.length > 5) {

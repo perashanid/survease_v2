@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { QualityClassifier } from '../services/QualityClassifier';
 import { Survey } from '../models';
+import { authenticateToken } from '../middleware/auth';
 import mongoose from 'mongoose';
 
 const router = express.Router();
@@ -10,7 +11,7 @@ const qualityClassifier = new QualityClassifier();
  * GET /api/surveys/:surveyId/quality/rules
  * Get quality rules for a survey
  */
-router.get('/:surveyId/rules', async (req: Request, res: Response) => {
+router.get('/:surveyId/quality/rules', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { surveyId } = req.params;
     const userId = (req as any).user?.id;
@@ -57,7 +58,7 @@ router.get('/:surveyId/rules', async (req: Request, res: Response) => {
  * PUT /api/surveys/:surveyId/quality/rules
  * Update quality rules for a survey
  */
-router.put('/:surveyId/rules', async (req: Request, res: Response) => {
+router.put('/:surveyId/quality/rules', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { surveyId } = req.params;
     const userId = (req as any).user?.id;
@@ -106,7 +107,7 @@ router.put('/:surveyId/rules', async (req: Request, res: Response) => {
  * POST /api/surveys/:surveyId/quality/classify
  * Manually trigger classification of responses
  */
-router.post('/:surveyId/classify', async (req: Request, res: Response) => {
+router.post('/:surveyId/quality/classify', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { surveyId } = req.params;
     const userId = (req as any).user?.id;
@@ -151,7 +152,7 @@ router.post('/:surveyId/classify', async (req: Request, res: Response) => {
  * GET /api/surveys/:surveyId/quality/flagged-responses
  * Get all flagged responses for a survey
  */
-router.get('/:surveyId/flagged-responses', async (req: Request, res: Response) => {
+router.get('/:surveyId/quality/flagged-responses', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { surveyId } = req.params;
     const userId = (req as any).user?.id;
@@ -187,7 +188,7 @@ router.get('/:surveyId/flagged-responses', async (req: Request, res: Response) =
  * POST /api/surveys/:surveyId/quality/override/:responseId
  * Manually override quality classification for a response
  */
-router.post('/:surveyId/override/:responseId', async (req: Request, res: Response) => {
+router.post('/:surveyId/quality/override/:responseId', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { surveyId, responseId } = req.params;
     const { newStatus, reason } = req.body;
@@ -228,7 +229,7 @@ router.post('/:surveyId/override/:responseId', async (req: Request, res: Respons
  * GET /api/surveys/:surveyId/quality/audit-log
  * Get audit log for quality classifications
  */
-router.get('/:surveyId/audit-log', async (req: Request, res: Response) => {
+router.get('/:surveyId/quality/audit-log', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { surveyId } = req.params;
     const userId = (req as any).user?.id;

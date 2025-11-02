@@ -3,6 +3,7 @@ import { AIInsight, Survey, Response as SurveyResponse } from '../models';
 import { AIService } from '../services/AIService';
 import { QualityClassifier } from '../services/QualityClassifier';
 import { ExportService } from '../services/ExportService';
+import { authenticateToken } from '../middleware/auth';
 import mongoose from 'mongoose';
 
 const router = express.Router();
@@ -34,7 +35,7 @@ const checkRateLimit = (userId: string, limit: number, windowMs: number): boolea
  * POST /api/surveys/:surveyId/ai/generate-insights
  * Generate AI insights for a survey
  */
-router.post('/:surveyId/generate-insights', async (req: Request, res: Response) => {
+router.post('/:surveyId/ai/generate-insights', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { surveyId } = req.params;
     const userId = (req as any).user?.id;
@@ -121,16 +122,17 @@ router.post('/:surveyId/generate-insights', async (req: Request, res: Response) 
 });
 
 /**
- * GET /api/surveys/:surveyId/ai/insights
+ * GET /api/surveys/:surveyId/insights
  * Get all insights for a survey
  */
-router.get('/:surveyId/insights', async (req: Request, res: Response) => {
+router.get('/:surveyId/insights', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { surveyId } = req.params;
     const userId = (req as any).user?.id;
 
     if (!userId) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      console.error('No user ID found in request. User object:', (req as any).user);
+      return res.status(401).json({ error: 'Unauthorized - No authentication token provided' });
     }
 
     const page = parseInt(req.query.page as string) || 1;
@@ -168,16 +170,17 @@ router.get('/:surveyId/insights', async (req: Request, res: Response) => {
 });
 
 /**
- * GET /api/surveys/:surveyId/ai/insights/:insightId
+ * GET /api/surveys/:surveyId/insights/:insightId
  * Get specific insight by ID
  */
-router.get('/:surveyId/insights/:insightId', async (req: Request, res: Response) => {
+router.get('/:surveyId/insights/:insightId', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { surveyId, insightId } = req.params;
     const userId = (req as any).user?.id;
 
     if (!userId) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      console.error('No user ID found in request. User object:', (req as any).user);
+      return res.status(401).json({ error: 'Unauthorized - No authentication token provided' });
     }
 
     const insight = await AIInsight.findOne({
@@ -201,10 +204,10 @@ router.get('/:surveyId/insights/:insightId', async (req: Request, res: Response)
 });
 
 /**
- * DELETE /api/surveys/:surveyId/ai/insights/:insightId
+ * DELETE /api/surveys/:surveyId/insights/:insightId
  * Delete an insight
  */
-router.delete('/:surveyId/insights/:insightId', async (req: Request, res: Response) => {
+router.delete('/:surveyId/insights/:insightId', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { surveyId, insightId } = req.params;
     const userId = (req as any).user?.id;
@@ -237,7 +240,7 @@ router.delete('/:surveyId/insights/:insightId', async (req: Request, res: Respon
  * POST /api/surveys/:surveyId/ai/regenerate
  * Regenerate insights with current data
  */
-router.post('/:surveyId/regenerate', async (req: Request, res: Response) => {
+router.post('/:surveyId/ai/regenerate', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { surveyId } = req.params;
     const userId = (req as any).user?.id;
@@ -318,7 +321,7 @@ router.post('/:surveyId/regenerate', async (req: Request, res: Response) => {
  * POST /api/surveys/:surveyId/ai/export/pdf
  * Export insights to PDF
  */
-router.post('/:surveyId/export/pdf', async (req: Request, res: Response) => {
+router.post('/:surveyId/ai/export/pdf', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { surveyId } = req.params;
     const { insightId } = req.body;
@@ -363,7 +366,7 @@ router.post('/:surveyId/export/pdf', async (req: Request, res: Response) => {
  * POST /api/surveys/:surveyId/ai/export/json
  * Export insights to JSON
  */
-router.post('/:surveyId/export/json', async (req: Request, res: Response) => {
+router.post('/:surveyId/ai/export/json', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { surveyId } = req.params;
     const { insightId } = req.body;

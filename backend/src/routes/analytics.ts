@@ -1,10 +1,10 @@
 import express, { Request, Response } from 'express';
 import { authenticateToken } from '../middleware/auth';
-import { cacheMiddleware } from '../middleware/cache';
 import { AnalyticsAggregationService } from '../services/AnalyticsAggregationService';
 import { ForecastService } from '../services/ForecastService';
 import { SegmentationService } from '../services/SegmentationService';
 import { AttentionScoreService } from '../services/AttentionScoreService';
+import { BehavioralTrendsService } from '../services/BehavioralTrendsService';
 import { Survey } from '../models';
 import mongoose from 'mongoose';
 
@@ -14,12 +14,17 @@ const analyticsService = new AnalyticsAggregationService();
 const forecastService = new ForecastService();
 const segmentationService = new SegmentationService();
 const attentionService = new AttentionScoreService();
+const behavioralTrendsService = new BehavioralTrendsService();
 
 // Middleware to verify survey ownership
 async function verifySurveyAccess(req: Request, res: Response, next: any) {
   try {
     const surveyId = req.params.surveyId;
-    const userId = (req as any).user.userId;
+    const userId = (req as any).user?.id;
+
+    if (!userId) {
+      return res.status(401).json({ error: 'Authentication required' });
+    }
 
     const survey = await Survey.findById(surveyId);
     if (!survey) {
@@ -32,13 +37,60 @@ async function verifySurveyAccess(req: Request, res: Response, next: any) {
 
     next();
   } catch (error) {
+    console.error('Survey access verification error:', error);
     res.status(500).json({ error: 'Server error' });
   }
 }
 
-// GET /api/analytics/:surveyId/overview
-router.get('/:surveyId/overview', authenticateToken, verifySurveyAccess, cacheMiddleware({ ttl: 300 }), async (req: Request, res: Response) => {
+// GET /api/analytics/:surveyId/heatmap
+router.get('/:surveyId/heatmap', authenticateToken, verifySurveyAccess, async (req: Request, res: Response) => {
   try {
+    console.log(`🔥 HEATMAP ENDPOINT CALLED for survey: ${req.params.surveyId}`);
+    const { surveyId } = req.params;
+    const { startDate, endDate } = req.query;
+
+    const start = startDate ? new Date(startDate as string) : new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+    const end = endDate ? new Date(endDate as string) : new Date();
+
+    const data = await analyticsService.generateHeatmapData(surveyId, start, end);
+    console.log(`🔥 HEATMAP DATA GENERATED: ${data.length}x${data[0]?.length} grid`);
+
+    res.json({ data });
+  } catch (error) {
+    console.error('Error fetching heatmap:', error);
+    res.status(500).json({ error: 'Failed to fetch heatmap data' });
+  }
+});
+
+// GET /api/analytics/:surveyId/funnel
+router.get('/:surveyId/funnel', authenticateToken, verifySurveyAccess, async (req: Request, res: Response) => {
+  try {
+    console.log(`📊 FUNNEL ENDPOINT CALLED for survey: ${req.params.surveyId}`);
+    const { surveyId } = req.params;
+    const { startDate, endDate } = req.query;
+
+    const filters: any = {};
+    if (startDate && endDate) {
+      filters.dateRange = {
+        start: new Date(startDate as string),
+        end: new Date(endDate as string)
+      };
+    }
+
+    const data = await analyticsService.calculateFunnelData(surveyId, filters);
+    console.log(`📊 FUNNEL DATA GENERATED: ${data.length} stages`);
+
+    res.json({ data });
+  } catch (error) {
+    console.error('Error fetching funnel:', error);
+    res.status(500).json({ error: 'Failed to fetch funnel data' });
+  }
+});
+
+// GET /api/analytics/:surveyId/overview
+router.get('/:surveyId/overview', authenticateToken, verifySurveyAccess, async (req: Request, res: Response) => {
+  try {
+    console.log(`📋 OVERVIEW ENDPOINT CALLED for survey: ${req.params.surveyId}`);
     const { surveyId } = req.params;
     
     // Get survey details
@@ -88,8 +140,9 @@ router.get('/:surveyId/overview', authenticateToken, verifySurveyAccess, cacheMi
 });
 
 // GET /api/analytics/:surveyId/trends
-router.get('/:surveyId/trends', authenticateToken, verifySurveyAccess, cacheMiddleware({ ttl: 300 }), async (req: Request, res: Response) => {
+router.get('/:surveyId/trends', authenticateToken, verifySurveyAccess, async (req: Request, res: Response) => {
   try {
+    console.log(`📈 TRENDS ENDPOINT CALLED for survey: ${req.params.surveyId}`);
     const { surveyId } = req.params;
     const { period = 'day', startDate, endDate } = req.query;
 
@@ -112,49 +165,8 @@ router.get('/:surveyId/trends', authenticateToken, verifySurveyAccess, cacheMidd
   }
 });
 
-// GET /api/analytics/:surveyId/heatmap
-router.get('/:surveyId/heatmap', authenticateToken, verifySurveyAccess, cacheMiddleware({ ttl: 600 }), async (req: Request, res: Response) => {
-  try {
-    const { surveyId } = req.params;
-    const { startDate, endDate } = req.query;
-
-    const start = startDate ? new Date(startDate as string) : new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
-    const end = endDate ? new Date(endDate as string) : new Date();
-
-    const data = await analyticsService.generateHeatmapData(surveyId, start, end);
-
-    res.json({ data });
-  } catch (error) {
-    console.error('Error fetching heatmap:', error);
-    res.status(500).json({ error: 'Failed to fetch heatmap data' });
-  }
-});
-
-// GET /api/analytics/:surveyId/funnel
-router.get('/:surveyId/funnel', authenticateToken, verifySurveyAccess, cacheMiddleware({ ttl: 300 }), async (req: Request, res: Response) => {
-  try {
-    const { surveyId } = req.params;
-    const { startDate, endDate } = req.query;
-
-    const filters: any = {};
-    if (startDate && endDate) {
-      filters.dateRange = {
-        start: new Date(startDate as string),
-        end: new Date(endDate as string)
-      };
-    }
-
-    const data = await analyticsService.calculateFunnelData(surveyId, filters);
-
-    res.json({ data });
-  } catch (error) {
-    console.error('Error fetching funnel:', error);
-    res.status(500).json({ error: 'Failed to fetch funnel data' });
-  }
-});
-
 // GET /api/analytics/:surveyId/questions
-router.get('/:surveyId/questions', authenticateToken, verifySurveyAccess, cacheMiddleware({ ttl: 300 }), async (req: Request, res: Response) => {
+router.get('/:surveyId/questions', authenticateToken, verifySurveyAccess, async (req: Request, res: Response) => {
   try {
     const { surveyId } = req.params;
     const { sortBy = 'completionRate', startDate, endDate } = req.query;
@@ -232,7 +244,7 @@ router.get('/:surveyId/forecast', authenticateToken, verifySurveyAccess, async (
 router.post('/:surveyId/compare', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { surveyIds, metrics = ['responseCount', 'completionRate'] } = req.body;
-    const userId = (req as any).user.userId;
+    const userId = (req as any).user?.id;
 
     if (!Array.isArray(surveyIds) || surveyIds.length < 2) {
       return res.status(400).json({ error: 'At least 2 survey IDs required for comparison' });
@@ -322,6 +334,31 @@ router.get('/:surveyId/search', authenticateToken, verifySurveyAccess, async (re
   } catch (error) {
     console.error('Error searching responses:', error);
     res.status(500).json({ error: 'Failed to search responses' });
+  }
+});
+
+// GET /api/analytics/:surveyId/behavioral-trends
+router.get('/:surveyId/behavioral-trends', authenticateToken, verifySurveyAccess, async (req: Request, res: Response) => {
+  try {
+    console.log(`🧠 BEHAVIORAL TRENDS ENDPOINT CALLED for survey: ${req.params.surveyId}`);
+    const { surveyId } = req.params;
+    const { startDate, endDate } = req.query;
+
+    const filters: any = {};
+    if (startDate && endDate) {
+      filters.dateRange = {
+        start: new Date(startDate as string),
+        end: new Date(endDate as string)
+      };
+    }
+
+    const analysis = await behavioralTrendsService.analyzeBehavioralTrends(surveyId, filters);
+    console.log(`🧠 BEHAVIORAL TRENDS ANALYSIS COMPLETED: ${analysis.trends.length} trends found`);
+
+    res.json(analysis);
+  } catch (error) {
+    console.error('Error analyzing behavioral trends:', error);
+    res.status(500).json({ error: 'Failed to analyze behavioral trends' });
   }
 });
 

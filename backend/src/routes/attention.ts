@@ -9,7 +9,7 @@ const attentionService = new AttentionScoreService();
 // GET /api/attention/surveys
 router.get('/surveys', authenticateToken, async (req: Request, res: Response) => {
   try {
-    const userId = (req as any).user.userId;
+    const userId = (req as any).user.id;
     const { threshold = '30' } = req.query;
 
     const thresholdValue = parseInt(threshold as string, 10);
@@ -30,7 +30,7 @@ router.get('/surveys', authenticateToken, async (req: Request, res: Response) =>
 router.get('/:surveyId', authenticateToken, async (req: Request, res: Response) => {
   try {
     const { surveyId } = req.params;
-    const userId = (req as any).user.userId;
+    const userId = (req as any).user.id;
 
     // Verify survey access
     const survey = await Survey.findById(surveyId);

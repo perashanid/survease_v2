@@ -4,7 +4,8 @@ import mongoose from 'mongoose';
 export interface AttentionIssue {
   type: 'low_completion' | 'no_responses' | 'high_dropoff' | 'slow_response';
   severity: 'high' | 'medium' | 'low';
-  message: string;
+  description: string;
+  affectedCount?: number;
 }
 
 export interface SurveyAttentionItem {
@@ -66,13 +67,15 @@ export class AttentionScoreService {
         issues.push({
           type: 'low_completion',
           severity: 'high',
-          message: `Survey has a low completion rate of ${completionRate.toFixed(1)}%`
+          description: `Survey has a low completion rate of ${completionRate.toFixed(1)}%`,
+          affectedCount: totalResponses
         });
       } else if (completionRate < 70) {
         issues.push({
           type: 'low_completion',
           severity: 'medium',
-          message: `Survey completion rate is ${completionRate.toFixed(1)}%, which could be improved`
+          description: `Survey completion rate is ${completionRate.toFixed(1)}%, which could be improved`,
+          affectedCount: totalResponses
         });
       }
     }
@@ -90,13 +93,15 @@ export class AttentionScoreService {
       issues.push({
         type: 'no_responses',
         severity: 'high',
-        message: 'No responses received in the last 7 days'
+        description: 'No responses received in the last 7 days',
+        affectedCount: 0
       });
     } else if (recentResponses < 5 && totalResponses > 10) {
       issues.push({
         type: 'slow_response',
         severity: 'medium',
-        message: 'Response rate has slowed down significantly'
+        description: 'Response rate has slowed down significantly',
+        affectedCount: recentResponses
       });
     }
 
@@ -129,7 +134,8 @@ export class AttentionScoreService {
             issues.push({
               type: 'high_dropoff',
               severity: 'high',
-              message: `High drop-off rate (${dropoffRate.toFixed(1)}%) at question ${i + 2}`
+              description: `High drop-off rate (${dropoffRate.toFixed(1)}%) at question ${i + 2}`,
+              affectedCount: currentCount - nextCount
             });
             break; // Only report the first major drop-off
           }

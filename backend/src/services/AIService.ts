@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { IResponse, ISurvey, ISurveyQuestion, ISummary, IPattern, IRecommendation } from '../models';
-import { PatternDetector, Pattern } from './PatternDetector';
+import { PatternDetector } from './PatternDetector';
 import { StatisticsEngine } from './StatisticsEngine';
 
 export class AIService {
@@ -319,7 +319,7 @@ Keep the tone professional and research-oriented. Focus on actionable insights.`
   /**
    * Enhance pattern descriptions with AI
    */
-  private async enhancePatternDescriptions(patterns: IPattern[], survey: ISurvey): Promise<void> {
+  private async enhancePatternDescriptions(_patterns: IPattern[], _survey: ISurvey): Promise<void> {
     // For now, keep the statistical descriptions
     // In future, could enhance with AI-generated natural language
   }

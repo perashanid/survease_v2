@@ -1082,9 +1082,13 @@ router.get('/:slug', optionalAuth, async (req: Request, res: Response): Promise<
 router.post('/:slug/responses', optionalAuth, async (req: Request, res: Response): Promise<void> => {
   try {
     const { slug } = req.params;
+    console.log('Received response submission for slug:', slug);
+    console.log('Request body:', JSON.stringify(req.body, null, 2));
+    
     const { error, value } = submitResponseSchema.validate(req.body);
     
     if (error) {
+      console.error('Validation error:', error.details);
       res.status(400).json({
         success: false,
         error: {
