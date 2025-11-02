@@ -331,31 +331,6 @@ const Analytics: React.FC = () => {
           </div>
         </div>
 
-        {/* Public Survey Analytics Access */}
-        <div className="public-survey-analytics-section">
-          <h3>Public Survey Analytics</h3>
-          <p>Explore analytics for public surveys created by the community</p>
-          <div className="public-analytics-actions">
-            <Link to="/surveys" className="btn btn-primary">
-              Browse Public Surveys
-            </Link>
-            <div className="public-analytics-info">
-              <div className="info-item">
-                <span className="info-icon"><FiGlobe /></span>
-                <span className="info-text">View analytics for any public survey</span>
-              </div>
-              <div className="info-item">
-                <span className="info-icon"><FiBarChart2 /></span>
-                <span className="info-text">Access the same detailed charts and insights</span>
-              </div>
-              <div className="info-item">
-                <span className="info-icon"><FiCheckCircle /></span>
-                <span className="info-text">Download public survey data</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Charts and Tables */}
         <div className="analytics-content">
           <div className="chart-section">

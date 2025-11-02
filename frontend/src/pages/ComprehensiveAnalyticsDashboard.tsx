@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import analyticsService, { FilterCriteria } from '../services/analyticsService';
 import ErrorBoundary from '../components/analytics/ErrorBoundary';
-import LoadingSkeleton from '../components/analytics/LoadingSkeleton';
+
 import EmptyState from '../components/analytics/EmptyState';
-import AttentionPanel from '../components/analytics/AttentionPanel';
+import AttentionDashboard from '../components/analytics/AttentionDashboard';
 import LineChartComponent from '../components/analytics/LineChartComponent';
 import ForecastChart from '../components/analytics/ForecastChart';
 import DeviceBreakdownChart from '../components/analytics/DeviceBreakdownChart';
@@ -17,18 +17,20 @@ import SegmentBuilder from '../components/analytics/SegmentBuilder';
 import SegmentComparison from '../components/analytics/SegmentComparison';
 import AIInsightsDashboard from '../components/analytics/AIInsightsDashboard';
 import DataQualityManager from '../components/analytics/DataQualityManager';
+import PredictiveAnalytics from '../components/analytics/PredictiveAnalytics';
+import BehavioralTrendsPanel from '../components/analytics/BehavioralTrendsPanel';
 
 import ExportButton from '../components/analytics/ExportButton';
 import SparklineComponent from '../components/analytics/SparklineComponent';
 import '../styles/responsive-analytics.css';
 import '../styles/accessibility.css';
-import './AdvancedAnalyticsDashboard.css';
+import './ComprehensiveAnalyticsDashboard.css';
 
 const ComprehensiveAnalyticsDashboard: React.FC = () => {
   const { surveyId } = useParams<{ surveyId: string }>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'overview' | 'questions' | 'funnel' | 'heatmap' | 'devices' | 'segments' | 'attention' | 'ai-insights' | 'data-quality'>('overview');
+  const [activeTab, setActiveTab] = useState('overview');
   
   const [filters, setFilters] = useState<FilterCriteria>({});
   const [overviewData, setOverviewData] = useState<any>(null);
@@ -66,6 +68,16 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
         analyticsService.getForecast(surveyId, 7)
       ]);
 
+      console.log('Heatmap API response:', {
+        heatmap,
+        dataType: typeof heatmap.data,
+        isArray: Array.isArray(heatmap.data),
+        length: heatmap.data?.length,
+        firstRow: heatmap.data?.[0],
+        startDate,
+        endDate
+      });
+
       setOverviewData(overview);
       setTrendData(trends.data || []);
       setHeatmapData(heatmap.data || []);
@@ -75,7 +87,12 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
       setForecastData(forecast.data || []);
     } catch (err: any) {
       console.error('Error fetching analytics:', err);
-      setError(err.response?.data?.error || 'Failed to load analytics data');
+      // Handle error object properly - extract message string
+      const errorMessage = err.response?.data?.error?.message 
+        || err.response?.data?.message 
+        || err.message 
+        || 'Failed to load analytics data';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -96,8 +113,6 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
           <h1 className="analytics-page-title">Comprehensive Analytics Dashboard</h1>
           <p className="analytics-page-subtitle">Loading your analytics data...</p>
         </div>
-        <LoadingSkeleton type="chart" />
-        <LoadingSkeleton type="table" count={5} />
       </div>
     );
   }
@@ -108,7 +123,7 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
         <EmptyState
           icon="⚠️"
           title="Failed to Load Analytics"
-          message={error}
+          message={typeof error === 'string' ? error : 'An error occurred while loading analytics data'}
           action={{
             label: 'Retry',
             onClick: fetchAnalyticsData
@@ -134,77 +149,78 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
         />
       </div>
 
-      {activeTab !== 'attention' && activeTab !== 'segments' && activeTab !== 'ai-insights' && activeTab !== 'data-quality' && (
-        <FilterPanel
-          filters={filters}
-          onFilterChange={handleFilterChange}
-          onReset={handleFilterReset}
-        />
-      )}
+      <FilterPanel
+        filters={filters}
+        onFilterChange={handleFilterChange}
+        onReset={handleFilterReset}
+      />
 
       <div className="analytics-tabs">
         <button
           className={`tab-button ${activeTab === 'overview' ? 'active' : ''}`}
           onClick={() => setActiveTab('overview')}
-          aria-label="Overview tab"
         >
-          Overview
+          📊 Overview
         </button>
         <button
           className={`tab-button ${activeTab === 'questions' ? 'active' : ''}`}
           onClick={() => setActiveTab('questions')}
-          aria-label="Questions tab"
         >
-          Questions
+          📝 Questions
         </button>
         <button
           className={`tab-button ${activeTab === 'funnel' ? 'active' : ''}`}
           onClick={() => setActiveTab('funnel')}
-          aria-label="Funnel tab"
         >
-          Funnel
+          🔄 Funnel
         </button>
         <button
           className={`tab-button ${activeTab === 'heatmap' ? 'active' : ''}`}
           onClick={() => setActiveTab('heatmap')}
-          aria-label="Heatmap tab"
         >
-          Heatmap
+          🔥 Heatmap
         </button>
         <button
           className={`tab-button ${activeTab === 'devices' ? 'active' : ''}`}
           onClick={() => setActiveTab('devices')}
-          aria-label="Devices tab"
         >
-          Devices
+          📱 Devices
         </button>
         <button
           className={`tab-button ${activeTab === 'segments' ? 'active' : ''}`}
           onClick={() => setActiveTab('segments')}
-          aria-label="Segments tab"
         >
-          Segments
+          🎯 Segments
         </button>
         <button
           className={`tab-button ${activeTab === 'attention' ? 'active' : ''}`}
           onClick={() => setActiveTab('attention')}
-          aria-label="Attention tab"
         >
-          Attention
+          🎯 Attention
         </button>
         <button
           className={`tab-button ${activeTab === 'ai-insights' ? 'active' : ''}`}
           onClick={() => setActiveTab('ai-insights')}
-          aria-label="AI Insights tab"
         >
           🤖 AI Insights
         </button>
         <button
           className={`tab-button ${activeTab === 'data-quality' ? 'active' : ''}`}
           onClick={() => setActiveTab('data-quality')}
-          aria-label="Data Quality tab"
         >
           ⚙️ Data Quality
+        </button>
+        <button
+          className={`tab-button ${activeTab === 'predictions' ? 'active' : ''}`}
+          onClick={() => setActiveTab('predictions')}
+        >
+          🔮 Predictions
+        </button>
+        <button
+          className={`tab-button ${activeTab === 'behavioral-trends' ? 'active' : ''}`}
+          onClick={() => setActiveTab('behavioral-trends')}
+        >
+          🧠 Behavioral
         </button>
       </div>
 
@@ -324,15 +340,23 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
                   <h3>Survey Completion Funnel</h3>
                   <ExportButton data={funnelData} type="funnel" filename="funnel-analysis" />
                 </div>
-                {funnelData.length > 0 ? (
-                  <FunnelChartComponent data={funnelData} />
-                ) : (
-                  <EmptyState
-                    icon="📊"
-                    title="No Funnel Data"
-                    message="Not enough data to generate funnel visualization."
-                  />
-                )}
+                {(() => {
+                  console.log('Funnel tab - data check:', {
+                    funnelData,
+                    isArray: Array.isArray(funnelData),
+                    length: funnelData?.length,
+                    firstStage: funnelData?.[0],
+                    surveyId,
+                    filters
+                  });
+                  
+                  // Always show the funnel component - it handles empty data gracefully
+                  return (
+                    <FunnelChartComponent 
+                      data={funnelData && Array.isArray(funnelData) && funnelData.length > 0 ? funnelData : []} 
+                    />
+                  );
+                })()}
               </div>
             </ErrorBoundary>
           </div>
@@ -348,19 +372,25 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
                     Shows when users typically respond to your survey
                   </p>
                 </div>
-                {heatmapData && heatmapData.length > 0 && heatmapData[0] && heatmapData[0].length > 0 ? (
-                  <HeatmapComponent
-                    data={heatmapData}
-                    xLabels={Array.from({ length: 24 }, (_, i) => `${i}:00`)}
-                    yLabels={['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']}
-                  />
-                ) : (
-                  <EmptyState
-                    icon="🗓️"
-                    title="No Heatmap Data"
-                    message="Not enough responses to generate heatmap visualization. Responses will appear here once users start submitting surveys."
-                  />
-                )}
+                {(() => {
+                  console.log('Heatmap tab - data check:', {
+                    heatmapData,
+                    isArray: Array.isArray(heatmapData),
+                    length: heatmapData?.length,
+                    firstRow: heatmapData?.[0],
+                    surveyId,
+                    filters
+                  });
+                  
+                  // Always show the heatmap component - it handles empty data gracefully
+                  return (
+                    <HeatmapComponent
+                      data={heatmapData && Array.isArray(heatmapData) && heatmapData.length > 0 ? heatmapData : []}
+                      xLabels={Array.from({ length: 24 }, (_, i) => `${i}:00`)}
+                      yLabels={['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']}
+                    />
+                  );
+                })()}
               </div>
             </ErrorBoundary>
           </div>
@@ -402,10 +432,10 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
           </div>
         )}
 
-        {activeTab === 'attention' && (
+        {activeTab === 'attention' && surveyId && (
           <div className="analytics-section">
             <ErrorBoundary>
-              <AttentionPanel />
+              <AttentionDashboard surveyId={surveyId} />
             </ErrorBoundary>
           </div>
         )}
@@ -422,6 +452,25 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
           <div className="analytics-section">
             <ErrorBoundary>
               <DataQualityManager surveyId={surveyId} />
+            </ErrorBoundary>
+          </div>
+        )}
+
+        {activeTab === 'predictions' && surveyId && (
+          <div className="analytics-section">
+            <ErrorBoundary>
+              <PredictiveAnalytics surveyId={surveyId} />
+            </ErrorBoundary>
+          </div>
+        )}
+
+        {activeTab === 'behavioral-trends' && surveyId && (
+          <div className="analytics-section">
+            <ErrorBoundary>
+              <BehavioralTrendsPanel 
+                surveyId={surveyId} 
+                dateRange={filters.dateRange}
+              />
             </ErrorBoundary>
           </div>
         )}

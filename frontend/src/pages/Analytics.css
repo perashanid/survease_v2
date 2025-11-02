@@ -165,7 +165,7 @@
 }
 
 .metric-content h3 {
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--color-text-secondary);
   margin: 0;
@@ -183,7 +183,7 @@
 }
 
 .metric-change {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -1379,9 +1379,10 @@ Response Trends Chart Improvements */
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--color-surface-elevated);
   backdrop-filter: blur(2px);
   border-radius: 8px;
+  opacity: 0.95;
 }
 
 .no-data-message {
@@ -1628,21 +1629,21 @@ dvanced Features Showcase */
 
 /* Enhanced Survey Cards */
 .survey-analytics-card {
-  background: white;
+  background: var(--color-surface-elevated);
   border-radius: 12px;
   padding: 24px;
   text-decoration: none;
   color: inherit;
   transition: all 0.3s ease;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--color-border);
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
 .survey-analytics-card:hover {
-  border-color: #667eea;
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.2);
+  border-color: var(--color-primary);
+  box-shadow: 0 8px 24px var(--color-shadow-medium);
   transform: translateY(-4px);
 }
 
@@ -1656,7 +1657,7 @@ dvanced Features Showcase */
 .survey-card-header h4 {
   font-size: 18px;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--color-text-primary);
   margin: 0;
   flex: 1;
 }
@@ -1677,13 +1678,13 @@ dvanced Features Showcase */
 }
 
 .badge.active {
-  background: #d1fae5;
-  color: #065f46;
+  background: var(--color-primary-100);
+  color: var(--color-primary-dark);
 }
 
 .badge.public {
-  background: #dbeafe;
-  color: #1e40af;
+  background: var(--color-info);
+  color: white;
 }
 
 .survey-metrics {
@@ -1691,8 +1692,8 @@ dvanced Features Showcase */
   flex-wrap: wrap;
   gap: 16px;
   padding: 12px 0;
-  border-top: 1px solid #e5e7eb;
-  border-bottom: 1px solid #e5e7eb;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .survey-metrics .metric {
@@ -1700,7 +1701,7 @@ dvanced Features Showcase */
   align-items: center;
   gap: 6px;
   font-size: 14px;
-  color: #6b7280;
+  color: var(--color-text-secondary);
 }
 
 
@@ -1709,14 +1710,14 @@ dvanced Features Showcase */
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #667eea;
+  color: var(--color-primary);
   font-weight: 600;
   font-size: 14px;
   transition: all 0.2s ease;
 }
 
 .survey-analytics-card:hover .view-analytics {
-  color: #764ba2;
+  color: var(--color-primary-dark);
   transform: translateX(4px);
 }
 

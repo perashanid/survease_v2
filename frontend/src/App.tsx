@@ -12,9 +12,13 @@ import PublicSurveys from './pages/PublicSurveys';
 import Analytics from './pages/Analytics';
 import SurveyAnalytics from './pages/SurveyAnalytics';
 import PublicSurveyAnalytics from './pages/PublicSurveyAnalytics';
-import EnhancedSurveyAnalytics from './pages/EnhancedSurveyAnalytics';
+
+import BasicAnalyticsDashboard from './pages/BasicAnalyticsDashboard';
+import EnhancedAnalyticsDashboard from './pages/EnhancedAnalyticsDashboard';
 import AdvancedAnalyticsDashboard from './pages/AdvancedAnalyticsDashboard';
 import ComprehensiveAnalyticsDashboard from './pages/ComprehensiveAnalyticsDashboard';
+import AttentionAnalyticsDashboard from './pages/AttentionAnalyticsDashboard';
+import AnalyticsSelector from './pages/AnalyticsSelector';
 import Contact from './pages/Contact';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import NotFound from './pages/NotFound';
@@ -42,7 +46,7 @@ function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <Router>
+        <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <div className="App">
             <RedirectHandler />
             <Navbar />
@@ -56,9 +60,12 @@ function App() {
                 <Route path="/analytics" element={<Analytics />} />
                 <Route path="/survey/:slug" element={<SurveyResponse />} />
                 <Route path="/survey-analytics/:surveyId" element={<SurveyAnalytics />} />
-                <Route path="/enhanced-analytics/:surveyId" element={<EnhancedSurveyAnalytics />} />
+                <Route path="/basic-analytics/:surveyId" element={<BasicAnalyticsDashboard />} />
+                <Route path="/enhanced-analytics/:surveyId" element={<EnhancedAnalyticsDashboard />} />
                 <Route path="/advanced-analytics/:surveyId" element={<AdvancedAnalyticsDashboard />} />
                 <Route path="/comprehensive-analytics/:surveyId" element={<ComprehensiveAnalyticsDashboard />} />
+                <Route path="/attention-analytics/:surveyId?" element={<AttentionAnalyticsDashboard />} />
+                <Route path="/analytics-selector/:surveyId" element={<AnalyticsSelector />} />
                 <Route path="/public-survey-analytics/:surveyId" element={<PublicSurveyAnalytics />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/privacy" element={<PrivacyPolicy />} />

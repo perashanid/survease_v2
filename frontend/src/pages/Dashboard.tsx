@@ -10,6 +10,7 @@ import {
 } from 'react-icons/fi';
 import Analytics from './Analytics';
 import InvitationManager from '../components/survey/InvitationManager';
+import AttentionPanel from '../components/analytics/AttentionPanel';
 import './Dashboard.css';
 
 const Dashboard: React.FC = () => {
@@ -174,6 +175,17 @@ const Dashboard: React.FC = () => {
           </motion.div>
         </div>
 
+        {/* Attention Panel */}
+        {!loading && surveys.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.4 }}
+          >
+            <AttentionPanel />
+          </motion.div>
+        )}
+
 
 
         {/* Surveys List */}
@@ -268,7 +280,11 @@ const Dashboard: React.FC = () => {
                         <FiBarChart2 /> Analytics
                       </Link>
                       <div className="analytics-dropdown-menu">
-                        <Link to={`/survey-analytics/${survey.id}`} className="dropdown-item">
+                        <Link to={`/analytics-selector/${survey.id}`} className="dropdown-item featured">
+                          🎯 Choose Analytics Experience
+                        </Link>
+                        <div className="dropdown-divider"></div>
+                        <Link to={`/basic-analytics/${survey.id}`} className="dropdown-item">
                           📊 Basic Analytics
                         </Link>
                         <Link to={`/enhanced-analytics/${survey.id}`} className="dropdown-item">
@@ -279,6 +295,9 @@ const Dashboard: React.FC = () => {
                         </Link>
                         <Link to={`/comprehensive-analytics/${survey.id}`} className="dropdown-item">
                           🚀 Comprehensive Dashboard
+                        </Link>
+                        <Link to={`/attention-analytics/${survey.id}`} className="dropdown-item">
+                          🔍 Attention Analytics
                         </Link>
                       </div>
                     </div>

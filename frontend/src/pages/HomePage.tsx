@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { 
   FiCheckCircle, FiUsers, FiBarChart2, FiLock, 
   FiSmartphone, FiDownload, FiArrowRight, FiStar,
-  FiTrendingUp, FiZap, FiGlobe
+  FiTrendingUp, FiZap, FiGlobe, FiAward, FiTarget
 } from 'react-icons/fi';
+import ScrollReveal from '../components/shared/ScrollReveal';
+import { WordByWordAnimation, TypewriterAnimation } from '../utils/WordByWordAnimation';
 import './HomePage.css';
 
 interface PlatformStats {
@@ -25,13 +27,12 @@ const HomePage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   
   const heroRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"]
-  });
+  const [hasAnimated, setHasAnimated] = useState(false);
   
-  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.8]);
+  useEffect(() => {
+    // Prevent re-animation on scroll
+    setHasAnimated(true);
+  }, []);
 
   useEffect(() => {
     fetchStats();
@@ -124,10 +125,7 @@ const HomePage: React.FC = () => {
           <div className="gradient-orb orb-3"></div>
         </div>
         
-        <motion.div 
-          className="container"
-          style={{ opacity, scale }}
-        >
+        <div className="container">
           <div className="hero-content">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -135,8 +133,7 @@ const HomePage: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
             >
               <h1 className="hero-title">
-                <TypewriterText text="Create Powerful Surveys in " />
-                <span className="gradient-text">Minutes</span>
+                Create Powerful Surveys in Minutes
               </h1>
             </motion.div>
             
@@ -181,7 +178,7 @@ const HomePage: React.FC = () => {
               )}
             </motion.div>
           </div>
-        </motion.div>
+        </div>
       </section>
 
       <section className="stats">
@@ -208,9 +205,11 @@ const HomePage: React.FC = () => {
 
       <section className="features">
         <div className="container">
-          <h2 className="section-title">
-            Why Choose Our Platform?
-          </h2>
+          <ScrollReveal direction="up" delay={0.1}>
+            <h2 className="section-title">
+              Why Choose Our Platform?
+            </h2>
+          </ScrollReveal>
           <div className="features-grid">
             {features.map((feature, index) => (
               <FeatureCard key={index} {...feature} delay={index * 0.08} />
@@ -221,9 +220,11 @@ const HomePage: React.FC = () => {
 
       <section className="testimonials">
         <div className="container">
-          <h2 className="section-title">
-            What Our Users Say
-          </h2>
+          <ScrollReveal direction="up" delay={0.1}>
+            <h2 className="section-title">
+              What Our Users Say
+            </h2>
+          </ScrollReveal>
           <div className="testimonials-grid">
             {testimonials.map((testimonial, index) => (
               <TestimonialCard key={index} {...testimonial} delay={index * 0.1} />
@@ -235,55 +236,38 @@ const HomePage: React.FC = () => {
       <section className="cta-section">
         <div className="container">
           <div className="cta-content">
-            <div className="cta-text">
-              <h2>Ready to Create Your First Survey?</h2>
-              <p>Join thousands of users who trust our platform for their survey needs. Start collecting valuable insights today.</p>
-            </div>
-            <div className="cta-actions">
-              {isAuthenticated ? (
-                <Link to="/create" className="btn btn-primary btn-lg">
-                  <span>Create Survey Now</span>
-                  <FiArrowRight />
-                </Link>
-              ) : (
-                <>
-                  <Link to="/surveys" className="btn btn-primary btn-lg">
-                    <span>Get Started Free</span>
+            <ScrollReveal direction="up" delay={0.1}>
+              <div className="cta-text">
+                <h2>Ready to Create Your First Survey?</h2>
+                <p>Join thousands of users who trust our platform for their survey needs. Start collecting valuable insights today.</p>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal direction="up" delay={0.3}>
+              <div className="cta-actions">
+                {isAuthenticated ? (
+                  <Link to="/create" className="btn btn-primary btn-lg">
+                    <span>Create Survey Now</span>
                     <FiArrowRight />
                   </Link>
-                  <Link to="/surveys" className="btn btn-outline btn-lg">
-                    <FiCheckCircle />
-                    <span>View Examples</span>
-                  </Link>
-                </>
-              )}
-            </div>
+                ) : (
+                  <>
+                    <Link to="/surveys" className="btn btn-primary btn-lg">
+                      <span>Get Started Free</span>
+                      <FiArrowRight />
+                    </Link>
+                    <Link to="/surveys" className="btn btn-outline btn-lg">
+                      <FiCheckCircle />
+                      <span>View Examples</span>
+                    </Link>
+                  </>
+                )}
+              </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
     </div>
   );
-};
-
-// Typewriter effect component
-const TypewriterText: React.FC<{ text: string }> = ({ text }) => {
-  const [displayText, setDisplayText] = useState('');
-  
-  useEffect(() => {
-    let index = 0;
-    const timer = setInterval(() => {
-      if (index <= text.length) {
-        setDisplayText(text.slice(0, index));
-        index++;
-      } else {
-        clearInterval(timer);
-      }
-    }, 50);
-    
-    return () => clearInterval(timer);
-  }, [text]);
-  
-  return <>{displayText}</>;
 };
 
 // Stat card component
