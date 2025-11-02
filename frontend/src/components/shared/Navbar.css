@@ -71,6 +71,9 @@
   border-radius: 12px;
   position: relative;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .navbar-link::before {
@@ -95,9 +98,19 @@
   opacity: 1;
 }
 
-.navbar-link span {
+.navbar-link span,
+.navbar-link .nav-icon {
   position: relative;
   z-index: 1;
+}
+
+.nav-icon {
+  font-size: 18px;
+  transition: transform 0.3s ease;
+}
+
+.navbar-link:hover .nav-icon {
+  transform: scale(1.1);
 }
 
 .navbar-auth {

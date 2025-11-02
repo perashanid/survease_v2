@@ -1,5 +1,10 @@
-/* Import animations */
+/* Import animations and global enhancements */
 @import './utils/animations.css';
+@import './styles/global-enhancements.css';
+@import './styles/consistent-colors.css';
+@import './styles/modern-animations.css';
+@import './styles/parallax-effects.css';
+@import './styles/page-transitions.css';
 
 /* Theme Variables */
 :root {

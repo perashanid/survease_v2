@@ -3,7 +3,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import AuthModal from '../auth/AuthModal';
-import { FiSun, FiMoon, FiMonitor } from 'react-icons/fi';
+import { 
+  FiSun, 
+  FiMoon, 
+  FiMonitor, 
+  FiHome, 
+  FiList, 
+  FiGrid, 
+  FiPlusCircle, 
+  FiBarChart2, 
+  FiMail, 
+  FiShield 
+} from 'react-icons/fi';
 import './Navbar.css';
 
 const Navbar: React.FC = () => {
@@ -67,19 +78,40 @@ const Navbar: React.FC = () => {
           
           <div className="navbar-menu">
             <div className="navbar-nav">
-              <Link to="/" className="navbar-link"><span>Home</span></Link>
-              <Link to="/surveys" className="navbar-link"><span>Public Surveys</span></Link>
+              <Link to="/" className="navbar-link">
+                <FiHome className="nav-icon" />
+                <span>Home</span>
+              </Link>
+              <Link to="/surveys" className="navbar-link">
+                <FiList className="nav-icon" />
+                <span>Public Surveys</span>
+              </Link>
               
               {isAuthenticated && (
                 <>
-                  <Link to="/dashboard" className="navbar-link"><span>Dashboard</span></Link>
-                  <Link to="/create" className="navbar-link"><span>Create Survey</span></Link>
-                  <Link to="/analytics" className="navbar-link"><span>Analytics</span></Link>
+                  <Link to="/dashboard" className="navbar-link">
+                    <FiGrid className="nav-icon" />
+                    <span>Dashboard</span>
+                  </Link>
+                  <Link to="/create" className="navbar-link">
+                    <FiPlusCircle className="nav-icon" />
+                    <span>Create Survey</span>
+                  </Link>
+                  <Link to="/analytics" className="navbar-link">
+                    <FiBarChart2 className="nav-icon" />
+                    <span>Analytics</span>
+                  </Link>
                 </>
               )}
               
-              <Link to="/contact" className="navbar-link"><span>Contact</span></Link>
-              <Link to="/privacy" className="navbar-link"><span>Privacy</span></Link>
+              <Link to="/contact" className="navbar-link">
+                <FiMail className="nav-icon" />
+                <span>Contact</span>
+              </Link>
+              <Link to="/privacy" className="navbar-link">
+                <FiShield className="nav-icon" />
+                <span>Privacy</span>
+              </Link>
             </div>
             
             <div className="navbar-actions">

@@ -62,11 +62,12 @@
   font-size: 20px;
   color: var(--color-text-muted);
   pointer-events: none;
+  z-index: 1;
 }
 
 .search-input {
   width: 100%;
-  padding: 16px 50px 16px 52px;
+  padding: 16px 50px 16px 56px !important;
   border: 2px solid var(--color-border);
   border-radius: 50px;
   font-size: 16px;

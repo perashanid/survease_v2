@@ -137,32 +137,37 @@
 }
 
 .password-toggle {
-  position: absolute;
-  right: 12px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  position: absolute !important;
+  right: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-border) !important;
   cursor: pointer;
-  font-size: 11px;
-  color: var(--color-primary);
-  padding: 6px 10px;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  min-width: 50px;
-  height: 28px;
-  z-index: 10;
+  font-size: 11px !important;
+  color: var(--color-primary) !important;
+  padding: 6px 10px !important;
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  min-width: 50px !important;
+  height: 28px !important;
+  z-index: 10 !important;
+  font-family: inherit !important;
+  overflow: visible !important;
 }
 
 .password-toggle:hover {
-  background: var(--color-primary-50);
-  color: var(--color-primary-dark);
-  border-color: var(--color-primary);
-  transform: scale(1.05);
+  background: var(--color-primary-50) !important;
+  color: var(--color-primary-dark) !important;
+  border-color: var(--color-primary) !important;
+  transform: translateY(-50%) scale(1.05) !important;
+  box-shadow: none !important;
 }
 
 .password-toggle:focus {
@@ -171,16 +176,55 @@
 }
 
 .password-toggle:active {
-  transform: scale(0.95);
+  transform: translateY(-50%) scale(0.95) !important;
 }
 
 /* Ensure the toggle button is always visible and clickable */
 .password-toggle {
-  pointer-events: auto;
+  pointer-events: auto !important;
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+}
+
+/* Override global button styles specifically for password toggle */
+.password-input-container .password-toggle {
+  position: absolute !important;
+  right: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: auto !important;
+  height: 28px !important;
+  min-width: 50px !important;
+  padding: 6px 10px !important;
+  margin: 0 !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-border) !important;
+  color: var(--color-primary) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  z-index: 10 !important;
+}
+
+.password-input-container .password-toggle::before {
+  display: none !important;
+}
+
+.password-input-container .password-toggle:hover {
+  background: var(--color-primary-50) !important;
+  color: var(--color-primary-dark) !important;
+  border-color: var(--color-primary) !important;
+  transform: translateY(-50%) scale(1.05) !important;
+  box-shadow: none !important;
+}
+
+.password-input-container .password-toggle:hover::before {
+  display: none !important;
 }
 
 /* Make sure the button stands out in both light and dark modes */

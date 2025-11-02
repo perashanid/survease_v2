@@ -1,6 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaTwitter, FaLinkedin, FaGithub } from 'react-icons/fa';
+import { 
+  FiTwitter, 
+  FiLinkedin, 
+  FiGithub, 
+  FiMail, 
+  FiHeart 
+} from 'react-icons/fi';
 import './Footer.css';
 
 const Footer: React.FC = () => {
@@ -18,13 +24,16 @@ const Footer: React.FC = () => {
             </p>
             <div className="footer-social">
               <a href="https://twitter.com/surveyplatform" className="social-link" aria-label="Twitter" target="_blank" rel="noopener noreferrer">
-                <FaTwitter />
+                <FiTwitter />
               </a>
               <a href="https://linkedin.com/company/surveyplatform" className="social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
-                <FaLinkedin />
+                <FiLinkedin />
               </a>
               <a href="https://github.com/surveyplatform" className="social-link" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
-                <FaGithub />
+                <FiGithub />
+              </a>
+              <a href="mailto:support@surveyplatform.com" className="social-link" aria-label="Email" target="_blank" rel="noopener noreferrer">
+                <FiMail />
               </a>
             </div>
           </div>
@@ -77,7 +86,7 @@ const Footer: React.FC = () => {
         <div className="footer-bottom">
           <div className="footer-bottom-content">
             <p className="footer-copyright">
-              © {currentYear} Survey Platform. All rights reserved.
+              © {currentYear} Survey Platform. Made with <FiHeart className="heart-icon" /> for better insights.
             </p>
             <div className="footer-bottom-links">
               <Link to="/privacy">Privacy</Link>
