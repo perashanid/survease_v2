@@ -1,0 +1,341 @@
+.attention-dashboard {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-header {
+  margin-bottom: 2rem;
+}
+
+.dashboard-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.survey-title {
+  font-size: 1.125rem;
+  color: var(--color-text-secondary);
+}
+
+/* Loading & Error States */
+.attention-dashboard.loading,
+.attention-dashboard.error,
+.attention-dashboard.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.retry-button {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.retry-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 222, 128, 0.3);
+}
+
+/* Attention Score Section */
+.attention-score-section {
+  margin-bottom: 3rem;
+}
+
+.score-card {
+  background: var(--color-surface);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 1px 3px var(--color-shadow-light);
+  text-align: center;
+  border: 1px solid var(--color-border);
+}
+
+.score-card h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 1.5rem;
+}
+
+.score-gauge {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.score-value {
+  background: var(--color-background);
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.score-number {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.score-label {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+}
+
+.score-description {
+  font-size: 1.125rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+/* Issues Section */
+.issues-section {
+  margin-bottom: 3rem;
+}
+
+.issues-section h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 1.5rem;
+}
+
+.no-issues {
+  background: var(--color-success-light, #f0fdf4);
+  border: 2px solid var(--color-success, #10b981);
+  border-radius: 0.75rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+[data-theme="dark"] .no-issues {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: var(--color-success, #10b981);
+}
+
+.success-icon {
+  font-size: 3rem;
+  color: var(--color-success, #10b981);
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.issues-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.issue-card {
+  background: var(--color-surface);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px var(--color-shadow-light);
+  border-left: 4px solid var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.issue-card[data-severity="high"] {
+  border-left-color: #ef4444;
+  background: var(--color-error-light, #fef2f2);
+}
+
+.issue-card[data-severity="medium"] {
+  border-left-color: #f59e0b;
+  background: var(--color-warning-light, #fffbeb);
+}
+
+.issue-card[data-severity="low"] {
+  border-left-color: #10b981;
+  background: var(--color-success-light, #f0fdf4);
+}
+
+[data-theme="dark"] .issue-card[data-severity="high"] {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+[data-theme="dark"] .issue-card[data-severity="medium"] {
+  background: rgba(245, 158, 11, 0.1);
+}
+
+[data-theme="dark"] .issue-card[data-severity="low"] {
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.issue-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.severity-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.375rem;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.issue-type {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  text-transform: capitalize;
+}
+
+.issue-description {
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+.issue-affected {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+/* Recommendations Section */
+.recommendations-section {
+  margin-bottom: 3rem;
+}
+
+.recommendations-section h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 1.5rem;
+}
+
+.no-recommendations {
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+.recommendations-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.recommendation-card {
+  background: var(--color-surface);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px var(--color-shadow-light);
+  border: 1px solid var(--color-border);
+  display: flex;
+  gap: 1rem;
+  align-items: start;
+}
+
+.recommendation-number {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  background: var(--gradient-primary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.recommendation-text {
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  flex: 1;
+}
+
+/* Actions Section */
+.actions-section {
+  display: flex;
+  justify-content: center;
+}
+
+.refresh-button {
+  padding: 0.75rem 1.5rem;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+}
+
+.refresh-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 222, 128, 0.3);
+}
+
+.refresh-icon {
+  font-size: 1.25rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .attention-dashboard {
+    padding: 1rem;
+  }
+
+  .dashboard-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .score-gauge {
+    width: 150px;
+    height: 150px;
+  }
+
+  .score-value {
+    width: 120px;
+    height: 120px;
+  }
+
+  .score-number {
+    font-size: 2rem;
+  }
+}
