@@ -1,6 +1,6 @@
 .ai-insights-dashboard {
   padding: 20px;
-  background: #f8f9fa;
+  background: var(--color-background);
   min-height: 100vh;
 }
 
@@ -9,28 +9,29 @@
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 30px;
-  background: white;
+  background: var(--color-surface-elevated);
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px var(--color-shadow-light);
+  border: 1px solid var(--color-border);
 }
 
 .header-content h2 {
   margin: 0 0 10px 0;
   font-size: 28px;
-  color: #2c3e50;
+  color: var(--color-text-primary);
 }
 
 .header-meta {
   display: flex;
   gap: 20px;
   font-size: 14px;
-  color: #7f8c8d;
+  color: var(--color-text-secondary);
 }
 
 .regenerate-button {
   padding: 10px 20px;
-  background: #3498db;
+  background: var(--gradient-primary);
   color: white;
   border: none;
   border-radius: 8px;
@@ -38,12 +39,12 @@
   font-size: 14px;
   font-weight: 500;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(74, 222, 128, 0.3);
 }
 
 .regenerate-button:hover:not(:disabled) {
-  background: #2980b9;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+  box-shadow: 0 8px 20px rgba(74, 222, 128, 0.4);
 }
 
 .regenerate-button:disabled {
@@ -52,21 +53,21 @@
 }
 
 .error-banner {
-  background: #fee;
-  border: 1px solid #fcc;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--color-error);
   padding: 12px 16px;
   border-radius: 8px;
   margin-bottom: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #c33;
+  color: var(--color-error);
 }
 
 .error-banner button {
   background: none;
   border: none;
-  color: #c33;
+  color: var(--color-error);
   cursor: pointer;
   font-size: 18px;
   padding: 0 8px;
@@ -76,10 +77,11 @@
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
-  background: white;
+  background: var(--color-surface-elevated);
   padding: 10px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px var(--color-shadow-light);
+  border: 1px solid var(--color-border);
 }
 
 .insights-tabs .tab {
@@ -91,25 +93,27 @@
   cursor: pointer;
   font-size: 15px;
   font-weight: 500;
-  color: #7f8c8d;
+  color: var(--color-text-secondary);
   transition: all 0.3s ease;
 }
 
 .insights-tabs .tab:hover {
-  background: #ecf0f1;
-  color: #2c3e50;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
 }
 
 .insights-tabs .tab.active {
-  background: #3498db;
+  background: var(--gradient-primary);
   color: white;
+  box-shadow: 0 4px 12px rgba(74, 222, 128, 0.3);
 }
 
 .insights-content {
-  background: white;
+  background: var(--color-surface-elevated);
   padding: 30px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px var(--color-shadow-light);
+  border: 1px solid var(--color-border);
 }
 
 .statistics-cards {
@@ -120,11 +124,12 @@
 }
 
 .stat-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gradient-primary);
   padding: 20px;
   border-radius: 12px;
   color: white;
   text-align: center;
+  box-shadow: 0 4px 16px rgba(74, 222, 128, 0.3);
 }
 
 .stat-label {
@@ -148,15 +153,15 @@
 .key-findings-section h3,
 .question-insights-section h3 {
   font-size: 20px;
-  color: #2c3e50;
+  color: var(--color-text-primary);
   margin-bottom: 15px;
   padding-bottom: 10px;
-  border-bottom: 2px solid #ecf0f1;
+  border-bottom: 2px solid var(--color-border);
 }
 
 .overview-text {
   line-height: 1.8;
-  color: #34495e;
+  color: var(--color-text-secondary);
   font-size: 16px;
 }
 
@@ -168,10 +173,10 @@
 .findings-list li {
   padding: 12px 16px;
   margin-bottom: 10px;
-  background: #f8f9fa;
-  border-left: 4px solid #3498db;
+  background: var(--color-surface);
+  border-left: 4px solid var(--color-primary);
   border-radius: 4px;
-  color: #2c3e50;
+  color: var(--color-text-primary);
 }
 
 .question-insights-grid {
@@ -181,21 +186,21 @@
 }
 
 .question-insight-card {
-  background: #f8f9fa;
+  background: var(--color-surface);
   padding: 20px;
   border-radius: 8px;
-  border: 1px solid #ecf0f1;
+  border: 1px solid var(--color-border);
 }
 
 .question-insight-card h4 {
   font-size: 16px;
-  color: #2c3e50;
+  color: var(--color-text-primary);
   margin-bottom: 10px;
 }
 
 .question-insight-card p {
   font-size: 14px;
-  color: #7f8c8d;
+  color: var(--color-text-secondary);
   line-height: 1.6;
 }
 
@@ -206,10 +211,10 @@
 }
 
 .pattern-card {
-  background: #f8f9fa;
+  background: var(--color-surface);
   padding: 24px;
   border-radius: 12px;
-  border: 1px solid #ecf0f1;
+  border: 1px solid var(--color-border);
 }
 
 .pattern-header {
@@ -222,52 +227,56 @@
 .pattern-type-badge {
   display: inline-block;
   padding: 6px 12px;
-  background: #3498db;
+  background: var(--gradient-primary);
   color: white;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
+  box-shadow: 0 2px 8px rgba(74, 222, 128, 0.3);
 }
 
 .pattern-description {
   font-size: 16px;
-  color: #2c3e50;
+  color: var(--color-text-primary);
   line-height: 1.6;
   margin-bottom: 15px;
 }
 
 .pattern-stats {
   font-size: 14px;
-  color: #7f8c8d;
+  color: var(--color-text-secondary);
 }
 
 .ai-insights-empty,
 .ai-insights-error {
   text-align: center;
   padding: 60px 20px;
-  background: white;
+  background: var(--color-surface-elevated);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px var(--color-shadow-light);
+  border: 1px solid var(--color-border);
 }
 
 .empty-icon,
 .error-icon {
   font-size: 64px;
   margin-bottom: 20px;
+  color: var(--color-primary);
+  opacity: 0.5;
 }
 
 .ai-insights-empty h3,
 .ai-insights-error h3 {
   font-size: 24px;
-  color: #2c3e50;
+  color: var(--color-text-primary);
   margin-bottom: 10px;
 }
 
 .ai-insights-empty p,
 .ai-insights-error p {
   font-size: 16px;
-  color: #7f8c8d;
+  color: var(--color-text-secondary);
   margin-bottom: 30px;
   max-width: 500px;
   margin-left: auto;
@@ -277,7 +286,7 @@
 .generate-button,
 .retry-button {
   padding: 14px 32px;
-  background: #3498db;
+  background: var(--gradient-primary);
   color: white;
   border: none;
   border-radius: 8px;
@@ -285,13 +294,13 @@
   font-size: 16px;
   font-weight: 600;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(74, 222, 128, 0.3);
 }
 
 .generate-button:hover:not(:disabled),
 .retry-button:hover {
-  background: #2980b9;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+  box-shadow: 0 8px 20px rgba(74, 222, 128, 0.4);
 }
 
 .generate-button:disabled {
@@ -302,7 +311,7 @@
 .empty-state {
   text-align: center;
   padding: 40px;
-  color: #7f8c8d;
+  color: var(--color-text-secondary);
 }
 
 @media (max-width: 768px) {

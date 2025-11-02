@@ -1,8 +1,9 @@
 .segment-comparison {
-  background: white;
+  background: var(--color-surface);
   border-radius: 8px;
   padding: 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px var(--color-shadow-light);
+  border: 1px solid var(--color-border);
 }
 
 .segment-comparison-header {
@@ -12,8 +13,14 @@
 .segment-comparison-title {
   font-size: 18px;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--color-text-primary);
   margin-bottom: 12px;
+}
+
+.segment-comparison-subtitle {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin-bottom: 16px;
 }
 
 .segment-selector {
@@ -34,6 +41,7 @@
   cursor: pointer;
   transition: all 0.2s;
   border: 2px solid transparent;
+  background: var(--color-surface-elevated);
 }
 
 .segment-chip.selected {
@@ -60,7 +68,7 @@
 
 .comparison-limit-note {
   font-size: 12px;
-  color: #6b7280;
+  color: var(--color-text-secondary);
   margin-top: 8px;
 }
 
@@ -74,23 +82,23 @@
 .comparison-table td {
   padding: 12px;
   text-align: left;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .comparison-table th {
-  background: #f9fafb;
+  background: var(--color-background);
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text-secondary);
   font-size: 13px;
 }
 
 .comparison-table td {
   font-size: 14px;
-  color: #1f2937;
+  color: var(--color-text-primary);
 }
 
 .comparison-table tr:hover {
-  background: #f9fafb;
+  background: var(--color-background);
 }
 
 .metric-cell {
@@ -111,7 +119,7 @@
 .comparison-empty {
   text-align: center;
   padding: 60px 20px;
-  color: #9ca3af;
+  color: var(--color-text-muted);
 }
 
 .comparison-empty-icon {
@@ -122,5 +130,5 @@
 .comparison-loading {
   text-align: center;
   padding: 40px;
-  color: #6b7280;
+  color: var(--color-text-muted);
 }

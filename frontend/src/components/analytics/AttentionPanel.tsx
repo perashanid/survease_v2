@@ -1,56 +1,60 @@
-import React, { useState, useEffect } from 'react';
-import analyticsService, { SurveyAttentionItem } from '../../services/analyticsService';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import attentionService, { SurveyNeedingAttention } from '../../services/attentionService';
+import { FiAlertTriangle, FiCheckCircle, FiRefreshCw } from 'react-icons/fi';
 import './AttentionPanel.css';
 
 const AttentionPanel: React.FC = () => {
-  const [surveys, setSurveys] = useState<SurveyAttentionItem[]>([]);
+  const [surveys, setSurveys] = useState<SurveyNeedingAttention[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchAttentionData();
+    fetchSurveysNeedingAttention();
   }, []);
 
-  const fetchAttentionData = async () => {
+  const fetchSurveysNeedingAttention = async () => {
     try {
       setLoading(true);
-      const data = await analyticsService.getSurveysNeedingAttention(30);
-      setSurveys(data.surveys || []);
+      setError(null);
+      const data = await attentionService.getSurveysNeedingAttention(30);
+      setSurveys(data);
     } catch (err: any) {
-      console.error('Error fetching attention data:', err);
-      setError('Failed to load attention data');
+      console.error('Error fetching surveys needing attention:', err);
+      setError(err.response?.data?.error || 'Failed to load attention data');
     } finally {
       setLoading(false);
     }
   };
 
-  const getSeverityClass = (score: number): 'high' | 'medium' | 'low' => {
-    if (score >= 60) return 'high';
-    if (score >= 30) return 'medium';
-    return 'low';
+  const getScoreColor = (score: number): string => {
+    if (score >= 70) return '#ef4444'; // red - high attention needed
+    if (score >= 40) return '#f59e0b'; // yellow - medium attention
+    return '#10b981'; // green - low attention
   };
 
   if (loading) {
     return (
-      <div className="attention-panel">
-        <div className="attention-header">
-          <div className="attention-title">Surveys Needing Attention</div>
+      <div className="attention-panel loading">
+        <div className="panel-header">
+          <h3><FiAlertTriangle /> Surveys Needing Attention</h3>
         </div>
-        <div style={{ textAlign: 'center', padding: '20px', color: '#9ca3af' }}>
-          Loading...
-        </div>
+        <div className="loading-spinner"></div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="attention-panel">
-        <div className="attention-header">
-          <div className="attention-title">Surveys Needing Attention</div>
+      <div className="attention-panel error">
+        <div className="panel-header">
+          <h3><FiAlertTriangle /> Surveys Needing Attention</h3>
         </div>
-        <div style={{ textAlign: 'center', padding: '20px', color: '#ef4444' }}>
-          {error}
+        <div className="error-message">
+          <p>{error}</p>
+          <button onClick={fetchSurveysNeedingAttention} className="retry-btn">
+            <FiRefreshCw /> Retry
+          </button>
         </div>
       </div>
     );
@@ -58,13 +62,12 @@ const AttentionPanel: React.FC = () => {
 
   if (surveys.length === 0) {
     return (
-      <div className="attention-panel">
-        <div className="attention-header">
-          <div className="attention-icon low">✓</div>
-          <div className="attention-title">All Surveys Performing Well</div>
+      <div className="attention-panel empty">
+        <div className="panel-header">
+          <h3><FiCheckCircle /> All Surveys Healthy</h3>
         </div>
-        <div className="attention-empty">
-          <div className="attention-empty-icon">🎉</div>
+        <div className="empty-state">
+          <FiCheckCircle className="success-icon" />
           <p>No surveys need attention right now. Great job!</p>
         </div>
       </div>
@@ -73,50 +76,37 @@ const AttentionPanel: React.FC = () => {
 
   return (
     <div className="attention-panel">
-      <div className="attention-header">
-        <div className={`attention-icon ${getSeverityClass(surveys[0].attentionScore)}`}>
-          ⚠
-        </div>
-        <div className="attention-title">
-          {surveys.length} Survey{surveys.length > 1 ? 's' : ''} Need{surveys.length === 1 ? 's' : ''} Attention
-        </div>
+      <div className="panel-header">
+        <h3><FiAlertTriangle /> Surveys Needing Attention</h3>
+        <button onClick={fetchSurveysNeedingAttention} className="refresh-btn" title="Refresh">
+          <FiRefreshCw />
+        </button>
       </div>
-
       <div className="attention-list">
         {surveys.map((survey) => (
-          <div key={survey.surveyId} className="attention-item">
+          <Link
+            key={survey.surveyId}
+            to={`/comprehensive-analytics/${survey.surveyId}`}
+            className="attention-item"
+          >
             <div className="attention-item-header">
-              <div>
-                <div className="attention-item-title">{survey.title}</div>
+              <h4>{survey.title}</h4>
+              <div
+                className="attention-score"
+                style={{ backgroundColor: getScoreColor(survey.attentionScore) }}
+              >
+                {survey.attentionScore}
               </div>
-              <span className={`attention-score ${getSeverityClass(survey.attentionScore)}`}>
-                Score: {survey.attentionScore}
+            </div>
+            <div className="attention-item-meta">
+              <span className="issue-count">
+                {survey.issueCount} issue{survey.issueCount !== 1 ? 's' : ''} detected
+              </span>
+              <span className="last-updated">
+                Updated {new Date(survey.lastUpdated).toLocaleDateString()}
               </span>
             </div>
-
-            {survey.issues.length > 0 && (
-              <div className="attention-issues">
-                {survey.issues.map((issue, index) => (
-                  <div key={index} className="attention-issue">
-                    <span className="attention-issue-icon">⚠️</span>
-                    <span>{issue.message}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {survey.recommendations.length > 0 && (
-              <div className="attention-recommendations">
-                <div className="attention-recommendations-title">Recommendations:</div>
-                {survey.recommendations.slice(0, 3).map((rec, index) => (
-                  <div key={index} className="attention-recommendation">
-                    <span className="attention-recommendation-icon">💡</span>
-                    <span>{rec}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          </Link>
         ))}
       </div>
     </div>

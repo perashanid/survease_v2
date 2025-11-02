@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import aiService from '../../services/aiService';
 import './DataQualityManager.css';
 
 interface QualityRule {
@@ -25,7 +25,7 @@ interface Props {
 }
 
 const DataQualityManager: React.FC<Props> = ({ surveyId }) => {
-  const [rules, setRules] = useState<QualityRule>({ min_completion_time: 30, total_flagged: 0, total_overridden: 0 });
+  const [rules, setRules] = useState<QualityRule | null>(null);
   const [threshold, setThreshold] = useState(30);
   const [flaggedResponses, setFlaggedResponses] = useState<FlaggedResponse[]>([]);
   const [loading, setLoading] = useState(false);
@@ -43,17 +43,14 @@ const DataQualityManager: React.FC<Props> = ({ surveyId }) => {
 
   const loadQualityRules = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/surveys/${surveyId}/quality/rules`,
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
-      setRules(response.data.rules);
-      setThreshold(response.data.rules.min_completion_time);
+      const rulesData = await aiService.getQualityRules(surveyId);
+      setRules(rulesData);
+      setThreshold(rulesData.min_completion_time);
     } catch (error) {
       console.error('Error loading quality rules:', error);
+      // Set default rules on error
+      setRules({ min_completion_time: 30, total_flagged: 0, total_overridden: 0 });
+      setThreshold(30);
     }
   };
 
@@ -65,16 +62,19 @@ const DataQualityManager: React.FC<Props> = ({ surveyId }) => {
 
     try {
       setSaving(true);
-      const token = localStorage.getItem('token');
-      await axios.put(
-        `${import.meta.env.VITE_API_URL}/api/surveys/${surveyId}/quality/rules`,
-        { min_completion_time: threshold },
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
+      
+      // Update rules (this automatically triggers classification on the backend)
+      const result = await aiService.updateQualityRules(surveyId, { min_completion_time: threshold });
+      
+      // Reload rules to get updated stats
       await loadQualityRules();
-      alert('Quality rules updated successfully!');
+      
+      // Refresh flagged responses if they're being shown
+      if (showFlagged) {
+        await loadFlaggedResponses();
+      }
+      
+      alert(`Quality rules updated! Responses have been re-classified. ${result.total_flagged || 0} responses flagged as low quality.`);
     } catch (error: any) {
       console.error('Error saving quality rules:', error);
       alert(error.response?.data?.error || 'Failed to save quality rules');
@@ -86,17 +86,31 @@ const DataQualityManager: React.FC<Props> = ({ surveyId }) => {
   const loadFlaggedResponses = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('token');
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/surveys/${surveyId}/quality/flagged-responses`,
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
-      setFlaggedResponses(response.data.responses);
+      const responses = await aiService.getFlaggedResponses(surveyId);
+      setFlaggedResponses(responses || []);
       setShowFlagged(true);
     } catch (error) {
       console.error('Error loading flagged responses:', error);
+      setFlaggedResponses([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const manuallyClassify = async () => {
+    try {
+      setLoading(true);
+      const result = await aiService.classifyResponses(surveyId);
+      await loadQualityRules();
+      
+      if (showFlagged) {
+        await loadFlaggedResponses();
+      }
+      
+      alert(`Classification complete! ${result.flagged_count || 0} responses flagged as low quality.`);
+    } catch (error: any) {
+      console.error('Error classifying responses:', error);
+      alert(error.response?.data?.error || 'Failed to classify responses');
     } finally {
       setLoading(false);
     }
@@ -106,16 +120,11 @@ const DataQualityManager: React.FC<Props> = ({ surveyId }) => {
     if (!overrideModal.responseId) return;
 
     try {
-      const token = localStorage.getItem('token');
-      await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/surveys/${surveyId}/quality/override/${overrideModal.responseId}`,
-        {
-          newStatus: 'quality',
-          reason: overrideModal.reason
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+      await aiService.overrideClassification(
+        surveyId,
+        overrideModal.responseId,
+        'quality',
+        overrideModal.reason
       );
       
       setOverrideModal({ show: false, responseId: null, reason: '' });
@@ -148,7 +157,7 @@ const DataQualityManager: React.FC<Props> = ({ surveyId }) => {
               />
               <button 
                 onClick={saveQualityRules} 
-                disabled={saving || threshold === rules.min_completion_time}
+                disabled={saving || !rules || threshold === rules.min_completion_time}
                 className="save-button"
               >
                 {saving ? 'Saving...' : 'Save'}
@@ -162,16 +171,29 @@ const DataQualityManager: React.FC<Props> = ({ surveyId }) => {
           <div className="stats-row">
             <div className="stat-item">
               <span className="stat-label">Current Threshold:</span>
-              <span className="stat-value">{rules.min_completion_time}s</span>
+              <span className="stat-value">{rules?.min_completion_time || 30}s</span>
             </div>
             <div className="stat-item">
               <span className="stat-label">Total Flagged:</span>
-              <span className="stat-value">{rules.total_flagged}</span>
+              <span className="stat-value">{rules?.total_flagged || 0}</span>
             </div>
             <div className="stat-item">
               <span className="stat-label">Manually Overridden:</span>
-              <span className="stat-value">{rules.total_overridden}</span>
+              <span className="stat-value">{rules?.total_overridden || 0}</span>
             </div>
+          </div>
+
+          <div className="classify-action">
+            <button 
+              onClick={manuallyClassify} 
+              disabled={loading}
+              className="classify-button"
+            >
+              {loading ? 'Classifying...' : '🔄 Re-classify All Responses'}
+            </button>
+            <p className="classify-help">
+              Manually trigger classification to flag responses below the current threshold.
+            </p>
           </div>
         </div>
       </div>
@@ -190,7 +212,7 @@ const DataQualityManager: React.FC<Props> = ({ surveyId }) => {
 
         {showFlagged && (
           <div className="flagged-list">
-            {flaggedResponses.length === 0 ? (
+            {!flaggedResponses || flaggedResponses.length === 0 ? (
               <div className="empty-state">
                 <p>No flagged responses found.</p>
               </div>

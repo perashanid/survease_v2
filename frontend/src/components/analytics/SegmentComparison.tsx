@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import analyticsService, { SegmentDefinition } from '../../services/analyticsService';
+import segmentsService, { Segment } from '../../services/segmentsService';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import './SegmentComparison.css';
 
@@ -8,9 +8,9 @@ interface SegmentComparisonProps {
 }
 
 const SegmentComparison: React.FC<SegmentComparisonProps> = ({ surveyId }) => {
-  const [segments, setSegments] = useState<SegmentDefinition[]>([]);
+  const [segments, setSegments] = useState<Segment[]>([]);
   const [selectedSegments, setSelectedSegments] = useState<string[]>([]);
-  const [comparisonData, setComparisonData] = useState<any[]>([]);
+  const [comparisonData, setComparisonData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -21,14 +21,14 @@ const SegmentComparison: React.FC<SegmentComparisonProps> = ({ surveyId }) => {
     if (selectedSegments.length >= 2) {
       fetchComparison();
     } else {
-      setComparisonData([]);
+      setComparisonData(null);
     }
   }, [selectedSegments]);
 
   const fetchSegments = async () => {
     try {
-      const data = await analyticsService.getSegments(surveyId);
-      setSegments(data.segments || []);
+      const data = await segmentsService.getSegments(surveyId);
+      setSegments(data || []);
     } catch (error) {
       console.error('Error fetching segments:', error);
     }
@@ -37,8 +37,8 @@ const SegmentComparison: React.FC<SegmentComparisonProps> = ({ surveyId }) => {
   const fetchComparison = async () => {
     try {
       setLoading(true);
-      const data = await analyticsService.compareSegments(surveyId, selectedSegments);
-      setComparisonData(data.comparison || []);
+      const data = await segmentsService.compareSegments(surveyId, selectedSegments);
+      setComparisonData(data);
     } catch (error) {
       console.error('Error comparing segments:', error);
     } finally {
@@ -59,22 +59,23 @@ const SegmentComparison: React.FC<SegmentComparisonProps> = ({ surveyId }) => {
   };
 
   const getSegmentById = (id: string) => {
-    return segments.find(s => s.id === id);
+    return segments.find(s => s._id === id);
   };
 
   const getBestValue = (metric: string): number => {
-    if (comparisonData.length === 0) return 0;
-    return Math.max(...comparisonData.map(d => d.metrics[metric] || 0));
+    if (!comparisonData || !comparisonData.segments) return 0;
+    return Math.max(...comparisonData.segments.map((d: any) => d.metrics?.[metric] || 0));
   };
 
   const prepareChartData = () => {
+    if (!comparisonData || !comparisonData.segments) return [];
     const metrics = ['responseCount', 'completionRate', 'avgCompletionTime'];
     return metrics.map(metric => {
       const dataPoint: any = { 
         metric: metric.replace(/([A-Z])/g, ' $1').trim()
       };
-      comparisonData.forEach(segment => {
-        dataPoint[segment.segmentName] = segment.metrics[metric] || 0;
+      comparisonData.segments.forEach((segment: any) => {
+        dataPoint[segment.name] = segment.metrics?.[metric] || 0;
       });
       return dataPoint;
     });
@@ -95,23 +96,23 @@ const SegmentComparison: React.FC<SegmentComparisonProps> = ({ surveyId }) => {
     <div className="segment-comparison">
       <div className="segment-comparison-header">
         <h3 className="segment-comparison-title">Compare Segments</h3>
-        <p style={{ fontSize: '14px', color: '#6b7280', marginBottom: '16px' }}>
+        <p className="segment-comparison-subtitle">
           Select 2-5 segments to compare their performance metrics
         </p>
       </div>
 
       <div className="segment-selector">
-        {segments.map((segment) => {
-          const isSelected = selectedSegments.includes(segment.id!);
+        {segments.map((segment, index) => {
+          const isSelected = selectedSegments.includes(segment._id);
           return (
             <div
-              key={segment.id}
+              key={segment._id || `segment-${index}`}
               className={`segment-chip ${isSelected ? 'selected' : ''}`}
               style={{
                 background: isSelected ? segment.color + '20' : '#f3f4f6',
                 color: isSelected ? segment.color : '#6b7280'
               }}
-              onClick={() => toggleSegment(segment.id!)}
+              onClick={() => toggleSegment(segment._id)}
             >
               <div
                 className="segment-chip-color"
@@ -123,7 +124,7 @@ const SegmentComparison: React.FC<SegmentComparisonProps> = ({ surveyId }) => {
                   className="segment-chip-remove"
                   onClick={(e) => {
                     e.stopPropagation();
-                    toggleSegment(segment.id!);
+                    toggleSegment(segment._id);
                   }}
                 >
                   ×
@@ -144,14 +145,14 @@ const SegmentComparison: React.FC<SegmentComparisonProps> = ({ surveyId }) => {
         <div className="comparison-loading">Loading comparison data...</div>
       )}
 
-      {!loading && comparisonData.length >= 2 && (
+      {!loading && comparisonData && Array.isArray(comparisonData) && comparisonData.length >= 2 && (
         <>
           <table className="comparison-table">
             <thead>
               <tr>
                 <th>Metric</th>
-                {comparisonData.map((segment) => (
-                  <th key={segment.segmentId}>
+                {comparisonData.map((segment, index) => (
+                  <th key={segment.segmentId || `segment-header-${index}`}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <div
                         style={{
@@ -170,11 +171,11 @@ const SegmentComparison: React.FC<SegmentComparisonProps> = ({ surveyId }) => {
             <tbody>
               <tr>
                 <td className="metric-cell">Response Count</td>
-                {comparisonData.map((segment) => {
+                {comparisonData.map((segment, index) => {
                   const value = segment.metrics.responseCount;
                   const isBest = value === getBestValue('responseCount');
                   return (
-                    <td key={segment.segmentId} className={isBest ? 'best-value' : ''}>
+                    <td key={segment.segmentId || `response-count-${index}`} className={isBest ? 'best-value' : ''}>
                       {value}
                     </td>
                   );
@@ -182,11 +183,11 @@ const SegmentComparison: React.FC<SegmentComparisonProps> = ({ surveyId }) => {
               </tr>
               <tr>
                 <td className="metric-cell">Completion Rate</td>
-                {comparisonData.map((segment) => {
+                {comparisonData.map((segment, index) => {
                   const value = segment.metrics.completionRate;
                   const isBest = value === getBestValue('completionRate');
                   return (
-                    <td key={segment.segmentId} className={isBest ? 'best-value' : ''}>
+                    <td key={segment.segmentId || `completion-rate-${index}`} className={isBest ? 'best-value' : ''}>
                       {value.toFixed(1)}%
                     </td>
                   );
@@ -194,11 +195,11 @@ const SegmentComparison: React.FC<SegmentComparisonProps> = ({ surveyId }) => {
               </tr>
               <tr>
                 <td className="metric-cell">Avg Completion Time</td>
-                {comparisonData.map((segment) => {
+                {comparisonData.map((segment, index) => {
                   const value = segment.metrics.avgCompletionTime;
                   const isBest = value === Math.min(...comparisonData.map(d => d.metrics.avgCompletionTime || Infinity));
                   return (
-                    <td key={segment.segmentId} className={isBest ? 'best-value' : ''}>
+                    <td key={segment.segmentId || `completion-time-${index}`} className={isBest ? 'best-value' : ''}>
                       {value > 0 ? `${Math.round(value)}s` : 'N/A'}
                     </td>
                   );
@@ -215,9 +216,9 @@ const SegmentComparison: React.FC<SegmentComparisonProps> = ({ surveyId }) => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                {comparisonData.map((segment) => (
+                {comparisonData.map((segment, index) => (
                   <Bar
-                    key={segment.segmentId}
+                    key={segment.segmentId || `bar-${index}`}
                     dataKey={segment.segmentName}
                     fill={getSegmentById(segment.segmentId)?.color || '#3b82f6'}
                   />

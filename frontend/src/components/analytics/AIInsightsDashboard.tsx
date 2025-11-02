@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import aiService from '../../services/aiService';
 import './AIInsightsDashboard.css';
 import PatternVisualization from './PatternVisualization.tsx';
 import RecommendationPanel from './RecommendationPanel.tsx';
@@ -68,17 +68,10 @@ const AIInsightsDashboard: React.FC<Props> = ({ surveyId }) => {
     try {
       setLoading(true);
       setError(null);
-      const token = localStorage.getItem('token');
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/surveys/${surveyId}/insights`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-          params: { limit: 1 }
-        }
-      );
+      const response = await aiService.getInsights(surveyId, 1, 1);
 
-      if (response.data.insights && response.data.insights.length > 0) {
-        const latestInsightId = response.data.insights[0]._id;
+      if (response.insights && response.insights.length > 0) {
+        const latestInsightId = response.insights[0]._id;
         await loadInsightDetails(latestInsightId);
       }
     } catch (err: any) {
@@ -91,14 +84,8 @@ const AIInsightsDashboard: React.FC<Props> = ({ surveyId }) => {
 
   const loadInsightDetails = async (insightId: string) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/surveys/${surveyId}/insights/${insightId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
-      setInsight(response.data.insight);
+      const insight = await aiService.getInsightById(surveyId, insightId);
+      setInsight(insight);
     } catch (err: any) {
       console.error('Error loading insight details:', err);
       setError(err.response?.data?.error || 'Failed to load insight details');
@@ -109,15 +96,11 @@ const AIInsightsDashboard: React.FC<Props> = ({ surveyId }) => {
     try {
       setGenerating(true);
       setError(null);
-      const token = localStorage.getItem('token');
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/surveys/${surveyId}/ai/generate-insights`,
-        { includeQuality: true, includeLowQuality: false },
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
-      setInsight(response.data.insight);
+      const insight = await aiService.generateInsights(surveyId, {
+        includeQuality: true,
+        includeLowQuality: false
+      });
+      setInsight(insight);
       setActiveTab('summary');
     } catch (err: any) {
       console.error('Error generating insights:', err);
@@ -131,15 +114,8 @@ const AIInsightsDashboard: React.FC<Props> = ({ surveyId }) => {
     try {
       setGenerating(true);
       setError(null);
-      const token = localStorage.getItem('token');
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/surveys/${surveyId}/ai/regenerate`,
-        {},
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
-      setInsight(response.data.insight);
+      const insight = await aiService.regenerateInsights(surveyId);
+      setInsight(insight);
       setActiveTab('summary');
     } catch (err: any) {
       console.error('Error regenerating insights:', err);
