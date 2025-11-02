@@ -16,16 +16,16 @@ interface Props {
 const RecommendationPanel: React.FC<Props> = ({ recommendations }) => {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
-  const getPriorityColor = (priority: string): string => {
+  const getPriorityClass = (priority: string): string => {
     switch (priority) {
       case 'high':
-        return '#e74c3c';
+        return 'high';
       case 'medium':
-        return '#f39c12';
+        return 'medium';
       case 'low':
-        return '#3498db';
+        return 'low';
       default:
-        return '#95a5a6';
+        return 'low';
     }
   };
 
@@ -66,8 +66,7 @@ const RecommendationPanel: React.FC<Props> = ({ recommendations }) => {
             </div>
             <div className="header-right">
               <span 
-                className="priority-badge"
-                style={{ backgroundColor: getPriorityColor(rec.priority) }}
+                className={`priority-badge ${getPriorityClass(rec.priority)}`}
               >
                 {rec.priority.toUpperCase()}
               </span>

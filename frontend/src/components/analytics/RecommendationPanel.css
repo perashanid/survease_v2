@@ -5,15 +5,15 @@
 }
 
 .recommendation-card {
-  background: #f8f9fa;
+  background: var(--color-surface-elevated);
   border-radius: 12px;
   padding: 20px;
-  border: 1px solid #ecf0f1;
+  border: 1px solid var(--color-border);
   transition: all 0.3s ease;
 }
 
 .recommendation-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px var(--color-shadow-medium);
 }
 
 .recommendation-header {
@@ -38,7 +38,7 @@
 .recommendation-header h3 {
   margin: 0;
   font-size: 18px;
-  color: #2c3e50;
+  color: var(--color-text-primary);
 }
 
 .header-right {
@@ -56,10 +56,22 @@
   letter-spacing: 0.5px;
 }
 
+.priority-badge.high {
+  background: var(--color-error);
+}
+
+.priority-badge.medium {
+  background: var(--color-warning);
+}
+
+.priority-badge.low {
+  background: var(--color-info);
+}
+
 .expand-button {
   background: none;
   border: none;
-  color: #7f8c8d;
+  color: var(--color-text-muted);
   cursor: pointer;
   font-size: 16px;
   padding: 4px 8px;
@@ -67,12 +79,12 @@
 }
 
 .expand-button:hover {
-  color: #2c3e50;
+  color: var(--color-text-primary);
 }
 
 .recommendation-description {
   font-size: 15px;
-  color: #34495e;
+  color: var(--color-text-secondary);
   line-height: 1.6;
   margin: 0;
 }
@@ -80,7 +92,7 @@
 .recommendation-details {
   margin-top: 20px;
   padding-top: 20px;
-  border-top: 1px solid #ecf0f1;
+  border-top: 1px solid var(--color-border);
 }
 
 .reasoning-section,
@@ -91,14 +103,14 @@
 .reasoning-section h4,
 .actions-section h4 {
   font-size: 14px;
-  color: #2c3e50;
+  color: var(--color-text-primary);
   margin-bottom: 10px;
   font-weight: 600;
 }
 
 .reasoning-section p {
   font-size: 14px;
-  color: #7f8c8d;
+  color: var(--color-text-muted);
   line-height: 1.6;
   margin: 0;
 }
@@ -112,11 +124,11 @@
 .actions-list li {
   padding: 10px 12px;
   margin-bottom: 8px;
-  background: white;
-  border-left: 3px solid #3498db;
+  background: var(--color-surface);
+  border-left: 3px solid var(--color-primary);
   border-radius: 4px;
   font-size: 14px;
-  color: #2c3e50;
+  color: var(--color-text-primary);
 }
 
 .actions-list li:last-child {

@@ -174,8 +174,8 @@ const SegmentBuilder: React.FC<SegmentBuilderProps> = ({
         <div className="saved-segments">
           <h4 className="saved-segments-title">Saved Segments ({segments.length})</h4>
           <div className="segment-list">
-            {segments.map((segment) => (
-              <div key={segment.id} className="segment-item">
+            {segments.map((segment, index) => (
+              <div key={segment.id || `segment-${index}`} className="segment-item">
                 <div className="segment-item-info">
                   <div
                     className="segment-color-badge"

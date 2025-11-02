@@ -18,8 +18,21 @@ const FunnelChartComponent: React.FC<FunnelChartProps> = ({
   data,
   highlightDropoffThreshold = 20
 }) => {
+  console.log('FunnelChartComponent received data:', {
+    dataType: typeof data,
+    isArray: Array.isArray(data),
+    length: data?.length,
+    firstStage: data?.[0]
+  });
+
   if (!data || data.length === 0) {
-    return <div className="funnel-empty">No funnel data available</div>;
+    return (
+      <div className="funnel-container" style={{ padding: '40px', textAlign: 'center', color: '#6b7280' }}>
+        <div style={{ fontSize: '48px', marginBottom: '16px' }}>📊</div>
+        <p style={{ fontSize: '16px', fontWeight: '500', marginBottom: '8px' }}>No funnel data available</p>
+        <p style={{ fontSize: '14px' }}>Survey completion funnel will appear here once you have responses.</p>
+      </div>
+    );
   }
 
   const maxCount = data[0]?.completionCount || 1;
@@ -28,7 +41,7 @@ const FunnelChartComponent: React.FC<FunnelChartProps> = ({
     <div className="funnel-container">
       {data.map((stage, index) => {
         const width = (stage.completionCount / maxCount) * 100;
-        const isHighDropoff = stage.dropoffRate > highlightDropoffThreshold;
+        const isHighDropoff = (stage.dropoffRate || 0) > highlightDropoffThreshold;
 
         return (
           <div key={stage.questionId} className="funnel-stage">
@@ -43,14 +56,14 @@ const FunnelChartComponent: React.FC<FunnelChartProps> = ({
                 style={{ width: `${width}%` }}
               >
                 <span className="funnel-bar-label">
-                  {stage.completionCount} ({stage.completionRate.toFixed(1)}%)
+                  {stage.completionCount} ({(stage.completionRate || 0).toFixed(1)}%)
                 </span>
               </div>
             </div>
 
-            {index < data.length - 1 && stage.dropoffRate > 0 && (
+            {index < data.length - 1 && (stage.dropoffRate || 0) > 0 && (
               <div className={`funnel-dropoff ${isHighDropoff ? 'high' : ''}`}>
-                ↓ {stage.dropoffRate.toFixed(1)}% drop-off
+                ↓ {(stage.dropoffRate || 0).toFixed(1)}% drop-off
               </div>
             )}
           </div>

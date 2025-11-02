@@ -1,8 +1,9 @@
 .filter-panel {
-  background: white;
+  background: var(--color-surface);
   border-radius: 8px;
   padding: 20px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px var(--color-shadow-light);
+  border: 1px solid var(--color-border);
   margin-bottom: 20px;
 }
 
@@ -16,23 +17,23 @@
 .filter-panel-title {
   font-size: 16px;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--color-text-primary);
 }
 
 .filter-reset-btn {
   padding: 6px 12px;
-  background: #f3f4f6;
-  border: none;
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
   border-radius: 6px;
   font-size: 13px;
-  color: #6b7280;
+  color: var(--color-text-secondary);
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .filter-reset-btn:hover {
-  background: #e5e7eb;
-  color: #374151;
+  background: var(--color-border);
+  color: var(--color-text-primary);
 }
 
 .filter-grid {
@@ -50,22 +51,25 @@
 .filter-label {
   font-size: 13px;
   font-weight: 500;
-  color: #374151;
+  color: var(--color-text-primary);
 }
 
 .filter-input,
 .filter-select {
   padding: 8px 12px;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--color-border);
   border-radius: 6px;
   font-size: 14px;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
   transition: border-color 0.2s;
 }
 
 .filter-input:focus,
 .filter-select:focus {
   outline: none;
-  border-color: #3b82f6;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.1);
 }
 
 .filter-badges {
@@ -80,8 +84,9 @@
   align-items: center;
   gap: 6px;
   padding: 6px 12px;
-  background: #dbeafe;
-  color: #1e40af;
+  background: var(--color-surface-elevated);
+  color: var(--color-primary);
+  border: 1px solid var(--color-border);
   border-radius: 16px;
   font-size: 13px;
   font-weight: 500;
@@ -90,7 +95,7 @@
 .filter-badge-remove {
   background: none;
   border: none;
-  color: #1e40af;
+  color: var(--color-primary);
   cursor: pointer;
   padding: 0;
   font-size: 16px;
@@ -98,5 +103,5 @@
 }
 
 .filter-badge-remove:hover {
-  color: #1e3a8a;
+  color: var(--color-text-primary);
 }

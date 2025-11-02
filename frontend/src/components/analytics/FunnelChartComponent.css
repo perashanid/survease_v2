@@ -1,12 +1,13 @@
 .funnel-container {
   padding: 20px;
   width: 100%;
+  background: transparent !important;
 }
 
 .funnel-empty {
   text-align: center;
   padding: 40px;
-  color: #9ca3af;
+  color: var(--color-text-secondary);
 }
 
 .funnel-stage {
@@ -21,7 +22,7 @@
 }
 
 .funnel-stage-number {
-  background: #3b82f6;
+  background: var(--gradient-primary);
   color: white;
   width: 24px;
   height: 24px;
@@ -36,13 +37,14 @@
 
 .funnel-stage-text {
   font-size: 14px;
-  color: #374151;
+  color: var(--color-text-primary);
   font-weight: 500;
 }
 
 .funnel-bar-container {
   width: 100%;
-  background: #f3f4f6;
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   overflow: hidden;
   height: 40px;
@@ -72,11 +74,11 @@
 .funnel-dropoff {
   margin-top: 5px;
   font-size: 12px;
-  color: #6b7280;
+  color: var(--color-text-secondary);
   text-align: center;
 }
 
 .funnel-dropoff.high {
-  color: #ef4444;
+  color: var(--color-error);
   font-weight: 600;
 }

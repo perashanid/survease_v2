@@ -1,8 +1,9 @@
 .segment-builder {
-  background: white;
+  background: var(--color-surface) !important;
   border-radius: 8px;
   padding: 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px var(--color-shadow-light);
+  border: 1px solid var(--color-border);
 }
 
 .segment-builder-header {
@@ -15,7 +16,7 @@
 .segment-builder-title {
   font-size: 18px;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--color-text-primary) !important;
 }
 
 .segment-form {
@@ -33,19 +34,22 @@
 .segment-label {
   font-size: 14px;
   font-weight: 500;
-  color: #374151;
+  color: var(--color-text-primary) !important;
 }
 
 .segment-input {
   padding: 10px 12px;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--color-border);
   border-radius: 6px;
   font-size: 14px;
+  background: var(--color-surface-elevated);
+  color: var(--color-text-primary) !important;
 }
 
 .segment-input:focus {
   outline: none;
-  border-color: #3b82f6;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.1);
 }
 
 .color-picker-container {
@@ -57,7 +61,7 @@
 .color-picker {
   width: 60px;
   height: 40px;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--color-border);
   border-radius: 6px;
   cursor: pointer;
 }
@@ -66,7 +70,7 @@
   width: 40px;
   height: 40px;
   border-radius: 6px;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--color-border);
 }
 
 .segment-actions {
@@ -110,7 +114,7 @@
 .saved-segments-title {
   font-size: 16px;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--color-text-primary) !important;
   margin-bottom: 12px;
 }
 
@@ -125,14 +129,15 @@
   align-items: center;
   justify-content: space-between;
   padding: 12px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--color-border);
   border-radius: 6px;
+  background: var(--color-surface-elevated);
   transition: all 0.2s;
 }
 
 .segment-item:hover {
-  border-color: #3b82f6;
-  background: #f9fafb;
+  border-color: var(--color-primary);
+  background: var(--color-background);
 }
 
 .segment-item-info {
@@ -145,13 +150,13 @@
   width: 24px;
   height: 24px;
   border-radius: 4px;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--color-border);
 }
 
 .segment-item-name {
   font-size: 14px;
   font-weight: 500;
-  color: #1f2937;
+  color: var(--color-text-primary) !important;
 }
 
 .segment-item-actions {
@@ -163,24 +168,24 @@
   padding: 6px;
   background: none;
   border: none;
-  color: #6b7280;
+  color: var(--color-text-secondary) !important;
   cursor: pointer;
   border-radius: 4px;
   transition: all 0.2s;
 }
 
 .segment-icon-btn:hover {
-  background: #f3f4f6;
-  color: #374151;
+  background: var(--color-surface-elevated);
+  color: var(--color-text-primary) !important;
 }
 
 .segment-icon-btn.delete:hover {
-  color: #ef4444;
-  background: #fee2e2;
+  color: var(--color-error) !important;
+  background: rgba(239, 68, 68, 0.1);
 }
 
 .segment-empty {
   text-align: center;
   padding: 40px;
-  color: #9ca3af;
+  color: var(--color-text-muted);
 }
