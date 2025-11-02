@@ -1,0 +1,423 @@
+/* Consistent Color System - Applied Throughout */
+
+/* Ensure all cards use consistent colors */
+.card,
+.survey-card,
+.analytics-card,
+.dashboard-card,
+.metric-card,
+.stat-card,
+.feature-card,
+.testimonial-card,
+.response-card,
+.question-card {
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-border) !important;
+  color: var(--color-text-primary) !important;
+}
+
+/* Card headers */
+.card-header,
+.card-title,
+.section-title,
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text-primary) !important;
+}
+
+/* Card content and descriptions */
+.card-content,
+.card-description,
+.description,
+p,
+.text,
+.label {
+  color: var(--color-text-secondary) !important;
+}
+
+/* Muted text */
+.text-muted,
+.muted,
+.secondary-text,
+.helper-text,
+.hint {
+  color: var(--color-text-muted) !important;
+}
+
+/* Primary buttons - consistent green theme */
+.btn-primary,
+button.primary,
+.primary-button,
+.action-button {
+  background: var(--gradient-primary) !important;
+  color: white !important;
+  border: none !important;
+}
+
+.btn-primary:hover,
+button.primary:hover,
+.primary-button:hover,
+.action-button:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 12px 32px rgba(74, 222, 128, 0.4) !important;
+}
+
+/* Secondary buttons */
+.btn-secondary,
+button.secondary,
+.secondary-button {
+  background: var(--gradient-secondary) !important;
+  color: white !important;
+  border: none !important;
+}
+
+.btn-secondary:hover,
+button.secondary:hover,
+.secondary-button:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 12px 32px rgba(20, 184, 166, 0.4) !important;
+}
+
+/* Outline buttons */
+.btn-outline,
+button.outline,
+.outline-button {
+  background: transparent !important;
+  color: var(--color-primary) !important;
+  border: 2px solid var(--color-primary) !important;
+}
+
+.btn-outline:hover,
+button.outline:hover,
+.outline-button:hover {
+  background: var(--color-primary) !important;
+  color: white !important;
+}
+
+/* Input fields - consistent styling */
+input:not([type="checkbox"]):not([type="radio"]),
+textarea,
+select,
+.input,
+.form-input,
+.form-control {
+  background-color: var(--color-surface) !important;
+  color: var(--color-text-primary) !important;
+  border: 2px solid var(--color-border) !important;
+}
+
+input:focus:not([type="checkbox"]):not([type="radio"]),
+textarea:focus,
+select:focus,
+.input:focus,
+.form-input:focus,
+.form-control:focus {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px var(--color-primary-100) !important;
+}
+
+/* Placeholder text */
+input::placeholder,
+textarea::placeholder,
+.placeholder {
+  color: var(--color-text-muted) !important;
+  opacity: 0.7 !important;
+}
+
+/* Badges and tags */
+.badge,
+.tag,
+.chip,
+.label-badge {
+  background: var(--color-primary-100) !important;
+  color: var(--color-primary-dark) !important;
+  border: 1px solid var(--color-primary-200) !important;
+}
+
+.badge-success,
+.tag-success,
+.success-badge {
+  background: rgba(16, 185, 129, 0.1) !important;
+  color: var(--color-success) !important;
+  border: 1px solid rgba(16, 185, 129, 0.2) !important;
+}
+
+.badge-warning,
+.tag-warning,
+.warning-badge {
+  background: rgba(245, 158, 11, 0.1) !important;
+  color: var(--color-warning) !important;
+  border: 1px solid rgba(245, 158, 11, 0.2) !important;
+}
+
+.badge-error,
+.badge-danger,
+.tag-error,
+.error-badge {
+  background: rgba(239, 68, 68, 0.1) !important;
+  color: var(--color-error) !important;
+  border: 1px solid rgba(239, 68, 68, 0.2) !important;
+}
+
+.badge-info,
+.tag-info,
+.info-badge {
+  background: rgba(6, 182, 212, 0.1) !important;
+  color: var(--color-info) !important;
+  border: 1px solid rgba(6, 182, 212, 0.2) !important;
+}
+
+/* Links */
+a:not(.btn):not(.navbar-link):not(.footer-link) {
+  color: var(--color-primary) !important;
+}
+
+a:not(.btn):not(.navbar-link):not(.footer-link):hover {
+  color: var(--color-primary-dark) !important;
+}
+
+/* Icons - consistent coloring */
+.icon,
+.icon-primary,
+svg.primary {
+  color: var(--color-primary) !important;
+}
+
+.icon-secondary,
+svg.secondary {
+  color: var(--color-secondary) !important;
+}
+
+.icon-muted,
+svg.muted {
+  color: var(--color-text-muted) !important;
+}
+
+/* Borders */
+.border,
+.bordered {
+  border-color: var(--color-border) !important;
+}
+
+.border-primary {
+  border-color: var(--color-primary) !important;
+}
+
+/* Backgrounds */
+.bg-surface {
+  background-color: var(--color-surface) !important;
+}
+
+.bg-elevated {
+  background-color: var(--color-surface-elevated) !important;
+}
+
+.bg-primary {
+  background: var(--gradient-primary) !important;
+  color: white !important;
+}
+
+.bg-secondary {
+  background: var(--gradient-secondary) !important;
+  color: white !important;
+}
+
+/* Dividers */
+.divider,
+hr {
+  border-color: var(--color-border) !important;
+  background-color: var(--color-border) !important;
+}
+
+/* Tables */
+table {
+  background: var(--color-surface) !important;
+  border-color: var(--color-border) !important;
+}
+
+thead {
+  background: var(--gradient-primary) !important;
+  color: white !important;
+}
+
+th {
+  color: white !important;
+}
+
+td {
+  color: var(--color-text-primary) !important;
+  border-color: var(--color-border) !important;
+}
+
+tbody tr:hover {
+  background-color: var(--color-primary-50) !important;
+}
+
+/* Modals and dialogs */
+.modal,
+.dialog,
+.popup,
+.overlay-content {
+  background: var(--color-surface-elevated) !important;
+  border: 1px solid var(--color-border) !important;
+  color: var(--color-text-primary) !important;
+}
+
+.modal-header,
+.dialog-header {
+  border-bottom: 1px solid var(--color-border) !important;
+}
+
+.modal-footer,
+.dialog-footer {
+  border-top: 1px solid var(--color-border) !important;
+}
+
+/* Alerts and notifications */
+.alert,
+.notification,
+.toast {
+  border-left-width: 4px !important;
+}
+
+.alert-success,
+.notification-success {
+  background: rgba(16, 185, 129, 0.1) !important;
+  border-left-color: var(--color-success) !important;
+  color: var(--color-success) !important;
+}
+
+.alert-warning,
+.notification-warning {
+  background: rgba(245, 158, 11, 0.1) !important;
+  border-left-color: var(--color-warning) !important;
+  color: var(--color-warning) !important;
+}
+
+.alert-error,
+.notification-error {
+  background: rgba(239, 68, 68, 0.1) !important;
+  border-left-color: var(--color-error) !important;
+  color: var(--color-error) !important;
+}
+
+.alert-info,
+.notification-info {
+  background: rgba(6, 182, 212, 0.1) !important;
+  border-left-color: var(--color-info) !important;
+  color: var(--color-info) !important;
+}
+
+/* Progress bars */
+.progress-bar,
+.progress-track {
+  background: var(--color-surface) !important;
+}
+
+.progress-fill,
+.progress-value {
+  background: var(--gradient-primary) !important;
+}
+
+/* Tooltips */
+.tooltip,
+.popover {
+  background: var(--color-surface-elevated) !important;
+  color: var(--color-text-primary) !important;
+  border: 1px solid var(--color-border) !important;
+}
+
+/* Dropdown menus */
+.dropdown,
+.menu,
+.select-menu {
+  background: var(--color-surface-elevated) !important;
+  border: 1px solid var(--color-border) !important;
+}
+
+.dropdown-item,
+.menu-item {
+  color: var(--color-text-primary) !important;
+}
+
+.dropdown-item:hover,
+.menu-item:hover {
+  background: var(--color-primary-50) !important;
+}
+
+.dropdown-item.active,
+.menu-item.active {
+  background: var(--color-primary-100) !important;
+  color: var(--color-primary-dark) !important;
+}
+
+/* Loading states */
+.loading,
+.skeleton,
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface) 0%,
+    var(--color-border-light) 50%,
+    var(--color-surface) 100%
+  ) !important;
+  background-size: 200% 100% !important;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  background: var(--color-surface) !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border) !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted) !important;
+}
+
+/* Ensure gradient text uses primary colors */
+.gradient-text {
+  background: var(--gradient-primary) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
+/* Chart and visualization colors */
+.chart-primary {
+  color: var(--color-primary) !important;
+  fill: var(--color-primary) !important;
+}
+
+.chart-secondary {
+  color: var(--color-secondary) !important;
+  fill: var(--color-secondary) !important;
+}
+
+.chart-accent {
+  color: var(--color-accent) !important;
+  fill: var(--color-accent) !important;
+}
+
+/* Grid consistency */
+.grid,
+.grid-container {
+  gap: 24px !important;
+}
+
+.grid-item {
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-border) !important;
+}
+
+/* Ensure visibility in both themes */
+.always-visible {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Remove any hardcoded colors that might override theme */
+* {
+  /* Let CSS variables handle colors */
+}
