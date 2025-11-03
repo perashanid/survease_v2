@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { 
   FiSearch, FiX, FiUser, FiCalendar, FiBarChart2, 
   FiDownload, FiChevronLeft, FiChevronRight, FiAlertCircle,
-  FiCheckCircle, FiInfo
+  FiCheckCircle, FiInfo, FiHelpCircle
 } from 'react-icons/fi';
 import './PublicSurveys.css';
 import './ImportDialog.css';
@@ -339,29 +339,69 @@ const PublicSurveys: React.FC = () => {
               
               <div className="import-dialog-body">
                 <div className="survey-preview">
-                  <h4>{showImportDialog.title}</h4>
+                  <div className="preview-header">
+                    <h4>{showImportDialog.title}</h4>
+                    <div className="preview-badge">
+                      <FiBarChart2 /> Public Survey
+                    </div>
+                  </div>
+                  
                   {showImportDialog.description && (
                     <p className="survey-description">{showImportDialog.description}</p>
                   )}
                   
                   <div className="survey-details">
                     <div className="detail-item">
-                      <span className="detail-label">Questions:</span>
-                      <span className="detail-value">{showImportDialog.questions?.length || 0}</span>
+                      <div className="detail-icon"><FiHelpCircle /></div>
+                      <div className="detail-content">
+                        <span className="detail-label">Questions</span>
+                        <span className="detail-value">{showImportDialog.questions?.length || 0}</span>
+                      </div>
                     </div>
                     <div className="detail-item">
-                      <span className="detail-label">Responses:</span>
-                      <span className="detail-value">{showImportDialog.response_count}</span>
+                      <div className="detail-icon"><FiBarChart2 /></div>
+                      <div className="detail-content">
+                        <span className="detail-label">Responses</span>
+                        <span className="detail-value">{showImportDialog.response_count}</span>
+                      </div>
                     </div>
                     <div className="detail-item">
-                      <span className="detail-label">Author:</span>
-                      <span className="detail-value">{showImportDialog.author?.name || 'Anonymous'}</span>
+                      <div className="detail-icon"><FiUser /></div>
+                      <div className="detail-content">
+                        <span className="detail-label">Author</span>
+                        <span className="detail-value">{showImportDialog.author?.name || 'Anonymous'}</span>
+                      </div>
                     </div>
                     <div className="detail-item">
-                      <span className="detail-label">Created:</span>
-                      <span className="detail-value">{new Date(showImportDialog.created_at).toLocaleDateString()}</span>
+                      <div className="detail-icon"><FiCalendar /></div>
+                      <div className="detail-content">
+                        <span className="detail-label">Created</span>
+                        <span className="detail-value">{new Date(showImportDialog.created_at).toLocaleDateString()}</span>
+                      </div>
                     </div>
                   </div>
+                  
+                  {showImportDialog.questions && showImportDialog.questions.length > 0 && (
+                    <div className="questions-preview">
+                      <h5>Questions Preview</h5>
+                      <div className="questions-list">
+                        {showImportDialog.questions.slice(0, 3).map((question: any, index: number) => (
+                          <div key={index} className="question-item">
+                            <span className="question-number">Q{index + 1}</span>
+                            <div className="question-content">
+                              <p className="question-text">{question.question}</p>
+                              <span className="question-type">{question.type.replace('_', ' ')}</span>
+                            </div>
+                          </div>
+                        ))}
+                        {showImportDialog.questions.length > 3 && (
+                          <div className="more-questions">
+                            +{showImportDialog.questions.length - 3} more questions
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
                 
                 <div className="import-info">
