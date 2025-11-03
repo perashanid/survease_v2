@@ -5,6 +5,8 @@
 @import './styles/modern-animations.css';
 @import './styles/parallax-effects.css';
 @import './styles/page-transitions.css';
+@import './styles/mobile-responsive.css';
+@import './styles/react-icons.css';
 
 /* Theme Variables */
 :root {

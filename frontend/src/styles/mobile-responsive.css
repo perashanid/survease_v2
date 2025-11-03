@@ -1,0 +1,607 @@
+/* ===== MOBILE & TABLET RESPONSIVE STYLES ===== */
+/* This file contains comprehensive responsive design for all screen sizes */
+
+/* ===== GLOBAL RESPONSIVE UTILITIES ===== */
+
+/* Prevent horizontal scroll */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Touch-friendly tap targets */
+@media (hover: none) and (pointer: coarse) {
+  button,
+  a,
+  input[type="button"],
+  input[type="submit"],
+  input[type="checkbox"],
+  input[type="radio"],
+  select {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .btn {
+    min-height: 48px;
+    padding: 12px 20px;
+  }
+  
+  .btn-sm {
+    min-height: 44px;
+    padding: 10px 16px;
+  }
+}
+
+/* ===== TABLET (1024px and below) ===== */
+@media (max-width: 1024px) {
+  /* Container adjustments */
+  .container {
+    max-width: 100%;
+    padding: 0 24px;
+  }
+  
+  /* Grid adjustments */
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+  
+  /* Typography */
+  h1 {
+    font-size: clamp(28px, 5vw, 36px);
+  }
+  
+  h2 {
+    font-size: clamp(24px, 4vw, 30px);
+  }
+  
+  h3 {
+    font-size: clamp(20px, 3.5vw, 24px);
+  }
+  
+  /* Cards */
+  .card {
+    padding: 24px;
+  }
+  
+  /* Buttons */
+  .btn {
+    padding: 12px 24px;
+    font-size: 15px;
+  }
+}
+
+/* ===== MOBILE (768px and below) ===== */
+@media (max-width: 768px) {
+  /* Container */
+  .container {
+    padding: 0 16px;
+  }
+  
+  /* Main content padding */
+  .main-content {
+    padding-top: 60px;
+  }
+  
+  /* Typography */
+  h1 {
+    font-size: clamp(24px, 6vw, 32px);
+    line-height: 1.2;
+  }
+  
+  h2 {
+    font-size: clamp(20px, 5vw, 26px);
+    line-height: 1.3;
+  }
+  
+  h3 {
+    font-size: clamp(18px, 4vw, 22px);
+    line-height: 1.3;
+  }
+  
+  p {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  
+  /* Grid layouts */
+  .grid,
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  /* Cards */
+  .card {
+    padding: 20px;
+    border-radius: 16px;
+  }
+  
+  .card-title {
+    font-size: 20px;
+  }
+  
+  /* Buttons */
+  .btn {
+    padding: 12px 20px;
+    font-size: 14px;
+    min-height: 44px;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .btn-lg {
+    padding: 14px 28px;
+    font-size: 16px;
+    min-height: 52px;
+  }
+  
+  .btn-sm {
+    padding: 10px 16px;
+    font-size: 13px;
+    min-height: 40px;
+  }
+  
+  /* Forms */
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-label {
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+  
+  .form-input,
+  .form-textarea,
+  .form-select {
+    padding: 14px 16px;
+    font-size: 16px; /* Prevent zoom on iOS */
+    border-radius: 12px;
+  }
+  
+  .form-textarea {
+    min-height: 100px;
+  }
+  
+  /* Form rows */
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  /* Tables */
+  .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  table {
+    min-width: 600px;
+  }
+  
+  th, td {
+    padding: 12px 8px;
+    font-size: 14px;
+  }
+  
+  /* Modals */
+  .modal-overlay {
+    padding: 16px;
+  }
+  
+  .modal-content {
+    max-width: 95%;
+    max-height: 90vh;
+    border-radius: 16px;
+  }
+  
+  /* Stats/Metrics */
+  .stats-grid,
+  .metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .stat-card,
+  .metric-card {
+    padding: 20px;
+  }
+  
+  /* Charts */
+  .chart-container {
+    height: 250px;
+  }
+  
+  /* Navigation */
+  .nav-buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .nav-buttons .btn {
+    width: 100%;
+  }
+  
+  /* Badges */
+  .badge {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+  
+  /* Empty states */
+  .empty-state {
+    padding: 60px 20px;
+  }
+  
+  .empty-icon {
+    font-size: 48px;
+  }
+  
+  /* Loading states */
+  .loading {
+    padding: 60px 20px;
+  }
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* ===== SMALL MOBILE (480px and below) ===== */
+@media (max-width: 480px) {
+  /* Container */
+  .container {
+    padding: 0 12px;
+  }
+  
+  /* Main content */
+  .main-content {
+    padding-top: 56px;
+  }
+  
+  /* Typography */
+  h1 {
+    font-size: clamp(20px, 6vw, 28px);
+  }
+  
+  h2 {
+    font-size: clamp(18px, 5vw, 24px);
+  }
+  
+  h3 {
+    font-size: clamp(16px, 4vw, 20px);
+  }
+  
+  p {
+    font-size: 14px;
+  }
+  
+  /* Cards */
+  .card {
+    padding: 16px;
+    border-radius: 12px;
+  }
+  
+  .card-title {
+    font-size: 18px;
+  }
+  
+  /* Buttons */
+  .btn {
+    padding: 10px 16px;
+    font-size: 14px;
+    min-height: 44px;
+  }
+  
+  .btn-lg {
+    padding: 12px 24px;
+    font-size: 15px;
+    min-height: 48px;
+  }
+  
+  .btn-sm {
+    padding: 8px 14px;
+    font-size: 12px;
+    min-height: 36px;
+  }
+  
+  /* Forms */
+  .form-group {
+    margin-bottom: 16px;
+  }
+  
+  .form-label {
+    font-size: 14px;
+  }
+  
+  .form-input,
+  .form-textarea,
+  .form-select {
+    padding: 12px 14px;
+    font-size: 16px;
+  }
+  
+  .form-textarea {
+    min-height: 90px;
+  }
+  
+  /* Tables */
+  table {
+    min-width: 500px;
+  }
+  
+  th, td {
+    padding: 10px 6px;
+    font-size: 13px;
+  }
+  
+  /* Modals */
+  .modal-content {
+    max-width: 98%;
+    border-radius: 12px;
+  }
+  
+  /* Stats/Metrics */
+  .stat-card,
+  .metric-card {
+    padding: 16px;
+  }
+  
+  .stat-value,
+  .metric-value {
+    font-size: 24px;
+  }
+  
+  /* Charts */
+  .chart-container {
+    height: 200px;
+  }
+  
+  /* Badges */
+  .badge {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+  
+  /* Empty states */
+  .empty-state {
+    padding: 40px 16px;
+  }
+  
+  .empty-icon {
+    font-size: 40px;
+  }
+  
+  /* Loading states */
+  .loading {
+    padding: 40px 16px;
+  }
+  
+  .spinner {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+/* ===== LANDSCAPE MOBILE ===== */
+@media (max-width: 768px) and (orientation: landscape) {
+  /* Reduce vertical padding */
+  .main-content {
+    padding-top: 52px;
+  }
+  
+  .card {
+    padding: 16px 20px;
+  }
+  
+  /* Adjust heights */
+  .chart-container {
+    height: 180px;
+  }
+  
+  /* Two-column layouts for better space usage */
+  .stats-grid,
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* Horizontal navigation */
+  .nav-buttons {
+    flex-direction: row;
+  }
+  
+  .nav-buttons .btn {
+    width: auto;
+    flex: 1;
+  }
+}
+
+/* ===== SPECIFIC COMPONENT RESPONSIVE FIXES ===== */
+
+/* Question Editor */
+@media (max-width: 768px) {
+  .question-editor {
+    padding: 16px;
+  }
+  
+  .question-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .question-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .options-list {
+    gap: 10px;
+  }
+  
+  .option-item {
+    padding: 12px;
+  }
+}
+
+/* Analytics Components */
+@media (max-width: 768px) {
+  .analytics-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .time-range-selector {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .chart-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .pie-chart {
+    flex-direction: column;
+  }
+  
+  .bar-chart {
+    height: 180px;
+    gap: 8px;
+  }
+}
+
+/* Survey Cards */
+@media (max-width: 768px) {
+  .survey-card {
+    padding: 20px;
+  }
+  
+  .survey-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .survey-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .survey-actions .btn {
+    width: 100%;
+  }
+  
+  .survey-meta {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}
+
+/* Dashboard */
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .dashboard-tabs {
+    width: 100%;
+    justify-content: center;
+    overflow-x: auto;
+  }
+  
+  .tab-btn {
+    padding: 10px 16px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  
+  .surveys-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== ACCESSIBILITY IMPROVEMENTS ===== */
+
+/* Focus visible for keyboard navigation */
+@media (max-width: 768px) {
+  *:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  
+  /* Larger tap targets */
+  a, button, input, select, textarea {
+    min-height: 44px;
+  }
+  
+  /* Readable text */
+  body {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  /* Hide navigation and non-essential elements */
+  .navbar,
+  .footer,
+  .btn,
+  .theme-toggle,
+  .nav-buttons {
+    display: none !important;
+  }
+  
+  /* Optimize for print */
+  .container {
+    max-width: 100%;
+    padding: 0;
+  }
+  
+  .card {
+    page-break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+  
+  /* Ensure readable text */
+  body {
+    font-size: 12pt;
+    color: #000;
+    background: #fff;
+  }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ===== HIGH CONTRAST MODE ===== */
+@media (prefers-contrast: high) {
+  .btn {
+    border: 2px solid currentColor;
+  }
+  
+  .card {
+    border: 2px solid currentColor;
+  }
+  
+  .form-input,
+  .form-textarea,
+  .form-select {
+    border: 2px solid currentColor;
+  }
+}

@@ -1,0 +1,159 @@
+/* React Icons Global Styling */
+
+/* Base icon styling */
+svg {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+/* Icon containers */
+.stat-icon,
+.metric-icon,
+.empty-state-icon,
+.choice-icon,
+.feature-icon,
+.social-link,
+.nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Stat icons */
+.stat-icon {
+  color: var(--color-primary);
+}
+
+.stat-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+/* Metric icons */
+.metric-icon {
+  color: var(--color-primary);
+}
+
+.metric-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Empty state icons */
+.empty-state-icon {
+  color: var(--color-text-muted);
+}
+
+.empty-state-icon svg {
+  width: 64px;
+  height: 64px;
+}
+
+/* Choice icons */
+.choice-icon {
+  color: var(--color-primary);
+}
+
+.choice-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Button icons */
+button svg,
+.btn svg {
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
+button svg:only-child,
+.btn svg:only-child {
+  margin-right: 0;
+}
+
+/* Link icons */
+a svg {
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
+a svg:only-child {
+  margin-right: 0;
+}
+
+/* Tab button icons */
+.tab-button svg {
+  width: 18px;
+  height: 18px;
+  margin-right: 6px;
+}
+
+/* Dropdown item icons */
+.dropdown-item svg {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+}
+
+/* Badge icons */
+.badge svg,
+.privacy-badge svg {
+  width: 14px;
+  height: 14px;
+  margin-right: 4px;
+}
+
+/* Header icons */
+h1 svg,
+h2 svg,
+h3 svg,
+h4 svg {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* Responsive icon sizes */
+@media (max-width: 768px) {
+  .stat-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .metric-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .empty-state-icon svg {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .tab-button svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stat-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .metric-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .empty-state-icon svg {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .tab-button svg {
+    width: 14px;
+    height: 14px;
+  }
+}
