@@ -32,7 +32,7 @@ const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({ surveyId }) =
     dayOfWeek: 1
   });
   const [completionPrediction, setCompletionPrediction] = useState<any>(null);
-  const [partialResponses, setPartialResponses] = useState<Record<string, any>>({});
+  const [partialResponses] = useState<Record<string, any>>({});
 
   useEffect(() => {
     loadDemoScenarios();
@@ -62,7 +62,14 @@ const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({ surveyId }) =
       
       const customScenario: ScenarioAnalysis = {
         scenario: 'Custom Scenario',
-        predictions: result.predictions,
+        predictions: result.predictions.map((pred: any) => ({
+          questionId: pred.questionId,
+          questionText: pred.questionText || 'Question',
+          predictedResponse: pred.predictedResponse,
+          confidence: pred.confidence,
+          alternatives: pred.alternatives || [],
+          reasoning: pred.reasoning || ''
+        })),
         overallConfidence: result.averageConfidence,
         insights: [`Custom prediction with ${result.totalQuestions} questions`]
       };

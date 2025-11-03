@@ -6,7 +6,7 @@ import { timeTrackingService } from '../services/timeTrackingService';
 import { motion } from 'framer-motion';
 import { 
   FiBarChart2, FiUsers, FiTrendingUp, FiGlobe, FiClock, 
-  FiAlertCircle, FiRefreshCw, FiCheckCircle, FiActivity
+  FiAlertCircle, FiRefreshCw, FiActivity
 } from 'react-icons/fi';
 import './Analytics.css';
 

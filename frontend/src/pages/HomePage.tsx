@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { 
   FiCheckCircle, FiUsers, FiBarChart2, FiLock, 
   FiSmartphone, FiDownload, FiArrowRight, FiStar,
-  FiTrendingUp, FiZap, FiGlobe, FiAward, FiTarget
+  FiTrendingUp, FiZap, FiGlobe
 } from 'react-icons/fi';
 import ScrollReveal from '../components/shared/ScrollReveal';
-import { WordByWordAnimation, TypewriterAnimation } from '../utils/WordByWordAnimation';
 import './HomePage.css';
 
 interface PlatformStats {
@@ -27,12 +26,6 @@ const HomePage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   
   const heroRef = useRef(null);
-  const [hasAnimated, setHasAnimated] = useState(false);
-  
-  useEffect(() => {
-    // Prevent re-animation on scroll
-    setHasAnimated(true);
-  }, []);
 
   useEffect(() => {
     fetchStats();

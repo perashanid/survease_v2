@@ -7,7 +7,6 @@ import {
   FiSun, 
   FiMoon, 
   FiMonitor, 
-  FiHome, 
   FiList, 
   FiGrid, 
   FiPlusCircle, 
