@@ -4,6 +4,8 @@ import { useEffect } from 'react';
 import Navbar from './components/shared/Navbar';
 import Footer from './components/shared/Footer';
 import ConnectionStatus from './components/shared/ConnectionStatus';
+import ErrorBoundary from './components/shared/ErrorBoundary';
+import { ToastProvider } from './components/shared/ToastContainer';
 import HomePage from './pages/HomePage';
 import Dashboard from './pages/Dashboard';
 import SurveyCreator from './pages/SurveyCreator';
@@ -44,39 +46,43 @@ function RedirectHandler() {
 
 function App() {
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-          <div className="App">
-            <RedirectHandler />
-            <Navbar />
-            <ConnectionStatus />
-            <main className="main-content">
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/create" element={<SurveyCreator />} />
-                <Route path="/surveys" element={<PublicSurveys />} />
-                <Route path="/analytics" element={<Analytics />} />
-                <Route path="/survey/:slug" element={<SurveyResponse />} />
-                <Route path="/survey-analytics/:surveyId" element={<SurveyAnalytics />} />
-                <Route path="/basic-analytics/:surveyId" element={<BasicAnalyticsDashboard />} />
-                <Route path="/enhanced-analytics/:surveyId" element={<EnhancedAnalyticsDashboard />} />
-                <Route path="/advanced-analytics/:surveyId" element={<AdvancedAnalyticsDashboard />} />
-                <Route path="/comprehensive-analytics/:surveyId" element={<ComprehensiveAnalyticsDashboard />} />
-                <Route path="/attention-analytics/:surveyId?" element={<AttentionAnalyticsDashboard />} />
-                <Route path="/analytics-selector/:surveyId" element={<AnalyticsSelector />} />
-                <Route path="/public-survey-analytics/:surveyId" element={<PublicSurveyAnalytics />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/privacy" element={<PrivacyPolicy />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </main>
-            <Footer />
-          </div>
-        </Router>
-      </AuthProvider>
-    </ThemeProvider>
+    <ErrorBoundary>
+      <ThemeProvider>
+        <AuthProvider>
+          <ToastProvider>
+            <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+              <div className="App">
+                <RedirectHandler />
+                <Navbar />
+                <ConnectionStatus />
+                <main className="main-content">
+                  <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/create" element={<SurveyCreator />} />
+                    <Route path="/surveys" element={<PublicSurveys />} />
+                    <Route path="/analytics" element={<Analytics />} />
+                    <Route path="/survey/:slug" element={<SurveyResponse />} />
+                    <Route path="/survey-analytics/:surveyId" element={<SurveyAnalytics />} />
+                    <Route path="/basic-analytics/:surveyId" element={<BasicAnalyticsDashboard />} />
+                    <Route path="/enhanced-analytics/:surveyId" element={<EnhancedAnalyticsDashboard />} />
+                    <Route path="/advanced-analytics/:surveyId" element={<AdvancedAnalyticsDashboard />} />
+                    <Route path="/comprehensive-analytics/:surveyId" element={<ComprehensiveAnalyticsDashboard />} />
+                    <Route path="/attention-analytics/:surveyId?" element={<AttentionAnalyticsDashboard />} />
+                    <Route path="/analytics-selector/:surveyId" element={<AnalyticsSelector />} />
+                    <Route path="/public-survey-analytics/:surveyId" element={<PublicSurveyAnalytics />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/privacy" element={<PrivacyPolicy />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </main>
+                <Footer />
+              </div>
+            </Router>
+          </ToastProvider>
+        </AuthProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 }
 

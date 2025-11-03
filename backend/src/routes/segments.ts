@@ -3,6 +3,7 @@ import { authenticateToken } from '../middleware/auth';
 import { Segment, Survey } from '../models';
 import { SegmentationService } from '../services/SegmentationService';
 import mongoose from 'mongoose';
+import { getDefaultSegmentTemplates } from '../utils/defaultSegments';
 
 const router = express.Router();
 const segmentationService = new SegmentationService();
@@ -23,10 +24,30 @@ router.get('/:surveyId', authenticateToken, async (req: Request, res: Response) 
       return res.status(403).json({ error: 'Access denied' });
     }
 
-    const segments = await Segment.find({
+    let segments = await Segment.find({
       survey_id: new mongoose.Types.ObjectId(surveyId),
       user_id: new mongoose.Types.ObjectId(userId)
     });
+
+    // If no segments exist, create default segments
+    if (segments.length === 0) {
+      const defaultTemplates = getDefaultSegmentTemplates();
+      const defaultSegments = defaultTemplates.map(template => ({
+        user_id: new mongoose.Types.ObjectId(userId),
+        survey_id: new mongoose.Types.ObjectId(surveyId),
+        name: template.name,
+        criteria: template.criteria,
+        color: template.color
+      }));
+
+      await Segment.insertMany(defaultSegments);
+      
+      // Fetch the newly created segments
+      segments = await Segment.find({
+        survey_id: new mongoose.Types.ObjectId(surveyId),
+        user_id: new mongoose.Types.ObjectId(userId)
+      });
+    }
 
     res.json({ segments });
   } catch (error) {
