@@ -363,40 +363,320 @@
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+  .survey-response .container {
+    max-width: 900px;
+  }
+}
+
 @media (max-width: 768px) {
   .survey-response {
-    padding: 10px 0;
+    padding: 16px 0;
   }
 
   .survey-header {
-    padding: 24px 20px;
-    margin-top: 20px;
+    padding: 28px 20px;
+    margin-top: 16px;
+    border-radius: 12px 12px 0 0;
   }
 
   .survey-header h1 {
-    font-size: 24px;
+    font-size: 26px;
   }
 
   .survey-description {
     font-size: 16px;
+    margin-bottom: 24px;
+  }
+
+  .progress-container {
+    margin-top: 24px;
+  }
+
+  .progress-bar {
+    height: 6px;
+  }
+
+  .progress-text {
+    font-size: 13px;
   }
 
   .question-card {
-    padding: 24px 20px;
+    padding: 28px 20px;
   }
 
   .question-text {
     font-size: 20px;
+    line-height: 1.4;
+  }
+
+  .question-content {
+    margin-bottom: 28px;
+  }
+
+  .form-input,
+  .form-textarea {
+    padding: 14px;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+
+  .options-container {
+    gap: 12px;
+  }
+
+  .radio-label,
+  .checkbox-label {
+    padding: 14px;
+  }
+
+  .radio-text,
+  .checkbox-text {
+    font-size: 15px;
+  }
+
+  .rating-container {
+    padding: 16px 0;
   }
 
   .rating-scale {
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
     text-align: center;
+    padding: 16px;
+  }
+
+  .rating-label {
+    font-size: 13px;
   }
 
   .rating-buttons {
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .rating-button {
+    width: 44px;
+    height: 44px;
+    font-size: 15px;
+  }
+
+  .email-collection {
+    margin-top: 24px;
+    padding: 20px;
+  }
+
+  .form-label {
+    font-size: 15px;
+  }
+
+  .error-message {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .question-actions {
+    margin-top: 32px;
+    padding-top: 24px;
+  }
+
+  .nav-buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .nav-buttons .btn {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .survey-footer {
+    padding: 16px 20px;
+    border-radius: 0 0 12px 12px;
+  }
+
+  .survey-info {
+    font-size: 13px;
+  }
+
+  .success-state,
+  .error-state {
+    padding: 48px 24px;
+    margin-top: 16px;
+    border-radius: 12px;
+  }
+
+  .success-icon {
+    width: 64px;
+    height: 64px;
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+
+  .success-state h1,
+  .error-state h1 {
+    font-size: 26px;
+  }
+
+  .success-state p,
+  .error-state p {
+    font-size: 16px;
+  }
+
+  .auth-choice-modal {
+    margin-top: 16px;
+    border-radius: 12px;
+  }
+
+  .auth-choice-content {
+    padding: 32px 24px;
+  }
+
+  .auth-choice-content h1 {
+    font-size: 26px;
+  }
+
+  .auth-choice-content .survey-description {
+    font-size: 16px;
+    margin-bottom: 32px;
+  }
+
+  .auth-choice-section h2 {
+    font-size: 20px;
+  }
+
+  .auth-choice-section p {
+    font-size: 15px;
+    margin-bottom: 24px;
+  }
+
+  .auth-choice-buttons {
+    gap: 12px;
+  }
+
+  .choice-content {
+    padding: 16px 20px;
+  }
+
+  .choice-icon {
+    font-size: 20px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .choice-text strong {
+    font-size: 15px;
+  }
+
+  .choice-text small {
+    font-size: 13px;
+  }
+
+  .auth-requirement-note {
+    margin-top: 20px;
+    padding: 14px;
+  }
+
+  .auth-requirement-note p {
+    font-size: 13px;
+  }
+
+  .error-help {
+    padding: 16px;
+    margin: 20px 0;
+  }
+
+  .error-help h3 {
+    font-size: 1rem;
+  }
+
+  .error-help li {
+    font-size: 14px;
+  }
+
+  .error-actions {
+    gap: 10px;
+  }
+
+  .error-actions .btn {
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .survey-response {
+    padding: 12px 0;
+  }
+
+  .survey-header {
+    padding: 24px 16px;
+    margin-top: 12px;
+  }
+
+  .survey-header h1 {
+    font-size: 22px;
+  }
+
+  .survey-description {
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+
+  .progress-bar {
+    height: 5px;
+  }
+
+  .progress-text {
+    font-size: 12px;
+  }
+
+  .question-card {
+    padding: 24px 16px;
+  }
+
+  .question-text {
+    font-size: 18px;
+  }
+
+  .question-content {
+    margin-bottom: 24px;
+  }
+
+  .form-input,
+  .form-textarea {
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  .form-textarea {
+    min-height: 100px;
+  }
+
+  .options-container {
+    gap: 10px;
+  }
+
+  .radio-label,
+  .checkbox-label {
+    padding: 12px;
+  }
+
+  .radio-text,
+  .checkbox-text {
+    font-size: 14px;
+  }
+
+  .rating-scale {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .rating-label {
+    font-size: 12px;
+  }
+
+  .rating-buttons {
+    gap: 8px;
   }
 
   .rating-button {
@@ -405,27 +685,202 @@
     font-size: 14px;
   }
 
+  .email-collection {
+    margin-top: 20px;
+    padding: 16px;
+  }
+
+  .form-label {
+    font-size: 14px;
+  }
+
+  .error-message {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+
+  .question-actions {
+    margin-top: 28px;
+    padding-top: 20px;
+  }
+
   .nav-buttons {
-    flex-direction: column;
+    gap: 10px;
   }
 
   .nav-buttons .btn {
-    width: 100%;
+    min-height: 44px;
+    font-size: 15px;
   }
 
   .survey-footer {
-    padding: 16px 20px;
+    padding: 14px 16px;
+  }
+
+  .survey-info {
+    font-size: 12px;
   }
 
   .success-state,
   .error-state {
     padding: 40px 20px;
-    margin-top: 20px;
+    margin-top: 12px;
+  }
+
+  .success-icon {
+    width: 56px;
+    height: 56px;
+    font-size: 28px;
+    margin-bottom: 16px;
   }
 
   .success-state h1,
   .error-state h1 {
-    font-size: 24px;
+    font-size: 22px;
+  }
+
+  .success-state p,
+  .error-state p {
+    font-size: 15px;
+  }
+
+  .auth-choice-modal {
+    margin-top: 12px;
+  }
+
+  .auth-choice-content {
+    padding: 28px 20px;
+  }
+
+  .auth-choice-content h1 {
+    font-size: 22px;
+  }
+
+  .auth-choice-content .survey-description {
+    font-size: 15px;
+    margin-bottom: 28px;
+  }
+
+  .auth-choice-section h2 {
+    font-size: 18px;
+  }
+
+  .auth-choice-section p {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .auth-choice-buttons {
+    gap: 10px;
+  }
+
+  .choice-content {
+    padding: 14px 16px;
+  }
+
+  .choice-icon {
+    font-size: 18px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .choice-text strong {
+    font-size: 14px;
+  }
+
+  .choice-text small {
+    font-size: 12px;
+  }
+
+  .auth-requirement-note {
+    margin-top: 16px;
+    padding: 12px;
+  }
+
+  .auth-requirement-note p {
+    font-size: 12px;
+  }
+
+  .error-help {
+    padding: 14px;
+    margin: 16px 0;
+  }
+
+  .error-help h3 {
+    font-size: 0.95rem;
+  }
+
+  .error-help li {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+
+  .error-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .error-actions .btn {
+    width: 100%;
+    min-width: auto;
+  }
+}
+
+/* Landscape mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .survey-header {
+    padding: 20px;
+  }
+
+  .question-card {
+    padding: 20px;
+  }
+
+  .rating-scale {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .rating-buttons {
+    flex-wrap: nowrap;
+  }
+
+  .nav-buttons {
+    flex-direction: row;
+  }
+
+  .nav-buttons .btn {
+    width: auto;
+    flex: 1;
+  }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+  .radio-label,
+  .checkbox-label {
+    min-height: 48px;
+  }
+
+  .rating-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .btn {
+    min-height: 48px;
+  }
+
+  .form-input,
+  .form-textarea,
+  .form-select {
+    min-height: 48px;
+  }
+
+  input[type="radio"],
+  input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
   }
 }
 
@@ -551,6 +1006,12 @@
   background: var(--color-primary-100);
   border-radius: 8px;
   flex-shrink: 0;
+  color: var(--color-primary);
+}
+
+.choice-icon svg {
+  width: 24px;
+  height: 24px;
 }
 
 .auth-choice-btn.btn-outline .choice-icon {

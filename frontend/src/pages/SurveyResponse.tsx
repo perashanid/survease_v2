@@ -5,6 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { timeTrackingService } from '../services/timeTrackingService';
 import { detectDevice } from '../utils/deviceDetection';
 import AuthModal from '../components/auth/AuthModal';
+import { FiUser, FiEyeOff } from 'react-icons/fi';
 import './SurveyResponse.css';
 
 interface QuestionResponse {
@@ -433,7 +434,7 @@ const SurveyResponse: React.FC = () => {
                     className="btn btn-primary auth-choice-btn"
                   >
                     <div className="choice-content">
-                      <span className="choice-icon">👤</span>
+                      <span className="choice-icon"><FiUser /></span>
                       <div className="choice-text">
                         <strong>Sign In</strong>
                         <small>Track your responses and get personalized features</small>
@@ -447,7 +448,7 @@ const SurveyResponse: React.FC = () => {
                       className="btn btn-outline auth-choice-btn"
                     >
                       <div className="choice-content">
-                        <span className="choice-icon">🕶️</span>
+                        <span className="choice-icon"><FiEyeOff /></span>
                         <div className="choice-text">
                           <strong>Continue Anonymously</strong>
                           <small>Participate without creating an account</small>
