@@ -52,11 +52,11 @@ const Footer: React.FC = () => {
           <div className="footer-section">
             <h4 className="footer-section-title">Resources</h4>
             <ul className="footer-links">
-              <li><a href="#">Documentation</a></li>
-              <li><a href="#">API Reference</a></li>
-              <li><a href="#">Tutorials</a></li>
-              <li><a href="#">Best Practices</a></li>
-              <li><a href="#">Community</a></li>
+              <li><Link to="/documentation">Documentation</Link></li>
+              <li><Link to="/api-reference">API Reference</Link></li>
+              <li><Link to="/tutorials">Tutorials</Link></li>
+              <li><Link to="/best-practices">Best Practices</Link></li>
+              <li><Link to="/community">Community</Link></li>
             </ul>
           </div>
 
@@ -64,10 +64,10 @@ const Footer: React.FC = () => {
             <h4 className="footer-section-title">Support</h4>
             <ul className="footer-links">
               <li><Link to="/contact">Contact Us</Link></li>
-              <li><a href="mailto:support@surveyplatform.com">Help Center</a></li>
-              <li><a href="#">Status Page</a></li>
-              <li><a href="#">Report Bug</a></li>
-              <li><a href="#">Feature Request</a></li>
+              <li><Link to="/help-center">Help Center</Link></li>
+              <li><Link to="/status">Status Page</Link></li>
+              <li><Link to="/report-bug">Report Bug</Link></li>
+              <li><Link to="/feature-request">Feature Request</Link></li>
             </ul>
           </div>
 
@@ -75,10 +75,10 @@ const Footer: React.FC = () => {
             <h4 className="footer-section-title">Legal</h4>
             <ul className="footer-links">
               <li><Link to="/privacy">Privacy Policy</Link></li>
-              <li><a href="#">Terms of Service</a></li>
-              <li><a href="#">Cookie Policy</a></li>
-              <li><a href="#">GDPR</a></li>
-              <li><a href="#">Accessibility</a></li>
+              <li><Link to="/terms">Terms of Service</Link></li>
+              <li><Link to="/cookies">Cookie Policy</Link></li>
+              <li><Link to="/gdpr">GDPR</Link></li>
+              <li><Link to="/accessibility">Accessibility</Link></li>
             </ul>
           </div>
         </div>
@@ -91,11 +91,11 @@ const Footer: React.FC = () => {
             <div className="footer-bottom-links">
               <Link to="/privacy">Privacy</Link>
               <span className="separator">•</span>
-              <a href="#">Terms</a>
+              <Link to="/terms">Terms</Link>
               <span className="separator">•</span>
               <Link to="/contact">Contact</Link>
               <span className="separator">•</span>
-              <a href="mailto:support@surveyplatform.com">Support</a>
+              <Link to="/help-center">Support</Link>
             </div>
           </div>
         </div>
