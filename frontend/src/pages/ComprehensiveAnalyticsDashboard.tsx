@@ -4,7 +4,8 @@ import analyticsService, { FilterCriteria } from '../services/analyticsService';
 import { SurveyService } from '../services/surveyService';
 import { 
   FiBarChart2, FiFileText, FiFilter, FiActivity, FiSmartphone, 
-  FiTarget, FiEye, FiCpu, FiSettings, FiTrendingUp, FiUsers, FiGlobe 
+  FiTarget, FiEye, FiCpu, FiSettings, FiTrendingUp, FiUsers, FiGlobe,
+  FiHelpCircle, FiClock, FiCalendar, FiUser, FiStar
 } from 'react-icons/fi';
 import ErrorBoundary from '../components/analytics/ErrorBoundary';
 
@@ -544,7 +545,10 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
         {activeTab === 'attention' && surveyId && (
           <div className="analytics-section">
             <ErrorBoundary>
-              <AttentionDashboard surveyId={surveyId} />
+              <AttentionDashboard 
+                surveyId={surveyId} 
+                isPublic={publicAnalyticsData?.survey?.is_public || false}
+              />
             </ErrorBoundary>
           </div>
         )}
@@ -591,21 +595,21 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
                 {/* Summary Stats */}
                 <div className="summary-stats" style={{ marginBottom: '40px' }}>
                   <div className="stat-card">
-                    <div className="stat-icon">👥</div>
+                    <div className="stat-icon"><FiUsers /></div>
                     <div className="stat-content">
                       <h3>Total Responses</h3>
                       <div className="stat-value">{publicAnalyticsData.analytics.totalResponses}</div>
                     </div>
                   </div>
                   <div className="stat-card">
-                    <div className="stat-icon">❓</div>
+                    <div className="stat-icon"><FiHelpCircle /></div>
                     <div className="stat-content">
                       <h3>Questions</h3>
                       <div className="stat-value">{publicAnalyticsData.analytics.questionAnalytics.length}</div>
                     </div>
                   </div>
                   <div className="stat-card">
-                    <div className="stat-icon">⏱️</div>
+                    <div className="stat-icon"><FiClock /></div>
                     <div className="stat-content">
                       <h3>Avg. Time</h3>
                       <div className="stat-value">
@@ -616,7 +620,7 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
                     </div>
                   </div>
                   <div className="stat-card">
-                    <div className="stat-icon">📅</div>
+                    <div className="stat-icon"><FiCalendar /></div>
                     <div className="stat-content">
                       <h3>Created</h3>
                       <div className="stat-value">
@@ -625,14 +629,14 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
                     </div>
                   </div>
                   <div className="stat-card">
-                    <div className="stat-icon">📈</div>
+                    <div className="stat-icon"><FiTrendingUp /></div>
                     <div className="stat-content">
                       <h3>Completion Rate</h3>
                       <div className="stat-value">{publicAnalyticsData.analytics.completionRate.toFixed(1)}%</div>
                     </div>
                   </div>
                   <div className="stat-card">
-                    <div className="stat-icon">👤</div>
+                    <div className="stat-icon"><FiUser /></div>
                     <div className="stat-content">
                       <h3>Author</h3>
                       <div className="stat-value" style={{ fontSize: '16px' }}>{publicAnalyticsData.survey.author.name}</div>
@@ -695,11 +699,11 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
                         <h4>{selectedQuestionData.question}</h4>
                         <div className="question-stats">
                           <span className="stat">
-                            📊 {selectedQuestionData.responseCount} responses ({selectedQuestionData.responseRate.toFixed(1)}% response rate)
+                            <FiBarChart2 style={{ display: 'inline', marginRight: '4px' }} /> {selectedQuestionData.responseCount} responses ({selectedQuestionData.responseRate.toFixed(1)}% response rate)
                           </span>
                           {selectedQuestionData.averageRating && (
                             <span className="stat">
-                              ⭐ {selectedQuestionData.averageRating.toFixed(1)} avg rating
+                              <FiStar style={{ display: 'inline', marginRight: '4px' }} /> {selectedQuestionData.averageRating.toFixed(1)} avg rating
                             </span>
                           )}
                         </div>

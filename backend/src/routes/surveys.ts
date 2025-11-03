@@ -452,6 +452,7 @@ router.get('/public/surveys/:id/analytics', async (req: Request, res: Response):
           id: survey._id,
           title: survey.title,
           description: survey.description,
+          is_public: survey.is_public,
           author: {
             name: `${(survey.user_id as any).first_name || ''} ${(survey.user_id as any).last_name || ''}`.trim() || 'Anonymous'
           },

@@ -258,13 +258,12 @@ const PublicSurveyAnalytics: React.FC = () => {
             <button className="back-btn" onClick={() => navigate('/public-surveys')}>
               ← Back to Public Surveys
             </button>
-            <h1>{analyticsData.survey.title}</h1>
-            <p>{analyticsData.survey.description}</p>
             <div className="survey-privacy-indicator">
               <span className="privacy-badge public">
                 🌐 Public Survey
               </span>
             </div>
+            <p>{analyticsData.survey.description}</p>
           </div>
           <div className="header-actions">
             <button 
