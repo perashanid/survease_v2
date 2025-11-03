@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import analyticsService, { FilterCriteria } from '../services/analyticsService';
+import { 
+  FiTrendingUp, 
+  FiBarChart2, 
+  FiRefreshCw, 
+  FiActivity, 
+  FiSmartphone, 
+  FiUsers, 
+  FiTarget,
+  FiCheckCircle,
+  FiAlertCircle,
+  FiXCircle
+} from 'react-icons/fi';
 import ErrorBoundary from '../components/analytics/ErrorBoundary';
 import LoadingSkeleton from '../components/analytics/LoadingSkeleton';
 import EmptyState from '../components/analytics/EmptyState';
@@ -108,7 +120,7 @@ const EnhancedAnalyticsDashboard: React.FC = () => {
     <div className="enhanced-analytics">
       <div className="analytics-page-header">
         <div>
-          <h1 className="analytics-page-title">📈 Enhanced Analytics</h1>
+          <h1 className="analytics-page-title"><FiTrendingUp /> Enhanced Analytics</h1>
           <p className="analytics-page-subtitle">
             Detailed insights with advanced visualizations and filtering
           </p>
@@ -131,25 +143,25 @@ const EnhancedAnalyticsDashboard: React.FC = () => {
           className={`tab-button ${activeTab === 'overview' ? 'active' : ''}`}
           onClick={() => setActiveTab('overview')}
         >
-          📊 Overview
+          <FiBarChart2 /> Overview
         </button>
         <button
           className={`tab-button ${activeTab === 'funnel' ? 'active' : ''}`}
           onClick={() => setActiveTab('funnel')}
         >
-          🔄 Funnel
+          <FiRefreshCw /> Funnel
         </button>
         <button
           className={`tab-button ${activeTab === 'heatmap' ? 'active' : ''}`}
           onClick={() => setActiveTab('heatmap')}
         >
-          🔥 Heatmap
+          <FiActivity /> Heatmap
         </button>
         <button
           className={`tab-button ${activeTab === 'devices' ? 'active' : ''}`}
           onClick={() => setActiveTab('devices')}
         >
-          📱 Devices
+          <FiSmartphone /> Devices
         </button>
       </div>
 
@@ -161,7 +173,7 @@ const EnhancedAnalyticsDashboard: React.FC = () => {
               <div className="metric-cards">
                 <div className="metric-card">
                   <div className="metric-header">
-                    <div className="metric-icon">👥</div>
+                    <div className="metric-icon"><FiUsers /></div>
                     <div className="metric-label">Total Responses</div>
                   </div>
                   <div className="metric-value">{overviewData.totalResponses || 0}</div>
@@ -203,13 +215,14 @@ const EnhancedAnalyticsDashboard: React.FC = () => {
                 
                 <div className="metric-card">
                   <div className="metric-header">
-                    <div className="metric-icon">🎯</div>
+                    <div className="metric-icon"><FiTarget /></div>
                     <div className="metric-label">Attention Score</div>
                   </div>
                   <div className="metric-value">{overviewData.attentionScore || 0}</div>
                   <div className="metric-description">
-                    {(overviewData.attentionScore || 0) < 30 ? '🟢 Healthy' : 
-                     (overviewData.attentionScore || 0) < 70 ? '🟡 Monitor' : '🔴 Critical'}
+                    {(overviewData.attentionScore || 0) < 30 ? <><FiCheckCircle style={{color: 'green'}} /> Healthy</> : 
+                     (overviewData.attentionScore || 0) < 70 ? <><FiAlertCircle style={{color: 'orange'}} /> Monitor</> : 
+                     <><FiXCircle style={{color: 'red'}} /> Critical</>}
                   </div>
                 </div>
               </div>
@@ -219,7 +232,7 @@ const EnhancedAnalyticsDashboard: React.FC = () => {
             <ErrorBoundary>
               <div className="chart-card">
                 <div className="chart-header">
-                  <h3>📈 Response Trends</h3>
+                  <h3><FiTrendingUp /> Response Trends</h3>
                   <p>Daily response activity with filtering applied</p>
                 </div>
                 {trendData && trendData.length > 0 ? (
@@ -231,7 +244,7 @@ const EnhancedAnalyticsDashboard: React.FC = () => {
                   />
                 ) : (
                   <EmptyState
-                    icon="📈"
+                    icon={<FiTrendingUp />}
                     title="No Trend Data"
                     message="Response trends will appear here once you have survey responses."
                   />
@@ -246,14 +259,14 @@ const EnhancedAnalyticsDashboard: React.FC = () => {
             <ErrorBoundary>
               <div className="chart-card">
                 <div className="chart-header">
-                  <h3>🔄 Response Funnel</h3>
+                  <h3><FiRefreshCw /> Response Funnel</h3>
                   <p>Track user progression through your survey questions</p>
                 </div>
                 {funnelData && funnelData.length > 0 ? (
                   <FunnelChartComponent data={funnelData} />
                 ) : (
                   <EmptyState
-                    icon="🔄"
+                    icon={<FiRefreshCw />}
                     title="No Funnel Data"
                     message="Funnel analysis will appear here once you have survey responses."
                   />
@@ -268,7 +281,7 @@ const EnhancedAnalyticsDashboard: React.FC = () => {
             <ErrorBoundary>
               <div className="chart-card">
                 <div className="chart-header">
-                  <h3>🔥 Response Heatmap</h3>
+                  <h3><FiActivity /> Response Heatmap</h3>
                   <p>Visualize response patterns by time of day and day of week</p>
                 </div>
                 {heatmapData && heatmapData.length > 0 ? (
@@ -279,7 +292,7 @@ const EnhancedAnalyticsDashboard: React.FC = () => {
                   />
                 ) : (
                   <EmptyState
-                    icon="🔥"
+                    icon={<FiActivity />}
                     title="No Heatmap Data"
                     message="Response heatmap will appear here once you have survey responses."
                   />
@@ -294,7 +307,7 @@ const EnhancedAnalyticsDashboard: React.FC = () => {
             <ErrorBoundary>
               <div className="chart-card">
                 <div className="chart-header">
-                  <h3>📱 Device & Browser Analytics</h3>
+                  <h3><FiSmartphone /> Device & Browser Analytics</h3>
                   <p>Understand how users access your survey</p>
                 </div>
                 {deviceData && (deviceData.devices.mobile + deviceData.devices.desktop + deviceData.devices.tablet) > 0 ? (
@@ -304,7 +317,7 @@ const EnhancedAnalyticsDashboard: React.FC = () => {
                   />
                 ) : (
                   <EmptyState
-                    icon="📱"
+                    icon={<FiSmartphone />}
                     title="No Device Data"
                     message="Device analytics will appear here once you have survey responses."
                   />
