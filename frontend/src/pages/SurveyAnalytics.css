@@ -138,8 +138,9 @@
 
 .question-tabs {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 
 .question-tab {
@@ -152,10 +153,12 @@
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 14px;
-  max-width: 300px;
+  max-width: 400px;
+  min-width: 150px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  line-height: 1.4;
 }
 
 .question-tab:hover {
@@ -276,7 +279,7 @@
 /* Bar Chart */
 .bar-chart {
   display: flex;
-  align-items: end;
+  align-items: flex-end;
   gap: 12px;
   height: 200px;
   padding: 20px 0;
@@ -287,7 +290,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-end;
   height: 100%;
+  gap: 8px;
 }
 
 .bar {
@@ -320,7 +325,6 @@
   font-size: 12px;
   font-weight: 600;
   color: var(--color-text-secondary);
-  margin-top: 8px;
   text-align: center;
   max-width: 60px;
   overflow: hidden;
@@ -334,7 +338,7 @@
   gap: 4px;
   height: 150px;
   padding: 20px 0;
-  overflow-x: auto;
+  overflow-x: hidden;
 }
 
 .timeline-bar {
@@ -1022,6 +1026,8 @@ ublic Survey Analytics Specific Styles */
   padding: 24px;
   margin-bottom: 32px;
   border: 2px solid var(--color-border);
+  overflow: hidden;
+  width: 100%;
 }
 
 .timeline-chart h3 {
@@ -1034,62 +1040,77 @@ ublic Survey Analytics Specific Styles */
 .timeline-bars {
   display: flex;
   align-items: flex-end;
-  gap: 4px;
+  gap: 8px;
   height: 200px;
-  padding: 20px 10px 0 10px;
-  overflow-x: auto;
+  padding: 20px 10px 40px 10px;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  width: 100%;
+  justify-content: space-evenly;
+}
+
+.timeline-bars::-webkit-scrollbar {
+  display: none;
 }
 
 .timeline-bar {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   min-width: 30px;
   height: 100%;
   position: relative;
 }
 
 .timeline-fill {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  background: linear-gradient(180deg, var(--color-primary-dark), var(--color-primary));
   border-radius: 4px 4px 0 0;
   width: 20px;
   min-height: 2px;
   transition: all 0.3s ease;
-  position: relative;
   align-self: center;
+  position: absolute;
+  bottom: 30px;
+}
+
+.timeline-count {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  font-size: 0.75rem;
+  z-index: 10;
+  margin-bottom: 4px;
+  color: var(--color-text-primary);
+  font-weight: 700;
+  text-align: center;
+}
+
+.timeline-label {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .timeline-fill:hover {
-  background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
+  background: linear-gradient(180deg, var(--color-primary), var(--color-primary-dark));
   transform: scaleY(1.05);
 }
 
 .timeline-label {
   font-size: 0.75rem;
   color: var(--color-text-secondary);
-  margin-top: 8px;
   text-align: center;
   transform: rotate(-45deg);
   white-space: nowrap;
   align-self: center;
+  margin-top: 8px;
 }
 
-.timeline-count {
-  font-size: 0.75rem;
-  color: var(--color-text-primary);
-  font-weight: 700;
-  align-self: center;
-  position: absolute;
-  top: -18px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--color-surface-elevated);
-  padding: 2px 4px;
-  border-radius: 4px;
-  min-width: 20px;
-  text-align: center;
-}
+
 
 /* Public badge */
 .public-badge {
@@ -1163,5 +1184,77 @@ Privacy indicator styles */
   .privacy-badge {
     font-size: 12px;
     padding: 6px 12px;
+  }
+}
+
+/* Public Survey Banner */
+.public-survey-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  background: linear-gradient(135deg, rgba(74, 222, 128, 0.1), rgba(34, 197, 94, 0.1));
+  border: 2px solid var(--color-success);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 32px;
+  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.1);
+}
+
+.banner-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.banner-content {
+  flex: 1;
+}
+
+.banner-content h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+}
+
+.banner-content p {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0 4px;
+  transition: color 0.2s ease;
+}
+
+.link-btn:hover {
+  color: var(--color-primary-dark);
+}
+
+/* Responsive banner */
+@media (max-width: 768px) {
+  .public-survey-banner {
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+  }
+  
+  .banner-icon {
+    font-size: 24px;
+  }
+  
+  .banner-content h3 {
+    font-size: 16px;
+  }
+  
+  .banner-content p {
+    font-size: 13px;
   }
 }

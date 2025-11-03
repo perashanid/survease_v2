@@ -10,36 +10,39 @@ interface SurveyAnalyticsData {
     id: string;
     title: string;
     description: string;
-    questions: any[];
-    responseCount: number;
-    createdAt: string;
+    author: {
+      name: string;
+    };
+    created_at: string;
     is_public: boolean;
   };
-  responses: Array<{
-    id: string;
-    submitted_at: string;
-    is_anonymous: boolean;
-    respondent_email?: string;
-    response_data: any;
-    completion_time?: number;
-    started_at?: string;
-  }>;
-  questionAnalytics: {
-    [questionId: string]: {
-      type: string;
-      question: string;
-      totalResponses: number;
-      responseDistribution: { [key: string]: number };
-      averageRating?: number;
-      mostCommonAnswer?: string;
-      responseRate: number;
-    };
-  };
-  demographics: {
-    responsesByDate: { date: string; count: number }[];
-    responsesByHour: { hour: number; count: number }[];
+  analytics: {
+    totalResponses: number;
     completionRate: number;
-    averageCompletionTime?: number;
+    averageCompletionTime: number | null;
+    questionAnalytics: Array<{
+      questionId: string;
+      question: string;
+      type: string;
+      responseCount: number;
+      responseRate: number;
+      optionBreakdown?: Array<{
+        option: string;
+        count: number;
+        percentage: number;
+      }>;
+      ratingBreakdown?: Array<{
+        rating: number;
+        count: number;
+        percentage: number;
+      }>;
+      averageRating?: number;
+      sampleResponses?: string[];
+    }>;
+    responseTimeline: Array<{
+      date: string;
+      responses: number;
+    }>;
   };
 }
 
@@ -67,8 +70,8 @@ const SurveyAnalytics: React.FC = () => {
       setAnalyticsData(data);
       
       // Set first question as selected by default
-      if (data.survey.questions.length > 0) {
-        setSelectedQuestion(data.survey.questions[0].id);
+      if (data.analytics.questionAnalytics.length > 0) {
+        setSelectedQuestion(data.analytics.questionAnalytics[0].questionId);
       }
     } catch (err: any) {
       setError(err.response?.data?.error?.message || 'Failed to load survey analytics');
@@ -99,8 +102,8 @@ const SurveyAnalytics: React.FC = () => {
     }
   };
 
-  const renderPieChart = (data: { [key: string]: number }, title: string) => {
-    const total = Object.values(data).reduce((sum, val) => sum + val, 0);
+  const renderPieChart = (data: Array<{ option?: string; rating?: number; count: number; percentage: number }>, title: string) => {
+    const total = data.reduce((sum, item) => sum + item.count, 0);
     if (total === 0) return <div className="no-data">No responses yet</div>;
 
     const colors = ['#4ade80', '#60a5fa', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#84cc16'];
@@ -111,8 +114,8 @@ const SurveyAnalytics: React.FC = () => {
         <h4>{title}</h4>
         <div className="pie-chart">
           <svg viewBox="0 0 200 200" className="pie-svg">
-            {Object.entries(data).map(([key, value], index) => {
-              const angle = (value / total) * 360;
+            {data.map((item, index) => {
+              const angle = (item.count / total) * 360;
               const startAngle = currentAngle;
               const endAngle = currentAngle + angle;
               
@@ -134,7 +137,7 @@ const SurveyAnalytics: React.FC = () => {
               
               return (
                 <path
-                  key={key}
+                  key={index}
                   d={pathData}
                   fill={colors[index % colors.length]}
                   stroke="white"
@@ -144,14 +147,14 @@ const SurveyAnalytics: React.FC = () => {
             })}
           </svg>
           <div className="pie-legend">
-            {Object.entries(data).map(([key, value], index) => (
-              <div key={key} className="legend-item">
+            {data.map((item, index) => (
+              <div key={index} className="legend-item">
                 <div 
                   className="legend-color" 
                   style={{ backgroundColor: colors[index % colors.length] }}
                 ></div>
                 <span className="legend-text">
-                  {key}: {value} ({((value / total) * 100).toFixed(1)}%)
+                  {item.option || item.rating}: {item.count} ({item.percentage.toFixed(1)}%)
                 </span>
               </div>
             ))}
@@ -161,24 +164,24 @@ const SurveyAnalytics: React.FC = () => {
     );
   };
 
-  const renderBarChart = (data: { [key: string]: number }, title: string) => {
-    const maxValue = Math.max(...Object.values(data));
+  const renderBarChart = (data: Array<{ option?: string; rating?: number; count: number; percentage: number }>, title: string) => {
+    const maxValue = Math.max(...data.map(item => item.count));
     if (maxValue === 0) return <div className="no-data">No responses yet</div>;
 
     return (
       <div className="bar-chart-container">
         <h4>{title}</h4>
         <div className="bar-chart">
-          {Object.entries(data).map(([key, value]) => (
-            <div key={key} className="bar-item">
+          {data.map((item, index) => (
+            <div key={index} className="bar-item">
               <div 
                 className="bar" 
-                style={{ height: `${(value / maxValue) * 100}%` }}
-                title={`${key}: ${value}`}
+                style={{ height: `${(item.count / maxValue) * 100}%` }}
+                title={`${item.option || item.rating}: ${item.count}`}
               >
-                <span className="bar-value">{value}</span>
+                <span className="bar-value">{item.count}</span>
               </div>
-              <span className="bar-label">{key}</span>
+              <span className="bar-label">{item.option || item.rating}</span>
             </div>
           ))}
         </div>
@@ -186,92 +189,7 @@ const SurveyAnalytics: React.FC = () => {
     );
   };
 
-  const renderResponseTimeline = () => {
-    if (!analyticsData?.demographics.responsesByDate || analyticsData.demographics.responsesByDate.length === 0) {
-      return (
-        <div className="timeline-chart">
-          <h4>Response Timeline</h4>
-          <div className="chart-placeholder">
-            <div className="no-data-icon">📊</div>
-            <p>No response timeline data available</p>
-          </div>
-        </div>
-      );
-    }
 
-    const data = analyticsData.demographics.responsesByDate;
-    const maxResponses = Math.max(...data.map(d => d.count), 1);
-
-    return (
-      <div className="timeline-chart">
-        <h4>Response Timeline</h4>
-        <div className="timeline-bars">
-          {data.map((item, index) => (
-            <div key={index} className="timeline-bar">
-              <span className="timeline-count">{item.count}</span>
-              <div 
-                className="timeline-fill"
-                style={{ height: `${(item.count / maxResponses) * 100}%` }}
-                title={`${item.date}: ${item.count} responses`}
-              ></div>
-              <span className="timeline-label">
-                {new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
-
-  const renderResponsesByHour = () => {
-    if (!analyticsData?.demographics.responsesByHour || analyticsData.demographics.responsesByHour.length === 0) {
-      return (
-        <div className="hour-chart">
-          <h4>Responses by Hour</h4>
-          <div className="chart-placeholder">
-            <div className="no-data-icon">📊</div>
-            <p>No hourly response data available</p>
-          </div>
-        </div>
-      );
-    }
-
-    const data = analyticsData.demographics.responsesByHour;
-    const maxResponses = Math.max(...data.map(d => d.count), 1);
-    const totalResponses = data.reduce((sum, d) => sum + d.count, 0);
-
-    if (totalResponses === 0) {
-      return (
-        <div className="hour-chart">
-          <h4>Responses by Hour</h4>
-          <div className="chart-placeholder">
-            <div className="no-data-icon">📊</div>
-            <p>No responses recorded yet</p>
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div className="hour-chart">
-        <h4>Responses by Hour</h4>
-        <div className="hour-bars">
-          {data.map((item, index) => (
-            <div key={index} className="hour-bar">
-              <div 
-                className="hour-fill"
-                style={{ height: `${(item.count / maxResponses) * 100}%` }}
-                title={`${item.hour}:00 - ${item.count} responses`}
-              ></div>
-              <span className="hour-label">{item.hour}</span>
-              <span className="hour-count">{item.count}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
 
   if (loading) {
     return (
@@ -305,7 +223,9 @@ const SurveyAnalytics: React.FC = () => {
 
   if (!analyticsData) return null;
 
-  const selectedQuestionData = selectedQuestion ? analyticsData.questionAnalytics[selectedQuestion] : null;
+  const selectedQuestionData = selectedQuestion 
+    ? analyticsData.analytics.questionAnalytics.find(q => q.questionId === selectedQuestion) 
+    : null;
 
   return (
     <div className="survey-analytics-page">
@@ -331,6 +251,15 @@ const SurveyAnalytics: React.FC = () => {
             </div>
           </div>
           <div className="header-actions">
+            {analyticsData.survey.is_public && (
+              <button 
+                className="btn btn-primary"
+                onClick={() => navigate(`/public-survey-analytics/${surveyId}`)}
+                title="View public analytics page"
+              >
+                👁️ View Public Analytics
+              </button>
+            )}
             <button 
               className="btn btn-outline"
               onClick={() => downloadSurveyData('json')}
@@ -352,21 +281,14 @@ const SurveyAnalytics: React.FC = () => {
             <div className="stat-icon">👥</div>
             <div className="stat-content">
               <h3>Total Responses</h3>
-              <div className="stat-value">{analyticsData.survey.responseCount}</div>
-            </div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon">📈</div>
-            <div className="stat-content">
-              <h3>Completion Rate</h3>
-              <div className="stat-value">{analyticsData.demographics.completionRate.toFixed(1)}%</div>
+              <div className="stat-value">{analyticsData.analytics.totalResponses}</div>
             </div>
           </div>
           <div className="stat-card">
             <div className="stat-icon">❓</div>
             <div className="stat-content">
               <h3>Questions</h3>
-              <div className="stat-value">{analyticsData.survey.questions.length}</div>
+              <div className="stat-value">{analyticsData.analytics.questionAnalytics.length}</div>
             </div>
           </div>
           <div className="stat-card">
@@ -374,29 +296,77 @@ const SurveyAnalytics: React.FC = () => {
             <div className="stat-content">
               <h3>Avg. Time</h3>
               <div className="stat-value">
-                {analyticsData.demographics.averageCompletionTime 
-                  ? timeTrackingService.formatCompletionTime(analyticsData.demographics.averageCompletionTime)
+                {analyticsData.analytics.averageCompletionTime 
+                  ? timeTrackingService.formatCompletionTime(analyticsData.analytics.averageCompletionTime)
                   : 'N/A'}
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Question Selector */}
-        <div className="question-selector">
-          <h3>Question Analysis</h3>
-          <div className="question-tabs">
-            {analyticsData.survey.questions.map((question) => (
-              <button
-                key={question.id}
-                className={`question-tab ${selectedQuestion === question.id ? 'active' : ''}`}
-                onClick={() => setSelectedQuestion(question.id)}
-              >
-                Q{analyticsData.survey.questions.indexOf(question) + 1}: {question.question.substring(0, 50)}...
-              </button>
-            ))}
+          <div className="stat-card">
+            <div className="stat-icon">📅</div>
+            <div className="stat-content">
+              <h3>Created</h3>
+              <div className="stat-value">
+                {new Date(analyticsData.survey.created_at).toLocaleDateString()}
+              </div>
+            </div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-icon">📈</div>
+            <div className="stat-content">
+              <h3>Completion Rate</h3>
+              <div className="stat-value">{analyticsData.analytics.completionRate.toFixed(1)}%</div>
+            </div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-icon">👤</div>
+            <div className="stat-content">
+              <h3>Author</h3>
+              <div className="stat-value">{analyticsData.survey.author.name}</div>
+            </div>
           </div>
         </div>
+
+        {/* Response Timeline */}
+        {analyticsData.analytics.responseTimeline && analyticsData.analytics.responseTimeline.length > 0 && (
+          <div className="timeline-chart">
+            <h3>Response Timeline (Last 30 Days)</h3>
+            <div className="timeline-bars">
+              {analyticsData.analytics.responseTimeline.map((item, index) => {
+                const maxResponses = Math.max(...analyticsData.analytics.responseTimeline.map(d => d.responses), 1);
+                return (
+                  <div key={index} className="timeline-bar">
+                    <span className="timeline-count">{item.responses}</span>
+                    <div 
+                      className="timeline-fill"
+                      style={{ height: `${(item.responses / maxResponses) * 100}%` }}
+                      title={`${item.date}: ${item.responses} responses`}
+                    ></div>
+                    <span className="timeline-label">{new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Question Selector */}
+        {analyticsData.analytics.questionAnalytics.length > 0 && (
+          <div className="question-selector">
+            <h3>Question Analysis</h3>
+            <div className="question-tabs">
+              {analyticsData.analytics.questionAnalytics.map((question, index) => (
+                <button
+                  key={question.questionId}
+                  className={`question-tab ${selectedQuestion === question.questionId ? 'active' : ''}`}
+                  onClick={() => setSelectedQuestion(question.questionId)}
+                >
+                  Q{index + 1}: {question.question.substring(0, 50)}...
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Question Analytics */}
         {selectedQuestionData && (
@@ -405,10 +375,7 @@ const SurveyAnalytics: React.FC = () => {
               <h4>{selectedQuestionData.question}</h4>
               <div className="question-stats">
                 <span className="stat">
-                  📊 {selectedQuestionData.totalResponses} responses
-                </span>
-                <span className="stat">
-                  📈 {selectedQuestionData.responseRate.toFixed(1)}% response rate
+                  📊 {selectedQuestionData.responseCount} responses ({selectedQuestionData.responseRate.toFixed(1)}% response rate)
                 </span>
                 {selectedQuestionData.averageRating && (
                   <span className="stat">
@@ -418,76 +385,58 @@ const SurveyAnalytics: React.FC = () => {
               </div>
             </div>
 
-            <div className="charts-grid">
-              <div className="chart-section">
-                {renderPieChart(selectedQuestionData.responseDistribution, 'Response Distribution')}
+            {selectedQuestionData.optionBreakdown && selectedQuestionData.optionBreakdown.length > 0 && (
+              <div className="charts-grid">
+                <div className="chart-section">
+                  {renderPieChart(selectedQuestionData.optionBreakdown.map(item => ({
+                    option: item.option,
+                    count: item.count,
+                    percentage: item.percentage
+                  })), 'Response Distribution')}
+                </div>
+                <div className="chart-section">
+                  {renderBarChart(selectedQuestionData.optionBreakdown.map(item => ({
+                    option: item.option,
+                    count: item.count,
+                    percentage: item.percentage
+                  })), 'Response Frequency')}
+                </div>
               </div>
-              <div className="chart-section">
-                {renderBarChart(selectedQuestionData.responseDistribution, 'Response Frequency')}
+            )}
+
+            {selectedQuestionData.ratingBreakdown && selectedQuestionData.ratingBreakdown.length > 0 && (
+              <div className="charts-grid">
+                <div className="chart-section">
+                  {renderPieChart(selectedQuestionData.ratingBreakdown.map(item => ({
+                    rating: item.rating,
+                    count: item.count,
+                    percentage: item.percentage
+                  })), 'Rating Distribution')}
+                </div>
+                <div className="chart-section">
+                  {renderBarChart(selectedQuestionData.ratingBreakdown.map(item => ({
+                    rating: item.rating,
+                    count: item.count,
+                    percentage: item.percentage
+                  })), 'Rating Frequency')}
+                </div>
               </div>
-            </div>
+            )}
+
+            {selectedQuestionData.sampleResponses && selectedQuestionData.sampleResponses.length > 0 && (
+              <div className="text-responses">
+                <h4>Sample Text Responses</h4>
+                <div className="text-responses-list">
+                  {selectedQuestionData.sampleResponses.map((response, index) => (
+                    <div key={index} className="text-response-item">
+                      "{response}"
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
-
-        {/* Overall Analytics */}
-        <div className="overall-analytics">
-          <div className="analytics-grid">
-            <div className="chart-section">
-              {renderResponseTimeline()}
-            </div>
-            <div className="chart-section">
-              {renderResponsesByHour()}
-            </div>
-          </div>
-        </div>
-
-        {/* Raw Data Preview */}
-        <div className="raw-data-section">
-          <h3>Recent Responses Preview</h3>
-          <div className="data-table-container">
-            <table className="data-table">
-              <thead>
-                <tr>
-                  <th>Response ID</th>
-                  <th>Submitted At</th>
-                  <th>Respondent</th>
-                  <th>Completion Time</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {analyticsData.responses.slice(0, 10).map((response, index) => (
-                  <tr key={response.id || index}>
-                    <td>#{(response.id || '').substring(0, 8)}...</td>
-                    <td>{new Date(response.submitted_at).toLocaleString()}</td>
-                    <td>
-                      {response.is_anonymous ? (
-                        <span className="anonymous-badge">Anonymous</span>
-                      ) : (
-                        <span className="respondent-email">
-                          {response.respondent_email || 'Registered User'}
-                        </span>
-                      )}
-                    </td>
-                    <td>
-                      {response.completion_time 
-                        ? timeTrackingService.formatCompletionTime(response.completion_time)
-                        : 'N/A'
-                      }
-                    </td>
-                    <td>
-                      <span className="completion-badge complete">Complete</span>
-                    </td>
-                    <td>
-                      <button className="btn-sm btn-outline">View Details</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
       </div>
     </div>
   );

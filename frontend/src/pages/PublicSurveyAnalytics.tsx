@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { apiClient as api } from '../services/api';
 import { timeTrackingService } from '../services/timeTrackingService';
+import { FiUsers, FiHelpCircle, FiClock, FiCalendar, FiTrendingUp, FiUser } from 'react-icons/fi';
 import './SurveyAnalytics.css';
 
 interface PublicSurveyAnalyticsData {
@@ -284,21 +285,21 @@ const PublicSurveyAnalytics: React.FC = () => {
         {/* Summary Stats */}
         <div className="summary-stats">
           <div className="stat-card">
-            <div className="stat-icon">👥</div>
+            <div className="stat-icon"><FiUsers /></div>
             <div className="stat-content">
               <h3>Total Responses</h3>
               <div className="stat-value">{analyticsData.analytics.totalResponses}</div>
             </div>
           </div>
           <div className="stat-card">
-            <div className="stat-icon">❓</div>
+            <div className="stat-icon"><FiHelpCircle /></div>
             <div className="stat-content">
               <h3>Questions</h3>
               <div className="stat-value">{analyticsData.analytics.questionAnalytics.length}</div>
             </div>
           </div>
           <div className="stat-card">
-            <div className="stat-icon">⏱️</div>
+            <div className="stat-icon"><FiClock /></div>
             <div className="stat-content">
               <h3>Avg. Time</h3>
               <div className="stat-value">
@@ -309,7 +310,7 @@ const PublicSurveyAnalytics: React.FC = () => {
             </div>
           </div>
           <div className="stat-card">
-            <div className="stat-icon">📅</div>
+            <div className="stat-icon"><FiCalendar /></div>
             <div className="stat-content">
               <h3>Created</h3>
               <div className="stat-value">
@@ -318,14 +319,14 @@ const PublicSurveyAnalytics: React.FC = () => {
             </div>
           </div>
           <div className="stat-card">
-            <div className="stat-icon">📈</div>
+            <div className="stat-icon"><FiTrendingUp /></div>
             <div className="stat-content">
               <h3>Completion Rate</h3>
               <div className="stat-value">{analyticsData.analytics.completionRate.toFixed(1)}%</div>
             </div>
           </div>
           <div className="stat-card">
-            <div className="stat-icon">👤</div>
+            <div className="stat-icon"><FiUser /></div>
             <div className="stat-content">
               <h3>Author</h3>
               <div className="stat-value">{analyticsData.survey.author.name}</div>
@@ -342,13 +343,13 @@ const PublicSurveyAnalytics: React.FC = () => {
                 const maxResponses = Math.max(...analyticsData.analytics.responseTimeline.map(d => d.responses), 1);
                 return (
                   <div key={index} className="timeline-bar">
+                    <span className="timeline-count">{item.responses}</span>
                     <div 
                       className="timeline-fill"
                       style={{ height: `${(item.responses / maxResponses) * 100}%` }}
                       title={`${item.date}: ${item.responses} responses`}
                     ></div>
                     <span className="timeline-label">{new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
-                    <span className="timeline-count">{item.responses}</span>
                   </div>
                 );
               })}
