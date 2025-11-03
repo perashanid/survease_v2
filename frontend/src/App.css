@@ -393,7 +393,41 @@
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
+/* React Icons Global Styling */
+.stat-icon svg,
+.metric-icon svg,
+.empty-state-icon svg,
+.choice-icon svg,
+.nav-icon svg,
+.social-link svg,
+button svg,
+a svg {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Ensure icons in buttons and links have proper spacing */
+button svg,
+a svg {
+  margin-right: 6px;
+}
+
+button svg:only-child,
+a svg:only-child {
+  margin-right: 0;
+}
+
 /* Responsive Design */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 20px;
+  }
+  
+  .grid-2, .grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 768px) {
   .container {
     padding: 0 16px;
@@ -404,17 +438,84 @@
   }
   
   .btn {
-    padding: 10px 20px;
+    padding: 12px 20px;
     font-size: 14px;
+    min-height: 44px;
   }
   
   .btn-lg {
     padding: 14px 28px;
     font-size: 16px;
+    min-height: 52px;
+  }
+  
+  .btn-sm {
+    padding: 8px 16px;
+    font-size: 13px;
+    min-height: 36px;
   }
   
   .card {
     padding: 20px;
+    border-radius: 16px;
+  }
+  
+  .form-input,
+  .form-textarea,
+  .form-select {
+    padding: 14px 16px;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+  
+  .form-label {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 12px;
+  }
+  
+  .main-content {
+    padding-top: 60px;
+  }
+  
+  .btn {
+    padding: 10px 16px;
+    font-size: 14px;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .btn-lg {
+    padding: 12px 24px;
+    font-size: 15px;
+  }
+  
+  .btn-sm {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+  
+  .card {
+    padding: 16px;
+    border-radius: 12px;
+  }
+  
+  .card-title {
+    font-size: 20px;
+  }
+  
+  .form-input,
+  .form-textarea,
+  .form-select {
+    padding: 12px 14px;
+    font-size: 16px;
+  }
+  
+  .grid {
+    gap: 16px;
   }
 }/* 
 Enhanced light mode styling for better navigation and visual hierarchy */
