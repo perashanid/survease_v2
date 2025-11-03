@@ -252,17 +252,22 @@ const PublicSurveyAnalytics: React.FC = () => {
   return (
     <div className="survey-analytics-page">
       <div className="analytics-container">
+        {/* Back Button - Top Left */}
+        <button className="back-btn" onClick={() => navigate('/public-surveys')}>
+          ← Back to Public Surveys
+        </button>
+
+        {/* Public Survey Badge */}
+        <div className="survey-privacy-indicator">
+          <span className="privacy-badge public">
+            🌐 PUBLIC SURVEY
+          </span>
+        </div>
+
         {/* Header */}
         <div className="analytics-header">
           <div className="header-content">
-            <button className="back-btn" onClick={() => navigate('/public-surveys')}>
-              ← Back to Public Surveys
-            </button>
-            <div className="survey-privacy-indicator">
-              <span className="privacy-badge public">
-                🌐 Public Survey
-              </span>
-            </div>
+            <h1>{analyticsData.survey.title}</h1>
             <p>{analyticsData.survey.description}</p>
           </div>
           <div className="header-actions">

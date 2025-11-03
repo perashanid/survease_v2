@@ -230,12 +230,14 @@ const SurveyAnalytics: React.FC = () => {
   return (
     <div className="survey-analytics-page">
       <div className="analytics-container">
+        {/* Back Button - Top Left */}
+        <button className="back-btn" onClick={() => navigate('/dashboard')}>
+          ← Back to Dashboard
+        </button>
+
         {/* Header */}
         <div className="analytics-header">
           <div className="header-content">
-            <button className="back-btn" onClick={() => navigate('/dashboard')}>
-              ← Back to Dashboard
-            </button>
             <h1>{analyticsData.survey.title}</h1>
             <p>{analyticsData.survey.description}</p>
             <div className="survey-privacy-indicator">

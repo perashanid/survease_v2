@@ -10,20 +10,7 @@
   padding: 0 20px;
 }
 
-/* Header */
-.analytics-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 40px;
-  padding-bottom: 24px;
-  border-bottom: 2px solid var(--color-border);
-}
-
-.header-content {
-  flex: 1;
-}
-
+/* Back Button - Positioned at top left */
 .back-btn {
   background: var(--color-surface-elevated);
   color: var(--color-text-secondary);
@@ -43,6 +30,25 @@
   background: var(--color-primary);
   color: white;
   border-color: var(--color-primary);
+}
+
+/* Privacy Indicator - When positioned outside header */
+.analytics-container > .survey-privacy-indicator {
+  margin-bottom: 24px;
+}
+
+/* Header */
+.analytics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 40px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.header-content {
+  flex: 1;
 }
 
 .analytics-header h1 {
