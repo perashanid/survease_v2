@@ -12,6 +12,14 @@
   margin-bottom: 16px;
   opacity: 0.5;
   color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-state-icon svg {
+  width: 64px;
+  height: 64px;
 }
 
 .empty-state-title {

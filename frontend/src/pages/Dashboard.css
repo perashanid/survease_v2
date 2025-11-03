@@ -381,10 +381,7 @@
   gap: 12px;
 }
 
-.surveys-section h2::before {
-  content: '📋';
-  font-size: 32px;
-}
+/* Removed emoji - using React Icon in component instead */
 
 .surveys-list {
   display: flex;

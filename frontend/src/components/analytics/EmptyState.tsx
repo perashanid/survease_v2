@@ -1,8 +1,9 @@
 import React from 'react';
+import { FiBarChart2 } from 'react-icons/fi';
 import './EmptyState.css';
 
 interface EmptyStateProps {
-  icon?: string;
+  icon?: React.ReactNode;
   title: string;
   message: string;
   action?: {
@@ -12,7 +13,7 @@ interface EmptyStateProps {
 }
 
 const EmptyState: React.FC<EmptyStateProps> = ({
-  icon = '📊',
+  icon = <FiBarChart2 />,
   title,
   message,
   action

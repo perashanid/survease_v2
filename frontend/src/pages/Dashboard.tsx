@@ -6,7 +6,8 @@ import { motion } from 'framer-motion';
 import { 
   FiBarChart2, FiTrendingUp, FiPlus, FiSearch, FiX, 
   FiGlobe, FiLock, FiEye, FiTrash2, FiLink, FiCopy,
-  FiCheckCircle, FiCalendar, FiHelpCircle, FiUsers
+  FiCheckCircle, FiCalendar, FiHelpCircle, FiUsers,
+  FiTarget, FiZap, FiActivity
 } from 'react-icons/fi';
 import Analytics from './Analytics';
 import InvitationManager from '../components/survey/InvitationManager';
@@ -191,7 +192,7 @@ const Dashboard: React.FC = () => {
         {/* Surveys List */}
         <div className="surveys-section">
           <div className="surveys-header">
-            <h2>Your Surveys</h2>
+            <h2><FiBarChart2 /> Your Surveys</h2>
             <div className="search-container">
               <FiSearch className="search-icon" />
               <input
@@ -281,23 +282,23 @@ const Dashboard: React.FC = () => {
                       </Link>
                       <div className="analytics-dropdown-menu">
                         <Link to={`/analytics-selector/${survey.id}`} className="dropdown-item featured">
-                          🎯 Choose Analytics Experience
+                          <FiTarget /> Choose Analytics Experience
                         </Link>
                         <div className="dropdown-divider"></div>
                         <Link to={`/basic-analytics/${survey.id}`} className="dropdown-item">
-                          📊 Basic Analytics
+                          <FiBarChart2 /> Basic Analytics
                         </Link>
                         <Link to={`/enhanced-analytics/${survey.id}`} className="dropdown-item">
-                          📈 Enhanced Analytics
+                          <FiTrendingUp /> Enhanced Analytics
                         </Link>
                         <Link to={`/advanced-analytics/${survey.id}`} className="dropdown-item">
-                          🎯 Advanced Dashboard
+                          <FiTarget /> Advanced Dashboard
                         </Link>
                         <Link to={`/comprehensive-analytics/${survey.id}`} className="dropdown-item">
-                          🚀 Comprehensive Dashboard
+                          <FiZap /> Comprehensive Dashboard
                         </Link>
                         <Link to={`/attention-analytics/${survey.id}`} className="dropdown-item">
-                          🔍 Attention Analytics
+                          <FiActivity /> Attention Analytics
                         </Link>
                       </div>
                     </div>

@@ -1,16 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   FiTwitter, 
   FiLinkedin, 
   FiGithub, 
   FiMail, 
-  FiHeart 
+  FiHeart,
+  FiChevronDown,
+  FiChevronUp
 } from 'react-icons/fi';
 import './Footer.css';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const toggleSection = (section: string) => {
+    const newExpanded = new Set(expandedSections);
+    if (newExpanded.has(section)) {
+      newExpanded.delete(section);
+    } else {
+      newExpanded.add(section);
+    }
+    setExpandedSections(newExpanded);
+  };
 
   return (
     <footer className="footer">
@@ -39,8 +62,19 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="footer-section">
-            <h4 className="footer-section-title">Platform</h4>
-            <ul className="footer-links">
+            <h4 
+              className="footer-section-title"
+              onClick={() => isMobile && toggleSection('platform')}
+              style={{ cursor: isMobile ? 'pointer' : 'default' }}
+            >
+              Platform
+              {isMobile && (
+                <span className="toggle-icon">
+                  {expandedSections.has('platform') ? <FiChevronUp /> : <FiChevronDown />}
+                </span>
+              )}
+            </h4>
+            <ul className={`footer-links ${isMobile && !expandedSections.has('platform') ? 'collapsed' : ''}`}>
               <li><Link to="/">Home</Link></li>
               <li><Link to="/surveys">Public Surveys</Link></li>
               <li><Link to="/dashboard">Dashboard</Link></li>
@@ -50,8 +84,19 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="footer-section">
-            <h4 className="footer-section-title">Resources</h4>
-            <ul className="footer-links">
+            <h4 
+              className="footer-section-title"
+              onClick={() => isMobile && toggleSection('resources')}
+              style={{ cursor: isMobile ? 'pointer' : 'default' }}
+            >
+              Resources
+              {isMobile && (
+                <span className="toggle-icon">
+                  {expandedSections.has('resources') ? <FiChevronUp /> : <FiChevronDown />}
+                </span>
+              )}
+            </h4>
+            <ul className={`footer-links ${isMobile && !expandedSections.has('resources') ? 'collapsed' : ''}`}>
               <li><Link to="/documentation">Documentation</Link></li>
               <li><Link to="/api-reference">API Reference</Link></li>
               <li><Link to="/tutorials">Tutorials</Link></li>
@@ -61,8 +106,19 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="footer-section">
-            <h4 className="footer-section-title">Support</h4>
-            <ul className="footer-links">
+            <h4 
+              className="footer-section-title"
+              onClick={() => isMobile && toggleSection('support')}
+              style={{ cursor: isMobile ? 'pointer' : 'default' }}
+            >
+              Support
+              {isMobile && (
+                <span className="toggle-icon">
+                  {expandedSections.has('support') ? <FiChevronUp /> : <FiChevronDown />}
+                </span>
+              )}
+            </h4>
+            <ul className={`footer-links ${isMobile && !expandedSections.has('support') ? 'collapsed' : ''}`}>
               <li><Link to="/contact">Contact Us</Link></li>
               <li><Link to="/help-center">Help Center</Link></li>
               <li><Link to="/status">Status Page</Link></li>
@@ -72,8 +128,19 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="footer-section">
-            <h4 className="footer-section-title">Legal</h4>
-            <ul className="footer-links">
+            <h4 
+              className="footer-section-title"
+              onClick={() => isMobile && toggleSection('legal')}
+              style={{ cursor: isMobile ? 'pointer' : 'default' }}
+            >
+              Legal
+              {isMobile && (
+                <span className="toggle-icon">
+                  {expandedSections.has('legal') ? <FiChevronUp /> : <FiChevronDown />}
+                </span>
+              )}
+            </h4>
+            <ul className={`footer-links ${isMobile && !expandedSections.has('legal') ? 'collapsed' : ''}`}>
               <li><Link to="/privacy">Privacy Policy</Link></li>
               <li><Link to="/terms">Terms of Service</Link></li>
               <li><Link to="/cookies">Cookie Policy</Link></li>
