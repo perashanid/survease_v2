@@ -47,6 +47,7 @@
   background: transparent;
   scrollbar-width: thin;
   scrollbar-color: var(--color-primary-200) transparent;
+  flex-wrap: nowrap;
 }
 
 .analytics-tabs::-webkit-scrollbar {
@@ -78,6 +79,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-shrink: 0;
 }
 
 .tab-button svg {
@@ -322,18 +324,44 @@
     font-size: 18px;
   }
 
+  /* Mobile tabs - wrap into consistent rows */
   .analytics-tabs {
-    gap: 2px;
+    flex-wrap: wrap;
+    gap: 6px;
+    border-bottom: none;
+    padding-bottom: 8px;
+    overflow-x: visible;
   }
 
   .tab-button {
-    padding: 12px 16px;
-    font-size: 13px;
+    padding: 10px 14px;
+    font-size: 12px;
+    border-radius: 8px;
+    border: 2px solid var(--color-border);
+    flex: 1 1 calc(50% - 3px);
+    min-width: calc(50% - 3px);
+    max-width: calc(50% - 3px);
+    justify-content: center;
+    gap: 6px;
+  }
+  
+  .tab-button::before {
+    display: none;
+  }
+  
+  .tab-button.active {
+    background: var(--gradient-primary);
+    color: white;
+    border-color: var(--color-primary);
+  }
+  
+  .tab-button.active svg {
+    color: white;
   }
 
   .tab-button svg {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
   }
 }
 
@@ -346,14 +374,23 @@
     font-size: 28px;
   }
 
+  .analytics-tabs {
+    gap: 8px;
+    padding-bottom: 8px;
+  }
+
   .tab-button {
     padding: 10px 12px;
-    font-size: 12px;
+    font-size: 11px;
+    flex: 1 1 calc(50% - 4px);
+    min-width: calc(50% - 4px);
+    max-width: calc(50% - 4px);
+    gap: 4px;
   }
 
   .tab-button svg {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
   }
 }
 
@@ -367,6 +404,18 @@
 .metric-card:focus-within {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
+}
+
+/* ===== TOUCH-FRIENDLY IMPROVEMENTS ===== */
+@media (hover: none) and (pointer: coarse) {
+  .tab-button {
+    min-height: 44px;
+    padding: 12px 16px;
+  }
+  
+  .tab-button:active {
+    transform: scale(0.98);
+  }
 }
 
 /* ===== ANIMATIONS ===== */
@@ -528,6 +577,40 @@
   .toggle-all-button {
     width: 100%;
     text-align: center;
+  }
+}
+
+/* ===== TABLET SPECIFIC (769px - 1024px) ===== */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .analytics-tabs {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-bottom: 8px;
+  }
+  
+  .tab-button {
+    padding: 12px 18px;
+    font-size: 13px;
+    flex: 1 1 calc(33.333% - 6px);
+    min-width: calc(33.333% - 6px);
+    max-width: calc(33.333% - 6px);
+    justify-content: center;
+    border-radius: 8px;
+    border: 2px solid var(--color-border);
+  }
+  
+  .tab-button::before {
+    display: none;
+  }
+  
+  .tab-button.active {
+    background: var(--gradient-primary);
+    color: white;
+    border-color: var(--color-primary);
+  }
+  
+  .tab-button.active svg {
+    color: white;
   }
 }
 

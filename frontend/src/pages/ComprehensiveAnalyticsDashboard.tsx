@@ -225,7 +225,7 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
     return (
       <div className="advanced-analytics">
         <EmptyState
-          icon="⚠️"
+          icon={<FiActivity />}
           title="Failed to Load Analytics"
           message={typeof error === 'string' ? error : 'An error occurred while loading analytics data'}
           action={{
@@ -391,7 +391,7 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
                   />
                 ) : (
                   <EmptyState
-                    icon="📈"
+                    icon={<FiTrendingUp />}
                     title="No Trend Data"
                     message="Response trends will appear here once you have survey responses."
                   />
@@ -432,7 +432,7 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
                   />
                 ) : (
                   <EmptyState
-                    icon="📝"
+                    icon={<FiFileText />}
                     title="No Question Data"
                     message="No question metrics available for this survey yet."
                   />
@@ -521,7 +521,7 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
                   />
                 ) : (
                   <EmptyState
-                    icon="📱"
+                    icon={<FiSmartphone />}
                     title="No Device Data"
                     message="No device information available yet."
                   />
@@ -765,7 +765,7 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
               </>
             ) : (
               <EmptyState
-                icon="🌐"
+                icon={<FiGlobe />}
                 title="No Public Data Available"
                 message="Public survey analytics data will appear here once available."
               />
