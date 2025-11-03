@@ -21,6 +21,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
+import path from 'path';
 import { connectDatabase } from './config/database';
 import authRoutes from './routes/auth';
 
@@ -111,16 +112,27 @@ app.use('/api/segments', segmentsRoutes);
 app.use('/api/attention', attentionRoutes);
 app.use('/api/predictions', predictionsRoutes);
 
-// 404 handler
-app.use('*', (req, res) => {
-  res.status(404).json({
-    success: false,
-    error: {
-      code: 'NOT_FOUND',
-      message: 'Endpoint not found'
-    }
+// Serve static files from frontend build (for production)
+if (process.env.NODE_ENV === 'production') {
+  const frontendPath = path.join(__dirname, '../../frontend/dist');
+  app.use(express.static(frontendPath));
+  
+  // Handle React routing - send all non-API requests to index.html
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(frontendPath, 'index.html'));
   });
-});
+} else {
+  // 404 handler for development
+  app.use('*', (req, res) => {
+    res.status(404).json({
+      success: false,
+      error: {
+        code: 'NOT_FOUND',
+        message: 'Endpoint not found'
+      }
+    });
+  });
+}
 
 // Global error handler
 app.use((error: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

@@ -11,7 +11,9 @@
     "deploy:backend": "cd backend && npm run render-build",
     "deploy:frontend": "cd frontend && npm run render-build",
     "start:prod": "cd backend && npm start",
-    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install"
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "render-build": "cd backend && npm install && npm run build && cd ../frontend && npm install && npm run build",
+    "start": "cd backend && npm start"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
