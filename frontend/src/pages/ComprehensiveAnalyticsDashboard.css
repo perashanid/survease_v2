@@ -75,6 +75,16 @@
   white-space: nowrap;
   position: relative;
   letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tab-button svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.5;
+  flex-shrink: 0;
 }
 
 .tab-button::before {
@@ -95,9 +105,18 @@
   background: var(--color-primary-50);
 }
 
+.tab-button:hover svg {
+  color: var(--color-primary);
+  transform: scale(1.1);
+}
+
 .tab-button.active {
   color: var(--color-primary);
   background: transparent;
+}
+
+.tab-button.active svg {
+  color: var(--color-primary);
 }
 
 .tab-button.active::before {
@@ -311,6 +330,11 @@
     padding: 12px 16px;
     font-size: 13px;
   }
+
+  .tab-button svg {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -325,6 +349,11 @@
   .tab-button {
     padding: 10px 12px;
     font-size: 12px;
+  }
+
+  .tab-button svg {
+    width: 14px;
+    height: 14px;
   }
 }
 

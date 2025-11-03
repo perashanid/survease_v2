@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import analyticsService, { FilterCriteria } from '../services/analyticsService';
 import { SurveyService } from '../services/surveyService';
+import { 
+  FiBarChart2, FiFileText, FiFilter, FiActivity, FiSmartphone, 
+  FiTarget, FiEye, FiCpu, FiSettings, FiTrendingUp, FiUsers, FiGlobe 
+} from 'react-icons/fi';
 import ErrorBoundary from '../components/analytics/ErrorBoundary';
 
 import EmptyState from '../components/analytics/EmptyState';
@@ -259,73 +263,73 @@ const ComprehensiveAnalyticsDashboard: React.FC = () => {
           className={`tab-button ${activeTab === 'overview' ? 'active' : ''}`}
           onClick={() => setActiveTab('overview')}
         >
-          📊 Overview
+          <FiBarChart2 /> Overview
         </button>
         <button
           className={`tab-button ${activeTab === 'questions' ? 'active' : ''}`}
           onClick={() => setActiveTab('questions')}
         >
-          📝 Questions
+          <FiFileText /> Questions
         </button>
         <button
           className={`tab-button ${activeTab === 'funnel' ? 'active' : ''}`}
           onClick={() => setActiveTab('funnel')}
         >
-          🔄 Funnel
+          <FiFilter /> Funnel
         </button>
         <button
           className={`tab-button ${activeTab === 'heatmap' ? 'active' : ''}`}
           onClick={() => setActiveTab('heatmap')}
         >
-          🔥 Heatmap
+          <FiActivity /> Heatmap
         </button>
         <button
           className={`tab-button ${activeTab === 'devices' ? 'active' : ''}`}
           onClick={() => setActiveTab('devices')}
         >
-          📱 Devices
+          <FiSmartphone /> Devices
         </button>
         <button
           className={`tab-button ${activeTab === 'segments' ? 'active' : ''}`}
           onClick={() => setActiveTab('segments')}
         >
-          🎯 Segments
+          <FiTarget /> Segments
         </button>
         <button
           className={`tab-button ${activeTab === 'attention' ? 'active' : ''}`}
           onClick={() => setActiveTab('attention')}
         >
-          🎯 Attention
+          <FiEye /> Attention
         </button>
         <button
           className={`tab-button ${activeTab === 'ai-insights' ? 'active' : ''}`}
           onClick={() => setActiveTab('ai-insights')}
         >
-          🤖 AI Insights
+          <FiCpu /> AI Insights
         </button>
         <button
           className={`tab-button ${activeTab === 'data-quality' ? 'active' : ''}`}
           onClick={() => setActiveTab('data-quality')}
         >
-          ⚙️ Data Quality
+          <FiSettings /> Data Quality
         </button>
         <button
           className={`tab-button ${activeTab === 'predictions' ? 'active' : ''}`}
           onClick={() => setActiveTab('predictions')}
         >
-          🔮 Predictions
+          <FiTrendingUp /> Predictions
         </button>
         <button
           className={`tab-button ${activeTab === 'behavioral-trends' ? 'active' : ''}`}
           onClick={() => setActiveTab('behavioral-trends')}
         >
-          🧠 Behavioral
+          <FiUsers /> Behavioral
         </button>
         <button
           className={`tab-button ${activeTab === 'public-data' ? 'active' : ''}`}
           onClick={() => setActiveTab('public-data')}
         >
-          🌐 Public Data
+          <FiGlobe /> Public Data
         </button>
       </div>
 
