@@ -188,20 +188,172 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .creator-container {
-    padding: 10px;
+    padding: 0 16px;
+  }
+  
+  .creator-main {
+    border-radius: 20px;
   }
   
   .creator-header {
-    padding: 20px;
+    padding: 32px;
+  }
+  
+  .creator-form {
+    padding: 32px;
+  }
+  
+  .settings-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .survey-creator {
+    padding: 20px 0;
+  }
+  
+  .creator-container {
+    padding: 0 12px;
+  }
+  
+  .creator-main {
+    border-radius: 16px;
+  }
+  
+  .creator-header {
+    padding: 24px;
     flex-direction: column;
     gap: 16px;
     align-items: stretch;
   }
   
+  .header-title h1 {
+    font-size: 28px;
+    text-align: center;
+  }
+  
+  .header-title p {
+    font-size: 14px;
+    text-align: center;
+  }
+  
   .header-actions {
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .header-actions .btn {
+    flex: 1;
+    min-width: 140px;
+  }
+  
+  .creator-form {
+    padding: 24px;
+  }
+  
+  .creator-preview {
+    padding: 24px;
+  }
+  
+  .card {
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+  
+  .card-title {
+    font-size: 18px;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .settings-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .question-types {
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .question-types .btn {
+    flex: 1;
+    min-width: 140px;
+  }
+  
+  .question-types-bottom {
+    margin-top: 24px;
+    padding-top: 24px;
+  }
+  
+  .question-types-bottom h4 {
+    font-size: 16px;
+  }
+  
+  .questions-list {
+    gap: 16px;
+  }
+  
+  .empty-questions {
+    padding: 60px 16px;
+  }
+  
+  .empty-questions .empty-icon {
+    font-size: 48px;
+  }
+  
+  .empty-questions p {
+    font-size: 16px;
+  }
+  
+  .form-input,
+  .form-textarea,
+  .form-select {
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+}
+
+@media (max-width: 480px) {
+  .survey-creator {
+    padding: 16px 0;
+  }
+  
+  .creator-container {
+    padding: 0 10px;
+  }
+  
+  .creator-main {
+    border-radius: 12px;
+  }
+  
+  .creator-header {
+    padding: 20px;
+    gap: 12px;
+  }
+  
+  .header-title h1 {
+    font-size: 24px;
+  }
+  
+  .header-title p {
+    font-size: 13px;
+  }
+  
+  .header-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .header-actions .btn {
+    width: 100%;
+    min-width: auto;
   }
   
   .creator-form {
@@ -212,21 +364,104 @@
     padding: 20px;
   }
   
-  .creator-header h1 {
-    font-size: 24px;
-    text-align: center;
+  .card {
+    padding: 16px;
+    margin-bottom: 20px;
   }
   
-  .question-types {
-    justify-content: center;
-  }
-  
-  .form-row {
-    grid-template-columns: 1fr;
+  .card-title {
+    font-size: 16px;
   }
   
   .settings-grid {
-    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  
+  .checkbox-label {
+    font-size: 14px;
+  }
+  
+  .question-types {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .question-types .btn {
+    width: 100%;
+    min-width: auto;
+  }
+  
+  .question-types-bottom {
+    margin-top: 20px;
+    padding-top: 20px;
+  }
+  
+  .question-types-bottom h4 {
+    font-size: 15px;
+  }
+  
+  .questions-list {
+    gap: 12px;
+  }
+  
+  .empty-questions {
+    padding: 40px 12px;
+  }
+  
+  .empty-questions .empty-icon {
+    font-size: 40px;
+  }
+  
+  .empty-questions p {
+    font-size: 14px;
+  }
+  
+  .form-input,
+  .form-textarea,
+  .form-select {
+    padding: 12px 14px;
+    font-size: 16px;
+  }
+  
+  .form-label {
+    font-size: 14px;
+  }
+}
+
+/* Landscape mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .creator-header {
+    padding: 20px;
+  }
+  
+  .creator-form {
+    padding: 20px;
+  }
+  
+  .settings-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+  .btn {
+    min-height: 44px;
+  }
+  
+  .form-input,
+  .form-textarea,
+  .form-select {
+    min-height: 44px;
+  }
+  
+  .checkbox-label {
+    min-height: 44px;
+    padding: 10px;
+  }
+  
+  .question-types .btn {
+    min-height: 48px;
   }
 }
 
