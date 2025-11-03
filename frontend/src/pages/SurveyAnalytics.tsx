@@ -3,6 +3,20 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { SurveyService as surveyService } from '../services/surveyService';
 import { timeTrackingService } from '../services/timeTrackingService';
+import { 
+  FiUsers, 
+  FiClock, 
+  FiCalendar, 
+  FiTrendingUp, 
+  FiUser, 
+  FiGlobe, 
+  FiLock, 
+  FiEye, 
+  FiDownload, 
+  FiFileText, 
+  FiBarChart2,
+  FiAlertTriangle
+} from 'react-icons/fi';
 import './SurveyAnalytics.css';
 
 interface SurveyAnalyticsData {
@@ -209,7 +223,7 @@ const SurveyAnalytics: React.FC = () => {
       <div className="survey-analytics-page">
         <div className="analytics-container">
           <div className="error-state">
-            <div className="error-icon">⚠️</div>
+            <div className="error-icon"><FiAlertTriangle /></div>
             <h2>Error Loading Analytics</h2>
             <p>{error}</p>
             <button className="btn btn-primary" onClick={() => navigate('/dashboard')}>
@@ -243,11 +257,11 @@ const SurveyAnalytics: React.FC = () => {
             <div className="survey-privacy-indicator">
               {analyticsData.survey.is_public ? (
                 <span className="privacy-badge public">
-                  🌐 Public Survey
+                  <FiGlobe /> Public Survey
                 </span>
               ) : (
                 <span className="privacy-badge private">
-                  🔒 Private Survey
+                  <FiLock /> Private Survey
                 </span>
               )}
             </div>
@@ -259,20 +273,20 @@ const SurveyAnalytics: React.FC = () => {
                 onClick={() => navigate(`/public-survey-analytics/${surveyId}`)}
                 title="View public analytics page"
               >
-                👁️ View Public Analytics
+                <FiEye /> View Public Analytics
               </button>
             )}
             <button 
               className="btn btn-outline"
               onClick={() => downloadSurveyData('json')}
             >
-              📄 Export JSON
+              <FiFileText /> Export JSON
             </button>
             <button 
               className="btn btn-outline"
               onClick={() => downloadSurveyData('csv')}
             >
-              📊 Export CSV
+              <FiDownload /> Export CSV
             </button>
           </div>
         </div>
@@ -280,21 +294,21 @@ const SurveyAnalytics: React.FC = () => {
         {/* Summary Stats */}
         <div className="summary-stats">
           <div className="stat-card">
-            <div className="stat-icon">👥</div>
+            <div className="stat-icon"><FiUsers /></div>
             <div className="stat-content">
               <h3>Total Responses</h3>
               <div className="stat-value">{analyticsData.analytics.totalResponses}</div>
             </div>
           </div>
           <div className="stat-card">
-            <div className="stat-icon">❓</div>
+            <div className="stat-icon"><FiBarChart2 /></div>
             <div className="stat-content">
               <h3>Questions</h3>
               <div className="stat-value">{analyticsData.analytics.questionAnalytics.length}</div>
             </div>
           </div>
           <div className="stat-card">
-            <div className="stat-icon">⏱️</div>
+            <div className="stat-icon"><FiClock /></div>
             <div className="stat-content">
               <h3>Avg. Time</h3>
               <div className="stat-value">
@@ -305,7 +319,7 @@ const SurveyAnalytics: React.FC = () => {
             </div>
           </div>
           <div className="stat-card">
-            <div className="stat-icon">📅</div>
+            <div className="stat-icon"><FiCalendar /></div>
             <div className="stat-content">
               <h3>Created</h3>
               <div className="stat-value">
@@ -314,14 +328,14 @@ const SurveyAnalytics: React.FC = () => {
             </div>
           </div>
           <div className="stat-card">
-            <div className="stat-icon">📈</div>
+            <div className="stat-icon"><FiTrendingUp /></div>
             <div className="stat-content">
               <h3>Completion Rate</h3>
               <div className="stat-value">{analyticsData.analytics.completionRate.toFixed(1)}%</div>
             </div>
           </div>
           <div className="stat-card">
-            <div className="stat-icon">👤</div>
+            <div className="stat-icon"><FiUser /></div>
             <div className="stat-content">
               <h3>Author</h3>
               <div className="stat-value">{analyticsData.survey.author.name}</div>
@@ -377,7 +391,7 @@ const SurveyAnalytics: React.FC = () => {
               <h4>{selectedQuestionData.question}</h4>
               <div className="question-stats">
                 <span className="stat">
-                  📊 {selectedQuestionData.responseCount} responses ({selectedQuestionData.responseRate.toFixed(1)}% response rate)
+                  <FiBarChart2 /> {selectedQuestionData.responseCount} responses ({selectedQuestionData.responseRate.toFixed(1)}% response rate)
                 </span>
                 {selectedQuestionData.averageRating && (
                   <span className="stat">

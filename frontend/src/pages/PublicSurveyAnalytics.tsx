@@ -2,7 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { apiClient as api } from '../services/api';
 import { timeTrackingService } from '../services/timeTrackingService';
-import { FiUsers, FiHelpCircle, FiClock, FiCalendar, FiTrendingUp, FiUser } from 'react-icons/fi';
+import { 
+  FiUsers, 
+  FiHelpCircle, 
+  FiClock, 
+  FiCalendar, 
+  FiTrendingUp, 
+  FiUser, 
+  FiGlobe, 
+  FiDownload, 
+  FiFileText, 
+  FiBarChart2,
+  FiAlertTriangle
+} from 'react-icons/fi';
 import './SurveyAnalytics.css';
 
 interface PublicSurveyAnalyticsData {
@@ -231,7 +243,7 @@ const PublicSurveyAnalytics: React.FC = () => {
       <div className="survey-analytics-page">
         <div className="analytics-container">
           <div className="error-state">
-            <div className="error-icon">⚠️</div>
+            <div className="error-icon"><FiAlertTriangle /></div>
             <h2>Error Loading Analytics</h2>
             <p>{error}</p>
             <button className="btn btn-primary" onClick={() => navigate('/public-surveys')}>
@@ -260,7 +272,7 @@ const PublicSurveyAnalytics: React.FC = () => {
         {/* Public Survey Badge */}
         <div className="survey-privacy-indicator">
           <span className="privacy-badge public">
-            🌐 PUBLIC SURVEY
+            <FiGlobe /> PUBLIC SURVEY
           </span>
         </div>
 
@@ -275,13 +287,13 @@ const PublicSurveyAnalytics: React.FC = () => {
               className="btn btn-outline"
               onClick={() => downloadPublicSurveyData('json')}
             >
-              📄 Export JSON
+              <FiFileText /> Export JSON
             </button>
             <button 
               className="btn btn-outline"
               onClick={() => downloadPublicSurveyData('csv')}
             >
-              📊 Export CSV
+              <FiDownload /> Export CSV
             </button>
           </div>
         </div>
@@ -386,7 +398,7 @@ const PublicSurveyAnalytics: React.FC = () => {
               <h4>{selectedQuestionData.question}</h4>
               <div className="question-stats">
                 <span className="stat">
-                  📊 {selectedQuestionData.responseCount} responses ({selectedQuestionData.responseRate.toFixed(1)}% response rate)
+                  <FiBarChart2 /> {selectedQuestionData.responseCount} responses ({selectedQuestionData.responseRate.toFixed(1)}% response rate)
                 </span>
                 {selectedQuestionData.averageRating && (
                   <span className="stat">

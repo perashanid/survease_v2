@@ -102,6 +102,15 @@
 .stat-icon {
   font-size: 32px;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+}
+
+.stat-icon svg {
+  width: 32px;
+  height: 32px;
 }
 
 .stat-content {
@@ -507,19 +516,41 @@
 }
 
 /* Responsive Design */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
+  .analytics-container {
+    max-width: 100%;
+    padding: 0 20px;
+  }
+  
   .charts-grid,
   .analytics-grid {
     grid-template-columns: 1fr;
     gap: 24px;
   }
-  
+}
+
+@media (max-width: 1024px) {
   .summary-stats {
     grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  .question-tabs {
+    gap: 8px;
+  }
+  
+  .question-tab {
+    min-width: 120px;
+    font-size: 13px;
+    padding: 10px 16px;
   }
 }
 
 @media (max-width: 768px) {
+  .survey-analytics-page {
+    padding: 20px 0;
+  }
+  
   .analytics-container {
     padding: 0 16px;
   }
@@ -528,33 +559,86 @@
     flex-direction: column;
     gap: 20px;
     align-items: stretch;
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+  }
+  
+  .analytics-header h1 {
+    font-size: 28px;
+  }
+  
+  .analytics-header p {
+    font-size: 16px;
   }
   
   .header-actions {
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .header-actions .btn {
+    flex: 1;
+    min-width: 140px;
   }
   
   .summary-stats {
     grid-template-columns: 1fr;
     gap: 16px;
+    margin-bottom: 32px;
   }
   
   .stat-card {
     padding: 20px;
+    flex-direction: row;
+    text-align: left;
+  }
+  
+  .stat-icon {
+    font-size: 28px;
+  }
+  
+  .stat-content {
+    align-items: flex-start;
+  }
+  
+  .stat-content h3 {
+    font-size: 12px;
+  }
+  
+  .stat-value {
+    font-size: 28px;
+  }
+  
+  .question-selector {
+    margin-bottom: 32px;
+  }
+  
+  .question-selector h3 {
+    font-size: 20px;
+    margin-bottom: 16px;
   }
   
   .question-tabs {
     flex-direction: column;
+    gap: 8px;
   }
   
   .question-tab {
     max-width: none;
     text-align: left;
+    padding: 12px 16px;
+    font-size: 14px;
   }
   
   .question-analytics,
   .raw-data-section {
     padding: 24px;
+    border-radius: 20px;
+  }
+  
+  .question-info h4 {
+    font-size: 18px;
   }
   
   .question-stats {
@@ -562,33 +646,116 @@
     gap: 12px;
   }
   
+  .question-stats .stat {
+    width: 100%;
+  }
+  
+  .charts-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .chart-section {
+    padding: 20px;
+  }
+  
   .pie-chart {
     flex-direction: column;
+    gap: 16px;
   }
   
   .pie-svg {
-    width: 150px;
-    height: 150px;
+    width: 180px;
+    height: 180px;
+  }
+  
+  .pie-legend {
+    width: 100%;
   }
   
   .bar-chart {
     gap: 8px;
+    height: 180px;
+  }
+  
+  .bar {
+    max-width: 32px;
+  }
+  
+  .bar-label {
+    font-size: 11px;
   }
   
   .timeline-bars {
-    gap: 2px;
+    gap: 4px;
+    height: 150px;
+  }
+  
+  .timeline-bar {
+    min-width: 16px;
+  }
+  
+  .timeline-fill {
+    width: 20px;
+  }
+  
+  .timeline-label {
+    font-size: 9px;
+  }
+  
+  .data-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .data-table {
+    min-width: 600px;
+  }
+  
+  .data-table th,
+  .data-table td {
+    padding: 12px 8px;
+    font-size: 13px;
+  }
+  
+  .back-btn {
+    padding: 6px 12px;
+    font-size: 14px;
   }
 }
 
 @media (max-width: 480px) {
+  .survey-analytics-page {
+    padding: 16px 0;
+  }
+  
+  .analytics-container {
+    padding: 0 12px;
+  }
+  
   .analytics-header h1 {
     font-size: 24px;
+  }
+  
+  .analytics-header p {
+    font-size: 14px;
+  }
+  
+  .header-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .header-actions .btn {
+    width: 100%;
+    min-width: auto;
   }
   
   .stat-card {
     flex-direction: column;
     text-align: center;
     gap: 12px;
+    padding: 16px;
   }
   
   .stat-content {
@@ -601,19 +768,117 @@
   
   .stat-value {
     text-align: center;
+    font-size: 24px;
   }
   
   .stat-icon {
     font-size: 24px;
   }
   
-  .stat-value {
-    font-size: 24px;
+  .question-selector h3 {
+    font-size: 18px;
+  }
+  
+  .question-tab {
+    padding: 10px 14px;
+    font-size: 13px;
   }
   
   .question-analytics,
   .raw-data-section {
     padding: 20px;
+    border-radius: 16px;
+  }
+  
+  .question-info h4 {
+    font-size: 16px;
+  }
+  
+  .chart-section {
+    padding: 16px;
+  }
+  
+  .pie-svg {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .bar-chart {
+    height: 150px;
+    gap: 6px;
+  }
+  
+  .bar {
+    max-width: 24px;
+  }
+  
+  .bar-label {
+    font-size: 10px;
+  }
+  
+  .timeline-bars {
+    height: 120px;
+    gap: 2px;
+  }
+  
+  .timeline-bar {
+    min-width: 14px;
+  }
+  
+  .timeline-fill {
+    width: 16px;
+  }
+  
+  .timeline-label {
+    font-size: 8px;
+  }
+  
+  .data-table {
+    min-width: 500px;
+  }
+  
+  .data-table th,
+  .data-table td {
+    padding: 10px 6px;
+    font-size: 12px;
+  }
+  
+  .back-btn {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+}
+
+/* Landscape mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .summary-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .charts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .bar-chart,
+  .timeline-bars {
+    height: 140px;
+  }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+  .question-tab,
+  .btn {
+    min-height: 44px;
+  }
+  
+  .stat-card {
+    min-height: 100px;
+  }
+  
+  .data-table th,
+  .data-table td {
+    padding: 14px 10px;
   }
 }
 
