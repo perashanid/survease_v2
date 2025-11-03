@@ -98,7 +98,7 @@ const HomePage: React.FC = () => {
   const testimonials = [
     {
       icon: <FiStar />,
-      content: 'This survey platform transformed how we gather customer feedback. The analytics are incredibly detailed and easy to understand.',
+      content: 'SurvEase transformed how we gather customer feedback. The analytics are incredibly detailed and easy to understand.',
       author: 'Sarah Johnson',
       role: 'Product Manager'
     },
@@ -110,7 +110,7 @@ const HomePage: React.FC = () => {
     },
     {
       icon: <FiZap />,
-      content: 'Simple, powerful, and reliable. Everything we needed in a survey platform without the complexity of enterprise tools.',
+      content: 'Simple, powerful, and reliable. Everything we needed without the complexity of enterprise tools.',
       author: 'Emily Rodriguez',
       role: 'Marketing Lead'
     }

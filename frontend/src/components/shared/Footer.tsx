@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
       <div className="container">
         <div className="footer-content">
           <div className="footer-section">
-            <h3 className="footer-title">Survey Platform</h3>
+            <h3 className="footer-title">SurvEase</h3>
             <p className="footer-description">
               Create, share, and analyze surveys with ease. 
               Build better insights with our powerful survey tools.
@@ -86,7 +86,7 @@ const Footer: React.FC = () => {
         <div className="footer-bottom">
           <div className="footer-bottom-content">
             <p className="footer-copyright">
-              © {currentYear} Survey Platform. Made with <FiHeart className="heart-icon" /> for better insights.
+              © {currentYear} SurvEase. Made with <FiHeart className="heart-icon" /> for better insights.
             </p>
             <div className="footer-bottom-links">
               <Link to="/privacy">Privacy</Link>

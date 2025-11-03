@@ -56,7 +56,7 @@ const PrivacyPolicy: React.FC = () => {
             <div className="simple-explanation">
               <h3><FiCheckCircle style={{ display: 'inline', marginRight: '8px' }} /> In Simple Terms:</h3>
               <p>
-                We only collect the information we need to make our survey platform work great for you. 
+                We only collect the information we need to make SurvEase work great for you. 
                 We protect it like it's our own, and we give you full control over your data. 
                 That's our commitment to you.
               </p>
@@ -93,7 +93,7 @@ const PrivacyPolicy: React.FC = () => {
             <h2>3. How We Use Your Information</h2>
             <p>We use the collected information for the following purposes:</p>
             <ul>
-              <li><strong>Service Provision:</strong> To provide, maintain, and improve our survey platform</li>
+              <li><strong>Service Provision:</strong> To provide, maintain, and improve SurvEase</li>
               <li><strong>Account Management:</strong> To create and manage your account and authenticate your identity</li>
               <li><strong>Communication:</strong> To send you service-related notifications, updates, and support responses</li>
               <li><strong>Analytics:</strong> To analyze usage patterns and improve our service performance</li>

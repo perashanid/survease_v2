@@ -18,17 +18,18 @@
 }
 
 .navbar-container {
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 24px;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 20px;
 }
 
 .navbar-brand {
-  font-size: 28px;
+  font-size: 20px;
   font-weight: 800;
   background: var(--gradient-primary);
   -webkit-background-clip: text;
@@ -37,6 +38,11 @@
   text-decoration: none;
   transition: all 0.3s ease;
   letter-spacing: -0.5px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  line-height: 1;
+  display: flex;
+  align-items: center;
 }
 
 .navbar-brand:hover {
@@ -46,20 +52,27 @@
 .navbar-menu {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 20px;
+  flex: 1;
+  min-width: 0;
 }
 
 .navbar-nav {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 4px;
   margin-right: auto;
+  flex-wrap: nowrap;
+  overflow-x: visible;
+  flex: 1;
+  min-width: 0;
 }
 
 .navbar-actions {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+  flex-shrink: 0;
 }
 
 .navbar-link {
@@ -67,13 +80,18 @@
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s ease;
-  padding: 12px 20px;
+  padding: 8px 12px;
   border-radius: 12px;
   position: relative;
   overflow: hidden;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-size: 14px;
+  line-height: 1;
+  height: 36px;
 }
 
 .navbar-link::before {
@@ -105,8 +123,20 @@
 }
 
 .nav-icon {
-  font-size: 18px;
+  font-size: 16px;
   transition: transform 0.3s ease;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+}
+
+.nav-icon svg {
+  width: 16px;
+  height: 16px;
+  display: block;
 }
 
 .navbar-link:hover .nav-icon {
@@ -127,27 +157,39 @@
 
 .user-email {
   color: var(--color-text-secondary);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
 }
 
 /* Modern Theme Toggle Button */
 .theme-toggle {
   background: var(--gradient-secondary);
   border: none;
-  font-size: 20px;
+  font-size: 18px;
   cursor: pointer;
-  padding: 12px;
-  border-radius: 16px;
-  width: 48px;
-  height: 48px;
+  padding: 10px;
+  border-radius: 12px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 8px 24px rgba(6, 182, 212, 0.3);
+  box-shadow: 0 4px 16px rgba(6, 182, 212, 0.3);
   position: relative;
   overflow: hidden;
+  flex-shrink: 0;
+  color: white;
+}
+
+.theme-toggle svg {
+  width: 18px;
+  height: 18px;
+  display: block;
 }
 
 .theme-toggle::before {
@@ -262,6 +304,15 @@
   font-size: 16px;
   width: 20px;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-icon svg {
+  width: 16px;
+  height: 16px;
+  display: block;
 }
 
 .theme-label {

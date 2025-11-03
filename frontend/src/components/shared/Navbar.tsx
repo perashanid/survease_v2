@@ -73,15 +73,11 @@ const Navbar: React.FC = () => {
       <nav className="navbar">
         <div className="navbar-container">
           <Link to="/" className="navbar-brand">
-            Survey Platform
+            SurvEase
           </Link>
           
           <div className="navbar-menu">
             <div className="navbar-nav">
-              <Link to="/" className="navbar-link">
-                <FiHome className="nav-icon" />
-                <span>Home</span>
-              </Link>
               <Link to="/surveys" className="navbar-link">
                 <FiList className="nav-icon" />
                 <span>Public Surveys</span>

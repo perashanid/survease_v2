@@ -1,7 +1,7 @@
 {
-  "name": "survey-platform-frontend",
+  "name": "survease-frontend",
   "version": "1.0.0",
-  "description": "Frontend React app for Survey Platform",
+  "description": "Frontend React app for SurvEase",
   "private": true,
   "dependencies": {
     "@types/react": "^18.2.42",
