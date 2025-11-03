@@ -4,22 +4,23 @@ import './AttentionDashboard.css';
 
 interface AttentionDashboardProps {
   surveyId: string;
+  isPublic?: boolean;
 }
 
-const AttentionDashboard: React.FC<AttentionDashboardProps> = ({ surveyId }) => {
+const AttentionDashboard: React.FC<AttentionDashboardProps> = ({ surveyId, isPublic = false }) => {
   const [attentionData, setAttentionData] = useState<AttentionData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchAttentionData();
-  }, [surveyId]);
+  }, [surveyId, isPublic]);
 
   const fetchAttentionData = async () => {
     try {
       setLoading(true);
       setError(null);
-      const data = await attentionService.getAttentionMetrics(surveyId);
+      const data = await attentionService.getAttentionMetrics(surveyId, isPublic);
       setAttentionData(data);
     } catch (err: any) {
       console.error('Error fetching attention data:', err);
@@ -78,7 +79,6 @@ const AttentionDashboard: React.FC<AttentionDashboardProps> = ({ surveyId }) => 
     <div className="attention-dashboard">
       <div className="dashboard-header">
         <h2>Survey Attention Dashboard</h2>
-        <p className="survey-title">{attentionData.title}</p>
       </div>
 
       <div className="attention-score-section">
@@ -96,9 +96,13 @@ const AttentionDashboard: React.FC<AttentionDashboardProps> = ({ surveyId }) => 
             </div>
           </div>
           <p className="score-description">
-            {attentionData.attentionScore >= 70 && 'Excellent - Survey is performing well'}
-            {attentionData.attentionScore >= 40 && attentionData.attentionScore < 70 && 'Moderate - Some attention needed'}
-            {attentionData.attentionScore < 40 && 'Critical - Immediate attention required'}
+            {attentionData.attentionScore === 0 && attentionData.issues.length === 0 
+              ? 'No data yet - Waiting for responses'
+              : attentionData.attentionScore >= 70 
+                ? 'Excellent - Survey is performing well'
+                : attentionData.attentionScore >= 40 
+                  ? 'Moderate - Some attention needed'
+                  : 'Critical - Immediate attention required'}
           </p>
         </div>
       </div>

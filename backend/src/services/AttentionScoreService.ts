@@ -18,20 +18,23 @@ export interface SurveyAttentionItem {
 
 export class AttentionScoreService {
   /**
-   * Calculate attention score for a survey (0-100, higher = more attention needed)
+   * Calculate attention score for a survey (0-100, higher = better performance)
    */
   async calculateAttentionScore(surveyId: string): Promise<number> {
     const issues = await this.identifyIssues(surveyId);
     
     // Weight issues by severity
     const severityWeights = { high: 40, medium: 25, low: 10 };
-    let score = 0;
+    let penaltyScore = 0;
 
     for (const issue of issues) {
-      score += severityWeights[issue.severity];
+      penaltyScore += severityWeights[issue.severity];
     }
 
-    return Math.min(100, score);
+    // Invert the score: 100 = perfect (no issues), 0 = critical (many issues)
+    const attentionScore = Math.max(0, 100 - Math.min(100, penaltyScore));
+    
+    return attentionScore;
   }
 
   /**
@@ -53,8 +56,9 @@ export class AttentionScoreService {
       let totalCompletedQuestions = 0;
 
       for (const response of responses) {
-        const responseData = response.response_data?.responses || response.response_data;
-        if (responseData) {
+        // response_data is stored directly as { questionId: answer, ... }
+        const responseData = response.response_data;
+        if (responseData && typeof responseData === 'object') {
           totalCompletedQuestions += Object.keys(responseData).length;
         }
       }
@@ -120,8 +124,9 @@ export class AttentionScoreService {
         let nextCount = 0;
 
         for (const response of responses) {
-          const responseData = response.response_data?.responses || response.response_data;
-          if (responseData) {
+          // response_data is stored directly as { questionId: answer, ... }
+          const responseData = response.response_data;
+          if (responseData && typeof responseData === 'object') {
             if (responseData[currentQId] !== undefined) currentCount++;
             if (responseData[nextQId] !== undefined) nextCount++;
           }
@@ -184,10 +189,11 @@ export class AttentionScoreService {
 
   /**
    * Get all surveys needing attention for a user
+   * @param threshold - Surveys with scores BELOW this threshold need attention (default 70)
    */
   async getSurveysNeedingAttention(
     userId: string,
-    threshold: number = 30
+    threshold: number = 70
   ): Promise<SurveyAttentionItem[]> {
     const surveys = await Survey.find({ user_id: new mongoose.Types.ObjectId(userId) });
     const attentionItems: SurveyAttentionItem[] = [];
@@ -196,7 +202,8 @@ export class AttentionScoreService {
       const surveyId = (survey._id as mongoose.Types.ObjectId).toString();
       const attentionScore = await this.calculateAttentionScore(surveyId);
 
-      if (attentionScore >= threshold) {
+      // With inverted score, surveys BELOW threshold need attention
+      if (attentionScore <= threshold) {
         const issues = await this.identifyIssues(surveyId);
         const recommendations = await this.generateRecommendations(surveyId, issues);
 
@@ -210,7 +217,7 @@ export class AttentionScoreService {
       }
     }
 
-    // Sort by attention score (highest first)
-    return attentionItems.sort((a, b) => b.attentionScore - a.attentionScore);
+    // Sort by attention score (lowest first = needs most attention)
+    return attentionItems.sort((a, b) => a.attentionScore - b.attentionScore);
   }
 }
