@@ -1,10 +1,17 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiHome, FiList, FiAlertCircle } from 'react-icons/fi';
 import './NotFound.css';
 
 const NotFound: React.FC = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Scroll to top when 404 page loads or location changes
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [location.pathname]);
+
   return (
     <div className="not-found">
       <div className="container">
