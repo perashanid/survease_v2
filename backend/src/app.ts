@@ -31,8 +31,11 @@ const PORT = process.env.PORT || 8000;
 // Trust proxy only for Render's IPs
 app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']);
 
-// Security middleware
-app.use(helmet());
+// Security middleware with relaxed CSP for production
+app.use(helmet({
+  contentSecurityPolicy: false, // Disable CSP since we're serving frontend from same origin
+  crossOriginEmbedderPolicy: false
+}));
 
 // CORS configuration
 const corsOptions = {

@@ -8,8 +8,8 @@ const ConnectionStatus: React.FC = () => {
   const checkConnection = async () => {
     setIsChecking(true);
     try {
-      // Use axios directly to avoid the /api prefix from apiClient
-      const response = await fetch('http://localhost:8000/health');
+      // Use relative URL for health check
+      const response = await fetch('/health');
       setIsConnected(response.ok);
     } catch (error) {
       setIsConnected(false);
