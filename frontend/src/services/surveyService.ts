@@ -163,4 +163,25 @@ export class SurveyService {
     });
     return response.data.data.survey;
   }
+
+  static async getFeaturedSurveys(limit: number = 6): Promise<{ surveys: Survey[] }> {
+    const response = await api.get('/surveys/public/surveys/featured', {
+      params: { limit }
+    });
+    return response.data;
+  }
+
+  static async getTrendingSurveys(limit: number = 6): Promise<{ surveys: Survey[] }> {
+    const response = await api.get('/surveys/public/surveys/trending', {
+      params: { limit }
+    });
+    return response.data;
+  }
+
+  static async toggleFeaturedStatus(surveyId: string, isFeatured: boolean): Promise<Survey> {
+    const response = await api.patch(`/surveys/${surveyId}/featured`, {
+      is_featured: isFeatured
+    });
+    return response.data.data;
+  }
 }

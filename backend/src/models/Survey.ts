@@ -33,6 +33,7 @@ export interface ISurvey extends Document {
   configuration: ISurveyConfiguration;
   is_public: boolean;
   is_active: boolean;
+  is_featured: boolean;
   allow_import: boolean;
   import_count: number;
   original_survey_id?: mongoose.Types.ObjectId;
@@ -100,6 +101,10 @@ const SurveySchema = new Schema<ISurvey>({
     type: Boolean,
     default: true
   },
+  is_featured: {
+    type: Boolean,
+    default: false
+  },
   allow_import: {
     type: Boolean,
     default: true
@@ -123,6 +128,7 @@ const SurveySchema = new Schema<ISurvey>({
 SurveySchema.index({ user_id: 1 });
 // Note: slug index is automatically created by unique: true
 SurveySchema.index({ is_public: 1, is_active: 1 });
+SurveySchema.index({ is_public: 1, is_featured: 1, is_active: 1 });
 SurveySchema.index({ is_public: 1, allow_import: 1, is_active: 1 });
 SurveySchema.index({ created_at: -1 });
 SurveySchema.index({ original_survey_id: 1 });

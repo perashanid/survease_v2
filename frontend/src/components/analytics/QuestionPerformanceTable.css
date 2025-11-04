@@ -1,7 +1,7 @@
 .question-table-container {
   width: 100%;
   overflow-x: auto;
-  background: white;
+  background: var(--color-surface, white);
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
@@ -13,15 +13,15 @@
 }
 
 .question-table thead {
-  background: #f9fafb;
-  border-bottom: 2px solid #e5e7eb;
+  background: var(--color-surface-elevated, #f9fafb);
+  border-bottom: 2px solid var(--color-border, #e5e7eb);
 }
 
 .question-table th {
   padding: 12px 16px;
   text-align: left;
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text-primary, #374151);
   white-space: nowrap;
 }
 
@@ -31,16 +31,17 @@
 }
 
 .question-table th.sortable:hover {
-  background: #f3f4f6;
+  background: var(--color-border, #f3f4f6);
 }
 
 .question-table td {
   padding: 12px 16px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--color-border, #e5e7eb);
+  color: var(--color-text-primary, #1f2937);
 }
 
 .question-table tbody tr:hover {
-  background: #f9fafb;
+  background: var(--color-surface-elevated, #f9fafb);
 }
 
 .question-table tbody tr.clickable {
@@ -76,7 +77,7 @@
   position: relative;
   width: 100%;
   height: 24px;
-  background: #f3f4f6;
+  background: var(--color-border, #f3f4f6);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -109,7 +110,7 @@
 .table-empty {
   text-align: center;
   padding: 40px;
-  color: #9ca3af;
-  background: white;
+  color: var(--color-text-muted, #9ca3af);
+  background: var(--color-surface, white);
   border-radius: 8px;
 }

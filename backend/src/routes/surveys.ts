@@ -867,6 +867,122 @@ router.post('/:id/import', authenticateToken, async (req: Request, res: Response
 });
 
 /**
+ * GET /api/public/surveys/featured
+ * Get featured surveys
+ */
+router.get('/public/surveys/featured', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const limit = Math.min(parseInt(req.query.limit as string) || 6, 20);
+
+    const surveys = await Survey.find({ 
+      is_public: true, 
+      is_active: true,
+      is_featured: true
+    })
+      .populate('user_id', 'first_name last_name')
+      .sort({ created_at: -1 })
+      .limit(limit);
+
+    const surveysWithCounts = await Promise.all(
+      surveys.map(async (survey) => {
+        const responseCount = await SurveyResponse.countDocuments({ survey_id: survey._id });
+        return {
+          id: survey._id,
+          title: survey.title,
+          description: survey.description,
+          slug: survey.slug,
+          tags: survey.tags || [],
+          url: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/#/survey/${survey.slug}`,
+          created_at: survey.created_at,
+          response_count: responseCount,
+          is_featured: survey.is_featured,
+          author: {
+            name: `${(survey.user_id as any).first_name || ''} ${(survey.user_id as any).last_name || ''}`.trim() || 'Anonymous'
+          }
+        };
+      })
+    );
+
+    res.json({
+      success: true,
+      surveys: surveysWithCounts
+    });
+  } catch (error: any) {
+    console.error('Get featured surveys error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'INTERNAL_ERROR',
+        message: 'Failed to fetch featured surveys'
+      }
+    });
+  }
+});
+
+/**
+ * GET /api/public/surveys/trending
+ * Get trending surveys (most responses in last 24 hours)
+ */
+router.get('/public/surveys/trending', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const limit = Math.min(parseInt(req.query.limit as string) || 6, 20);
+    const last24Hours = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+    // Get all public surveys
+    const surveys = await Survey.find({ 
+      is_public: true, 
+      is_active: true
+    }).populate('user_id', 'first_name last_name');
+
+    // Count responses in last 24 hours for each survey
+    const surveysWithTrendingData = await Promise.all(
+      surveys.map(async (survey) => {
+        const recentResponseCount = await SurveyResponse.countDocuments({ 
+          survey_id: survey._id,
+          submitted_at: { $gte: last24Hours }
+        });
+        const totalResponseCount = await SurveyResponse.countDocuments({ survey_id: survey._id });
+        
+        return {
+          id: survey._id,
+          title: survey.title,
+          description: survey.description,
+          slug: survey.slug,
+          tags: survey.tags || [],
+          url: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/#/survey/${survey.slug}`,
+          created_at: survey.created_at,
+          response_count: totalResponseCount,
+          trending_score: recentResponseCount,
+          author: {
+            name: `${(survey.user_id as any).first_name || ''} ${(survey.user_id as any).last_name || ''}`.trim() || 'Anonymous'
+          }
+        };
+      })
+    );
+
+    // Sort by trending score and take top N
+    const trendingSurveys = surveysWithTrendingData
+      .filter(s => s.trending_score > 0)
+      .sort((a, b) => b.trending_score - a.trending_score)
+      .slice(0, limit);
+
+    res.json({
+      success: true,
+      surveys: trendingSurveys
+    });
+  } catch (error: any) {
+    console.error('Get trending surveys error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'INTERNAL_ERROR',
+        message: 'Failed to fetch trending surveys'
+      }
+    });
+  }
+});
+
+/**
  * GET /api/surveys/:slug
  * Get survey by slug for responding
  */
@@ -2401,6 +2517,63 @@ router.get('/public/:id/export/json', async (req: Request, res: Response): Promi
       error: {
         code: 'INTERNAL_ERROR',
         message: 'Failed to export JSON'
+      }
+    });
+  }
+});
+
+/**
+ * PATCH /api/surveys/:id/featured
+ * Toggle featured status (admin only - you'll need to add admin middleware)
+ */
+router.patch('/:id/featured', authenticateToken, async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const { is_featured } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: 'INVALID_ID',
+          message: 'Invalid survey ID'
+        }
+      });
+      return;
+    }
+
+    // TODO: Add admin check here
+    // For now, only allow survey owner to feature their own surveys
+    const survey = await Survey.findOne({ _id: id });
+    
+    if (!survey) {
+      res.status(404).json({
+        success: false,
+        error: {
+          code: 'SURVEY_NOT_FOUND',
+          message: 'Survey not found'
+        }
+      });
+      return;
+    }
+
+    survey.is_featured = is_featured !== undefined ? is_featured : !survey.is_featured;
+    await survey.save();
+
+    res.json({
+      success: true,
+      data: {
+        id: survey._id,
+        is_featured: survey.is_featured
+      }
+    });
+  } catch (error: any) {
+    console.error('Toggle featured error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'INTERNAL_ERROR',
+        message: 'Failed to update featured status'
       }
     });
   }

@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { 
   FiSearch, FiX, FiUser, FiCalendar, FiBarChart2, 
   FiDownload, FiChevronLeft, FiChevronRight, FiAlertCircle,
-  FiCheckCircle, FiInfo, FiHelpCircle
+  FiCheckCircle, FiInfo, FiHelpCircle, FiStar, FiTrendingUp
 } from 'react-icons/fi';
 import './PublicSurveys.css';
 import './ImportDialog.css';
@@ -31,6 +31,8 @@ interface PublicSurvey {
 const PublicSurveys: React.FC = () => {
   const { isAuthenticated } = useAuth();
   const [surveys, setSurveys] = useState<PublicSurvey[]>([]);
+  const [featuredSurveys, setFeaturedSurveys] = useState<PublicSurvey[]>([]);
+  const [trendingSurveys, setTrendingSurveys] = useState<PublicSurvey[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [page, setPage] = useState(1);
@@ -43,6 +45,8 @@ const PublicSurveys: React.FC = () => {
 
   useEffect(() => {
     fetchSurveys();
+    fetchFeaturedSurveys();
+    fetchTrendingSurveys();
   }, [page]);
 
   useEffect(() => {
@@ -70,6 +74,24 @@ const PublicSurveys: React.FC = () => {
       setError('Failed to load surveys: ' + (err.message || 'Unknown error'));
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchFeaturedSurveys = async () => {
+    try {
+      const data = await SurveyService.getFeaturedSurveys(6);
+      setFeaturedSurveys(data.surveys as PublicSurvey[]);
+    } catch (err: any) {
+      console.error('Error fetching featured surveys:', err);
+    }
+  };
+
+  const fetchTrendingSurveys = async () => {
+    try {
+      const data = await SurveyService.getTrendingSurveys(6);
+      setTrendingSurveys(data.surveys as PublicSurvey[]);
+    } catch (err: any) {
+      console.error('Error fetching trending surveys:', err);
     }
   };
 
@@ -148,6 +170,119 @@ const PublicSurveys: React.FC = () => {
             )}
           </div>
         </motion.div>
+
+        {/* Featured Surveys Section */}
+        {!searchTerm && featuredSurveys.length > 0 && (
+          <motion.div 
+            className="featured-section"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <div className="section-header">
+              <h2><FiStar /> Featured Surveys</h2>
+              <p>Hand-picked surveys curated by our team</p>
+            </div>
+            <div className="featured-grid">
+              {featuredSurveys.map((survey, index) => (
+                <motion.div 
+                  key={survey.id} 
+                  className="survey-card featured-card"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ y: -8 }}
+                >
+                  <div className="featured-badge">
+                    <FiStar /> Featured
+                  </div>
+                  <div className="survey-content">
+                    <h3 className="survey-title">{survey.title}</h3>
+                    {survey.description && (
+                      <p className="survey-description">{survey.description}</p>
+                    )}
+                    {survey.tags && survey.tags.length > 0 && (
+                      <div className="survey-tags">
+                        {survey.tags.map((tag: string, idx: number) => (
+                          <span key={idx} className="survey-tag">{tag}</span>
+                        ))}
+                      </div>
+                    )}
+                    <div className="survey-meta">
+                      <span className="meta-item">
+                        <FiUser /> {survey.author?.name || 'Anonymous'}
+                      </span>
+                      <span className="meta-item">
+                        <FiBarChart2 /> {survey.response_count} responses
+                      </span>
+                    </div>
+                  </div>
+                  <div className="survey-actions">
+                    <Link to={`/survey/${survey.slug}`} className="btn btn-primary">
+                      Take Survey
+                    </Link>
+                    <Link to={`/public-survey-analytics/${survey.id}`} className="btn btn-outline btn-sm">
+                      <FiBarChart2 /> Analytics
+                    </Link>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+
+        {/* Trending Surveys Section */}
+        {!searchTerm && trendingSurveys.length > 0 && (
+          <motion.div 
+            className="trending-section"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            <div className="section-header">
+              <h2><FiTrendingUp /> Trending Now</h2>
+              <p>Most popular surveys in the last 24 hours</p>
+            </div>
+            <div className="trending-grid">
+              {trendingSurveys.map((survey, index) => (
+                <motion.div 
+                  key={survey.id} 
+                  className="survey-card trending-card"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ y: -8 }}
+                >
+                  <div className="trending-badge">
+                    <FiTrendingUp /> Trending
+                  </div>
+                  <div className="survey-content">
+                    <h3 className="survey-title">{survey.title}</h3>
+                    {survey.description && (
+                      <p className="survey-description">{survey.description}</p>
+                    )}
+                    <div className="survey-meta">
+                      <span className="meta-item">
+                        <FiUser /> {survey.author?.name || 'Anonymous'}
+                      </span>
+                      <span className="meta-item">
+                        <FiBarChart2 /> {survey.response_count} responses
+                      </span>
+                    </div>
+                  </div>
+                  <div className="survey-actions">
+                    <Link to={`/survey/${survey.slug}`} className="btn btn-primary">
+                      Take Survey
+                    </Link>
+                    <Link to={`/public-survey-analytics/${survey.id}`} className="btn btn-outline btn-sm">
+                      <FiBarChart2 /> Analytics
+                    </Link>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
 
         {error && (
           <motion.div 
