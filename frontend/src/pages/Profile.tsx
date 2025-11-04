@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import './Profile.css';
 
 interface UserProfile {
@@ -27,7 +28,7 @@ interface UserProfile {
 }
 
 const Profile: React.FC = () => {
-  const navigate = useNavigate();
+  const { isAuthenticated, loading: authLoading } = useAuth();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -43,18 +44,21 @@ const Profile: React.FC = () => {
   const [newInterest, setNewInterest] = useState('');
 
   useEffect(() => {
-    fetchProfile();
-  }, []);
+    if (!authLoading && isAuthenticated) {
+      fetchProfile();
+    }
+  }, [authLoading, isAuthenticated]);
 
   const fetchProfile = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       if (!token) {
-        navigate('/');
+        setError('No authentication token found');
+        setLoading(false);
         return;
       }
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/profile`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/profile`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -62,6 +66,7 @@ const Profile: React.FC = () => {
 
       if (response.ok) {
         const data = await response.json();
+        console.log('Profile data:', data);
         setProfile(data.data);
         setFormData({
           first_name: data.data.user.first_name || '',
@@ -71,11 +76,15 @@ const Profile: React.FC = () => {
           field_of_study: data.data.profile.field_of_study || '',
           interests: data.data.profile.interests || [],
         });
+        setError('');
       } else {
-        setError('Failed to load profile');
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Profile fetch error:', errorData);
+        setError(errorData.error?.message || `Failed to load profile (${response.status})`);
       }
     } catch (err) {
-      setError('Failed to load profile');
+      console.error('Profile fetch exception:', err);
+      setError(`Failed to load profile: ${err instanceof Error ? err.message : 'Network error'}`);
     } finally {
       setLoading(false);
     }
@@ -83,8 +92,8 @@ const Profile: React.FC = () => {
 
   const handleSave = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/profile`, {
+      const token = localStorage.getItem('accessToken');
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -121,12 +130,38 @@ const Profile: React.FC = () => {
     });
   };
 
+  if (authLoading) {
+    return <div className="profile-loading">Loading...</div>;
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
+
   if (loading) {
     return <div className="profile-loading">Loading profile...</div>;
   }
 
+  if (error && !profile) {
+    return (
+      <div className="profile-container">
+        <div className="profile-error">
+          <h2>Failed to Load Profile</h2>
+          <p>{error}</p>
+          <button onClick={fetchProfile} className="btn btn-primary">
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   if (!profile) {
-    return <div className="profile-error">{error || 'Profile not found'}</div>;
+    return (
+      <div className="profile-container">
+        <div className="profile-error">Profile not found</div>
+      </div>
+    );
   }
 
   return (
@@ -234,7 +269,7 @@ const Profile: React.FC = () => {
                     type="text"
                     value={newInterest}
                     onChange={(e) => setNewInterest(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && addInterest()}
+                    onKeyDown={(e) => e.key === 'Enter' && addInterest()}
                     placeholder="Add an interest"
                   />
                   <button onClick={addInterest}>Add</button>

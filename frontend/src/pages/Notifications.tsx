@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import { FiBell, FiCheck, FiTrash2, FiCheckCircle } from 'react-icons/fi';
 import './Notifications.css';
 
@@ -22,26 +23,28 @@ interface Notification {
 
 const Notifications: React.FC = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, loading: authLoading } = useAuth();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
   const [unreadCount, setUnreadCount] = useState(0);
   const [filter, setFilter] = useState<'all' | 'unread'>('all');
 
   useEffect(() => {
-    fetchNotifications();
-  }, [filter]);
+    if (!authLoading && isAuthenticated) {
+      fetchNotifications();
+    }
+  }, [filter, authLoading, isAuthenticated]);
 
   const fetchNotifications = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('accessToken');
       if (!token) {
-        navigate('/');
         return;
       }
 
       const url = filter === 'unread' 
-        ? `${import.meta.env.VITE_API_URL}/api/notifications?unread=true`
-        : `${import.meta.env.VITE_API_URL}/api/notifications`;
+        ? `${import.meta.env.VITE_API_BASE_URL}/notifications?unread=true`
+        : `${import.meta.env.VITE_API_BASE_URL}/notifications`;
 
       const response = await fetch(url, {
         headers: {
@@ -63,8 +66,8 @@ const Notifications: React.FC = () => {
 
   const markAsRead = async (id: string) => {
     try {
-      const token = localStorage.getItem('token');
-      await fetch(`${import.meta.env.VITE_API_URL}/api/notifications/${id}/read`, {
+      const token = localStorage.getItem('accessToken');
+      await fetch(`${import.meta.env.VITE_API_BASE_URL}/notifications/${id}/read`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -82,8 +85,8 @@ const Notifications: React.FC = () => {
 
   const markAllAsRead = async () => {
     try {
-      const token = localStorage.getItem('token');
-      await fetch(`${import.meta.env.VITE_API_URL}/api/notifications/read-all`, {
+      const token = localStorage.getItem('accessToken');
+      await fetch(`${import.meta.env.VITE_API_BASE_URL}/notifications/read-all`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -99,8 +102,8 @@ const Notifications: React.FC = () => {
 
   const deleteNotification = async (id: string) => {
     try {
-      const token = localStorage.getItem('token');
-      await fetch(`${import.meta.env.VITE_API_URL}/api/notifications/${id}`, {
+      const token = localStorage.getItem('accessToken');
+      await fetch(`${import.meta.env.VITE_API_BASE_URL}/notifications/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -156,6 +159,14 @@ const Notifications: React.FC = () => {
     if (diffDays < 7) return `${diffDays}d ago`;
     return date.toLocaleDateString();
   };
+
+  if (authLoading) {
+    return <div className="notifications-loading">Loading...</div>;
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
 
   if (loading) {
     return <div className="notifications-loading">Loading notifications...</div>;

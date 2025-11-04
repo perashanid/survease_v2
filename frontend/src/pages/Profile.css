@@ -13,38 +13,65 @@
 
 .profile-header h1 {
   font-size: 2rem;
-  color: #333;
+  color: var(--color-text-primary);
 }
 
 .edit-button {
   padding: 0.75rem 1.5rem;
-  background: #4f46e5;
-  color: white;
+  background: var(--color-primary);
+  color: var(--color-background);
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
-  transition: background 0.3s;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .edit-button:hover {
-  background: #4338ca;
+  background: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--color-primary-100);
 }
 
-.profile-loading,
-.profile-error {
+.profile-loading {
   text-align: center;
   padding: 3rem;
   font-size: 1.2rem;
-  color: #666;
+  color: var(--color-text-secondary);
+}
+
+.profile-error {
+  text-align: center;
+  padding: 3rem;
+  background: var(--color-surface);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px var(--color-shadow-light);
+}
+
+.profile-error h2 {
+  color: var(--color-error);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.profile-error p {
+  color: var(--color-text-secondary);
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+.profile-error .btn {
+  margin-top: 1rem;
 }
 
 .error-message {
-  background: #fee2e2;
-  color: #dc2626;
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--color-error);
   padding: 1rem;
   border-radius: 8px;
   margin-bottom: 1rem;
+  border: 1px solid var(--color-error);
 }
 
 .profile-content {
@@ -54,17 +81,23 @@
 }
 
 .profile-section {
-  background: white;
+  background: var(--color-surface);
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px var(--color-shadow-light);
+  border: 1px solid var(--color-border);
+  transition: all 0.3s ease;
+}
+
+.profile-section:hover {
+  box-shadow: 0 4px 16px var(--color-shadow-medium);
 }
 
 .profile-section h2 {
   font-size: 1.5rem;
-  color: #333;
+  color: var(--color-text-primary);
   margin-bottom: 1.5rem;
-  border-bottom: 2px solid #e5e7eb;
+  border-bottom: 2px solid var(--color-border);
   padding-bottom: 0.5rem;
 }
 
@@ -75,12 +108,12 @@
 .profile-field label {
   display: block;
   font-weight: 600;
-  color: #555;
+  color: var(--color-text-secondary);
   margin-bottom: 0.5rem;
 }
 
 .profile-field p {
-  color: #666;
+  color: var(--color-text-muted);
   margin: 0;
 }
 
@@ -88,17 +121,21 @@
 .profile-field textarea {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   font-size: 1rem;
   font-family: inherit;
+  background: var(--color-surface-elevated);
+  color: var(--color-text-primary);
+  transition: all 0.3s ease;
 }
 
 .profile-field input:focus,
 .profile-field textarea:focus {
   outline: none;
-  border-color: #4f46e5;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-50);
+  background: var(--color-surface);
 }
 
 .interests-editor {
@@ -118,16 +155,23 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  background: #e0e7ff;
-  color: #4f46e5;
+  background: var(--color-primary-100);
+  color: var(--color-primary);
   border-radius: 20px;
   font-size: 0.9rem;
+  border: 1px solid var(--color-primary-200);
+  transition: all 0.2s ease;
+}
+
+.interest-tag:hover {
+  background: var(--color-primary-200);
+  transform: translateY(-2px);
 }
 
 .interest-tag button {
   background: none;
   border: none;
-  color: #4f46e5;
+  color: var(--color-primary);
   font-size: 1.2rem;
   cursor: pointer;
   padding: 0;
@@ -136,6 +180,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.interest-tag button:hover {
+  transform: scale(1.2);
 }
 
 .add-interest {
@@ -149,12 +198,20 @@
 
 .add-interest button {
   padding: 0.75rem 1.5rem;
-  background: #4f46e5;
-  color: white;
+  background: var(--color-primary);
+  color: var(--color-background);
   border: none;
   border-radius: 8px;
   cursor: pointer;
   white-space: nowrap;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.add-interest button:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--color-primary-100);
 }
 
 .stats-grid {
@@ -166,9 +223,16 @@
 .stat-card {
   text-align: center;
   padding: 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gradient-primary);
   border-radius: 12px;
-  color: white;
+  color: var(--color-background);
+  box-shadow: 0 4px 12px var(--color-shadow-light);
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px var(--color-shadow-medium);
 }
 
 .stat-value {
