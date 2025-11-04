@@ -16,6 +16,7 @@ interface PublicSurvey {
   title: string;
   description?: string;
   slug: string;
+  tags?: string[];
   url?: string;
   created_at: string;
   response_count: number;
@@ -51,7 +52,8 @@ const PublicSurveys: React.FC = () => {
       const filtered = surveys.filter(survey =>
         survey.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         (survey.description && survey.description.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (survey.author?.name && survey.author.name.toLowerCase().includes(searchTerm.toLowerCase()))
+        (survey.author?.name && survey.author.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (survey.tags && survey.tags.some((tag: string) => tag.toLowerCase().includes(searchTerm.toLowerCase())))
       );
       setFilteredSurveys(filtered);
     }
@@ -121,7 +123,7 @@ const PublicSurveys: React.FC = () => {
               <FiSearch className="search-icon" />
               <input
                 type="text"
-                placeholder="Search surveys by title, description, or author..."
+                placeholder="Search surveys by title, description, author, or tags..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="search-input"
@@ -217,6 +219,13 @@ const PublicSurveys: React.FC = () => {
                     <h3 className="survey-title">{survey.title}</h3>
                     {survey.description && (
                       <p className="survey-description">{survey.description}</p>
+                    )}
+                    {survey.tags && survey.tags.length > 0 && (
+                      <div className="survey-tags">
+                        {survey.tags.map((tag: string, idx: number) => (
+                          <span key={idx} className="survey-tag">{tag}</span>
+                        ))}
+                      </div>
                     )}
                     <div className="survey-meta">
                       <div className="meta-row">

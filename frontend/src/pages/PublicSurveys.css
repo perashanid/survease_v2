@@ -174,12 +174,38 @@
   font-size: 15px;
   color: var(--color-text-secondary);
   line-height: 1.6;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.survey-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.survey-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(74, 222, 128, 0.1);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-transform: lowercase;
+  transition: all 0.2s ease;
+}
+
+.survey-tag:hover {
+  background: rgba(74, 222, 128, 0.2);
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
 }
 
 .survey-meta {
@@ -351,6 +377,16 @@
     padding: 24px;
   }
 
+  .survey-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .survey-actions .btn {
+    flex: 1;
+    min-width: 120px;
+  }
+
   .pagination {
     flex-wrap: wrap;
   }
@@ -361,9 +397,14 @@
     justify-content: center;
   }
 
+  .modal-overlay {
+    padding: 12px;
+  }
+
   .modal-content {
     border-radius: 20px;
     max-width: 95%;
+    max-height: 85vh;
   }
 
   .import-dialog-header {
@@ -426,20 +467,51 @@
     font-size: 28px;
   }
 
+  .search-input {
+    padding: 14px 50px 14px 48px !important;
+    font-size: 15px;
+  }
+
+  .survey-card {
+    padding: 20px;
+  }
+
   .survey-actions {
     flex-direction: column;
   }
 
   .survey-actions .btn {
     width: 100%;
+    min-width: auto;
+  }
+
+  .modal-overlay {
+    padding: 8px;
+  }
+
+  .modal-content {
+    max-height: 90vh;
+  }
+
+  .import-dialog-header {
+    padding: 16px 20px;
   }
 
   .import-dialog-header h3 {
     font-size: 20px;
   }
 
+  .import-dialog-body {
+    padding: 20px;
+  }
+
+  .survey-preview {
+    padding: 16px;
+  }
+
   .import-dialog-footer {
     flex-direction: column;
+    padding: 16px 20px;
   }
 
   .import-dialog-footer .btn {
@@ -451,6 +523,7 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
+    padding: 16px;
   }
 
   .info-text li {
