@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const { themeMode, setThemeMode } = useTheme();
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
+  const [authMode, setAuthMode] = useState<'login' | 'register' | 'forgot-password'>('login');
   const navigate = useNavigate();
 
   // Force clear dark mode on mount if needed
@@ -38,7 +38,7 @@ const Navbar: React.FC = () => {
     // }
   }, []);
 
-  const handleAuthClick = (mode: 'login' | 'register') => {
+  const handleAuthClick = (mode: 'login' | 'register' | 'forgot-password') => {
     setAuthMode(mode);
     setShowAuthModal(true);
   };
