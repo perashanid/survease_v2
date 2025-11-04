@@ -80,7 +80,11 @@ const ResetPassword: React.FC = () => {
       <div className="reset-password-page">
         <div className="reset-password-container">
           <div className="reset-password-card">
-            <h1>Invalid Reset Link</h1>
+            <div className="reset-password-logo">
+              <h1 className="logo-text">SurvEase</h1>
+              <div className="logo-icon error-icon">⚠️</div>
+            </div>
+            <h2 className="reset-title">Invalid Reset Link</h2>
             <p className="error-message">This password reset link is invalid or has expired.</p>
             <button onClick={() => navigate('/')} className="btn btn-primary">
               Go to Home
@@ -95,9 +99,12 @@ const ResetPassword: React.FC = () => {
     return (
       <div className="reset-password-page">
         <div className="reset-password-container">
-          <div className="reset-password-card">
+          <div className="reset-password-card success-card">
+            <div className="reset-password-logo">
+              <h1 className="logo-text">SurvEase</h1>
+            </div>
             <div className="success-icon">✓</div>
-            <h1>Password Reset Successful!</h1>
+            <h2 className="reset-title">Password Reset Successful!</h2>
             <p className="success-message">
               Your password has been successfully reset. You can now log in with your new password.
             </p>
@@ -112,7 +119,11 @@ const ResetPassword: React.FC = () => {
     <div className="reset-password-page">
       <div className="reset-password-container">
         <div className="reset-password-card">
-          <h1>Reset Your Password</h1>
+          <div className="reset-password-logo">
+            <h1 className="logo-text">SurvEase</h1>
+            <div className="logo-icon">🔐</div>
+          </div>
+          <h2 className="reset-title">Reset Your Password</h2>
           <p className="subtitle">Enter your new password below</p>
 
           <form onSubmit={handleSubmit} className="reset-password-form">
