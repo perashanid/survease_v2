@@ -10,7 +10,7 @@ const JWT_REFRESH_EXPIRES_IN = process.env.JWT_REFRESH_EXPIRES_IN || '7d';
 export interface TokenPayload {
   userId: string;
   email: string;
-  type: 'access' | 'refresh';
+  type: 'access' | 'refresh' | 'password_reset';
 }
 
 export class AuthUtils {
@@ -80,10 +80,34 @@ export class AuthUtils {
   }
 
   /**
-   * Generate secure random token for password reset
+   * Generate password reset token
+   */
+  static generatePasswordResetToken(userId: string, email: string): string {
+    const payload: TokenPayload = {
+      userId,
+      email,
+      type: 'password_reset'
+    };
+    
+    return jwt.sign(payload, JWT_SECRET, {
+      expiresIn: '1h',
+      issuer: 'survey-platform',
+      audience: 'survey-platform-users'
+    } as jwt.SignOptions);
+  }
+
+  /**
+   * Generate secure random token
    */
   static generateSecureToken(): string {
     return crypto.randomBytes(32).toString('hex');
+  }
+
+  /**
+   * Remove all sessions for a user
+   */
+  static async removeAllUserSessions(userId: string): Promise<void> {
+    await Session.deleteMany({ user_id: userId });
   }
 
   /**

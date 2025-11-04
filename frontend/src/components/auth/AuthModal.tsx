@@ -3,9 +3,9 @@ import { useAuth } from '../../contexts/AuthContext';
 import './AuthModal.css';
 
 interface AuthModalProps {
-  mode: 'login' | 'register';
+  mode: 'login' | 'register' | 'forgot-password';
   onClose: () => void;
-  onSwitchMode: (mode: 'login' | 'register') => void;
+  onSwitchMode: (mode: 'login' | 'register' | 'forgot-password') => void;
 }
 
 const AuthModal: React.FC<AuthModalProps> = ({ mode, onClose, onSwitchMode }) => {
@@ -18,6 +18,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ mode, onClose, onSwitchMode }) =>
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,16 +32,33 @@ const AuthModal: React.FC<AuthModalProps> = ({ mode, onClose, onSwitchMode }) =>
     e.preventDefault();
     setLoading(true);
     setError('');
+    setSuccess('');
 
     try {
       console.log('Attempting authentication:', { mode, email: formData.email });
       
       if (mode === 'login') {
         await login(formData.email, formData.password);
-      } else {
+        onClose();
+      } else if (mode === 'register') {
         await register(formData.email, formData.password, formData.firstName, formData.lastName);
+        onClose();
+      } else if (mode === 'forgot-password') {
+        const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000/api'}/auth/forgot-password`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: formData.email })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.error?.message || 'Failed to send reset email');
+        }
+        
+        setSuccess('Password reset instructions have been sent to your email');
+        setTimeout(() => onSwitchMode('login'), 3000);
       }
-      onClose();
     } catch (err: any) {
       console.error('Authentication error:', err);
       setError(err.message || 'Authentication failed. Please try again.');
@@ -59,12 +77,15 @@ const AuthModal: React.FC<AuthModalProps> = ({ mode, onClose, onSwitchMode }) =>
     <div className="auth-modal-overlay" onClick={handleOverlayClick}>
       <div className="auth-modal">
         <div className="auth-modal-header">
-          <h2>{mode === 'login' ? 'Login' : 'Sign Up'}</h2>
+          <h2>
+            {mode === 'login' ? 'Login' : mode === 'register' ? 'Sign Up' : 'Reset Password'}
+          </h2>
           <button className="close-btn" onClick={onClose}>×</button>
         </div>
 
         <form onSubmit={handleSubmit} className="auth-form">
           {error && <div className="error">{error}</div>}
+          {success && <div className="success">{success}</div>}
 
           {mode === 'register' && (
             <div className="form-row">
@@ -103,62 +124,85 @@ const AuthModal: React.FC<AuthModalProps> = ({ mode, onClose, onSwitchMode }) =>
             />
           </div>
 
-          <div className="form-group">
-            <label className="form-label">Password</label>
-            <div className="password-input-container">
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                className="form-input password-input"
-                required
-                minLength={8}
-              />
-              <button
-                type="button"
-                className="password-toggle"
-                onClick={() => {
-                  console.log('Password toggle clicked, current state:', showPassword);
-                  setShowPassword(!showPassword);
-                }}
-                aria-label={showPassword ? "Hide password" : "Show password"}
-                title={showPassword ? "Hide password" : "Show password"}
-              >
-                {showPassword ? "HIDE" : "SHOW"}
-              </button>
-            </div>
-            {mode === 'register' && (
-              <div className="password-requirements">
-                <small>Password must contain:</small>
-                <ul>
-                  <li>At least 8 characters</li>
-                  <li>One uppercase letter</li>
-                  <li>One lowercase letter</li>
-                  <li>One number</li>
-                </ul>
+          {mode !== 'forgot-password' && (
+            <div className="form-group">
+              <label className="form-label">Password</label>
+              <div className="password-input-container">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  className="form-input password-input"
+                  required
+                  minLength={8}
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => {
+                    console.log('Password toggle clicked, current state:', showPassword);
+                    setShowPassword(!showPassword);
+                  }}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  title={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? "HIDE" : "SHOW"}
+                </button>
               </div>
-            )}
-          </div>
+              {mode === 'register' && (
+                <div className="password-requirements">
+                  <small>Password must contain:</small>
+                  <ul>
+                    <li>At least 8 characters</li>
+                    <li>One uppercase letter</li>
+                    <li>One lowercase letter</li>
+                    <li>One number</li>
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+
+          {mode === 'forgot-password' && (
+            <p className="form-help-text">
+              Enter your email address and we'll send you instructions to reset your password.
+            </p>
+          )}
 
           <button type="submit" className="btn btn-primary btn-full" disabled={loading}>
-            {loading ? 'Please wait...' : (mode === 'login' ? 'Login' : 'Sign Up')}
+            {loading ? 'Please wait...' : 
+             mode === 'login' ? 'Login' : 
+             mode === 'register' ? 'Sign Up' : 
+             'Send Reset Link'}
           </button>
         </form>
 
         <div className="auth-switch">
-          {mode === 'login' ? (
-            <p>
-              Don't have an account?{' '}
-              <button 
-                type="button" 
-                className="link-btn" 
-                onClick={() => onSwitchMode('register')}
-              >
-                Sign up
-              </button>
-            </p>
-          ) : (
+          {mode === 'login' && (
+            <>
+              <p>
+                <button 
+                  type="button" 
+                  className="link-btn" 
+                  onClick={() => onSwitchMode('forgot-password')}
+                >
+                  Forgot password?
+                </button>
+              </p>
+              <p>
+                Don't have an account?{' '}
+                <button 
+                  type="button" 
+                  className="link-btn" 
+                  onClick={() => onSwitchMode('register')}
+                >
+                  Sign up
+                </button>
+              </p>
+            </>
+          )}
+          {mode === 'register' && (
             <p>
               Already have an account?{' '}
               <button 
@@ -167,6 +211,18 @@ const AuthModal: React.FC<AuthModalProps> = ({ mode, onClose, onSwitchMode }) =>
                 onClick={() => onSwitchMode('login')}
               >
                 Login
+              </button>
+            </p>
+          )}
+          {mode === 'forgot-password' && (
+            <p>
+              Remember your password?{' '}
+              <button 
+                type="button" 
+                className="link-btn" 
+                onClick={() => onSwitchMode('login')}
+              >
+                Back to login
               </button>
             </p>
           )}

@@ -25,6 +25,7 @@ import Contact from './pages/Contact';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Profile from './pages/Profile';
 import Notifications from './pages/Notifications';
+import ResetPassword from './pages/ResetPassword';
 import NotFound from './pages/NotFound';
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
@@ -77,6 +78,7 @@ function App() {
                     <Route path="/notifications" element={<Notifications />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/privacy" element={<PrivacyPolicy />} />
+                    <Route path="/reset-password" element={<ResetPassword />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </main>

@@ -350,11 +350,11 @@ router.get('/verify', authenticateToken, async (req: Request, res: Response): Pr
 
 /**
  * POST /api/auth/forgot-password
- * Initiate password reset (placeholder for now)
+ * Initiate password reset
  */
 router.post('/forgot-password', async (req: Request, res: Response): Promise<void> => {
   try {
-    const { error } = forgotPasswordSchema.validate(req.body);
+    const { error, value } = forgotPasswordSchema.validate(req.body);
     if (error) {
       res.status(400).json({
         success: false,
@@ -366,14 +366,147 @@ router.post('/forgot-password', async (req: Request, res: Response): Promise<voi
       return;
     }
 
-    // For now, just return success (in production, send email)
+    const { email } = value;
+    const user = await User.findOne({ email: email.toLowerCase() });
+
+    // Always return success to prevent email enumeration
+    if (!user) {
+      res.json({
+        success: true,
+        message: 'If an account exists with this email, password reset instructions have been sent'
+      });
+      return;
+    }
+
+    // Generate reset token
+    const resetToken = AuthUtils.generatePasswordResetToken((user._id as any).toString(), user.email);
+    
+    // Store reset token with expiry (1 hour)
+    user.password_reset_token = resetToken;
+    user.password_reset_expires = new Date(Date.now() + 3600000); // 1 hour
+    await user.save();
+
+    // Send email with reset link
+    const { EmailService } = await import('../services/emailService');
+    await EmailService.sendPasswordResetEmail(user.email, resetToken, user.first_name || 'User');
+
     res.json({
       success: true,
-      message: 'Password reset instructions sent to email'
+      message: 'If an account exists with this email, password reset instructions have been sent'
     });
 
   } catch (error: any) {
     console.error('Forgot password error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'INTERNAL_ERROR',
+        message: 'Password reset failed'
+      }
+    });
+  }
+});
+
+const resetPasswordSchema = Joi.object({
+  token: Joi.string().required(),
+  newPassword: Joi.string().min(8).required()
+});
+
+/**
+ * POST /api/auth/reset-password
+ * Reset password using token
+ */
+router.post('/reset-password', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { error, value } = resetPasswordSchema.validate(req.body);
+    if (error) {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: 'VALIDATION_ERROR',
+          message: 'Invalid input data'
+        }
+      });
+      return;
+    }
+
+    const { token, newPassword } = value;
+
+    // Verify token
+    let decoded;
+    try {
+      decoded = AuthUtils.verifyToken(token);
+      if (decoded.type !== 'password_reset') {
+        throw new Error('Invalid token type');
+      }
+    } catch (err) {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: 'INVALID_TOKEN',
+          message: 'Invalid or expired reset token'
+        }
+      });
+      return;
+    }
+
+    // Find user and check token
+    const user = await User.findById(decoded.userId);
+    if (!user || user.password_reset_token !== token) {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: 'INVALID_TOKEN',
+          message: 'Invalid or expired reset token'
+        }
+      });
+      return;
+    }
+
+    // Check token expiry
+    if (user.password_reset_expires && user.password_reset_expires < new Date()) {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: 'TOKEN_EXPIRED',
+          message: 'Reset token has expired'
+        }
+      });
+      return;
+    }
+
+    // Validate new password
+    const passwordValidation = AuthUtils.isValidPassword(newPassword);
+    if (!passwordValidation.valid) {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: 'WEAK_PASSWORD',
+          message: passwordValidation.message
+        }
+      });
+      return;
+    }
+
+    // Hash new password
+    const passwordHash = await AuthUtils.hashPassword(newPassword);
+
+    // Update password and clear reset token
+    user.password_hash = passwordHash;
+    user.password_reset_token = undefined;
+    user.password_reset_expires = undefined;
+    await user.save();
+
+    // Invalidate all existing sessions
+    await AuthUtils.removeAllUserSessions(decoded.userId);
+
+    res.json({
+      success: true,
+      message: 'Password reset successfully'
+    });
+
+  } catch (error: any) {
+    console.error('Reset password error:', error);
     res.status(500).json({
       success: false,
       error: {
