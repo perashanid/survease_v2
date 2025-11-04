@@ -23,6 +23,8 @@ import AttentionAnalyticsDashboard from './pages/AttentionAnalyticsDashboard';
 import AnalyticsSelector from './pages/AnalyticsSelector';
 import Contact from './pages/Contact';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import Profile from './pages/Profile';
+import Notifications from './pages/Notifications';
 import NotFound from './pages/NotFound';
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
@@ -71,6 +73,8 @@ function App() {
                     <Route path="/attention-analytics/:surveyId?" element={<AttentionAnalyticsDashboard />} />
                     <Route path="/analytics-selector/:surveyId" element={<AnalyticsSelector />} />
                     <Route path="/public-survey-analytics/:surveyId" element={<PublicSurveyAnalytics />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/notifications" element={<Notifications />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/privacy" element={<PrivacyPolicy />} />
                     <Route path="*" element={<NotFound />} />

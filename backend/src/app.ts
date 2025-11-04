@@ -100,6 +100,8 @@ import attentionRoutes from './routes/attention';
 import qualityRoutes from './routes/quality';
 import aiRoutes from './routes/ai';
 import predictionsRoutes from './routes/predictions';
+import notificationRoutes from './routes/notifications';
+import profileRoutes from './routes/profile';
 
 // API routes with /api prefix
 app.use('/api/auth', authRoutes);
@@ -114,6 +116,8 @@ app.use('/api/analytics', analyticsRoutes);
 app.use('/api/segments', segmentsRoutes);
 app.use('/api/attention', attentionRoutes);
 app.use('/api/predictions', predictionsRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/profile', profileRoutes);
 
 // Serve static files from frontend build (for production)
 if (process.env.NODE_ENV === 'production') {

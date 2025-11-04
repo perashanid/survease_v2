@@ -1,4 +1,28 @@
-/* Screen Reader Only */
+/* Accessibility Enhancements */
+
+/* Focus Visible Styles */
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Skip to Main Content Link */
+.skip-to-main {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--color-primary);
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  z-index: 100;
+}
+
+.skip-to-main:focus {
+  top: 0;
+}
+
+/* Screen Reader Only Content */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -11,215 +35,20 @@
   border-width: 0;
 }
 
-/* Skip Links */
-.skip-link {
-  position: absolute;
-  top: -40px;
-  left: 0;
-  background: #3b82f6;
-  color: white;
-  padding: 8px 16px;
-  text-decoration: none;
-  border-radius: 0 0 4px 0;
-  z-index: 10000;
-  font-weight: 500;
-}
-
-.skip-link:focus {
-  top: 0;
-}
-
-/* Focus Visible */
-*:focus-visible {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
-
-/* Remove outline for mouse users */
-*:focus:not(:focus-visible) {
-  outline: none;
-}
-
 /* High Contrast Mode Support */
 @media (prefers-contrast: high) {
-  .chart-card,
-  .filter-panel,
-  .segment-builder {
-    border: 2px solid currentColor;
+  :root {
+    --color-border: #000000;
+    --color-text-primary: #000000;
   }
-
-  .tab-button.active {
-    border-bottom-width: 4px;
-  }
-
-  .segment-chip.selected {
-    border-width: 3px;
+  
+  :root[data-theme="dark"] {
+    --color-border: #ffffff;
+    --color-text-primary: #ffffff;
   }
 }
 
-/* Keyboard Navigation Indicators */
-.keyboard-nav-active *:focus {
-  outline: 3px solid #3b82f6;
-  outline-offset: 2px;
-}
-
-/* Accessible Tooltips */
-[role="tooltip"] {
-  position: absolute;
-  z-index: 1000;
-  background: #1f2937;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 13px;
-  pointer-events: none;
-}
-
-/* Accessible Buttons */
-button:disabled,
-[aria-disabled="true"] {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* Focus Trap Container */
-[data-focus-trap] {
-  position: relative;
-}
-
-/* Accessible Form Labels */
-label {
-  cursor: pointer;
-}
-
-label:has(input:required)::after {
-  content: " *";
-  color: #dc2626;
-}
-
-/* Accessible Error Messages */
-[role="alert"] {
-  padding: 12px;
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  border-radius: 6px;
-  color: #991b1b;
-  margin-bottom: 16px;
-}
-
-/* Accessible Loading States */
-[aria-busy="true"] {
-  position: relative;
-  pointer-events: none;
-  opacity: 0.6;
-}
-
-[aria-busy="true"]::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 24px;
-  height: 24px;
-  margin: -12px 0 0 -12px;
-  border: 3px solid #3b82f6;
-  border-top-color: transparent;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Accessible Data Tables */
-table[role="table"] {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-table[role="table"] caption {
-  font-weight: 600;
-  text-align: left;
-  padding: 12px;
-  background: #f9fafb;
-}
-
-table[role="table"] th {
-  text-align: left;
-  font-weight: 600;
-}
-
-table[role="table"] th[aria-sort] {
-  cursor: pointer;
-  user-select: none;
-}
-
-table[role="table"] th[aria-sort="ascending"]::after {
-  content: " ↑";
-}
-
-table[role="table"] th[aria-sort="descending"]::after {
-  content: " ↓";
-}
-
-/* Accessible Modals */
-[role="dialog"] {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1000;
-}
-
-[role="dialog"][aria-modal="true"] ~ * {
-  filter: blur(2px);
-  pointer-events: none;
-}
-
-/* Accessible Progress Indicators */
-[role="progressbar"] {
-  height: 8px;
-  background: #e5e7eb;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-[role="progressbar"]::before {
-  content: "";
-  display: block;
-  height: 100%;
-  background: #3b82f6;
-  width: var(--progress, 0%);
-  transition: width 0.3s ease;
-}
-
-/* Accessible Status Messages */
-[role="status"] {
-  padding: 8px 12px;
-  background: #dbeafe;
-  border-radius: 6px;
-  color: #1e40af;
-  font-size: 14px;
-}
-
-/* Touch Target Size */
-@media (pointer: coarse) {
-  button,
-  a,
-  input,
-  select,
-  textarea,
-  [role="button"],
-  [role="link"] {
-    min-height: 44px;
-    min-width: 44px;
-  }
-}
-
-/* Reduced Motion */
+/* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -229,4 +58,77 @@ table[role="table"] th[aria-sort="descending"]::after {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Keyboard Navigation Indicators */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Ensure sufficient color contrast */
+.text-contrast {
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+/* ARIA Live Regions */
+[aria-live="polite"],
+[aria-live="assertive"] {
+  position: relative;
+}
+
+/* Disabled State Accessibility */
+[disabled],
+[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Focus Trap for Modals */
+.modal-open {
+  overflow: hidden;
+}
+
+/* Accessible Form Labels */
+label {
+  cursor: pointer;
+}
+
+label[for] {
+  user-select: none;
+}
+
+/* Error Message Accessibility */
+.error-message {
+  color: var(--color-error);
+  font-size: 14px;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.error-message::before {
+  content: '⚠';
+  font-size: 16px;
+}
+
+/* Success Message Accessibility */
+.success-message {
+  color: var(--color-success);
+  font-size: 14px;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.success-message::before {
+  content: '✓';
+  font-size: 16px;
 }

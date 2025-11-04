@@ -117,6 +117,10 @@ export const createSurveySchema = Joi.object({
   description: Joi.string().max(1000).optional().messages({
     'string.max': 'Survey description cannot exceed 1000 characters'
   }),
+  tags: Joi.array().items(Joi.string().trim().lowercase().max(50)).max(10).optional().messages({
+    'array.max': 'Survey cannot have more than 10 tags',
+    'string.max': 'Each tag cannot exceed 50 characters'
+  }),
   questions: Joi.array().items(questionSchema).min(1).max(50).required().messages({
     'array.min': 'Survey must have at least 1 question',
     'array.max': 'Survey cannot have more than 50 questions',
@@ -133,6 +137,10 @@ export const updateSurveySchema = Joi.object({
   }),
   description: Joi.string().max(1000).optional().messages({
     'string.max': 'Survey description cannot exceed 1000 characters'
+  }),
+  tags: Joi.array().items(Joi.string().trim().lowercase().max(50)).max(10).optional().messages({
+    'array.max': 'Survey cannot have more than 10 tags',
+    'string.max': 'Each tag cannot exceed 50 characters'
   }),
   questions: Joi.array().items(questionSchema).min(1).max(50).optional().messages({
     'array.min': 'Survey must have at least 1 question',

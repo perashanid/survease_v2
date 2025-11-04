@@ -29,6 +29,7 @@ export interface ISurvey extends Document {
   title: string;
   description?: string;
   slug: string;
+  tags: string[];
   configuration: ISurveyConfiguration;
   is_public: boolean;
   is_active: boolean;
@@ -63,6 +64,11 @@ const SurveySchema = new Schema<ISurvey>({
     lowercase: true,
     trim: true
   },
+  tags: [{
+    type: String,
+    trim: true,
+    lowercase: true
+  }],
   configuration: {
     questions: [{
       id: { type: String, required: true },
@@ -120,5 +126,6 @@ SurveySchema.index({ is_public: 1, is_active: 1 });
 SurveySchema.index({ is_public: 1, allow_import: 1, is_active: 1 });
 SurveySchema.index({ created_at: -1 });
 SurveySchema.index({ original_survey_id: 1 });
+SurveySchema.index({ tags: 1 });
 
 export const Survey = mongoose.model<ISurvey>('Survey', SurveySchema);

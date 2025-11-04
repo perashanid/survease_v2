@@ -7,3 +7,6 @@ export { Segment, ISegment } from './Segment';
 export { AIInsight, IAIInsight, IPattern, IRecommendation, IQuestionInsight, IResponseStatistics, ISummary, IDataSnapshot } from './AIInsight';
 export { QualityRule, IQualityRule } from './QualityRule';
 export { QualityAuditLog, IQualityAuditLog } from './QualityAuditLog';
+export { Notification, INotification } from './Notification';
+export { UserProfile, IUserProfile } from './UserProfile';
+export { SurveyContribution, ISurveyContribution } from './SurveyContribution';

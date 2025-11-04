@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { Survey, Response as SurveyResponse } from '../models';
+import { Survey, Response as SurveyResponse, SurveyContribution } from '../models';
 import { authenticateToken, optionalAuth } from '../middleware/auth';
 import mongoose from 'mongoose';
 import {
@@ -7,6 +7,7 @@ import {
   updateSurveySchema,
   submitResponseSchema
 } from '../validation/schemas';
+import { NotificationService } from '../services/notificationService';
 
 const router = express.Router();
 
@@ -29,7 +30,7 @@ router.post('/', authenticateToken, async (req: Request, res: Response): Promise
       return;
     }
 
-    const { title, description, questions, settings } = value;
+    const { title, description, questions, settings, tags } = value;
     const userId = req.user!.id;
 
     // Generate unique slug from title
@@ -53,6 +54,7 @@ router.post('/', authenticateToken, async (req: Request, res: Response): Promise
       title,
       description,
       slug,
+      tags: tags || [],
       configuration: {
         questions,
         settings: {
@@ -69,6 +71,18 @@ router.post('/', authenticateToken, async (req: Request, res: Response): Promise
     });
 
     await survey.save();
+
+    // Update user profile stats
+    await NotificationService.updateSurveyCreatedStats(new mongoose.Types.ObjectId(userId));
+
+    // If survey is public, notify other users
+    if (survey.is_public) {
+      NotificationService.notifyNewPublicSurvey(
+        survey._id as mongoose.Types.ObjectId,
+        survey.title,
+        new mongoose.Types.ObjectId(userId)
+      ).catch(err => console.error('Failed to send notifications:', err));
+    }
 
     res.status(201).json({
       success: true,
@@ -125,6 +139,7 @@ router.get('/', authenticateToken, async (req: Request, res: Response): Promise<
           title: survey.title,
           description: survey.description,
           slug: survey.slug,
+          tags: survey.tags || [],
           url: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/#/survey/${survey.slug}`,
           is_public: survey.is_public,
           is_active: survey.is_active,
@@ -187,6 +202,7 @@ router.get('/public', async (req: Request, res: Response): Promise<void> => {
           title: survey.title,
           description: survey.description,
           slug: survey.slug,
+          tags: survey.tags || [],
           url: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/#/survey/${survey.slug}`,
           created_at: survey.created_at,
           response_count: responseCount,
@@ -1209,6 +1225,60 @@ router.post('/:slug/responses', optionalAuth, async (req: Request, res: Response
     });
 
     await surveyResponse.save();
+
+    // Track contribution if user is authenticated and not the survey owner
+    if (req.user && survey.user_id.toString() !== req.user.id) {
+      try {
+        // Check if contribution already exists
+        const existingContribution = await SurveyContribution.findOne({
+          survey_id: survey._id,
+          contributor_id: req.user.id
+        });
+
+        if (!existingContribution) {
+          // Create contribution record
+          await SurveyContribution.create({
+            survey_id: survey._id,
+            contributor_id: req.user.id,
+            survey_owner_id: survey.user_id,
+            response_id: surveyResponse._id
+          });
+
+          // Get contributor name
+          const { User } = await import('../models');
+          const contributor = await User.findById(req.user.id);
+          const contributorName = contributor 
+            ? `${contributor.first_name || ''} ${contributor.last_name || ''}`.trim() || contributor.email
+            : 'Someone';
+
+          // Send notification to survey owner
+          NotificationService.notifyContribution(
+            survey._id as mongoose.Types.ObjectId,
+            survey.title,
+            survey.user_id,
+            new mongoose.Types.ObjectId(req.user.id),
+            contributorName
+          ).catch(err => console.error('Failed to send contribution notification:', err));
+        }
+      } catch (error) {
+        console.error('Error tracking contribution:', error);
+        // Don't fail the response submission if contribution tracking fails
+      }
+    }
+
+    // Update survey completed stats for authenticated users
+    if (req.user) {
+      NotificationService.updateSurveyCompletedStats(
+        new mongoose.Types.ObjectId(req.user.id)
+      ).catch(err => console.error('Failed to update stats:', err));
+    }
+
+    // Send response notification to survey owner
+    NotificationService.notifyResponse(
+      survey._id as mongoose.Types.ObjectId,
+      survey.title,
+      survey.user_id
+    ).catch(err => console.error('Failed to send response notification:', err));
 
     res.status(201).json({
       success: true,

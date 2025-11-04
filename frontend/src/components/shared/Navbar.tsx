@@ -12,7 +12,9 @@ import {
   FiPlusCircle, 
   FiBarChart2, 
   FiMail, 
-  FiShield 
+  FiShield,
+  FiBell,
+  FiUser
 } from 'react-icons/fi';
 import './Navbar.css';
 
@@ -95,6 +97,14 @@ const Navbar: React.FC = () => {
                   <Link to="/analytics" className="navbar-link">
                     <FiBarChart2 className="nav-icon" />
                     <span>Analytics</span>
+                  </Link>
+                  <Link to="/notifications" className="navbar-link">
+                    <FiBell className="nav-icon" />
+                    <span>Notifications</span>
+                  </Link>
+                  <Link to="/profile" className="navbar-link">
+                    <FiUser className="nav-icon" />
+                    <span>Profile</span>
                   </Link>
                 </>
               )}

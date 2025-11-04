@@ -1,15 +1,6 @@
-/* Page Transitions and Smooth Scrolling */
+/* Page Transitions */
 
-/* Smooth scroll behavior for the entire app */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Page container animations */
-.page-container {
-  animation: pageEnter 0.4s ease-out;
-}
-
+/* Page Enter Animations */
 @keyframes pageEnter {
   from {
     opacity: 0;
@@ -21,515 +12,232 @@ html {
   }
 }
 
-/* Section animations */
-.section {
-  opacity: 0;
-  animation: sectionFadeIn 0.6s ease-out forwards;
-}
-
-.section:nth-child(1) { animation-delay: 0.1s; }
-.section:nth-child(2) { animation-delay: 0.2s; }
-.section:nth-child(3) { animation-delay: 0.3s; }
-.section:nth-child(4) { animation-delay: 0.4s; }
-.section:nth-child(5) { animation-delay: 0.5s; }
-
-@keyframes sectionFadeIn {
+@keyframes pageEnterFromLeft {
   from {
     opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Card grid animations */
-.card-grid {
-  display: grid;
-  gap: 24px;
-}
-
-.card-grid > * {
-  opacity: 0;
-  animation: cardAppear 0.4s ease-out forwards;
-}
-
-.card-grid > *:nth-child(1) { animation-delay: 0.05s; }
-.card-grid > *:nth-child(2) { animation-delay: 0.1s; }
-.card-grid > *:nth-child(3) { animation-delay: 0.15s; }
-.card-grid > *:nth-child(4) { animation-delay: 0.2s; }
-.card-grid > *:nth-child(5) { animation-delay: 0.25s; }
-.card-grid > *:nth-child(6) { animation-delay: 0.3s; }
-
-@keyframes cardAppear {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* List item animations */
-.animated-list > * {
-  opacity: 0;
-  animation: listItemAppear 0.3s ease-out forwards;
-}
-
-.animated-list > *:nth-child(1) { animation-delay: 0.05s; }
-.animated-list > *:nth-child(2) { animation-delay: 0.1s; }
-.animated-list > *:nth-child(3) { animation-delay: 0.15s; }
-.animated-list > *:nth-child(4) { animation-delay: 0.2s; }
-.animated-list > *:nth-child(5) { animation-delay: 0.25s; }
-.animated-list > *:nth-child(6) { animation-delay: 0.3s; }
-.animated-list > *:nth-child(7) { animation-delay: 0.35s; }
-.animated-list > *:nth-child(8) { animation-delay: 0.4s; }
-.animated-list > *:nth-child(9) { animation-delay: 0.45s; }
-.animated-list > *:nth-child(10) { animation-delay: 0.5s; }
-
-@keyframes listItemAppear {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* Modal/Dialog transitions */
-.modal-overlay {
-  animation: overlayFadeIn 0.3s ease-out;
-}
-
-@keyframes overlayFadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.modal-content {
-  animation: modalSlideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-@keyframes modalSlideUp {
-  from {
-    opacity: 0;
-    transform: translateY(50px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* Toast/Notification animations */
-.toast-enter {
-  animation: toastSlideIn 0.3s ease-out;
-}
-
-.toast-exit {
-  animation: toastSlideOut 0.3s ease-in;
-}
-
-@keyframes toastSlideIn {
-  from {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes toastSlideOut {
-  from {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-}
-
-/* Tab transitions */
-.tab-content {
-  animation: tabFadeIn 0.3s ease-out;
-}
-
-@keyframes tabFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Dropdown menu animations */
-.dropdown-menu {
-  animation: dropdownSlideDown 0.2s ease-out;
-  transform-origin: top;
-}
-
-@keyframes dropdownSlideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px) scaleY(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scaleY(1);
-  }
-}
-
-/* Accordion animations */
-.accordion-content {
-  animation: accordionExpand 0.3s ease-out;
-  overflow: hidden;
-}
-
-@keyframes accordionExpand {
-  from {
-    opacity: 0;
-    max-height: 0;
-  }
-  to {
-    opacity: 1;
-    max-height: 1000px;
-  }
-}
-
-/* Loading skeleton animations */
-.skeleton {
-  background: linear-gradient(
-    90deg,
-    var(--color-surface) 0%,
-    var(--color-border-light) 50%,
-    var(--color-surface) 100%
-  );
-  background-size: 200% 100%;
-  animation: skeletonLoading 1.5s ease-in-out infinite;
-}
-
-@keyframes skeletonLoading {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
-}
-
-/* Progress bar animations */
-.progress-bar-animated {
-  position: relative;
-  overflow: hidden;
-}
-
-.progress-bar-animated::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
-  );
-  animation: progressShine 2s ease-in-out infinite;
-}
-
-@keyframes progressShine {
-  0% {
     transform: translateX(-100%);
   }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-/* Scroll indicator animation */
-.scroll-indicator {
-  animation: scrollBounce 2s ease-in-out infinite;
-}
-
-@keyframes scrollBounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(10px);
-  }
-}
-
-/* Button press animation */
-.btn-press {
-  transition: transform 0.1s ease;
-}
-
-.btn-press:active {
-  transform: scale(0.95);
-}
-
-/* Icon spin animation */
-.icon-spin {
-  animation: iconSpin 1s linear infinite;
-}
-
-@keyframes iconSpin {
-  from {
-    transform: rotate(0deg);
-  }
   to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Icon pulse animation */
-.icon-pulse {
-  animation: iconPulse 2s ease-in-out infinite;
-}
-
-@keyframes iconPulse {
-  0%, 100% {
-    transform: scale(1);
     opacity: 1;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 0.8;
-  }
-}
-
-/* Badge bounce animation */
-.badge-bounce {
-  animation: badgeBounce 0.5s ease-out;
-}
-
-@keyframes badgeBounce {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-}
-
-/* Success checkmark animation */
-.success-checkmark {
-  animation: checkmarkDraw 0.5s ease-out;
-}
-
-@keyframes checkmarkDraw {
-  0% {
-    stroke-dashoffset: 100;
-  }
-  100% {
-    stroke-dashoffset: 0;
-  }
-}
-
-/* Error shake animation */
-.error-shake {
-  animation: errorShake 0.5s ease-out;
-}
-
-@keyframes errorShake {
-  0%, 100% {
     transform: translateX(0);
   }
-  25% {
-    transform: translateX(-10px);
-  }
-  75% {
-    transform: translateX(10px);
-  }
 }
 
-/* Attention grabber animation */
-.attention-grabber {
-  animation: attentionPulse 2s ease-in-out infinite;
-}
-
-@keyframes attentionPulse {
-  0%, 100% {
-    box-shadow: 0 0 0 0 var(--color-primary);
-  }
-  50% {
-    box-shadow: 0 0 0 10px transparent;
-  }
-}
-
-/* Smooth height transitions */
-.height-transition {
-  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
-  overflow: hidden;
-}
-
-/* Smooth width transitions */
-.width-transition {
-  transition: max-width 0.3s ease-out, opacity 0.3s ease-out;
-  overflow: hidden;
-}
-
-/* Fade and slide combined */
-.fade-slide-up {
-  animation: fadeSlideUp 0.4s ease-out;
-}
-
-@keyframes fadeSlideUp {
+@keyframes pageEnterFromRight {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateX(100%);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
   }
 }
 
-.fade-slide-down {
-  animation: fadeSlideDown 0.4s ease-out;
+@keyframes pageEnterScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-@keyframes fadeSlideDown {
+/* Page Exit Animations */
+@keyframes pageExit {
   from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
     opacity: 0;
     transform: translateY(-20px);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
-.fade-slide-left {
-  animation: fadeSlideLeft 0.4s ease-out;
-}
-
-@keyframes fadeSlideLeft {
+@keyframes pageExitToLeft {
   from {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-  to {
     opacity: 1;
     transform: translateX(0);
   }
-}
-
-.fade-slide-right {
-  animation: fadeSlideRight 0.4s ease-out;
-}
-
-@keyframes fadeSlideRight {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
   to {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes pageExitToRight {
+  from {
     opacity: 1;
     transform: translateX(0);
   }
-}
-
-/* Zoom in animation */
-.zoom-in {
-  animation: zoomIn 0.3s ease-out;
-}
-
-@keyframes zoomIn {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* Zoom out animation */
-.zoom-out {
-  animation: zoomOut 0.3s ease-out;
-}
-
-@keyframes zoomOut {
-  from {
-    opacity: 1;
-    transform: scale(1);
-  }
   to {
     opacity: 0;
-    transform: scale(0.8);
+    transform: translateX(100%);
   }
 }
 
-/* Flip animation */
-.flip {
-  animation: flip 0.6s ease-out;
+/* Page Transition Classes */
+.page-enter {
+  animation: pageEnter 0.4s ease-out;
 }
 
-@keyframes flip {
-  0% {
-    transform: perspective(400px) rotateY(0);
-  }
-  100% {
-    transform: perspective(400px) rotateY(360deg);
-  }
+.page-enter-from-left {
+  animation: pageEnterFromLeft 0.4s ease-out;
 }
 
-/* Reduced motion support */
+.page-enter-from-right {
+  animation: pageEnterFromRight 0.4s ease-out;
+}
+
+.page-enter-scale {
+  animation: pageEnterScale 0.4s ease-out;
+}
+
+.page-exit {
+  animation: pageExit 0.3s ease-in;
+}
+
+.page-exit-to-left {
+  animation: pageExitToLeft 0.3s ease-in;
+}
+
+.page-exit-to-right {
+  animation: pageExitToRight 0.3s ease-in;
+}
+
+/* Route Transition Container */
+.route-transition {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Fade Transition */
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 0.3s ease-in;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+
+/* Slide Transition */
+.slide-enter {
+  transform: translateX(100%);
+}
+
+.slide-enter-active {
+  transform: translateX(0);
+  transition: transform 0.3s ease-out;
+}
+
+.slide-exit {
+  transform: translateX(0);
+}
+
+.slide-exit-active {
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in;
+}
+
+/* Scale Transition */
+.scale-enter {
+  transform: scale(0.9);
+  opacity: 0;
+}
+
+.scale-enter-active {
+  transform: scale(1);
+  opacity: 1;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.scale-exit {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.scale-exit-active {
+  transform: scale(1.1);
+  opacity: 0;
+  transition: transform 0.3s ease-in, opacity 0.3s ease-in;
+}
+
+/* Modal Transitions */
+.modal-enter {
+  opacity: 0;
+  transform: scale(0.9) translateY(-20px);
+}
+
+.modal-enter-active {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.modal-exit {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.modal-exit-active {
+  opacity: 0;
+  transform: scale(0.9) translateY(-20px);
+  transition: opacity 0.2s ease-in, transform 0.2s ease-in;
+}
+
+/* Backdrop Transitions */
+.backdrop-enter {
+  opacity: 0;
+}
+
+.backdrop-enter-active {
+  opacity: 1;
+  transition: opacity 0.3s ease-out;
+}
+
+.backdrop-exit {
+  opacity: 1;
+}
+
+.backdrop-exit-active {
+  opacity: 0;
+  transition: opacity 0.2s ease-in;
+}
+
+/* Disable transitions for reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-  
-  html {
-    scroll-behavior: auto !important;
-  }
-  
-  .skeleton,
-  .progress-bar-animated::after,
-  .icon-spin,
-  .icon-pulse,
-  .attention-grabber {
+  .page-enter,
+  .page-enter-from-left,
+  .page-enter-from-right,
+  .page-enter-scale,
+  .page-exit,
+  .page-exit-to-left,
+  .page-exit-to-right,
+  .fade-enter-active,
+  .fade-exit-active,
+  .slide-enter-active,
+  .slide-exit-active,
+  .scale-enter-active,
+  .scale-exit-active,
+  .modal-enter-active,
+  .modal-exit-active,
+  .backdrop-enter-active,
+  .backdrop-exit-active {
     animation: none !important;
+    transition: none !important;
   }
-}
-
-/* Performance optimization */
-.will-animate {
-  will-change: transform, opacity;
-}
-
-.will-animate:hover,
-.will-animate:focus {
-  will-change: auto;
-}
-
-/* GPU acceleration for smooth animations */
-.gpu-accelerate {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  perspective: 1000px;
 }

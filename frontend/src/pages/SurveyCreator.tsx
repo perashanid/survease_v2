@@ -4,6 +4,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { SurveyService } from '../services/surveyService';
 import QuestionEditor, { Question } from '../components/survey/QuestionEditor';
 import SurveyPreview from '../components/survey/SurveyPreview';
+import { SUGGESTED_SURVEY_TAGS } from '../constants/surveyTags';
 import { motion } from 'framer-motion';
 import { 
   FiSave, FiEye, FiEyeOff, FiType, FiCheckSquare, 
@@ -27,6 +28,8 @@ const SurveyCreator: React.FC = () => {
   
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [tags, setTags] = useState<string[]>([]);
+  const [newTag, setNewTag] = useState('');
   const [questions, setQuestions] = useState<Question[]>([]);
   const [isPublic, setIsPublic] = useState(false);
   const [isActive, setIsActive] = useState(true);
@@ -125,6 +128,7 @@ const SurveyCreator: React.FC = () => {
       const surveyData = {
         title: title.trim(),
         description: description.trim() || undefined,
+        tags: tags,
         questions: questions.map(q => ({
           id: q.id,
           type: q.type,
@@ -224,6 +228,71 @@ const SurveyCreator: React.FC = () => {
                     placeholder="Enter survey description..."
                     rows={3}
                   />
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">Tags</label>
+                  <div className="tags-container">
+                    <div className="tags-list">
+                      {tags.map((tag, index) => (
+                        <span key={index} className="tag">
+                          {tag}
+                          <button
+                            type="button"
+                            onClick={() => setTags(tags.filter((_, i) => i !== index))}
+                            className="tag-remove"
+                          >
+                            ×
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                    <div className="tag-input-group">
+                      <input
+                        type="text"
+                        value={newTag}
+                        onChange={(e) => setNewTag(e.target.value)}
+                        onKeyPress={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                            if (newTag.trim() && !tags.includes(newTag.trim().toLowerCase())) {
+                              setTags([...tags, newTag.trim().toLowerCase()]);
+                              setNewTag('');
+                            }
+                          }
+                        }}
+                        className="form-input"
+                        placeholder="Add tags (e.g., student research, business survey)..."
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (newTag.trim() && !tags.includes(newTag.trim().toLowerCase())) {
+                            setTags([...tags, newTag.trim().toLowerCase()]);
+                            setNewTag('');
+                          }
+                        }}
+                        className="btn btn-secondary"
+                      >
+                        Add Tag
+                      </button>
+                    </div>
+                    <div className="suggested-tags">
+                      <small>Suggested: </small>
+                      {SUGGESTED_SURVEY_TAGS.slice(0, 8).map(suggestedTag => (
+                        !tags.includes(suggestedTag) && (
+                          <button
+                            key={suggestedTag}
+                            type="button"
+                            onClick={() => setTags([...tags, suggestedTag])}
+                            className="suggested-tag"
+                          >
+                            {suggestedTag}
+                          </button>
+                        )
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
 

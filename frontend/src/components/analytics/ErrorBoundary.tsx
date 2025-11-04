@@ -1,5 +1,5 @@
-import { Component, ErrorInfo, ReactNode } from 'react';
-import './ErrorBoundary.css';
+import React, { Component, ReactNode } from 'react';
+import { FiAlertTriangle } from 'react-icons/fi';
 
 interface Props {
   children: ReactNode;
@@ -14,29 +14,16 @@ interface State {
 class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = {
-      hasError: false,
-      error: null
-    };
+    this.state = { hasError: false, error: null };
   }
 
   static getDerivedStateFromError(error: Error): State {
-    return {
-      hasError: true,
-      error
-    };
+    return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('Chart error:', error, errorInfo);
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('ErrorBoundary caught an error:', error, errorInfo);
   }
-
-  handleReset = () => {
-    this.setState({
-      hasError: false,
-      error: null
-    });
-  };
 
   render() {
     if (this.state.hasError) {
@@ -45,17 +32,35 @@ class ErrorBoundary extends Component<Props, State> {
       }
 
       return (
-        <div className="error-boundary">
-          <div className="error-boundary-content">
-            <div className="error-icon">⚠️</div>
-            <h3 className="error-title">Something went wrong</h3>
-            <p className="error-message">
-              {this.state.error?.message || 'An error occurred while rendering this component'}
-            </p>
-            <button className="error-retry-btn" onClick={this.handleReset}>
-              Try Again
-            </button>
-          </div>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '40px',
+          textAlign: 'center'
+        }}>
+          <FiAlertTriangle size={48} color="#ef4444" />
+          <h2 style={{ marginTop: '16px', color: 'var(--color-text-primary)' }}>
+            Something went wrong
+          </h2>
+          <p style={{ marginTop: '8px', color: 'var(--color-text-secondary)' }}>
+            {this.state.error?.message || 'An unexpected error occurred'}
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            style={{
+              marginTop: '24px',
+              padding: '12px 24px',
+              backgroundColor: 'var(--color-primary)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: 'pointer'
+            }}
+          >
+            Reload Page
+          </button>
         </div>
       );
     }
