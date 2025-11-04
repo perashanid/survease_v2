@@ -20,10 +20,9 @@ import './Navbar.css';
 
 const Navbar: React.FC = () => {
   const { user, logout, isAuthenticated } = useAuth();
-  const { isDark, themeMode, setThemeMode } = useTheme();
+  const { themeMode, setThemeMode } = useTheme();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
-  const [showThemeMenu, setShowThemeMenu] = useState(false);
   const themeMenuRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 

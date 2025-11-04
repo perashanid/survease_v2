@@ -4,8 +4,8 @@ import { useAuth } from '../contexts/AuthContext';
 import { motion } from 'framer-motion';
 import { 
   FiCheckCircle, FiUsers, FiBarChart2, FiLock, 
-  FiSmartphone, FiDownload, FiArrowRight, FiStar,
-  FiTrendingUp, FiZap, FiGlobe
+  FiSmartphone, FiDownload, FiArrowRight,
+  FiZap, FiGlobe
 } from 'react-icons/fi';
 import ScrollReveal from '../components/shared/ScrollReveal';
 import './HomePage.css';
