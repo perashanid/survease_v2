@@ -238,68 +238,6 @@ router.get('/public', async (req: Request, res: Response): Promise<void> => {
 });
 
 /**
- * GET /api/public/surveys
- * Get public surveys (alias for /api/surveys/public for consistency)
- */
-router.get('/public/surveys', async (req: Request, res: Response): Promise<void> => {
-  try {
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 10;
-    const skip = (page - 1) * limit;
-
-    const surveys = await Survey.find({ is_public: true, is_active: true })
-      .sort({ created_at: -1 })
-      .skip(skip)
-      .limit(limit)
-      .populate('user_id', 'first_name last_name email');
-
-    const surveysWithCounts = await Promise.all(
-      surveys.map(async (survey) => {
-        const responseCount = await SurveyResponse.countDocuments({ survey_id: survey._id });
-        return {
-          id: survey._id,
-          title: survey.title,
-          description: survey.description,
-          slug: survey.slug,
-          url: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/#/survey/${survey.slug}`,
-          created_at: survey.created_at,
-          response_count: responseCount,
-          allow_import: survey.allow_import || false,
-          import_count: survey.import_count || 0,
-          author: {
-            name: `${(survey.user_id as any).first_name || ''} ${(survey.user_id as any).last_name || ''}`.trim() || 'Anonymous'
-          }
-        };
-      })
-    );
-
-    const total = await Survey.countDocuments({ is_public: true, is_active: true });
-
-    res.json({
-      success: true,
-      data: {
-        surveys: surveysWithCounts,
-        pagination: {
-          page,
-          limit,
-          total,
-          pages: Math.ceil(total / limit)
-        }
-      }
-    });
-  } catch (error: any) {
-    console.error('Get public surveys error:', error);
-    res.status(500).json({
-      success: false,
-      error: {
-        code: 'INTERNAL_ERROR',
-        message: 'Failed to fetch public surveys'
-      }
-    });
-  }
-});
-
-/**
  * GET /api/public/surveys/:id/analytics
  * Get analytics for a public survey
  */
@@ -1271,6 +1209,13 @@ router.post('/:slug/responses', optionalAuth, async (req: Request, res: Response
       NotificationService.updateSurveyCompletedStats(
         new mongoose.Types.ObjectId(req.user.id)
       ).catch(err => console.error('Failed to update stats:', err));
+
+      // Send completion notification to the user who completed the survey
+      NotificationService.notifySurveyCompletion(
+        new mongoose.Types.ObjectId(req.user.id),
+        survey._id as mongoose.Types.ObjectId,
+        survey.title
+      ).catch(err => console.error('Failed to send completion notification:', err));
     }
 
     // Send response notification to survey owner

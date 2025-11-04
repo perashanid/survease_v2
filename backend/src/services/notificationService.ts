@@ -118,4 +118,26 @@ export class NotificationService {
       console.error('Error updating survey completed stats:', error);
     }
   }
+
+  /**
+   * Create a notification when a user completes a survey
+   */
+  static async notifySurveyCompletion(
+    userId: mongoose.Types.ObjectId,
+    surveyId: mongoose.Types.ObjectId,
+    surveyTitle: string
+  ): Promise<void> {
+    try {
+      await Notification.create({
+        user_id: userId,
+        type: 'survey_response',
+        title: 'Survey Completed',
+        message: `Thank you for completing "${surveyTitle}"! Your response has been recorded.`,
+        related_survey_id: surveyId,
+        is_read: false
+      });
+    } catch (error) {
+      console.error('Error creating survey completion notification:', error);
+    }
+  }
 }
