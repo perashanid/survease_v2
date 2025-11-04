@@ -12,7 +12,6 @@ export class EmailService {
   private static transporter: nodemailer.Transporter | null = null;
 
   private static getTransporter(): nodemailer.Transporter {
-    this.transporter = null;
     if (!this.transporter) {
       if (!SMTP_USER || !SMTP_PASSWORD) {
         console.warn('Email service not configured. SMTP credentials missing.');
