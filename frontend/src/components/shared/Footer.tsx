@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  FiTwitter, 
   FiLinkedin, 
   FiGithub, 
   FiMail, 
@@ -46,17 +45,14 @@ const Footer: React.FC = () => {
               Build better insights with our powerful survey tools.
             </p>
             <div className="footer-social">
-              <a href="https://twitter.com/surveyplatform" className="social-link" aria-label="Twitter" target="_blank" rel="noopener noreferrer">
-                <FiTwitter />
+              <a href="mailto:shanidsajjatuz@gmail.com" className="social-link" aria-label="Email" target="_blank" rel="noopener noreferrer">
+                <FiMail />
               </a>
-              <a href="https://linkedin.com/company/surveyplatform" className="social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.linkedin.com/in/shanid-sajjatuz-islam" className="social-link" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
                 <FiLinkedin />
               </a>
-              <a href="https://github.com/surveyplatform" className="social-link" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
+              <a href="https://github.com/perashanid" className="social-link" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
                 <FiGithub />
-              </a>
-              <a href="mailto:support@surveyplatform.com" className="social-link" aria-label="Email" target="_blank" rel="noopener noreferrer">
-                <FiMail />
               </a>
             </div>
           </div>

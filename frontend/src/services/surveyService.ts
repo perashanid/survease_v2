@@ -17,6 +17,7 @@ export interface Survey {
   views?: number;
   createdAt: string;
   original_survey_id?: string;
+  tags?: string[];
 }
 
 export interface Question {
@@ -73,9 +74,7 @@ export class SurveyService {
   }
 
   static async getUserSurveys(): Promise<Survey[]> {
-    console.log('Making API call to /surveys');
     const response = await api.get('/surveys');
-    console.log('API response:', response.data);
     return response.data.data.surveys;
   }
 
@@ -99,11 +98,9 @@ export class SurveyService {
   }
 
   static async getPublicSurveys(page: number = 1, limit: number = 12): Promise<PublicSurveysResponse> {
-    console.log('Fetching public surveys...', { page, limit });
-    const response = await api.get('/public/surveys', {
+    const response = await api.get('/surveys/public', {
       params: { page, limit }
     });
-    console.log('Public surveys response:', response.data);
     return response.data;
   }
 
