@@ -31,6 +31,19 @@ const HomePage: React.FC = () => {
     fetchStats();
   }, []);
 
+  const handleGetStarted = () => {
+    // Scroll to top first
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Trigger the navbar login button after a short delay
+    setTimeout(() => {
+      const loginButton = document.querySelector('.navbar-actions button') as HTMLButtonElement;
+      if (loginButton) {
+        loginButton.click();
+      }
+    }, 300);
+  };
+
   const fetchStats = async () => {
     try {
       const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
@@ -90,19 +103,16 @@ const HomePage: React.FC = () => {
 
   const testimonials = [
     {
-      icon: <FiStar />,
       content: 'SurvEase transformed how we gather customer feedback. The analytics are incredibly detailed and easy to understand.',
       author: 'Sarah Johnson',
       role: 'Product Manager'
     },
     {
-      icon: <FiTrendingUp />,
       content: 'The real-time response tracking has been a game-changer for our research team. We can make decisions faster than ever.',
       author: 'Michael Chen',
       role: 'Research Director'
     },
     {
-      icon: <FiZap />,
       content: 'Simple, powerful, and reliable. Everything we needed without the complexity of enterprise tools.',
       author: 'Emily Rodriguez',
       role: 'Marketing Lead'
@@ -163,7 +173,10 @@ const HomePage: React.FC = () => {
                     <span>Browse Surveys</span>
                     <FiArrowRight />
                   </Link>
-                  <button className="btn btn-outline btn-lg">
+                  <button 
+                    className="btn btn-outline btn-lg"
+                    onClick={handleGetStarted}
+                  >
                     <FiZap />
                     <span>Get Started</span>
                   </button>
@@ -300,8 +313,8 @@ const FeatureCard: React.FC<{ icon: React.ReactNode; title: string; description:
 };
 
 // Testimonial card component
-const TestimonialCard: React.FC<{ icon: React.ReactNode; content: string; author: string; role: string; delay: number }> = 
-  ({ icon, content, author, role, delay }) => {
+const TestimonialCard: React.FC<{ content: string; author: string; role: string; delay: number }> = 
+  ({ content, author, role, delay }) => {
   return (
     <motion.div
       className="testimonial-card"
@@ -312,7 +325,6 @@ const TestimonialCard: React.FC<{ icon: React.ReactNode; content: string; author
       whileHover={{ y: -8, transition: { duration: 0.2 } }}
     >
       <div className="testimonial-content">
-        <div className="quote-icon">{icon}</div>
         <p>{content}</p>
       </div>
       <div className="testimonial-author">

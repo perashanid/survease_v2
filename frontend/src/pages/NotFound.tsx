@@ -8,8 +8,22 @@ const NotFound: React.FC = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // Scroll to top when 404 page loads or location changes
+    // Scroll to top immediately
     window.scrollTo({ top: 0, behavior: 'instant' });
+    
+    // Create a unique key for this specific 404 path
+    const reloadKey = `404-reloaded-${location.pathname}`;
+    const hasReloaded = sessionStorage.getItem(reloadKey);
+    
+    if (!hasReloaded) {
+      // Mark as reloaded and reload the page
+      sessionStorage.setItem(reloadKey, 'true');
+      
+      // Clear the flag after a short delay to allow reload
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
+    }
   }, [location.pathname]);
 
   return (

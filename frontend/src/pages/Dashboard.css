@@ -312,58 +312,65 @@
 }
 
 .stat-card {
-  background: var(--color-surface);
+  background: var(--gradient-primary);
   border-radius: 16px;
   padding: 24px;
   text-align: center;
-  border: 2px solid var(--color-border);
+  border: 2px solid transparent;
   box-shadow: 0 4px 16px var(--color-shadow-light);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
 }
 
-.stat-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--gradient-primary);
-  opacity: 0.08;
-  z-index: 0;
-  transition: opacity 0.3s ease;
-}
-
-.stat-card:hover::before {
-  opacity: 0.12;
-}
-
 .stat-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 32px var(--color-shadow-medium);
+  box-shadow: 0 12px 32px rgba(74, 222, 128, 0.4);
   border-color: var(--color-primary);
 }
 
 .stat-number {
   font-size: 36px;
   font-weight: 800;
-  color: var(--color-text-primary);
+  color: #ffffff !important;
   margin-bottom: 8px;
   line-height: 1;
   position: relative;
   z-index: 1;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background-clip: unset !important;
 }
 
 .stat-label {
   font-size: 14px;
-  font-weight: 600;
-  color: var(--color-text-secondary);
+  font-weight: 700;
+  color: #ffffff !important;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   position: relative;
   z-index: 1;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background-clip: unset !important;
+}
+
+/* Light mode override - darker gradient for better contrast */
+[data-theme="light"] .stat-card {
+  background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%);
+}
+
+/* Force white text in light mode too */
+[data-theme="light"] .stat-card .stat-number,
+[data-theme="light"] .stat-card .stat-label,
+[data-theme="light"] .stat-card .stat-icon,
+[data-theme="light"] .stat-card .stat-icon svg {
+  color: #ffffff !important;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 /* Surveys Section */
@@ -463,6 +470,32 @@
   font-size: 16px;
   line-height: 1.5;
   margin-bottom: 16px;
+}
+
+.survey-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.survey-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(74, 222, 128, 0.1);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-transform: lowercase;
+  transition: all 0.2s ease;
+}
+
+.survey-tag:hover {
+  background: rgba(74, 222, 128, 0.2);
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
 }
 
 .survey-meta {
@@ -868,10 +901,15 @@ tics Dropdown */
 /* Stat Card Icons */
 .stat-icon {
   font-size: 32px;
-  color: var(--color-primary);
+  color: #ffffff !important;
   margin-bottom: 12px;
   position: relative;
   z-index: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.stat-icon svg {
+  color: #ffffff !important;
 }
 
 .stat-card {
@@ -879,6 +917,14 @@ tics Dropdown */
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+/* Force white text for stat cards in all themes */
+.stat-card .stat-number,
+.stat-card .stat-label,
+.stat-card .stat-icon,
+.stat-card .stat-icon svg {
+  color: #ffffff !important;
 }
 
 /* Analytics Dropdown Enhancement */

@@ -31,14 +31,11 @@ const Dashboard: React.FC = () => {
   const fetchSurveys = async () => {
     try {
       setLoading(true);
-      console.log('Fetching user surveys...');
       const data = await SurveyService.getUserSurveys();
-      console.log('User surveys data:', data);
       setSurveys(data);
     } catch (err: any) {
       setError('Failed to load surveys');
       console.error('Error fetching surveys:', err);
-      console.error('Error details:', err.response?.data);
     } finally {
       setLoading(false);
     }
@@ -258,6 +255,13 @@ const Dashboard: React.FC = () => {
                     </div>
                     {survey.description && (
                       <p className="survey-description">{survey.description}</p>
+                    )}
+                    {survey.tags && survey.tags.length > 0 && (
+                      <div className="survey-tags">
+                        {survey.tags.map((tag: string, idx: number) => (
+                          <span key={idx} className="survey-tag">{tag}</span>
+                        ))}
+                      </div>
                     )}
                     <div className="survey-meta">
                       <span className="meta-item">
