@@ -113,6 +113,17 @@
   padding: 0;
 }
 
+/* Remove default focus outline globally */
+*:focus {
+  outline: none;
+}
+
+/* Add back focus styles only for keyboard navigation */
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
 html {
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
@@ -182,7 +193,23 @@ input, textarea, select {
 input:focus, textarea:focus, select:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.2);
+  box-shadow: 0 0 0 3px var(--color-primary-50);
+}
+
+/* Remove default focus outline for all interactive elements */
+button:focus,
+a:focus,
+[role="button"]:focus {
+  outline: none;
+}
+
+/* Add subtle focus styles for accessibility */
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 input::placeholder, textarea::placeholder {

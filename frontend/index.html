@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/favicon.png" />
@@ -7,6 +7,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
     <meta name="description" content="SurvEase - Create, share, and analyze surveys with ease" />
     <title>SurvEase</title>
+    <script>
+      // Apply theme immediately before page renders to prevent flash
+      (function() {
+        try {
+          // Force light mode as default
+          const savedTheme = localStorage.getItem('theme-mode');
+          console.log('Saved theme from localStorage:', savedTheme);
+          
+          let actualTheme = 'light'; // Default to light
+          
+          if (savedTheme === 'dark') {
+            actualTheme = 'dark';
+          } else if (savedTheme === 'system') {
+            actualTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          }
+          
+          document.documentElement.setAttribute('data-theme', actualTheme);
+          console.log('Pre-render theme applied:', actualTheme, 'from mode:', savedTheme);
+          
+          // Verify it was set
+          setTimeout(() => {
+            const applied = document.documentElement.getAttribute('data-theme');
+            console.log('Theme verification after 100ms:', applied);
+            if (!applied || (savedTheme !== 'dark' && applied === 'dark')) {
+              console.warn('Theme mismatch detected! Forcing light mode...');
+              document.documentElement.setAttribute('data-theme', 'light');
+            }
+          }, 100);
+        } catch (e) {
+          console.error('Error applying theme:', e);
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

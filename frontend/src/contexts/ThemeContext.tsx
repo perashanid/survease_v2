@@ -47,12 +47,15 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       return savedTheme;
     }
     
-    // Default to system preference
-    return 'system';
+    // Default to light mode instead of system
+    return 'light';
   });
 
   const [actualTheme, setActualTheme] = useState<ActualTheme>(() => {
-    return getActualTheme(themeMode);
+    const initial = getActualTheme(themeMode);
+    // Apply theme immediately before React renders
+    document.documentElement.setAttribute('data-theme', initial);
+    return initial;
   });
 
   // Listen for system theme changes
@@ -79,14 +82,17 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   // Update actual theme when theme mode changes
   useEffect(() => {
     const newActualTheme = getActualTheme(themeMode);
+    console.log('Theme changing:', { themeMode, newActualTheme });
     setActualTheme(newActualTheme);
     document.documentElement.setAttribute('data-theme', newActualTheme);
     localStorage.setItem('theme-mode', themeMode);
+    console.log('Applied theme to document:', document.documentElement.getAttribute('data-theme'));
   }, [themeMode]);
 
   // Apply theme immediately on mount
   useEffect(() => {
     const initialTheme = getActualTheme(themeMode);
+    console.log('Initial theme on mount:', { themeMode, initialTheme });
     document.documentElement.setAttribute('data-theme', initialTheme);
   }, []);
 
