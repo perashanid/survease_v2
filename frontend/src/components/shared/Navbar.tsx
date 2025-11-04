@@ -23,7 +23,6 @@ const Navbar: React.FC = () => {
   const { themeMode, setThemeMode } = useTheme();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
-  const themeMenuRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   // Force clear dark mode on mount if needed
@@ -48,20 +47,6 @@ const Navbar: React.FC = () => {
     await logout();
     navigate('/');
   };
-
-  // Close theme menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (themeMenuRef.current && !themeMenuRef.current.contains(event.target as Node)) {
-        setShowThemeMenu(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
 
   const getThemeIcon = (mode: string) => {
     switch (mode) {
@@ -160,7 +145,7 @@ const Navbar: React.FC = () => {
                 </div>
               )}
               
-              <div className="theme-selector" ref={themeMenuRef}>
+              <div className="theme-selector">
                 <button 
                   onClick={(e) => {
                     e.preventDefault();
