@@ -27,6 +27,19 @@ const Navbar: React.FC = () => {
   const themeMenuRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
+  // Force clear dark mode on mount if needed
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme-mode');
+    console.log('Navbar mounted, saved theme:', savedTheme);
+    
+    // If you want to force light mode, uncomment this:
+    // if (savedTheme === 'dark') {
+    //   console.log('Forcing light mode...');
+    //   localStorage.setItem('theme-mode', 'light');
+    //   setThemeMode('light');
+    // }
+  }, []);
+
   const handleAuthClick = (mode: 'login' | 'register') => {
     setAuthMode(mode);
     setShowAuthModal(true);
@@ -122,7 +135,11 @@ const Navbar: React.FC = () => {
             <div className="navbar-actions">
               {isAuthenticated ? (
                 <div className="navbar-user">
-                  <span className="user-email">{user?.email}</span>
+                  <span className="user-name">
+                    {user?.firstName && user?.lastName 
+                      ? `${user.firstName} ${user.lastName}`
+                      : user?.firstName || user?.email}
+                  </span>
                   <button onClick={handleLogout} className="btn btn-outline btn-sm">
                     Logout
                   </button>
@@ -146,33 +163,35 @@ const Navbar: React.FC = () => {
               
               <div className="theme-selector" ref={themeMenuRef}>
                 <button 
-                  onClick={() => setShowThemeMenu(!showThemeMenu)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Simple cycle: light -> dark -> system -> light
+                    let nextMode: 'light' | 'dark' | 'system';
+                    if (themeMode === 'light') {
+                      nextMode = 'dark';
+                    } else if (themeMode === 'dark') {
+                      nextMode = 'system';
+                    } else {
+                      nextMode = 'light';
+                    }
+                    
+                    console.log('Theme toggle clicked, changing from', themeMode, 'to', nextMode);
+                    setThemeMode(nextMode);
+                    
+                    // Verify change
+                    setTimeout(() => {
+                      const currentTheme = document.documentElement.getAttribute('data-theme');
+                      console.log('DOM theme after change:', currentTheme);
+                    }, 100);
+                  }}
                   className="theme-toggle"
-                  title={`Current: ${getThemeLabel(themeMode)} mode. Click to change.`}
+                  title={`Current: ${getThemeLabel(themeMode)} mode. Click to cycle: Light → Dark → System`}
+                  type="button"
                 >
                   {getThemeIcon(themeMode)}
                 </button>
-                
-                {showThemeMenu && (
-                  <div className="theme-menu">
-                    {(['light', 'dark', 'system'] as const).map((mode) => (
-                      <button
-                        key={mode}
-                        onClick={() => {
-                          setThemeMode(mode);
-                          setShowThemeMenu(false);
-                        }}
-                        className={`theme-option ${themeMode === mode ? 'active' : ''}`}
-                      >
-                        <span className="theme-icon">{getThemeIcon(mode)}</span>
-                        <span className="theme-label">{getThemeLabel(mode)}</span>
-                        {mode === 'system' && (
-                          <span className="theme-hint">({isDark ? 'Dark' : 'Light'})</span>
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                )}
               </div>
             </div>
           </div>
