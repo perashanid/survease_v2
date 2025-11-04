@@ -168,18 +168,18 @@ const DataQualityManager: React.FC<Props> = ({ surveyId }) => {
             </p>
           </div>
 
-          <div className="stats-row">
-            <div className="stat-item">
-              <span className="stat-label">Current Threshold:</span>
-              <span className="stat-value">{rules?.min_completion_time || 30}s</span>
+          <div className="stats-row" style={{ display: 'flex', gap: '30px', paddingTop: '20px', borderTop: '1px solid #e5e7eb' }}>
+            <div className="stat-item" style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+              <span style={{ fontSize: '12px', color: '#374151', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>CURRENT THRESHOLD:</span>
+              <span style={{ fontSize: '24px', fontWeight: 700, color: '#111827' }}>{rules?.min_completion_time || 30}s</span>
             </div>
-            <div className="stat-item">
-              <span className="stat-label">Total Flagged:</span>
-              <span className="stat-value">{rules?.total_flagged || 0}</span>
+            <div className="stat-item" style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+              <span style={{ fontSize: '12px', color: '#374151', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>TOTAL FLAGGED:</span>
+              <span style={{ fontSize: '24px', fontWeight: 700, color: '#111827' }}>{rules?.total_flagged || 0}</span>
             </div>
-            <div className="stat-item">
-              <span className="stat-label">Manually Overridden:</span>
-              <span className="stat-value">{rules?.total_overridden || 0}</span>
+            <div className="stat-item" style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+              <span style={{ fontSize: '12px', color: '#374151', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>MANUALLY OVERRIDDEN:</span>
+              <span style={{ fontSize: '24px', fontWeight: 700, color: '#111827' }}>{rules?.total_overridden || 0}</span>
             </div>
           </div>
 

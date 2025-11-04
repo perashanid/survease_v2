@@ -92,9 +92,9 @@
   gap: 5px;
 }
 
-.stat-label {
+.data-quality-manager .stat-label {
   font-size: 12px;
-  color: var(--color-text-secondary);
+  color: #1f2937 !important;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;

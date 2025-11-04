@@ -21,7 +21,7 @@
 
 .header-left h1 {
   font-size: 2rem;
-  color: #333;
+  color: var(--color-text-primary);
   margin: 0;
 }
 
@@ -42,17 +42,18 @@
 
 .filter-button {
   padding: 0.5rem 1rem;
-  background: white;
-  border: 1px solid #d1d5db;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s;
 }
 
 .filter-button.active {
-  background: #4f46e5;
+  background: var(--color-primary);
   color: white;
-  border-color: #4f46e5;
+  border-color: var(--color-primary);
 }
 
 .mark-all-button {
@@ -76,7 +77,7 @@
   text-align: center;
   padding: 3rem;
   font-size: 1.2rem;
-  color: #666;
+  color: var(--color-text-secondary);
 }
 
 .notifications-list {
@@ -88,7 +89,7 @@
 .no-notifications {
   text-align: center;
   padding: 4rem 2rem;
-  color: #9ca3af;
+  color: var(--color-text-muted);
 }
 
 .no-notifications svg {
@@ -105,21 +106,22 @@
   align-items: flex-start;
   gap: 1rem;
   padding: 1.25rem;
-  background: white;
-  border: 1px solid #e5e7eb;
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s;
 }
 
 .notification-item:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px var(--color-shadow-medium);
   transform: translateY(-2px);
+  border-color: var(--color-primary);
 }
 
 .notification-item.unread {
-  background: #eff6ff;
-  border-color: #3b82f6;
+  background: var(--color-primary-50);
+  border-color: var(--color-primary);
 }
 
 .notification-icon {
@@ -134,12 +136,12 @@
 
 .notification-title {
   font-weight: 600;
-  color: #333;
+  color: var(--color-text-primary);
   margin-bottom: 0.25rem;
 }
 
 .notification-message {
-  color: #666;
+  color: var(--color-text-secondary);
   font-size: 0.95rem;
   line-height: 1.5;
   margin-bottom: 0.5rem;
@@ -147,7 +149,7 @@
 
 .notification-time {
   font-size: 0.85rem;
-  color: #9ca3af;
+  color: var(--color-text-muted);
 }
 
 .notification-actions {
@@ -159,10 +161,10 @@
 .action-button {
   padding: 0.5rem;
   background: transparent;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--color-border);
   border-radius: 6px;
   cursor: pointer;
-  color: #6b7280;
+  color: var(--color-text-secondary);
   transition: all 0.3s;
   display: flex;
   align-items: center;
@@ -170,14 +172,14 @@
 }
 
 .action-button:hover {
-  background: #f3f4f6;
-  border-color: #9ca3af;
+  background: var(--color-surface);
+  border-color: var(--color-text-muted);
 }
 
 .action-button.delete:hover {
-  background: #fee2e2;
-  border-color: #ef4444;
-  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  border-color: var(--color-error);
+  color: var(--color-error);
 }
 
 @media (max-width: 768px) {
