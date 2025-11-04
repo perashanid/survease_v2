@@ -45,3 +45,15 @@ Thumbs.db
 # Survey Platform specific
 # (covered by **/.env pattern above)
 
+# Test files
+backend/test-*.js
+backend/test-*.ts
+**/test-*.js
+**/test-*.ts
+
+# Seed and utility scripts
+backend/scripts/seed-*.ts
+backend/scripts/*-user-*.ts
+backend/scripts/set-*.ts
+backend/scripts/test-*.ts
+
