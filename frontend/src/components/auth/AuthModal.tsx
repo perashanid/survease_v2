@@ -44,7 +44,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ mode, onClose, onSwitchMode }) =>
         await register(formData.email, formData.password, formData.firstName, formData.lastName);
         onClose();
       } else if (mode === 'forgot-password') {
-        const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000/api'}/auth/forgot-password`, {
+        const apiUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+        const response = await fetch(`${apiUrl}/auth/forgot-password`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: formData.email })

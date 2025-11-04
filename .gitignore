@@ -57,3 +57,5 @@ backend/scripts/*-user-*.ts
 backend/scripts/set-*.ts
 backend/scripts/test-*.ts
 
+backend/send-simple-test.ts
+backend/check-brevo-status.ts
