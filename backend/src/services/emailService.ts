@@ -8,8 +8,99 @@ const SMTP_PASSWORD = process.env.SMTP_PASSWORD;
 const EMAIL_FROM = process.env.EMAIL_FROM || 'noreply@surveyplatform.com';
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
 
+// Brevo API configuration (fallback when SMTP is blocked)
+const BREVO_API_KEY = process.env.BREVO_API_KEY || process.env.SMTP_PASSWORD;
+const USE_BREVO_API = process.env.USE_BREVO_API === 'true' || !SMTP_USER;
+
 export class EmailService {
   private static transporter: nodemailer.Transporter | null = null;
+
+  /**
+   * Send email via Brevo API (more reliable on cloud platforms where SMTP ports are blocked)
+   */
+  private static async sendViaBrevoAPI(
+    email: string,
+    resetToken: string,
+    userName?: string
+  ): Promise<void> {
+    const resetUrl = `${FRONTEND_URL}/reset-password?token=${resetToken}`;
+    const displayName = userName || email;
+
+    const emailData = {
+      sender: {
+        name: 'SurvEase',
+        email: EMAIL_FROM.includes('<') ? EMAIL_FROM.match(/<(.+)>/)?.[1] : EMAIL_FROM
+      },
+      to: [{ email, name: displayName }],
+      subject: 'Password Reset Request - Survey Platform',
+      htmlContent: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        </head>
+        <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
+          <table role="presentation" style="width: 100%; border-collapse: collapse;">
+            <tr>
+              <td align="center" style="padding: 40px 0;">
+                <table role="presentation" style="width: 600px; border-collapse: collapse; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                  <tr>
+                    <td style="padding: 40px 40px 20px 40px; text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px 8px 0 0;">
+                      <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: bold;">Password Reset</h1>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 40px;">
+                      <p style="margin: 0 0 20px 0; color: #333333; font-size: 16px;">Hi ${displayName},</p>
+                      <p style="margin: 0 0 20px 0; color: #333333; font-size: 16px;">We received a request to reset your password. Click the button below:</p>
+                      <table role="presentation" style="margin: 30px 0; width: 100%;">
+                        <tr>
+                          <td align="center">
+                            <a href="${resetUrl}" style="display: inline-block; padding: 14px 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; text-decoration: none; border-radius: 6px; font-size: 16px; font-weight: bold;">Reset Password</a>
+                          </td>
+                        </tr>
+                      </table>
+                      <p style="margin: 20px 0; color: #666666; font-size: 14px;">Or copy this link: ${resetUrl}</p>
+                      <p style="margin: 20px 0; color: #666666; font-size: 14px;">This link expires in 1 hour.</p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </body>
+        </html>
+      `
+    };
+
+    try {
+      console.log('📧 Sending via Brevo API to:', email);
+      
+      const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+          'accept': 'application/json',
+          'api-key': BREVO_API_KEY!,
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(emailData)
+      });
+
+      if (!response.ok) {
+        const errorData: any = await response.json();
+        console.error('❌ Brevo API error:', errorData);
+        throw new Error(`Brevo API error: ${errorData.message || response.statusText}`);
+      }
+
+      const result: any = await response.json();
+      console.log('✅ Email sent via Brevo API successfully!');
+      console.log('📧 Message ID:', result.messageId);
+    } catch (error: any) {
+      console.error('❌ Failed to send via Brevo API:', error);
+      throw new Error(`Failed to send email via Brevo API: ${error.message}`);
+    }
+  }
 
   private static getTransporter(): nodemailer.Transporter {
     if (!this.transporter) {
@@ -71,16 +162,24 @@ export class EmailService {
     console.log('='.repeat(80));
     console.log('📧 EMAIL SERVICE: sendPasswordResetEmail called');
     console.log('📧 Recipient:', email);
+    console.log('📧 Using Brevo API:', !!BREVO_API_KEY);
     console.log('📧 Environment check:', {
       SMTP_HOST,
       SMTP_PORT,
       SMTP_SECURE,
       SMTP_USER: SMTP_USER ? 'SET' : 'NOT SET',
       SMTP_PASSWORD: SMTP_PASSWORD ? 'SET' : 'NOT SET',
+      BREVO_API_KEY: BREVO_API_KEY ? 'SET' : 'NOT SET',
       EMAIL_FROM,
       FRONTEND_URL
     });
     console.log('='.repeat(80));
+
+    // If Brevo API key is available, use API instead of SMTP (more reliable on cloud platforms)
+    if (BREVO_API_KEY) {
+      console.log('📧 Using Brevo API (HTTPS) instead of SMTP');
+      return this.sendViaBrevoAPI(email, resetToken, userName);
+    }
 
     // Check if email service is properly configured
     if (!SMTP_USER || !SMTP_PASSWORD) {
