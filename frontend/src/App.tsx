@@ -47,6 +47,16 @@ function RedirectHandler() {
   return null;
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 function App() {
   return (
     <ErrorBoundary>
@@ -56,6 +66,7 @@ function App() {
             <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
               <div className="App">
                 <RedirectHandler />
+                <ScrollToTop />
                 <Navbar />
                 <ConnectionStatus />
                 <main className="main-content">
