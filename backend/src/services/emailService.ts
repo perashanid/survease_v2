@@ -25,7 +25,7 @@ export class EmailService {
   ): Promise<void> {
     console.log('🔗 FRONTEND_URL from env:', process.env.FRONTEND_URL);
     console.log('🔗 FRONTEND_URL constant:', FRONTEND_URL);
-    const resetUrl = `${FRONTEND_URL}/reset-password?token=${resetToken}`;
+    const resetUrl = `${FRONTEND_URL}/#/reset-password?token=${resetToken}`;
     console.log('🔗 Generated reset URL:', resetUrl);
     const displayName = userName || email;
 
@@ -229,11 +229,11 @@ export class EmailService {
       const errorMsg = 'Email service not configured - SMTP credentials missing';
       console.error('❌', errorMsg);
       console.error('Password reset token for', email, ':', resetToken);
-      console.error('Reset URL:', `${FRONTEND_URL}/reset-password?token=${resetToken}`);
+      console.error('Reset URL:', `${FRONTEND_URL}/#/reset-password?token=${resetToken}`);
       throw new Error(errorMsg);
     }
 
-    const resetUrl = `${FRONTEND_URL}/reset-password?token=${resetToken}`;
+    const resetUrl = `${FRONTEND_URL}/#/reset-password?token=${resetToken}`;
     const displayName = userName || email;
 
     const mailOptions = {
@@ -341,7 +341,7 @@ Survey Platform Team
         secure: SMTP_SECURE,
         user: SMTP_USER ? `${SMTP_USER.substring(0, 10)}...` : 'missing',
         from: EMAIL_FROM,
-        resetUrl: `${FRONTEND_URL}/reset-password?token=${resetToken.substring(0, 20)}...`
+        resetUrl: `${FRONTEND_URL}/#/reset-password?token=${resetToken.substring(0, 20)}...`
       });
       
       const info = await transporter.sendMail(mailOptions);
