@@ -87,4 +87,38 @@ router.get('/email', async (req: Request, res: Response): Promise<void> => {
   });
 });
 
+/**
+ * POST /api/health/test-email
+ * Test email sending (for debugging only)
+ */
+router.post('/test-email', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { EmailService } = await import('../services/emailService');
+    const testEmail = req.body.email || process.env.SMTP_USER || 'test@example.com';
+    
+    await EmailService.sendPasswordResetEmail(
+      testEmail,
+      'test-token-12345',
+      'Test User'
+    );
+    
+    res.json({
+      success: true,
+      message: 'Test email sent successfully',
+      sentTo: testEmail
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        code: error.code,
+        response: error.response,
+        command: error.command,
+        stack: error.stack
+      }
+    });
+  }
+});
+
 export default router;

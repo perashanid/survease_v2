@@ -417,7 +417,11 @@ router.post('/forgot-password', async (req: Request, res: Response): Promise<voi
         error: {
           code: 'EMAIL_SEND_FAILED',
           message: 'Failed to send password reset email. Please try again later or contact support.',
-          details: emailError.message
+          details: emailError.message,
+          errorCode: emailError.code,
+          errorResponse: emailError.response,
+          errorCommand: emailError.command,
+          stack: process.env.NODE_ENV === 'production' ? undefined : emailError.stack
         }
       });
       return;
