@@ -74,7 +74,9 @@ export class SurveyService {
   }
 
   static async getUserSurveys(): Promise<Survey[]> {
-    const response = await api.get('/surveys');
+    const response = await api.get('/surveys', {
+      params: { limit: 1000 } // Request all surveys (up to 1000)
+    });
     return response.data.data.surveys;
   }
 

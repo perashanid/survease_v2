@@ -122,7 +122,7 @@ router.get('/', authenticateToken, async (req: Request, res: Response): Promise<
   try {
     const userId = req.user!.id;
     const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 10;
+    const limit = Math.min(parseInt(req.query.limit as string) || 10, 1000); // Allow up to 1000 surveys
     const skip = (page - 1) * limit;
 
     const surveys = await Survey.find({ user_id: userId })
@@ -1619,8 +1619,7 @@ router.get('/analytics/data', authenticateToken, async (req: Request, res: Respo
 
     // Sort by response count for top performing
     const topPerforming = surveyPerformance
-      .sort((a, b) => b.responseCount - a.responseCount)
-      .slice(0, 5);
+      .sort((a, b) => b.responseCount - a.responseCount);
 
     // Recent activity - get latest responses across all surveys
     const recentResponseDocuments = await SurveyResponse.find({

@@ -319,6 +319,15 @@
   margin-bottom: 0;
 }
 
+.recommendations-section ul,
+.recommendations-section li {
+  background: transparent !important;
+}
+
+.recommendations-section li {
+  color: var(--color-text-primary, #f1f5f9) !important;
+}
+
 .trend-details h4 {
   color: var(--color-text-primary, #f1f5f9);
   font-size: 16px;
@@ -332,9 +341,10 @@
 }
 
 .trend-details li {
-  color: var(--color-text-primary, #f1f5f9);
+  color: var(--color-text-primary, #f1f5f9) !important;
   margin-bottom: 6px;
   line-height: 1.5;
+  background: transparent !important;
 }
 
 /* Patterns Section */
