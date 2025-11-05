@@ -66,7 +66,7 @@ const PublicSurveys: React.FC = () => {
   const fetchSurveys = async () => {
     try {
       setLoading(true);
-      const pageSize = 9;
+      const pageSize = parseInt(import.meta.env.VITE_PUBLIC_SURVEYS_PER_PAGE) || 9;
       const data = await SurveyService.getPublicSurveys(page, pageSize);
       setSurveys(data.surveys as PublicSurvey[]);
       setTotalPages(data.pagination.pages);
