@@ -14,27 +14,51 @@ export class EmailService {
   private static getTransporter(): nodemailer.Transporter {
     if (!this.transporter) {
       if (!SMTP_USER || !SMTP_PASSWORD) {
-        console.warn('Email service not configured. SMTP credentials missing.');
-        this.transporter = nodemailer.createTransport({
-          host: 'smtp.ethereal.email',
-          port: 587,
-          secure: false,
-          auth: {
-            user: 'test@ethereal.email',
-            pass: 'test'
-          }
+        console.error('❌ CRITICAL: Email service not configured. SMTP credentials missing.');
+        console.error('Environment check:', {
+          SMTP_HOST: SMTP_HOST || 'NOT SET',
+          SMTP_PORT: SMTP_PORT || 'NOT SET',
+          SMTP_USER: SMTP_USER ? 'SET' : 'NOT SET',
+          SMTP_PASSWORD: SMTP_PASSWORD ? 'SET' : 'NOT SET',
+          EMAIL_FROM: EMAIL_FROM || 'NOT SET',
+          NODE_ENV: process.env.NODE_ENV
         });
-      } else {
-        this.transporter = nodemailer.createTransport({
-          host: SMTP_HOST,
-          port: SMTP_PORT,
-          secure: SMTP_SECURE,
-          auth: {
-            user: SMTP_USER,
-            pass: SMTP_PASSWORD
-          }
-        });
+        throw new Error('Email service not configured. Please set SMTP_USER and SMTP_PASSWORD environment variables.');
       }
+
+      console.log('✅ Initializing email transporter with:', {
+        host: SMTP_HOST,
+        port: SMTP_PORT,
+        secure: SMTP_SECURE,
+        user: SMTP_USER.substring(0, 10) + '...',
+        from: EMAIL_FROM
+      });
+
+      this.transporter = nodemailer.createTransport({
+        host: SMTP_HOST,
+        port: SMTP_PORT,
+        secure: SMTP_SECURE,
+        auth: {
+          user: SMTP_USER,
+          pass: SMTP_PASSWORD
+        },
+        // Add connection timeout and retry settings
+        connectionTimeout: 10000,
+        greetingTimeout: 10000,
+        socketTimeout: 10000,
+        // Enable debug logging in development
+        debug: process.env.NODE_ENV === 'development',
+        logger: process.env.NODE_ENV === 'development'
+      });
+
+      // Verify connection on initialization
+      this.transporter.verify((error, success) => {
+        if (error) {
+          console.error('❌ SMTP connection verification failed:', error);
+        } else {
+          console.log('✅ SMTP server is ready to send emails');
+        }
+      });
     }
     return this.transporter;
   }
@@ -44,6 +68,15 @@ export class EmailService {
     resetToken: string,
     userName?: string
   ): Promise<void> {
+    // Check if email service is properly configured
+    if (!SMTP_USER || !SMTP_PASSWORD) {
+      const errorMsg = 'Email service not configured - SMTP credentials missing';
+      console.error('❌', errorMsg);
+      console.error('Password reset token for', email, ':', resetToken);
+      console.error('Reset URL:', `${FRONTEND_URL}/reset-password?token=${resetToken}`);
+      throw new Error(errorMsg);
+    }
+
     const resetUrl = `${FRONTEND_URL}/reset-password?token=${resetToken}`;
     const displayName = userName || email;
 
@@ -144,15 +177,44 @@ Survey Platform Team
 
     try {
       const transporter = this.getTransporter();
-      const info = await transporter.sendMail(mailOptions);
-      console.log('Password reset email sent:', info.messageId);
+      console.log('📧 Sending password reset email to:', email);
+      console.log('📧 SMTP configured:', !!(SMTP_USER && SMTP_PASSWORD));
+      console.log('📧 SMTP details:', {
+        host: SMTP_HOST,
+        port: SMTP_PORT,
+        secure: SMTP_SECURE,
+        user: SMTP_USER ? `${SMTP_USER.substring(0, 10)}...` : 'missing',
+        from: EMAIL_FROM,
+        resetUrl: `${FRONTEND_URL}/reset-password?token=${resetToken.substring(0, 20)}...`
+      });
       
-      if (info.messageId && !SMTP_USER) {
-        console.log('Preview URL:', nodemailer.getTestMessageUrl(info));
-      }
-    } catch (error) {
-      console.error('Error sending password reset email:', error);
-      throw new Error('Failed to send password reset email');
+      const info = await transporter.sendMail(mailOptions);
+      console.log('✅ Password reset email sent successfully!');
+      console.log('📧 Message ID:', info.messageId);
+      console.log('📧 Response:', info.response);
+      console.log('📧 Accepted:', info.accepted);
+      console.log('📧 Rejected:', info.rejected);
+    } catch (error: any) {
+      console.error('❌ CRITICAL ERROR sending password reset email:', error);
+      console.error('❌ Error details:', {
+        message: error.message,
+        code: error.code,
+        command: error.command,
+        response: error.response,
+        responseCode: error.responseCode,
+        stack: error.stack
+      });
+      console.error('❌ SMTP Config at time of error:', {
+        host: SMTP_HOST,
+        port: SMTP_PORT,
+        secure: SMTP_SECURE,
+        user: SMTP_USER ? 'configured' : 'missing',
+        password: SMTP_PASSWORD ? 'configured' : 'missing',
+        from: EMAIL_FROM,
+        frontendUrl: FRONTEND_URL
+      });
+      // Re-throw the error so the caller knows it failed
+      throw new Error(`Failed to send password reset email: ${error.message}`);
     }
   }
 
@@ -160,6 +222,12 @@ Survey Platform Team
     email: string,
     userName?: string
   ): Promise<void> {
+    // Check if email service is properly configured
+    if (!SMTP_USER || !SMTP_PASSWORD) {
+      console.error('❌ Email service not configured - skipping confirmation email');
+      return;
+    }
+
     const displayName = userName || email;
 
     const mailOptions = {
@@ -244,9 +312,10 @@ Survey Platform Team
     try {
       const transporter = this.getTransporter();
       const info = await transporter.sendMail(mailOptions);
-      console.log('Password reset confirmation email sent:', info.messageId);
-    } catch (error) {
-      console.error('Error sending password reset confirmation email:', error);
+      console.log('✅ Password reset confirmation email sent:', info.messageId);
+    } catch (error: any) {
+      console.error('❌ Error sending password reset confirmation email:', error.message);
+      // Don't throw - just log the error
     }
   }
 }

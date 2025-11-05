@@ -387,16 +387,38 @@ router.post('/forgot-password', async (req: Request, res: Response): Promise<voi
     await user.save();
 
     // Send email with reset link
-    const { EmailService } = await import('../services/emailService');
-    await EmailService.sendPasswordResetEmail(user.email, resetToken, user.first_name || 'User');
-
-    res.json({
-      success: true,
-      message: 'If an account exists with this email, password reset instructions have been sent'
-    });
+    try {
+      const { EmailService } = await import('../services/emailService');
+      await EmailService.sendPasswordResetEmail(user.email, resetToken, user.first_name || 'User');
+      console.log('✅ Password reset email sent successfully to:', user.email);
+      
+      res.json({
+        success: true,
+        message: 'Password reset instructions have been sent to your email'
+      });
+    } catch (emailError: any) {
+      console.error('❌ Email sending failed:', emailError.message);
+      console.error('❌ Full error:', emailError);
+      
+      // If email fails, we should inform the user but still keep the token valid
+      res.status(500).json({
+        success: false,
+        error: {
+          code: 'EMAIL_SEND_FAILED',
+          message: 'Failed to send password reset email. Please try again later or contact support.',
+          details: process.env.NODE_ENV === 'development' ? emailError.message : undefined
+        }
+      });
+      return;
+    }
 
   } catch (error: any) {
     console.error('Forgot password error:', error);
+    console.error('Error details:', {
+      message: error.message,
+      stack: error.stack,
+      smtpConfigured: !!(process.env.SMTP_USER && process.env.SMTP_PASSWORD)
+    });
     res.status(500).json({
       success: false,
       error: {

@@ -10,7 +10,11 @@
     "vercel-build": "npm run build",
     "start": "node dist/app.js",
     "render-build": "npm run build",
-    "render-start": "npm start"
+    "render-start": "npm start",
+    "test:email": "node verify-email-config.js",
+    "verify:email": "node verify-email-config.js",
+    "check:env": "node check-production-env.js",
+    "predeploy": "node check-production-env.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
