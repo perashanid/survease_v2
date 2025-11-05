@@ -176,6 +176,18 @@ async function initializeDatabase() {
 // Initialize database connection
 initializeDatabase();
 
+// Verify email configuration on startup
+console.log('='.repeat(80));
+console.log('📧 EMAIL CONFIGURATION CHECK ON STARTUP');
+console.log('SMTP_HOST:', process.env.SMTP_HOST || '❌ NOT SET');
+console.log('SMTP_PORT:', process.env.SMTP_PORT || '❌ NOT SET');
+console.log('SMTP_SECURE:', process.env.SMTP_SECURE || '❌ NOT SET');
+console.log('SMTP_USER:', process.env.SMTP_USER ? '✅ SET' : '❌ NOT SET');
+console.log('SMTP_PASSWORD:', process.env.SMTP_PASSWORD ? '✅ SET' : '❌ NOT SET');
+console.log('EMAIL_FROM:', process.env.EMAIL_FROM || '❌ NOT SET');
+console.log('FRONTEND_URL:', process.env.FRONTEND_URL || '❌ NOT SET');
+console.log('='.repeat(80));
+
 // Start server (for local development)
 async function startServer() {
   try {

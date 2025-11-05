@@ -68,6 +68,20 @@ export class EmailService {
     resetToken: string,
     userName?: string
   ): Promise<void> {
+    console.log('='.repeat(80));
+    console.log('📧 EMAIL SERVICE: sendPasswordResetEmail called');
+    console.log('📧 Recipient:', email);
+    console.log('📧 Environment check:', {
+      SMTP_HOST,
+      SMTP_PORT,
+      SMTP_SECURE,
+      SMTP_USER: SMTP_USER ? 'SET' : 'NOT SET',
+      SMTP_PASSWORD: SMTP_PASSWORD ? 'SET' : 'NOT SET',
+      EMAIL_FROM,
+      FRONTEND_URL
+    });
+    console.log('='.repeat(80));
+
     // Check if email service is properly configured
     if (!SMTP_USER || !SMTP_PASSWORD) {
       const errorMsg = 'Email service not configured - SMTP credentials missing';

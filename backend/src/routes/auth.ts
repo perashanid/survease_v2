@@ -387,8 +387,14 @@ router.post('/forgot-password', async (req: Request, res: Response): Promise<voi
     await user.save();
 
     // Send email with reset link
+    console.log('🔐 AUTH ROUTE: About to send password reset email');
+    console.log('🔐 User email:', user.email);
+    console.log('🔐 User name:', user.first_name);
+    
     try {
       const { EmailService } = await import('../services/emailService');
+      console.log('🔐 EmailService imported successfully');
+      
       await EmailService.sendPasswordResetEmail(user.email, resetToken, user.first_name || 'User');
       console.log('✅ Password reset email sent successfully to:', user.email);
       
@@ -397,8 +403,13 @@ router.post('/forgot-password', async (req: Request, res: Response): Promise<voi
         message: 'Password reset instructions have been sent to your email'
       });
     } catch (emailError: any) {
-      console.error('❌ Email sending failed:', emailError.message);
-      console.error('❌ Full error:', emailError);
+      console.error('='.repeat(80));
+      console.error('❌ EMAIL SENDING FAILED');
+      console.error('❌ Error message:', emailError.message);
+      console.error('❌ Error code:', emailError.code);
+      console.error('❌ Error stack:', emailError.stack);
+      console.error('❌ Full error object:', JSON.stringify(emailError, null, 2));
+      console.error('='.repeat(80));
       
       // If email fails, we should inform the user but still keep the token valid
       res.status(500).json({
@@ -406,7 +417,7 @@ router.post('/forgot-password', async (req: Request, res: Response): Promise<voi
         error: {
           code: 'EMAIL_SEND_FAILED',
           message: 'Failed to send password reset email. Please try again later or contact support.',
-          details: process.env.NODE_ENV === 'development' ? emailError.message : undefined
+          details: emailError.message
         }
       });
       return;
