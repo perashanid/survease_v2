@@ -66,7 +66,8 @@ const PublicSurveys: React.FC = () => {
   const fetchSurveys = async () => {
     try {
       setLoading(true);
-      const data = await SurveyService.getPublicSurveys(page, 12);
+      const pageSize = parseInt(import.meta.env.VITE_DEFAULT_PAGE_SIZE) || 12;
+      const data = await SurveyService.getPublicSurveys(page, pageSize);
       setSurveys(data.surveys as PublicSurvey[]);
       setTotalPages(data.pagination.pages);
     } catch (err: any) {
@@ -172,7 +173,7 @@ const PublicSurveys: React.FC = () => {
         </motion.div>
 
         {/* Featured Surveys Section */}
-        {!searchTerm && featuredSurveys.length > 0 && (
+        {!searchTerm && page === 1 && featuredSurveys.length > 0 && (
           <motion.div 
             className="featured-section"
             initial={{ opacity: 0, y: 20 }}
@@ -232,7 +233,7 @@ const PublicSurveys: React.FC = () => {
         )}
 
         {/* Trending Surveys Section */}
-        {!searchTerm && trendingSurveys.length > 0 && (
+        {!searchTerm && page === 1 && trendingSurveys.length > 0 && (
           <motion.div 
             className="trending-section"
             initial={{ opacity: 0, y: 20 }}
