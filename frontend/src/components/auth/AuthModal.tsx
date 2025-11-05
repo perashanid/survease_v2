@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import './AuthModal.css';
 
 interface AuthModalProps {
@@ -148,7 +149,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ mode, onClose, onSwitchMode }) =>
                   aria-label={showPassword ? "Hide password" : "Show password"}
                   title={showPassword ? "Hide password" : "Show password"}
                 >
-                  {showPassword ? "HIDE" : "SHOW"}
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </button>
               </div>
               {mode === 'register' && (
