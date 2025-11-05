@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { FiLock, FiAlertTriangle, FiCheckCircle, FiEye, FiEyeOff } from 'react-icons/fi';
 import './ResetPassword.css';
 
 const ResetPassword: React.FC = () => {
@@ -82,7 +83,7 @@ const ResetPassword: React.FC = () => {
           <div className="reset-password-card">
             <div className="reset-password-logo">
               <h1 className="logo-text">SurvEase</h1>
-              <div className="logo-icon error-icon">⚠️</div>
+              <div className="logo-icon error-icon"><FiAlertTriangle /></div>
             </div>
             <h2 className="reset-title">Invalid Reset Link</h2>
             <p className="error-message">This password reset link is invalid or has expired.</p>
@@ -103,7 +104,7 @@ const ResetPassword: React.FC = () => {
             <div className="reset-password-logo">
               <h1 className="logo-text">SurvEase</h1>
             </div>
-            <div className="success-icon">✓</div>
+            <div className="success-icon"><FiCheckCircle /></div>
             <h2 className="reset-title">Password Reset Successful!</h2>
             <p className="success-message">
               Your password has been successfully reset. You can now log in with your new password.
@@ -121,7 +122,7 @@ const ResetPassword: React.FC = () => {
         <div className="reset-password-card">
           <div className="reset-password-logo">
             <h1 className="logo-text">SurvEase</h1>
-            <div className="logo-icon">🔐</div>
+            <div className="logo-icon"><FiLock /></div>
           </div>
           <h2 className="reset-title">Reset Your Password</h2>
           <p className="subtitle">Enter your new password below</p>
@@ -147,7 +148,7 @@ const ResetPassword: React.FC = () => {
                   className="password-toggle"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showPassword ? "HIDE" : "SHOW"}
+                  {showPassword ? <FiEyeOff /> : <FiEye />}
                 </button>
               </div>
             </div>
@@ -170,7 +171,7 @@ const ResetPassword: React.FC = () => {
                   className="password-toggle"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
-                  {showConfirmPassword ? "HIDE" : "SHOW"}
+                  {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
                 </button>
               </div>
             </div>
