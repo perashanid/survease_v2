@@ -89,6 +89,7 @@ app.get('/health', (req, res) => {
 });
 
 // Import all routes
+import healthRoutes from './routes/health';
 import surveyRoutes from './routes/surveys';
 import invitationRoutes from './routes/invitations';
 import statsRoutes from './routes/stats';
@@ -104,6 +105,7 @@ import notificationRoutes from './routes/notifications';
 import profileRoutes from './routes/profile';
 
 // API routes with /api prefix
+app.use('/api/health', healthRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/surveys', surveyRoutes);
 app.use('/api/surveys', invitationRoutes);
