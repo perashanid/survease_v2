@@ -14,6 +14,7 @@ interface PlatformStats {
   totalSurveys: number;
   totalResponses: number;
   activeSurveys: number;
+  totalUsers: number;
 }
 
 const HomePage: React.FC = () => {
@@ -21,7 +22,8 @@ const HomePage: React.FC = () => {
   const [stats, setStats] = useState<PlatformStats>({
     totalSurveys: 0,
     totalResponses: 0,
-    activeSurveys: 0
+    activeSurveys: 0,
+    totalUsers: 0
   });
   const [loading, setLoading] = useState(true);
   
@@ -54,14 +56,16 @@ const HomePage: React.FC = () => {
         setStats({
           totalSurveys: data.data.surveys.total,
           totalResponses: data.data.responses.total,
-          activeSurveys: data.data.surveys.active
+          activeSurveys: data.data.surveys.active,
+          totalUsers: data.data.users.total
         });
       }
     } catch (error) {
       setStats({
         totalSurveys: 1,
         totalResponses: 3,
-        activeSurveys: 1
+        activeSurveys: 1,
+        totalUsers: 1
       });
     } finally {
       setLoading(false);
@@ -204,6 +208,11 @@ const HomePage: React.FC = () => {
               number={loading ? '...' : stats.activeSurveys.toLocaleString()}
               label="Active Surveys"
               delay={0.2}
+            />
+            <StatCard 
+              number={loading ? '...' : stats.totalUsers.toLocaleString()}
+              label="Registered Users"
+              delay={0.3}
             />
           </div>
         </div>
