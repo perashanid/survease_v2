@@ -370,6 +370,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 32px;
+  align-items: stretch;
 }
 
 .testimonial-card {
@@ -381,6 +382,9 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   /* Prevent blinking */
   backface-visibility: hidden;
   transform: translateZ(0);
@@ -411,6 +415,7 @@
   margin-bottom: 32px;
   position: relative;
   z-index: 1;
+  flex: 1;
 }
 
 .quote-icon {
