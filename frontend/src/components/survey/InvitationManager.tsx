@@ -27,6 +27,18 @@ const InvitationManager: React.FC<InvitationManagerProps> = ({ surveyId, surveyT
     fetchInvitations();
   }, [surveyId]);
 
+  // Handle ESC key to close modal
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [onClose]);
+
   const fetchInvitations = async () => {
     try {
       setLoading(true);
@@ -223,7 +235,7 @@ const InvitationManager: React.FC<InvitationManagerProps> = ({ surveyId, surveyT
                   
                   <div className="invitation-actions">
                     <button
-                      className="btn btn-sm btn-outline"
+                      className={`btn btn-sm btn-outline ${copySuccess === invitation.id ? 'copied' : ''}`}
                       onClick={() => handleCopyUrl(invitation)}
                       disabled={!invitation.is_active}
                     >
