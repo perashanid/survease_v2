@@ -43,8 +43,8 @@ const Dashboard: React.FC = () => {
 
   const handleCopyUrl = async (slug: string) => {
     try {
-      // Generate the correct frontend URL
-      const frontendUrl = `${window.location.origin}/survey/${slug}`;
+      // Generate the correct frontend URL with hash routing
+      const frontendUrl = `${window.location.origin}/#/survey/${slug}`;
       await navigator.clipboard.writeText(frontendUrl);
       setCopiedUrl(frontendUrl);
       setTimeout(() => setCopiedUrl(null), 2000);
@@ -319,7 +319,7 @@ const Dashboard: React.FC = () => {
                         className="btn btn-outline btn-sm"
                         title="Copy survey URL"
                       >
-                        {copiedUrl === `${window.location.origin}/survey/${survey.slug}` ? <><FiCheckCircle /> Copied!</> : <><FiCopy /> Copy Link</>}
+                        {copiedUrl === `${window.location.origin}/#/survey/${survey.slug}` ? <><FiCheckCircle /> Copied!</> : <><FiCopy /> Copy Link</>}
                       </button>
                     ) : (
                       <button
@@ -373,7 +373,14 @@ const Dashboard: React.FC = () => {
 
       {/* Invitation Manager Modal */}
       {showInvitationManager && (
-        <div className="modal-overlay">
+        <div 
+          className="modal-overlay"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowInvitationManager(null);
+            }
+          }}
+        >
           <div className="modal-content">
             <InvitationManager
               surveyId={showInvitationManager.surveyId}

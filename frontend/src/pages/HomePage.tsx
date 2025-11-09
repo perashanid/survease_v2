@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   FiCheckCircle, FiUsers, FiBarChart2, FiLock, 
   FiSmartphone, FiDownload, FiArrowRight,
-  FiZap, FiGlobe
+  FiZap, FiGlobe, FiChevronLeft, FiChevronRight
 } from 'react-icons/fi';
 import ScrollReveal from '../components/shared/ScrollReveal';
 import './HomePage.css';
@@ -109,24 +109,68 @@ const HomePage: React.FC = () => {
     {
       content: 'SurvEase transformed how we gather customer feedback. The analytics are incredibly detailed and easy to understand.',
       author: 'Sarah Johnson',
-      role: 'Product Manager'
+      role: 'Product Manager',
+      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop',
+      rating: 5
     },
     {
       content: 'The real-time response tracking has been a game-changer for our research team. We can make decisions faster than ever.',
       author: 'Michael Chen',
-      role: 'Research Director'
+      role: 'Research Director',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop',
+      rating: 5
     },
     {
       content: 'Simple, powerful, and reliable. Everything we needed without the complexity of enterprise tools.',
       author: 'Emily Rodriguez',
-      role: 'Marketing Lead'
+      role: 'Marketing Lead',
+      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop',
+      rating: 5
+    },
+    {
+      content: 'The best survey platform I\'ve used. Intuitive interface and powerful features that actually work.',
+      author: 'David Kim',
+      role: 'UX Researcher',
+      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop',
+      rating: 5
+    },
+    {
+      content: 'Outstanding customer support and a platform that keeps getting better. Highly recommended!',
+      author: 'Lisa Anderson',
+      role: 'Business Analyst',
+      avatar: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&h=150&fit=crop',
+      rating: 5
     }
   ];
+
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+    
+    const interval = setInterval(() => {
+      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isAutoPlaying, testimonials.length]);
+
+  const nextTestimonial = () => {
+    setIsAutoPlaying(false);
+    setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+  };
+
+  const prevTestimonial = () => {
+    setIsAutoPlaying(false);
+    setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
 
   return (
     <div className="homepage">
       <section className="hero" ref={heroRef}>
         <div className="hero-background">
+          <div className="hero-bg-image"></div>
           <div className="gradient-orb orb-1"></div>
           <div className="gradient-orb orb-2"></div>
           <div className="gradient-orb orb-3"></div>
@@ -240,9 +284,50 @@ const HomePage: React.FC = () => {
               What Our Users Say
             </h2>
           </ScrollReveal>
-          <div className="testimonials-grid">
-            {testimonials.map((testimonial, index) => (
-              <TestimonialCard key={index} {...testimonial} delay={index * 0.1} />
+          <div className="testimonial-carousel">
+            <button 
+              className="carousel-btn carousel-btn-prev" 
+              onClick={prevTestimonial}
+              aria-label="Previous testimonial"
+            >
+              <FiChevronLeft />
+            </button>
+            
+            <div className="carousel-container">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentTestimonial}
+                  initial={{ opacity: 0, x: 100 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -100 }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  className="carousel-slide"
+                >
+                  <TestimonialCarouselCard {...testimonials[currentTestimonial]} />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            <button 
+              className="carousel-btn carousel-btn-next" 
+              onClick={nextTestimonial}
+              aria-label="Next testimonial"
+            >
+              <FiChevronRight />
+            </button>
+          </div>
+
+          <div className="carousel-indicators">
+            {testimonials.map((_, index) => (
+              <button
+                key={index}
+                className={`indicator ${index === currentTestimonial ? 'active' : ''}`}
+                onClick={() => {
+                  setIsAutoPlaying(false);
+                  setCurrentTestimonial(index);
+                }}
+                aria-label={`Go to testimonial ${index + 1}`}
+              />
             ))}
           </div>
         </div>
@@ -306,38 +391,44 @@ const StatCard: React.FC<{ number: string; label: string; delay: number }> = ({ 
 const FeatureCard: React.FC<{ icon: React.ReactNode; title: string; description: string; delay: number }> = 
   ({ icon, title, description, delay }) => {
   return (
-    <motion.div
-      className="feature-card"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.4, delay, ease: "easeOut" }}
-      whileHover={{ y: -12, transition: { duration: 0.2 } }}
-    >
-      <div className="feature-icon">{icon}</div>
-      <h3>{title}</h3>
-      <p>{description}</p>
-    </motion.div>
+    <ScrollReveal direction="up" delay={delay}>
+      <motion.div
+        className="feature-card"
+        whileHover={{ y: -12, transition: { duration: 0.2 } }}
+      >
+        <div className="feature-icon">{icon}</div>
+        <h3>{title}</h3>
+        <p>{description}</p>
+      </motion.div>
+    </ScrollReveal>
   );
 };
 
-// Testimonial card component
-const TestimonialCard: React.FC<{ content: string; author: string; role: string; delay: number }> = 
-  ({ content, author, role, delay }) => {
+// Testimonial carousel card component
+const TestimonialCarouselCard: React.FC<{ 
+  content: string; 
+  author: string; 
+  role: string; 
+  avatar: string;
+  rating: number;
+}> = ({ content, author, role, avatar }) => {
   return (
-    <motion.div
-      className="testimonial-card"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.4, delay, ease: "easeOut" }}
-      whileHover={{ y: -8, transition: { duration: 0.2 } }}
-    >
+    <div className="testimonial-carousel-card">
       <div className="testimonial-content">
+        <div className="quote-icon">❝</div>
         <p>{content}</p>
       </div>
       <div className="testimonial-author">
-        <div className="author-avatar">
+        <img 
+          src={avatar} 
+          alt={author}
+          className="author-avatar-img"
+          onError={(e) => {
+            e.currentTarget.style.display = 'none';
+            e.currentTarget.nextElementSibling?.classList.remove('hidden');
+          }}
+        />
+        <div className="author-avatar-fallback hidden">
           <FiUsers />
         </div>
         <div className="author-info">
@@ -345,7 +436,7 @@ const TestimonialCard: React.FC<{ content: string; author: string; role: string;
           <span>{role}</span>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
