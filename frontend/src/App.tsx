@@ -27,6 +27,7 @@ import Profile from './pages/Profile';
 import Notifications from './pages/Notifications';
 import ResetPassword from './pages/ResetPassword';
 import NotFound from './pages/NotFound';
+import AdminDashboard from './pages/AdminDashboard';
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import './App.css';
@@ -99,6 +100,7 @@ function App() {
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/privacy" element={<PrivacyPolicy />} />
                     <Route path="/reset-password" element={<ResetPassword />} />
+                    <Route path="/x-admin-portal" element={<AdminDashboard />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </main>
