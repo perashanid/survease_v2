@@ -9,6 +9,7 @@ declare global {
       user?: {
         id: string;
         email: string;
+        isAdmin?: boolean;
       };
     }
   }
@@ -67,7 +68,8 @@ export const authenticateToken = async (
     // Add user to request
     req.user = {
       id: (user._id as any).toString(),
-      email: user.email
+      email: user.email,
+      isAdmin: user.is_admin
     };
 
     next();
@@ -102,7 +104,8 @@ export const optionalAuth = async (
         if (user) {
           req.user = {
             id: (user._id as any).toString(),
-            email: user.email
+            email: user.email,
+            isAdmin: user.is_admin
           };
         }
       }
@@ -135,4 +138,47 @@ export const requireOwnership = (resourceUserIdField: string = 'user_id') => {
     // The actual ownership check happens in the route handler
     next();
   };
+};
+/
+**
+ * Middleware to check if user is an admin
+ */
+export const requireAdmin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    if (!req.user) {
+      res.status(401).json({
+        success: false,
+        error: {
+          code: 'AUTHENTICATION_REQUIRED',
+          message: 'Authentication required'
+        }
+      });
+      return;
+    }
+
+    if (!req.user.isAdmin) {
+      res.status(403).json({
+        success: false,
+        error: {
+          code: 'ADMIN_ACCESS_REQUIRED',
+          message: 'Admin access required'
+        }
+      });
+      return;
+    }
+
+    next();
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'INTERNAL_ERROR',
+        message: 'Failed to verify admin access'
+      }
+    });
+  }
 };

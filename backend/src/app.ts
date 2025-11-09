@@ -103,10 +103,12 @@ import aiRoutes from './routes/ai';
 import predictionsRoutes from './routes/predictions';
 import notificationRoutes from './routes/notifications';
 import profileRoutes from './routes/profile';
+import adminRoutes from './routes/admin';
 
 // API routes with /api prefix
 app.use('/api/health', healthRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api/surveys', surveyRoutes);
 app.use('/api/surveys', invitationRoutes);
 app.use('/api/surveys', qualityRoutes);

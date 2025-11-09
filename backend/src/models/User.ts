@@ -6,6 +6,7 @@ export interface IUser extends Document {
   first_name?: string;
   last_name?: string;
   email_verified: boolean;
+  is_admin: boolean;
   password_reset_token?: string;
   password_reset_expires?: Date;
   created_at: Date;
@@ -33,6 +34,10 @@ const UserSchema = new Schema<IUser>({
     trim: true
   },
   email_verified: {
+    type: Boolean,
+    default: false
+  },
+  is_admin: {
     type: Boolean,
     default: false
   },
