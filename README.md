@@ -68,6 +68,16 @@ SurvEase solves these challenges by providing an intuitive, feature-rich platfor
 - **Loading States**: Smooth loading indicators and skeleton screens
 - **Connection Status**: Real-time WebSocket connection monitoring
 
+### Admin System
+- **Hidden Admin Portal**: Secure admin dashboard at `/x-admin-portal` (not publicly linked)
+- **Survey Management**: Feature/unfeature surveys, toggle visibility, delete surveys
+- **Platform Statistics**: Monitor total users, surveys, responses, and recent activity
+- **User Management**: View all users with activity statistics (coming soon)
+- **Role-Based Access**: Admin-only routes with JWT validation
+- **Audit Trail**: Track all admin actions and changes (coming soon)
+
+For admin setup instructions, see [ADMIN_SETUP.md](./ADMIN_SETUP.md)
+
 ## 🏗️ Architecture
 
 ### Technology Stack
