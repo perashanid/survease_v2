@@ -101,7 +101,8 @@ router.post('/register', async (req: Request, res: Response): Promise<void> => {
           email: user.email,
           firstName: user.first_name,
           lastName: user.last_name,
-          emailVerified: user.email_verified
+          emailVerified: user.email_verified,
+          isAdmin: user.is_admin
         },
         tokens: {
           accessToken,
@@ -186,7 +187,8 @@ router.post('/login', async (req: Request, res: Response): Promise<void> => {
           email: user.email,
           firstName: user.first_name,
           lastName: user.last_name,
-          emailVerified: user.email_verified
+          emailVerified: user.email_verified,
+          isAdmin: user.is_admin
         },
         tokens: {
           accessToken,
@@ -331,7 +333,8 @@ router.get('/verify', authenticateToken, async (req: Request, res: Response): Pr
           email: user.email,
           firstName: user.first_name,
           lastName: user.last_name,
-          emailVerified: user.email_verified
+          emailVerified: user.email_verified,
+          isAdmin: user.is_admin
         }
       }
     });

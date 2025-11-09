@@ -14,7 +14,9 @@
     "test:email": "node verify-email-config.js",
     "verify:email": "node verify-email-config.js",
     "check:env": "node check-production-env.js",
-    "predeploy": "node check-production-env.js"
+    "predeploy": "node check-production-env.js",
+    "make-admin": "ts-node scripts/make-admin.ts",
+    "list-admins": "ts-node scripts/list-admins.ts"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
