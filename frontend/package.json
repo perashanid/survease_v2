@@ -27,5 +27,8 @@
     "vercel-build": "npm run build",
     "render-build": "npm run build",
     "preview": "vite preview"
+  },
+  "devDependencies": {
+    "terser": "^5.44.1"
   }
 }
