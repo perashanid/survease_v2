@@ -182,7 +182,13 @@ export const submitResponseSchema = Joi.object({
     isMobile: Joi.boolean().optional(),
     isTablet: Joi.boolean().optional(),
     isDesktop: Joi.boolean().optional()
-  }).optional()
+  }).optional(),
+  is_anonymous: Joi.boolean().optional().messages({
+    'boolean.base': 'is_anonymous must be a boolean value'
+  }),
+  custom_link_token: Joi.string().optional().messages({
+    'string.base': 'custom_link_token must be a string'
+  })
 });
 
 // Pagination validation schema

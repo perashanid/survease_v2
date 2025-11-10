@@ -129,8 +129,12 @@ const SurveyResponse: React.FC = () => {
   const handleAuthChoice = (choice: 'login' | 'anonymous') => {
     if (choice === 'login') {
       setShowAuthModal(true);
+      setShowAuthChoice(false);
+    } else {
+      // User chose to continue anonymously
+      setIsAnonymous(true);
+      setShowAuthChoice(false);
     }
-    setShowAuthChoice(false);
   };
 
 
@@ -428,11 +432,11 @@ const SurveyResponse: React.FC = () => {
               )}
               
               <div className="auth-choice-section">
-                <h2>How would you like to participate?</h2>
+                <h2>Before you start...</h2>
                 <p>
                   {survey.settings.allow_anonymous 
-                    ? "This survey allows both authenticated and anonymous responses."
-                    : "This survey requires authentication to participate."
+                    ? "Choose how you'd like to participate in this survey."
+                    : "This survey requires you to sign in to participate."
                   }
                 </p>
                 
@@ -445,7 +449,7 @@ const SurveyResponse: React.FC = () => {
                       <span className="choice-icon"><FiUser /></span>
                       <div className="choice-text">
                         <strong>Sign In</strong>
-                        <small>Track your responses and get personalized features</small>
+                        <small>Earn points and track your survey history</small>
                       </div>
                     </div>
                   </button>
@@ -459,7 +463,7 @@ const SurveyResponse: React.FC = () => {
                         <span className="choice-icon"><FiEyeOff /></span>
                         <div className="choice-text">
                           <strong>Continue Anonymously</strong>
-                          <small>Participate without creating an account</small>
+                          <small>Quick participation without an account</small>
                         </div>
                       </div>
                     </button>
@@ -468,7 +472,7 @@ const SurveyResponse: React.FC = () => {
                 
                 {!survey.settings.allow_anonymous && (
                   <div className="auth-requirement-note">
-                    <p><strong>Note:</strong> This survey creator has chosen to require authentication for all responses.</p>
+                    <p><strong>Note:</strong> This survey requires authentication to ensure response quality.</p>
                   </div>
                 )}
               </div>
@@ -575,18 +579,6 @@ const SurveyResponse: React.FC = () => {
                   </button>
                 ) : (
                   <>
-                    {isAuthenticated && (
-                      <div className="anonymous-toggle">
-                        <label>
-                          <input
-                            type="checkbox"
-                            checked={isAnonymous}
-                            onChange={(e) => setIsAnonymous(e.target.checked)}
-                          />
-                          <FiEyeOff /> Submit anonymously
-                        </label>
-                      </div>
-                    )}
                     <div className="points-preview">
                       🎁 Earn {basePoints} points{bonusPoints > 0 && ` + ${bonusPoints} bonus`} = {basePoints + bonusPoints} points!
                     </div>
