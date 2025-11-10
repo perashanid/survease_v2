@@ -10,3 +10,7 @@ export { QualityAuditLog, IQualityAuditLog } from './QualityAuditLog';
 export { Notification, INotification } from './Notification';
 export { UserProfile, IUserProfile } from './UserProfile';
 export { SurveyContribution, ISurveyContribution } from './SurveyContribution';
+export { ResponseUnlock, IResponseUnlock } from './ResponseUnlock';
+export { UserPoints, IUserPoints } from './UserPoints';
+export { PointsTransaction, IPointsTransaction } from './PointsTransaction';
+export { CustomLink, ICustomLink } from './CustomLink';
