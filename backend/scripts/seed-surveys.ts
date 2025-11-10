@@ -15,7 +15,7 @@ const surveyTemplates = [
     description: "Help us improve our services by sharing your experience with our products and customer support.",
     tags: ["customer-satisfaction", "feedback", "service-quality"],
     is_featured: true,
-    responseCount: 150,
+    responseCount: 250,
     questions: [
       {
         type: 'rating' as const,
@@ -443,6 +443,400 @@ const surveyTemplates = [
         required: false
       }
     ]
+  },
+  {
+    title: "Climate Change Awareness Survey",
+    description: "Share your views on climate change and environmental sustainability.",
+    tags: ["environment", "climate-change", "sustainability", "trending"],
+    is_featured: false,
+    responseCount: 220,
+    questions: [
+      {
+        type: 'rating' as const,
+        question: 'How concerned are you about climate change?',
+        required: true,
+        min_rating: 1,
+        max_rating: 10
+      },
+      {
+        type: 'checkbox' as const,
+        question: 'What eco-friendly practices do you follow? (Select all)',
+        required: true,
+        options: ['Recycling', 'Using reusable bags', 'Reducing plastic use', 'Energy conservation', 'Public transportation', 'Plant-based diet', 'Composting', 'Solar energy']
+      },
+      {
+        type: 'multiple_choice' as const,
+        question: 'Do you believe individual actions can make a difference?',
+        required: true,
+        options: ['Strongly agree', 'Agree', 'Neutral', 'Disagree', 'Strongly disagree']
+      },
+      {
+        type: 'rating' as const,
+        question: 'How willing are you to pay more for eco-friendly products?',
+        required: true,
+        min_rating: 1,
+        max_rating: 5
+      },
+      {
+        type: 'textarea' as const,
+        question: 'What actions should governments prioritize to combat climate change?',
+        required: false
+      }
+    ]
+  },
+  {
+    title: "Mobile App User Experience Survey",
+    description: "Help us understand what makes a great mobile app experience.",
+    tags: ["mobile-apps", "ux", "technology", "user-experience"],
+    is_featured: true,
+    responseCount: 190,
+    questions: [
+      {
+        type: 'multiple_choice' as const,
+        question: 'How many apps do you use daily?',
+        required: true,
+        options: ['1-5 apps', '6-10 apps', '11-20 apps', '21-30 apps', 'More than 30 apps']
+      },
+      {
+        type: 'rating' as const,
+        question: 'How important is app design to your user experience?',
+        required: true,
+        min_rating: 1,
+        max_rating: 10
+      },
+      {
+        type: 'checkbox' as const,
+        question: 'What frustrates you most about mobile apps? (Select all)',
+        required: true,
+        options: ['Slow loading', 'Too many ads', 'Complicated navigation', 'Battery drain', 'Privacy concerns', 'Frequent crashes', 'Large file size', 'Requires too many permissions']
+      },
+      {
+        type: 'multiple_choice' as const,
+        question: 'How often do you read app reviews before downloading?',
+        required: true,
+        options: ['Always', 'Usually', 'Sometimes', 'Rarely', 'Never']
+      },
+      {
+        type: 'textarea' as const,
+        question: 'What features would make you use an app more frequently?',
+        required: false
+      }
+    ]
+  },
+  {
+    title: "Mental Health and Wellbeing Check-in",
+    description: "Your mental health matters. Share your experiences to help us understand wellbeing needs.",
+    tags: ["mental-health", "wellbeing", "health", "self-care"],
+    is_featured: false,
+    responseCount: 145,
+    questions: [
+      {
+        type: 'rating' as const,
+        question: 'How would you rate your overall mental wellbeing?',
+        required: true,
+        min_rating: 1,
+        max_rating: 10
+      },
+      {
+        type: 'checkbox' as const,
+        question: 'What self-care activities do you practice? (Select all)',
+        required: true,
+        options: ['Meditation', 'Exercise', 'Journaling', 'Therapy/Counseling', 'Spending time in nature', 'Creative hobbies', 'Social connections', 'Adequate sleep']
+      },
+      {
+        type: 'multiple_choice' as const,
+        question: 'How often do you feel stressed or anxious?',
+        required: true,
+        options: ['Daily', 'Several times a week', 'Weekly', 'Occasionally', 'Rarely', 'Never']
+      },
+      {
+        type: 'rating' as const,
+        question: 'How comfortable are you discussing mental health?',
+        required: true,
+        min_rating: 1,
+        max_rating: 5
+      },
+      {
+        type: 'textarea' as const,
+        question: 'What resources or support would be most helpful for your mental wellbeing?',
+        required: false
+      }
+    ]
+  },
+  {
+    title: "Cryptocurrency and Digital Assets Survey",
+    description: "Share your experience and opinions about cryptocurrency and blockchain technology.",
+    tags: ["cryptocurrency", "blockchain", "finance", "technology"],
+    is_featured: false,
+    responseCount: 165,
+    questions: [
+      {
+        type: 'multiple_choice' as const,
+        question: 'Do you own any cryptocurrency?',
+        required: true,
+        options: ['Yes, actively trading', 'Yes, holding long-term', 'Previously owned', 'No, but interested', 'No, not interested']
+      },
+      {
+        type: 'checkbox' as const,
+        question: 'Which cryptocurrencies are you familiar with? (Select all)',
+        required: true,
+        options: ['Bitcoin', 'Ethereum', 'Binance Coin', 'Cardano', 'Solana', 'Ripple', 'Dogecoin', 'Polkadot']
+      },
+      {
+        type: 'rating' as const,
+        question: 'How much do you trust cryptocurrency as an investment?',
+        required: true,
+        min_rating: 1,
+        max_rating: 10
+      },
+      {
+        type: 'multiple_choice' as const,
+        question: 'What is your biggest concern about cryptocurrency?',
+        required: true,
+        options: ['Volatility', 'Security risks', 'Regulatory uncertainty', 'Environmental impact', 'Lack of understanding', 'Scams and fraud']
+      },
+      {
+        type: 'textarea' as const,
+        question: 'What would make you more confident in using cryptocurrency?',
+        required: false
+      }
+    ]
+  },
+  {
+    title: "Gaming Habits and Preferences Survey",
+    description: "Tell us about your gaming experiences and what games you love to play.",
+    tags: ["gaming", "entertainment", "esports", "trending"],
+    is_featured: false,
+    responseCount: 210,
+    questions: [
+      {
+        type: 'multiple_choice' as const,
+        question: 'How often do you play video games?',
+        required: true,
+        options: ['Daily', 'Several times a week', 'Weekly', 'Monthly', 'Rarely', 'Never']
+      },
+      {
+        type: 'checkbox' as const,
+        question: 'What gaming platforms do you use? (Select all)',
+        required: true,
+        options: ['PC', 'PlayStation', 'Xbox', 'Nintendo Switch', 'Mobile', 'VR headset', 'Cloud gaming']
+      },
+      {
+        type: 'rating' as const,
+        question: 'How important is multiplayer/online gaming to you?',
+        required: true,
+        min_rating: 1,
+        max_rating: 10
+      },
+      {
+        type: 'multiple_choice' as const,
+        question: 'What genre of games do you prefer most?',
+        required: true,
+        options: ['Action/Adventure', 'RPG', 'FPS/Shooter', 'Strategy', 'Sports', 'Puzzle', 'Simulation', 'Horror']
+      },
+      {
+        type: 'textarea' as const,
+        question: 'What makes a game truly engaging for you?',
+        required: false
+      }
+    ]
+  },
+  {
+    title: "Artificial Intelligence Perception Survey",
+    description: "Share your thoughts on AI technology and its impact on society.",
+    tags: ["ai", "technology", "future", "innovation"],
+    is_featured: false,
+    responseCount: 195,
+    questions: [
+      {
+        type: 'rating' as const,
+        question: 'How familiar are you with AI technology?',
+        required: true,
+        min_rating: 1,
+        max_rating: 10
+      },
+      {
+        type: 'checkbox' as const,
+        question: 'Which AI tools have you used? (Select all)',
+        required: true,
+        options: ['ChatGPT', 'Virtual assistants (Siri, Alexa)', 'AI image generators', 'AI writing tools', 'Recommendation algorithms', 'AI translation', 'None']
+      },
+      {
+        type: 'multiple_choice' as const,
+        question: 'How do you feel about AI replacing human jobs?',
+        required: true,
+        options: ['Very concerned', 'Somewhat concerned', 'Neutral', 'Somewhat optimistic', 'Very optimistic']
+      },
+      {
+        type: 'rating' as const,
+        question: 'How much do you trust AI-generated content?',
+        required: true,
+        min_rating: 1,
+        max_rating: 5
+      },
+      {
+        type: 'textarea' as const,
+        question: 'What excites or concerns you most about AI development?',
+        required: false
+      }
+    ]
+  },
+  {
+    title: "Work-Life Balance Assessment",
+    description: "Help us understand how people manage work and personal life in modern times.",
+    tags: ["work-life-balance", "wellness", "productivity", "lifestyle"],
+    is_featured: false,
+    responseCount: 175,
+    questions: [
+      {
+        type: 'rating' as const,
+        question: 'How satisfied are you with your current work-life balance?',
+        required: true,
+        min_rating: 1,
+        max_rating: 10
+      },
+      {
+        type: 'multiple_choice' as const,
+        question: 'How many hours per week do you typically work?',
+        required: true,
+        options: ['Less than 30', '30-40', '40-50', '50-60', 'More than 60']
+      },
+      {
+        type: 'checkbox' as const,
+        question: 'What helps you maintain work-life balance? (Select all)',
+        required: true,
+        options: ['Flexible schedule', 'Remote work', 'Clear boundaries', 'Supportive employer', 'Time management', 'Saying no', 'Regular breaks', 'Hobbies']
+      },
+      {
+        type: 'rating' as const,
+        question: 'How often do you feel burned out?',
+        required: true,
+        min_rating: 1,
+        max_rating: 5
+      },
+      {
+        type: 'textarea' as const,
+        question: 'What changes would improve your work-life balance?',
+        required: false
+      }
+    ]
+  },
+  {
+    title: "Streaming Services Preferences Survey",
+    description: "Tell us about your streaming habits and content preferences.",
+    tags: ["streaming", "entertainment", "media", "content"],
+    is_featured: false,
+    responseCount: 230,
+    questions: [
+      {
+        type: 'checkbox' as const,
+        question: 'Which streaming services do you subscribe to? (Select all)',
+        required: true,
+        options: ['Netflix', 'Disney+', 'Amazon Prime Video', 'HBO Max', 'Hulu', 'Apple TV+', 'YouTube Premium', 'Spotify', 'None']
+      },
+      {
+        type: 'multiple_choice' as const,
+        question: 'How many hours per week do you spend streaming content?',
+        required: true,
+        options: ['Less than 5', '5-10', '10-20', '20-30', 'More than 30']
+      },
+      {
+        type: 'rating' as const,
+        question: 'How satisfied are you with available streaming content?',
+        required: true,
+        min_rating: 1,
+        max_rating: 10
+      },
+      {
+        type: 'multiple_choice' as const,
+        question: 'What type of content do you watch most?',
+        required: true,
+        options: ['Movies', 'TV series', 'Documentaries', 'Reality shows', 'Anime', 'Sports', 'Music videos', 'Podcasts']
+      },
+      {
+        type: 'textarea' as const,
+        question: 'What would make streaming services better for you?',
+        required: false
+      }
+    ]
+  },
+  {
+    title: "Electric Vehicles and Sustainable Transportation",
+    description: "Share your thoughts on electric vehicles and the future of transportation.",
+    tags: ["electric-vehicles", "sustainability", "transportation", "environment"],
+    is_featured: false,
+    responseCount: 140,
+    questions: [
+      {
+        type: 'multiple_choice' as const,
+        question: 'Do you own or plan to own an electric vehicle?',
+        required: true,
+        options: ['Already own one', 'Planning to buy within a year', 'Considering for the future', 'Not interested', 'Cannot afford']
+      },
+      {
+        type: 'rating' as const,
+        question: 'How important is environmental impact in your vehicle choice?',
+        required: true,
+        min_rating: 1,
+        max_rating: 10
+      },
+      {
+        type: 'checkbox' as const,
+        question: 'What concerns do you have about electric vehicles? (Select all)',
+        required: true,
+        options: ['High purchase price', 'Limited range', 'Charging infrastructure', 'Charging time', 'Battery replacement cost', 'Resale value', 'Performance in cold weather', 'No concerns']
+      },
+      {
+        type: 'multiple_choice' as const,
+        question: 'What would convince you to switch to an electric vehicle?',
+        required: true,
+        options: ['Lower prices', 'Better range', 'More charging stations', 'Government incentives', 'Better technology', 'Already convinced']
+      },
+      {
+        type: 'textarea' as const,
+        question: 'What do you think is the future of transportation?',
+        required: false
+      }
+    ]
+  },
+  {
+    title: "Personal Finance and Budgeting Survey",
+    description: "Help us understand how people manage their finances and plan for the future.",
+    tags: ["finance", "budgeting", "savings", "money-management"],
+    is_featured: false,
+    responseCount: 155,
+    questions: [
+      {
+        type: 'multiple_choice' as const,
+        question: 'Do you follow a monthly budget?',
+        required: true,
+        options: ['Yes, strictly', 'Yes, loosely', 'Sometimes', 'Rarely', 'Never']
+      },
+      {
+        type: 'checkbox' as const,
+        question: 'What financial tools do you use? (Select all)',
+        required: true,
+        options: ['Budgeting apps', 'Spreadsheets', 'Banking apps', 'Investment platforms', 'Expense trackers', 'Financial advisor', 'None']
+      },
+      {
+        type: 'rating' as const,
+        question: 'How confident are you about your financial future?',
+        required: true,
+        min_rating: 1,
+        max_rating: 10
+      },
+      {
+        type: 'multiple_choice' as const,
+        question: 'What is your biggest financial challenge?',
+        required: true,
+        options: ['Saving money', 'Paying off debt', 'Managing expenses', 'Investing wisely', 'Emergency fund', 'Retirement planning']
+      },
+      {
+        type: 'textarea' as const,
+        question: 'What financial advice would you give to your younger self?',
+        required: false
+      }
+    ]
   }
 ];
 
@@ -455,7 +849,7 @@ function generateResponses(survey: any, count: number, surveyId: mongoose.Types.
     const submittedDate = new Date(now.getTime() - Math.random() * 90 * 24 * 60 * 60 * 1000); // Random date within last 90 days
     const completionTime = Math.floor(Math.random() * 600) + 60; // 60-660 seconds
     
-    const responseData: any = { responses: {} };
+    const responseData: any = {};
     
     survey.questions.forEach((q: any, index: number) => {
       const questionId = `q${index + 1}`;
@@ -469,12 +863,12 @@ function generateResponses(survey: any, count: number, surveyId: mongoose.Types.
           else if (ratingRandom < 0.7) rating = q.max_rating - 1;
           else if (ratingRandom < 0.85) rating = Math.ceil(q.max_rating / 2);
           else rating = Math.floor(Math.random() * q.max_rating) + 1;
-          responseData.responses[questionId] = rating;
+          responseData[questionId] = rating;
           break;
           
         case 'multiple_choice':
           const choiceIndex = Math.floor(Math.random() * q.options.length);
-          responseData.responses[questionId] = q.options[choiceIndex];
+          responseData[questionId] = q.options[choiceIndex];
           break;
           
         case 'checkbox':
@@ -486,33 +880,43 @@ function generateResponses(survey: any, count: number, surveyId: mongoose.Types.
             selectedOptions.push(availableOptions[idx]);
             availableOptions.splice(idx, 1);
           }
-          responseData.responses[questionId] = selectedOptions;
+          responseData[questionId] = selectedOptions;
           break;
           
         case 'textarea':
         case 'text':
           // 70% chance of providing text response for optional questions
           if (!q.required && Math.random() > 0.7) {
-            responseData.responses[questionId] = '';
+            responseData[questionId] = '';
           } else {
             const textResponses = [
-              'Great experience overall, very satisfied.',
-              'Could be better, but acceptable.',
-              'Excellent service, highly recommend!',
-              'Some improvements needed in certain areas.',
-              'Very professional and efficient.',
-              'Met my expectations perfectly.',
-              'Outstanding quality and attention to detail.',
-              'Good value for money.',
-              'Quick and easy process.',
-              'Will definitely use again.'
+              'Great experience overall, very satisfied with the quality and service provided.',
+              'Could be better in some areas, but generally acceptable for the price point.',
+              'Excellent service! Highly recommend to anyone looking for reliable solutions.',
+              'Some improvements needed, particularly in customer communication and response time.',
+              'Very professional and efficient team. They exceeded my expectations.',
+              'Met my expectations perfectly. Would definitely use this service again.',
+              'Outstanding quality and attention to detail. Worth every penny.',
+              'Good value for money. The features offered are comprehensive and useful.',
+              'Quick and easy process from start to finish. No complaints whatsoever.',
+              'Will definitely use again and recommend to friends and colleagues.',
+              'Impressed with the level of care and dedication shown throughout.',
+              'The experience was smooth and hassle-free. Very pleased with the outcome.',
+              'There were a few minor issues, but they were resolved quickly and professionally.',
+              'Fantastic! This has made a significant positive impact on my daily routine.',
+              'Not bad, but there is definitely room for improvement in several areas.',
+              'Exceeded expectations in every way. Truly a five-star experience.',
+              'Decent service, though I expected a bit more based on the reviews.',
+              'Absolutely wonderful! The team went above and beyond to ensure satisfaction.',
+              'It was okay. Nothing particularly stood out as exceptional or problematic.',
+              'Very happy with my decision. This has proven to be a worthwhile investment.'
             ];
-            responseData.responses[questionId] = textResponses[Math.floor(Math.random() * textResponses.length)];
+            responseData[questionId] = textResponses[Math.floor(Math.random() * textResponses.length)];
           }
           break;
           
         default:
-          responseData.responses[questionId] = 'N/A';
+          responseData[questionId] = 'N/A';
       }
     });
     
@@ -564,22 +968,25 @@ async function seedDatabase() {
     const deletedResponses = await Response.deleteMany({});
     console.log(`✅ Deleted ${deletedResponses.deletedCount} responses`);
     
-    // Step 2: Get or create a user for the surveys
-    let user = await User.findOne();
-    if (!user) {
-      console.log('\n⚠️  No users found. Please create a user first.');
+    // Step 2: Get or create users for the surveys
+    const users = await User.find().limit(10);
+    if (users.length === 0) {
+      console.log('\n⚠️  No users found. Please create at least one user first.');
       process.exit(1);
     }
-    console.log(`\n👤 Using user: ${user.email}`);
+    console.log(`\n👤 Found ${users.length} user(s) for survey creation`);
     
     // Step 3: Create surveys with responses
-    console.log('\n📝 Creating 11 new surveys with responses...\n');
+    console.log('\n📝 Creating 20 new surveys with responses...\n');
     
     let featuredCount = 0;
     let trendingCount = 0;
     
     for (let i = 0; i < surveyTemplates.length; i++) {
       const template = surveyTemplates[i];
+      
+      // Rotate through available users
+      const user = users[i % users.length];
       
       // Determine if survey should be featured or trending
       let isFeatured = template.is_featured;
@@ -640,9 +1047,9 @@ async function seedDatabase() {
     
     console.log('✅ Database seeding completed successfully!');
     console.log(`\n📊 Summary:`);
-    console.log(`   - Total surveys created: 11`);
-    console.log(`   - Featured surveys: 2`);
-    console.log(`   - Trending surveys: 3`);
+    console.log(`   - Total surveys created: 20`);
+    console.log(`   - Featured surveys: ${featuredCount}`);
+    console.log(`   - Trending surveys: ${trendingCount}`);
     console.log(`   - Total responses: ${surveyTemplates.reduce((sum, t) => sum + t.responseCount, 0)}`);
     
   } catch (error) {
