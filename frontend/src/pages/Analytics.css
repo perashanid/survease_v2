@@ -639,8 +639,7 @@
 
 /* Metrics Grid */
 .metrics-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: flex;
   gap: 24px;
   margin-bottom: 60px;
 }
@@ -654,6 +653,8 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  flex: 1;
+  min-width: 0;
 }
 
 .metric-card::before {
@@ -1168,8 +1169,11 @@
   }
   
   .metrics-grid {
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 20px;
+  }
+  
+  .metric-card {
+    min-width: 240px;
   }
 }
 
@@ -1193,12 +1197,12 @@
   }
   
   .metrics-grid {
-    grid-template-columns: 1fr;
     gap: 16px;
   }
   
   .metric-card {
     padding: 24px;
+    min-width: 220px;
   }
   
   .metric-value {

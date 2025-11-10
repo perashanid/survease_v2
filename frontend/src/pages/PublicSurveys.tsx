@@ -43,10 +43,15 @@ const PublicSurveys: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredSurveys, setFilteredSurveys] = useState<PublicSurvey[]>([]);
 
+  const [isFetching, setIsFetching] = useState(false);
+
   useEffect(() => {
-    fetchSurveys();
-    fetchFeaturedSurveys();
-    fetchTrendingSurveys();
+    if (!isFetching) {
+      setIsFetching(true);
+      fetchSurveys();
+      fetchFeaturedSurveys();
+      fetchTrendingSurveys();
+    }
   }, [page]);
 
   useEffect(() => {
@@ -72,9 +77,12 @@ const PublicSurveys: React.FC = () => {
       setTotalPages(data.pagination.pages);
     } catch (err: any) {
       console.error('Error fetching surveys:', err);
-      setError('Failed to load surveys: ' + (err.message || 'Unknown error'));
+      if (err.response?.status !== 429) {
+        setError('Failed to load surveys: ' + (err.message || 'Unknown error'));
+      }
     } finally {
       setLoading(false);
+      setIsFetching(false);
     }
   };
 

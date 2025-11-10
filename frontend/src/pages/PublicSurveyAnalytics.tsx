@@ -69,6 +69,8 @@ const PublicSurveyAnalytics: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedQuestion, setSelectedQuestion] = useState<string | null>(null);
+  const [showAllResponses, setShowAllResponses] = useState(false);
+  const [allTextResponses, setAllTextResponses] = useState<string[]>([]);
 
   useEffect(() => {
     if (surveyId) {
@@ -138,6 +140,25 @@ const PublicSurveyAnalytics: React.FC = () => {
       } else {
         alert('Failed to export data');
       }
+    }
+  };
+
+  const loadAllTextResponses = async (questionId: string) => {
+    try {
+      // Export as JSON to get all responses
+      const response = await api.get(`/public/surveys/${surveyId}/export/json`);
+      const exportData = response.data;
+      
+      // Extract all responses for this specific question
+      const allResponses = exportData.responses
+        .map((r: any) => r.responses[questionId]?.answer)
+        .filter((answer: any) => answer !== null && answer !== undefined && answer !== '');
+      
+      setAllTextResponses(allResponses);
+      setShowAllResponses(true);
+    } catch (err: any) {
+      console.error('Error loading all responses:', err);
+      alert('Failed to load all responses');
     }
   };
 
@@ -453,14 +474,36 @@ const PublicSurveyAnalytics: React.FC = () => {
 
             {selectedQuestionData.sampleResponses && selectedQuestionData.sampleResponses.length > 0 && (
               <div className="text-responses">
-                <h4>Sample Text Responses</h4>
+                <div className="text-responses-header">
+                  <h4>{showAllResponses ? 'All Text Responses' : 'Sample Text Responses'}</h4>
+                  {!showAllResponses && selectedQuestionData.responseCount > 5 && (
+                    <button 
+                      className="btn btn-outline btn-sm"
+                      onClick={() => loadAllTextResponses(selectedQuestionData.questionId)}
+                    >
+                      See All ({selectedQuestionData.responseCount} responses)
+                    </button>
+                  )}
+                  {showAllResponses && (
+                    <button 
+                      className="btn btn-outline btn-sm"
+                      onClick={() => setShowAllResponses(false)}
+                    >
+                      Show Less
+                    </button>
+                  )}
+                </div>
                 <div className="text-responses-list">
-                  {selectedQuestionData.sampleResponses.map((response, index) => (
+                  {(showAllResponses ? allTextResponses : selectedQuestionData.sampleResponses).map((response, index) => (
                     <div key={index} className="text-response-item">
-                      "{response}"
+                      <span className="response-number">#{index + 1}</span>
+                      <span className="response-text">"{response}"</span>
                     </div>
                   ))}
                 </div>
+                {showAllResponses && allTextResponses.length === 0 && (
+                  <div className="no-data">No text responses available</div>
+                )}
               </div>
             )}
           </div>
