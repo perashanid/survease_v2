@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import PointsBalance from '../components/reciprocal/PointsBalance';
+import PointsHistory from '../components/reciprocal/PointsHistory';
 import './Profile.css';
 
 interface UserProfile {
@@ -287,6 +289,12 @@ const Profile: React.FC = () => {
               </div>
             )}
           </div>
+        </div>
+
+        <div className="profile-section">
+          <h2>Points & Contributions</h2>
+          <PointsBalance />
+          <PointsHistory limit={10} />
         </div>
 
         <div className="profile-section">

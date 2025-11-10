@@ -677,3 +677,18 @@ Featured and Trending Sections */
     padding: 4px 12px;
   }
 }
+
+/* Boost badge for surveys */
+.boost-badge-inline {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 8px rgba(240, 147, 251, 0.3);
+}

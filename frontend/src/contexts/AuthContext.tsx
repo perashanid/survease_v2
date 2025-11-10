@@ -47,18 +47,25 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, []);
 
-  const verifyToken = async () => {
+  const verifyToken = async (retryCount = 0) => {
     try {
       const response = await apiClient.get('/auth/verify');
       if (response.data.success) {
         setUser(response.data.data.user);
       }
-    } catch (error) {
-      // Token is invalid, remove it
+    } catch (error: any) {
+      // If connection refused and we haven't retried too many times, retry
+      if (error.code === 'ECONNREFUSED' && retryCount < 3) {
+        setTimeout(() => verifyToken(retryCount + 1), 1000);
+        return;
+      }
+      // Token is invalid or backend unreachable, remove it
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
     } finally {
-      setLoading(false);
+      if (retryCount === 0 || error?.code !== 'ECONNREFUSED') {
+        setLoading(false);
+      }
     }
   };
 

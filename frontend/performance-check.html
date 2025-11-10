@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Check - SurvEase</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #333;
+            margin-top: 0;
+        }
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            margin: 10px 0;
+            background: #f9f9f9;
+            border-radius: 6px;
+            border-left: 4px solid #4CAF50;
+        }
+        .metric.warning {
+            border-left-color: #ff9800;
+        }
+        .metric.error {
+            border-left-color: #f44336;
+        }
+        .metric-label {
+            font-weight: 600;
+            color: #555;
+        }
+        .metric-value {
+            font-weight: 700;
+            color: #333;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        .recommendations {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+        .recommendations h3 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+        .recommendations ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .recommendations li {
+            margin: 8px 0;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🚀 SurvEase Performance Check</h1>
+        <p>This tool measures key performance metrics of your application.</p>
+        <button onclick="runPerformanceCheck()">Run Performance Check</button>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        async function runPerformanceCheck() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<div class="loading">⏳ Running performance checks...</div>';
+
+            // Wait a bit for page to fully load
+            await new Promise(resolve => setTimeout(resolve, 100));
+
+            const metrics = {};
+            
+            // Get Performance API metrics
+            if (window.performance && window.performance.timing) {
+                const timing = window.performance.timing;
+                const navigation = window.performance.navigation;
+                
+                metrics.pageLoadTime = timing.loadEventEnd - timing.navigationStart;
+                metrics.domContentLoaded = timing.domContentLoadedEventEnd - timing.navigationStart;
+                metrics.firstPaint = timing.responseStart - timing.navigationStart;
+                metrics.domInteractive = timing.domInteractive - timing.navigationStart;
+                metrics.resourceLoadTime = timing.loadEventEnd - timing.responseEnd;
+            }
+
+            // Get Resource Timing
+            if (window.performance && window.performance.getEntriesByType) {
+                const resources = window.performance.getEntriesByType('resource');
+                metrics.totalResources = resources.length;
+                metrics.totalResourceSize = resources.reduce((sum, r) => sum + (r.transferSize || 0), 0);
+                
+                const scripts = resources.filter(r => r.initiatorType === 'script');
+                metrics.scriptCount = scripts.length;
+                metrics.scriptSize = scripts.reduce((sum, r) => sum + (r.transferSize || 0), 0);
+            }
+
+            // Get Memory Info (Chrome only)
+            if (window.performance && window.performance.memory) {
+                metrics.usedJSHeapSize = window.performance.memory.usedJSHeapSize;
+                metrics.totalJSHeapSize = window.performance.memory.totalJSHeapSize;
+            }
+
+            // Display results
+            displayResults(metrics);
+        }
+
+        function displayResults(metrics) {
+            const resultsDiv = document.getElementById('results');
+            
+            let html = '<div style="margin-top: 30px;">';
+            html += '<h2>Performance Metrics</h2>';
+
+            // Page Load Time
+            if (metrics.pageLoadTime) {
+                const loadClass = metrics.pageLoadTime < 3000 ? '' : metrics.pageLoadTime < 5000 ? 'warning' : 'error';
+                html += `<div class="metric ${loadClass}">
+                    <span class="metric-label">Page Load Time</span>
+                    <span class="metric-value">${(metrics.pageLoadTime / 1000).toFixed(2)}s</span>
+                </div>`;
+            }
+
+            // DOM Content Loaded
+            if (metrics.domContentLoaded) {
+                const domClass = metrics.domContentLoaded < 1500 ? '' : metrics.domContentLoaded < 3000 ? 'warning' : 'error';
+                html += `<div class="metric ${domClass}">
+                    <span class="metric-label">DOM Content Loaded</span>
+                    <span class="metric-value">${(metrics.domContentLoaded / 1000).toFixed(2)}s</span>
+                </div>`;
+            }
+
+            // First Paint
+            if (metrics.firstPaint) {
+                const paintClass = metrics.firstPaint < 1000 ? '' : metrics.firstPaint < 2000 ? 'warning' : 'error';
+                html += `<div class="metric ${paintClass}">
+                    <span class="metric-label">First Paint</span>
+                    <span class="metric-value">${(metrics.firstPaint / 1000).toFixed(2)}s</span>
+                </div>`;
+            }
+
+            // Resources
+            if (metrics.totalResources) {
+                html += `<div class="metric">
+                    <span class="metric-label">Total Resources</span>
+                    <span class="metric-value">${metrics.totalResources}</span>
+                </div>`;
+            }
+
+            if (metrics.totalResourceSize) {
+                const sizeClass = metrics.totalResourceSize < 1000000 ? '' : metrics.totalResourceSize < 3000000 ? 'warning' : 'error';
+                html += `<div class="metric ${sizeClass}">
+                    <span class="metric-label">Total Resource Size</span>
+                    <span class="metric-value">${(metrics.totalResourceSize / 1024 / 1024).toFixed(2)} MB</span>
+                </div>`;
+            }
+
+            // Scripts
+            if (metrics.scriptCount) {
+                html += `<div class="metric">
+                    <span class="metric-label">JavaScript Files</span>
+                    <span class="metric-value">${metrics.scriptCount}</span>
+                </div>`;
+            }
+
+            if (metrics.scriptSize) {
+                const scriptClass = metrics.scriptSize < 500000 ? '' : metrics.scriptSize < 1000000 ? 'warning' : 'error';
+                html += `<div class="metric ${scriptClass}">
+                    <span class="metric-label">JavaScript Size</span>
+                    <span class="metric-value">${(metrics.scriptSize / 1024).toFixed(2)} KB</span>
+                </div>`;
+            }
+
+            // Memory
+            if (metrics.usedJSHeapSize) {
+                html += `<div class="metric">
+                    <span class="metric-label">JS Heap Used</span>
+                    <span class="metric-value">${(metrics.usedJSHeapSize / 1024 / 1024).toFixed(2)} MB</span>
+                </div>`;
+            }
+
+            html += '</div>';
+
+            // Recommendations
+            html += '<div class="recommendations">';
+            html += '<h3>💡 Recommendations</h3>';
+            html += '<ul>';
+            
+            if (metrics.pageLoadTime > 3000) {
+                html += '<li>Page load time is slow. Consider enabling lazy loading and code splitting.</li>';
+            }
+            if (metrics.scriptSize > 500000) {
+                html += '<li>JavaScript bundle is large. Review and optimize dependencies.</li>';
+            }
+            if (metrics.totalResourceSize > 2000000) {
+                html += '<li>Total resource size is high. Enable compression and optimize images.</li>';
+            }
+            if (metrics.domContentLoaded < 2000 && metrics.pageLoadTime < 4000) {
+                html += '<li>✅ Performance looks good! Keep monitoring as you add features.</li>';
+            }
+            
+            html += '<li>Run Chrome DevTools Lighthouse for detailed analysis.</li>';
+            html += '<li>Test on slower networks using Chrome DevTools Network throttling.</li>';
+            html += '<li>Monitor real user metrics in production.</li>';
+            html += '</ul>';
+            html += '</div>';
+
+            resultsDiv.innerHTML = html;
+        }
+
+        // Auto-run on page load
+        window.addEventListener('load', () => {
+            setTimeout(runPerformanceCheck, 1000);
+        });
+    </script>
+</body>
+</html>
