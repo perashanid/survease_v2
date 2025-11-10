@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { apiClient as api } from '../services/api';
 import { timeTrackingService } from '../services/timeTrackingService';
+import { useTheme } from '../contexts/ThemeContext';
 import { 
   FiUsers, 
   FiHelpCircle, 
@@ -60,7 +61,11 @@ interface PublicSurveyAnalyticsData {
 const PublicSurveyAnalytics: React.FC = () => {
   const { surveyId } = useParams<{ surveyId: string }>();
   const navigate = useNavigate();
+  const { actualTheme } = useTheme();
   const [analyticsData, setAnalyticsData] = useState<PublicSurveyAnalyticsData | null>(null);
+  
+  // Get icon color based on theme
+  const iconColor = actualTheme === 'dark' ? '#86efac' : '#059669';
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedQuestion, setSelectedQuestion] = useState<string | null>(null);
@@ -301,21 +306,21 @@ const PublicSurveyAnalytics: React.FC = () => {
         {/* Summary Stats */}
         <div className="summary-stats">
           <div className="stat-card">
-            <div className="stat-icon"><FiUsers /></div>
+            <div className="stat-icon" style={{ color: iconColor }}><FiUsers /></div>
             <div className="stat-content">
               <h3>Total Responses</h3>
               <div className="stat-value">{analyticsData.analytics.totalResponses}</div>
             </div>
           </div>
           <div className="stat-card">
-            <div className="stat-icon"><FiHelpCircle /></div>
+            <div className="stat-icon" style={{ color: iconColor }}><FiHelpCircle /></div>
             <div className="stat-content">
               <h3>Questions</h3>
               <div className="stat-value">{analyticsData.analytics.questionAnalytics.length}</div>
             </div>
           </div>
           <div className="stat-card">
-            <div className="stat-icon"><FiClock /></div>
+            <div className="stat-icon" style={{ color: iconColor }}><FiClock /></div>
             <div className="stat-content">
               <h3>Avg. Time</h3>
               <div className="stat-value">
@@ -326,7 +331,7 @@ const PublicSurveyAnalytics: React.FC = () => {
             </div>
           </div>
           <div className="stat-card">
-            <div className="stat-icon"><FiCalendar /></div>
+            <div className="stat-icon" style={{ color: iconColor }}><FiCalendar /></div>
             <div className="stat-content">
               <h3>Created</h3>
               <div className="stat-value">
@@ -335,14 +340,14 @@ const PublicSurveyAnalytics: React.FC = () => {
             </div>
           </div>
           <div className="stat-card">
-            <div className="stat-icon"><FiTrendingUp /></div>
+            <div className="stat-icon" style={{ color: iconColor }}><FiTrendingUp /></div>
             <div className="stat-content">
               <h3>Completion Rate</h3>
               <div className="stat-value">{analyticsData.analytics.completionRate.toFixed(1)}%</div>
             </div>
           </div>
           <div className="stat-card">
-            <div className="stat-icon"><FiUser /></div>
+            <div className="stat-icon" style={{ color: iconColor }}><FiUser /></div>
             <div className="stat-content">
               <h3>Author</h3>
               <div className="stat-value">{analyticsData.survey.author.name}</div>

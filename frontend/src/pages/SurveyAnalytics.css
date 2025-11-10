@@ -74,7 +74,7 @@
 /* Summary Stats */
 .summary-stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(6, 1fr);
   gap: 24px;
   margin-bottom: 48px;
 }
@@ -111,6 +111,15 @@
 .stat-icon svg {
   width: 32px;
   height: 32px;
+}
+
+/* Theme-aware icon colors */
+[data-theme="light"] .stat-icon {
+  color: #059669 !important;
+}
+
+[data-theme="dark"] .stat-icon {
+  color: #86efac !important;
 }
 
 .stat-content {
