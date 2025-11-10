@@ -26,7 +26,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .navbar-brand {
@@ -53,28 +53,21 @@
 .navbar-menu {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
   flex: 1;
   min-width: 0;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .navbar-nav {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
   margin-right: auto;
   flex-wrap: nowrap;
-  overflow-x: auto;
-  overflow-y: hidden;
-  flex: 1;
+  overflow: visible;
+  flex: 0 1 auto;
   min-width: 0;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.navbar-nav::-webkit-scrollbar {
-  display: none;
 }
 
 .navbar-actions {
@@ -90,7 +83,7 @@
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s ease;
-  padding: 8px 12px;
+  padding: 8px 10px;
   border-radius: 12px;
   position: relative;
   overflow: hidden;
@@ -98,10 +91,11 @@
   align-items: center;
   gap: 6px;
   white-space: nowrap;
-  flex-shrink: 0;
-  font-size: 14px;
+  flex-shrink: 1;
+  font-size: 13px;
   line-height: 1;
   height: 36px;
+  min-width: fit-content;
 }
 
 .navbar-link::before {
@@ -356,19 +350,73 @@
   font-size: 14px;
 }
 
-/* Mobile responsive */
-@media (max-width: 1024px) {
+/* Desktop adjustments for better spacing */
+@media (min-width: 1200px) {
+  .navbar-nav {
+    gap: 4px;
+  }
+  
+  .navbar-link {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+}
+
+/* Tablet - show text but smaller */
+@media (min-width: 900px) and (max-width: 1199px) {
   .navbar-nav {
     gap: 2px;
   }
   
   .navbar-link {
-    padding: 8px 10px;
+    padding: 6px 10px;
     font-size: 13px;
   }
   
+  .navbar-link span {
+    display: inline;
+  }
+  
   .nav-icon {
-    font-size: 14px;
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* Mobile responsive - hide text, show icons only */
+@media (max-width: 899px) {
+  .navbar-nav {
+    gap: 2px;
+  }
+  
+  .navbar-link {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+  
+  .navbar-link span {
+    display: none;
+  }
+  
+  .nav-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .navbar-container {
+    gap: 12px;
+  }
+  
+  .navbar-menu {
+    gap: 8px;
+  }
+  
+  .navbar-actions {
+    gap: 8px;
   }
 }
 
@@ -378,40 +426,28 @@
   }
   
   .navbar-container {
-    padding: 0 16px;
-    gap: 12px;
+    padding: 0 12px;
+    gap: 8px;
   }
   
   .navbar-brand {
-    font-size: 18px;
+    font-size: 16px;
   }
   
   .navbar-menu {
-    gap: 8px;
+    gap: 6px;
     flex-wrap: nowrap;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  
-  .navbar-menu::-webkit-scrollbar {
-    display: none;
+    overflow: hidden;
   }
   
   .navbar-nav {
-    gap: 4px;
+    gap: 2px;
     flex-wrap: nowrap;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  
-  .navbar-nav::-webkit-scrollbar {
-    display: none;
+    overflow: hidden;
   }
   
   .navbar-link {
-    padding: 6px 10px;
+    padding: 6px 8px;
     font-size: 12px;
     height: 32px;
     min-width: fit-content;
@@ -453,9 +489,9 @@
   }
   
   .btn-sm {
-    padding: 6px 12px;
-    font-size: 13px;
-    min-height: 36px;
+    padding: 6px 10px;
+    font-size: 12px;
+    min-height: 32px;
   }
   
   .theme-menu {
@@ -577,23 +613,10 @@
   }
 }
 
-/* Tablet specific */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .navbar-link span {
-    display: inline;
-  }
-  
-  .navbar-nav {
-    gap: 4px;
-  }
-  
-  .navbar-link {
-    padding: 8px 12px;
-    font-size: 13px;
-  }
-  
+/* Tablet specific - already handled above */
+@media (min-width: 900px) and (max-width: 1199px) {
   .user-name {
-    max-width: 140px;
+    max-width: 120px;
     font-size: 12px;
   }
 }
