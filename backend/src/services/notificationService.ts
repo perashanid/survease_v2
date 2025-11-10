@@ -220,15 +220,17 @@ export class NotificationService {
   static async notifyResponseUnlocked(
     userId: mongoose.Types.ObjectId,
     surveyTitle: string,
-    surveyId: mongoose.Types.ObjectId
+    surveyId: mongoose.Types.ObjectId,
+    unlockedByUserId?: mongoose.Types.ObjectId
   ): Promise<void> {
     try {
       await Notification.create({
         user_id: userId,
         type: 'response_unlocked',
         title: '🔓 Response Unlocked!',
-        message: `A response to your survey "${surveyTitle}" has been unlocked!`,
+        message: `You can now view a response to your survey "${surveyTitle}"!`,
         related_survey_id: surveyId,
+        related_user_id: unlockedByUserId,
         is_read: false
       });
     } catch (error) {
@@ -237,24 +239,69 @@ export class NotificationService {
   }
 
   /**
-   * Notify user when their response is locked
+   * Notify user when their response is locked (someone completed their survey)
    */
   static async notifyResponseLocked(
     surveyOwnerId: mongoose.Types.ObjectId,
     surveyTitle: string,
-    surveyId: mongoose.Types.ObjectId
+    surveyId: mongoose.Types.ObjectId,
+    respondentId?: mongoose.Types.ObjectId,
+    respondentName?: string
   ): Promise<void> {
     try {
+      const message = respondentName 
+        ? `${respondentName} completed your survey "${surveyTitle}". Contribute to their survey to unlock the response!`
+        : `Someone completed your survey "${surveyTitle}". Complete other surveys to unlock it!`;
+      
       await Notification.create({
         user_id: surveyOwnerId,
         type: 'response_locked',
-        title: '🔒 New Locked Response',
-        message: `Someone responded to "${surveyTitle}". Complete other surveys to unlock it!`,
+        title: '🔒 New Response (Locked)',
+        message,
         related_survey_id: surveyId,
+        related_user_id: respondentId,
         is_read: false
       });
     } catch (error) {
       console.error('Error creating response locked notification:', error);
+    }
+  }
+
+  /**
+   * Notify both users when reciprocal exchange is complete
+   */
+  static async notifyReciprocalComplete(
+    user1Id: mongoose.Types.ObjectId,
+    user2Id: mongoose.Types.ObjectId,
+    user1SurveyTitle: string,
+    user2SurveyTitle: string,
+    user1SurveyId: mongoose.Types.ObjectId,
+    user2SurveyId: mongoose.Types.ObjectId
+  ): Promise<void> {
+    try {
+      // Notify user 1
+      await Notification.create({
+        user_id: user1Id,
+        type: 'reciprocal_complete',
+        title: '🎉 Reciprocal Exchange Complete!',
+        message: `You and another user have completed each other's surveys. Both responses are now unlocked!`,
+        related_survey_id: user1SurveyId,
+        related_user_id: user2Id,
+        is_read: false
+      });
+
+      // Notify user 2
+      await Notification.create({
+        user_id: user2Id,
+        type: 'reciprocal_complete',
+        title: '🎉 Reciprocal Exchange Complete!',
+        message: `You and another user have completed each other's surveys. Both responses are now unlocked!`,
+        related_survey_id: user2SurveyId,
+        related_user_id: user1Id,
+        is_read: false
+      });
+    } catch (error) {
+      console.error('Error creating reciprocal complete notifications:', error);
     }
   }
 
