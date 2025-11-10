@@ -89,12 +89,19 @@ export class ResponseLockingService {
       
       // Send notification to survey creator with respondent info
       let respondentName: string | undefined;
+      let respondentSurveyId: mongoose.Types.ObjectId | undefined;
+      
       if (respondentId) {
         const { User } = await import('../models');
         const respondent = await User.findById(respondentId);
         respondentName = respondent 
           ? `${respondent.first_name || ''} ${respondent.last_name || ''}`.trim() || respondent.email
           : undefined;
+        
+        // Get respondent's survey ID from unlock requirement
+        if (unlockRequirement.type === 'complete_survey' && unlockRequirement.target_survey_id) {
+          respondentSurveyId = unlockRequirement.target_survey_id;
+        }
       }
       
       await NotificationService.notifyResponseLocked(
@@ -102,7 +109,8 @@ export class ResponseLockingService {
         survey.title,
         surveyId,
         respondentId || undefined,
-        respondentName
+        respondentName,
+        respondentSurveyId
       );
       
       await session.commitTransaction();

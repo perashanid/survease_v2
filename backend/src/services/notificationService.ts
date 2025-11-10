@@ -246,7 +246,8 @@ export class NotificationService {
     surveyTitle: string,
     surveyId: mongoose.Types.ObjectId,
     respondentId?: mongoose.Types.ObjectId,
-    respondentName?: string
+    respondentName?: string,
+    respondentSurveyId?: mongoose.Types.ObjectId
   ): Promise<void> {
     try {
       const message = respondentName 
@@ -258,7 +259,8 @@ export class NotificationService {
         type: 'response_locked',
         title: '🔒 New Response (Locked)',
         message,
-        related_survey_id: surveyId,
+        // Link to respondent's survey (so they can complete it), or their own survey if no respondent survey
+        related_survey_id: respondentSurveyId || surveyId,
         related_user_id: respondentId,
         is_read: false
       });
@@ -279,24 +281,24 @@ export class NotificationService {
     user2SurveyId: mongoose.Types.ObjectId
   ): Promise<void> {
     try {
-      // Notify user 1
+      // Notify user 1 - link to their own survey to view the unlocked response
       await Notification.create({
         user_id: user1Id,
         type: 'reciprocal_complete',
         title: '🎉 Reciprocal Exchange Complete!',
         message: `You and another user have completed each other's surveys. Both responses are now unlocked!`,
-        related_survey_id: user1SurveyId,
+        related_survey_id: user1SurveyId, // Their own survey (to view analytics)
         related_user_id: user2Id,
         is_read: false
       });
 
-      // Notify user 2
+      // Notify user 2 - link to their own survey to view the unlocked response
       await Notification.create({
         user_id: user2Id,
         type: 'reciprocal_complete',
         title: '🎉 Reciprocal Exchange Complete!',
         message: `You and another user have completed each other's surveys. Both responses are now unlocked!`,
-        related_survey_id: user2SurveyId,
+        related_survey_id: user2SurveyId, // Their own survey (to view analytics)
         related_user_id: user1Id,
         is_read: false
       });
