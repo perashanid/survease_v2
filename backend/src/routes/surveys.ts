@@ -11,6 +11,7 @@ import { NotificationService } from '../services/notificationService';
 import { ResponseLockingService } from '../services/ResponseLockingService';
 import { PointsService } from '../services/PointsService';
 import { CustomLinkService } from '../services/CustomLinkService';
+import { POINTS_COSTS } from '../constants/points';
 
 const router = express.Router();
 
@@ -35,6 +36,37 @@ router.post('/', authenticateToken, async (req: Request, res: Response): Promise
 
     const { title, description, questions, settings, tags } = value;
     const userId = req.user!.id;
+
+    // Check if user has enough points to create a survey
+    const SURVEY_CREATION_COST = POINTS_COSTS.SURVEY_CREATION;
+    try {
+      const userPoints = await PointsService.getUserPoints(new mongoose.Types.ObjectId(userId));
+      if (userPoints.total_points < SURVEY_CREATION_COST) {
+        res.status(400).json({
+          success: false,
+          error: {
+            code: 'INSUFFICIENT_POINTS',
+            message: `You need ${SURVEY_CREATION_COST} points to create a survey. You currently have ${userPoints.total_points} points.`,
+            details: {
+              required: SURVEY_CREATION_COST,
+              current: userPoints.total_points,
+              needed: SURVEY_CREATION_COST - userPoints.total_points
+            }
+          }
+        });
+        return;
+      }
+    } catch (pointsError: any) {
+      console.error('Error checking user points:', pointsError);
+      res.status(500).json({
+        success: false,
+        error: {
+          code: 'POINTS_CHECK_ERROR',
+          message: 'Failed to verify points balance'
+        }
+      });
+      return;
+    }
 
     // Generate unique slug from title
     const baseSlug = title.toLowerCase()
@@ -75,6 +107,29 @@ router.post('/', authenticateToken, async (req: Request, res: Response): Promise
 
     await survey.save();
 
+    // Deduct points for survey creation
+    try {
+      await PointsService.deductPoints(
+        new mongoose.Types.ObjectId(userId),
+        SURVEY_CREATION_COST,
+        'survey_creation',
+        `Created survey: "${title}"`,
+        survey._id as mongoose.Types.ObjectId
+      );
+    } catch (deductError: any) {
+      // If points deduction fails, delete the survey and return error
+      await Survey.deleteOne({ _id: survey._id });
+      console.error('Error deducting points:', deductError);
+      res.status(500).json({
+        success: false,
+        error: {
+          code: 'POINTS_DEDUCTION_ERROR',
+          message: deductError.message || 'Failed to deduct points for survey creation'
+        }
+      });
+      return;
+    }
+
     // Update user profile stats
     await NotificationService.updateSurveyCreatedStats(new mongoose.Types.ObjectId(userId));
 
@@ -102,7 +157,8 @@ router.post('/', authenticateToken, async (req: Request, res: Response): Promise
           is_active: survey.is_active,
           created_at: survey.created_at,
           response_count: 0
-        }
+        },
+        points_deducted: SURVEY_CREATION_COST
       }
     });
   } catch (error: any) {
@@ -1343,8 +1399,11 @@ router.post('/:slug/responses', optionalAuth, async (req: Request, res: Response
     
     // Award points for survey completion (only for identified, non-custom-link responses)
     let pointsEarned = 0;
-    if (respondentId && sourceType === 'platform') {
+    const isOwnSurvey = respondentId && survey.user_id.toString() === respondentId.toString();
+    
+    if (respondentId && sourceType === 'platform' && !isOwnSurvey) {
       const points = await PointsService.calculateSurveyCompletionPoints(survey, respondentId);
+      console.log(`[Points Debug] User ${respondentId} completing survey "${survey.title}": ${points} points calculated`);
       
       // Only award points if greater than 0
       if (points > 0) {
@@ -1357,7 +1416,20 @@ router.post('/:slug/responses', optionalAuth, async (req: Request, res: Response
           surveyResponse._id as mongoose.Types.ObjectId
         );
         pointsEarned = points;
+        console.log(`[Points Debug] Successfully awarded ${points} points to user ${respondentId}`);
+        
+        // Send notification
+        await NotificationService.notifyPointsEarned(
+          respondentId,
+          points,
+          survey.title,
+          survey._id as mongoose.Types.ObjectId
+        );
+      } else {
+        console.log(`[Points Debug] No points awarded - calculated points: ${points}`);
       }
+    } else {
+      console.log(`[Points Debug] Points not awarded - respondentId: ${respondentId}, sourceType: ${sourceType}, isOwnSurvey: ${isOwnSurvey}`);
     }
 
     // Track contribution if user is authenticated and not the survey owner

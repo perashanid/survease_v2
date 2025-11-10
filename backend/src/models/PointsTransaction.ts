@@ -4,7 +4,7 @@ export interface IPointsTransaction extends Document {
   user_id: mongoose.Types.ObjectId;
   transaction_type: 'earned' | 'spent' | 'bonus';
   points: number;
-  source: 'survey_completion' | 'response_unlock' | 'boost_bonus';
+  source: 'survey_completion' | 'response_unlock' | 'boost_bonus' | 'survey_creation' | 'boost_survey' | 'unlock_response';
   related_survey_id?: mongoose.Types.ObjectId;
   related_response_id?: mongoose.Types.ObjectId;
   description: string;
@@ -28,7 +28,7 @@ const PointsTransactionSchema = new Schema<IPointsTransaction>({
   },
   source: {
     type: String,
-    enum: ['survey_completion', 'response_unlock', 'boost_bonus'],
+    enum: ['survey_completion', 'response_unlock', 'boost_bonus', 'survey_creation', 'boost_survey', 'unlock_response'],
     required: true
   },
   related_survey_id: {

@@ -2,9 +2,10 @@ import mongoose from 'mongoose';
 import { UserPoints, IUserPoints } from '../models/UserPoints';
 import { PointsTransaction, IPointsTransaction } from '../models/PointsTransaction';
 import { ISurvey } from '../models/Survey';
+import { POINTS_REWARDS } from '../constants/points';
 
 export class PointsService {
-  private static readonly BASE_POINTS = 10;
+  private static readonly BASE_POINTS = POINTS_REWARDS.BASE_SURVEY_COMPLETION;
   
   /**
    * Award points to a user
@@ -51,6 +52,8 @@ export class PointsService {
         }
       );
       
+      console.log(`[PointsService] Updated user ${userId} points. New total: ${userPoints.total_points}`);
+      
       await session.commitTransaction();
       return transaction[0];
     } catch (error) {
@@ -79,7 +82,7 @@ export class PointsService {
    * Initialize new user with welcome bonus
    */
   static async initializeUserPoints(userId: mongoose.Types.ObjectId): Promise<IUserPoints> {
-    const WELCOME_BONUS = 100;
+    const WELCOME_BONUS = POINTS_REWARDS.WELCOME_BONUS;
     const session = await mongoose.startSession();
     session.startTransaction();
     
@@ -128,45 +131,97 @@ export class PointsService {
   /**
    * Calculate points for survey completion
    * @param survey - The survey being completed
-   * @param userHasOwnSurvey - Whether the user has their own active public survey
-   * @returns Points to award (0 if user has their own survey, unless it's featured)
+   * @param userId - The user completing the survey
+   * @returns Points to award
    */
   static async calculateSurveyCompletionPoints(
     survey: ISurvey,
     userId: mongoose.Types.ObjectId
   ): Promise<number> {
-    // Check if user has their own active public survey
-    const { Survey } = await import('../models/Survey');
-    const userHasOwnSurvey = await Survey.exists({
-      user_id: userId,
-      is_active: true,
-      is_public: true
-    });
-    
-    let points = 0;
-    
-    // Base points logic: Only award if user doesn't have their own survey
-    if (!userHasOwnSurvey) {
-      points = this.BASE_POINTS;
-    }
+    // Everyone gets base points for completing a survey
+    let points = this.BASE_POINTS;
+    console.log(`[PointsService] Base points: ${points}`);
     
     // Featured survey bonus
     if (survey.is_featured) {
-      if (userHasOwnSurvey) {
-        // Small bonus for reciprocal users (have their own survey)
-        points += 5;
-      } else {
-        // Larger bonus for contributors without their own survey
-        points += 15;
-      }
+      points += POINTS_REWARDS.FEATURED_SURVEY_BONUS;
+      console.log(`[PointsService] Featured bonus: +${POINTS_REWARDS.FEATURED_SURVEY_BONUS}, total: ${points}`);
     }
     
     // Boosted survey bonus (applies to everyone)
     if (survey.is_boosted && survey.boost_config?.bonus_points) {
       points += survey.boost_config.bonus_points;
+      console.log(`[PointsService] Boost bonus: +${survey.boost_config.bonus_points}, total: ${points}`);
     }
     
+    console.log(`[PointsService] Final calculated points: ${points}`);
     return points;
+  }
+  
+  /**
+   * Deduct points from a user
+   */
+  static async deductPoints(
+    userId: mongoose.Types.ObjectId,
+    points: number,
+    source: 'survey_creation' | 'boost_survey' | 'unlock_response',
+    description: string,
+    relatedSurveyId?: mongoose.Types.ObjectId
+  ): Promise<IPointsTransaction> {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    
+    try {
+      // Get current user points
+      const userPoints = await UserPoints.findOne({ user_id: userId }).session(session);
+      
+      if (!userPoints) {
+        throw new Error('User points record not found');
+      }
+      
+      // Check if user has enough points
+      if (userPoints.total_points < points) {
+        throw new Error(`Insufficient points. You have ${userPoints.total_points} points but need ${points}.`);
+      }
+      
+      // Create transaction record
+      const transaction = await PointsTransaction.create([{
+        user_id: userId,
+        transaction_type: 'spent',
+        points: -points, // Negative for spent points
+        source,
+        related_survey_id: relatedSurveyId,
+        description
+      }], { session });
+      
+      // Update user points
+      const updatedUserPoints = await UserPoints.findOneAndUpdate(
+        { user_id: userId },
+        {
+          $inc: {
+            total_points: -points,
+            points_spent: points
+          },
+          $set: {
+            last_updated: new Date()
+          }
+        },
+        {
+          new: true,
+          session
+        }
+      );
+      
+      console.log(`[PointsService] Deducted ${points} points from user ${userId}. New total: ${updatedUserPoints?.total_points}`);
+      
+      await session.commitTransaction();
+      return transaction[0];
+    } catch (error) {
+      await session.abortTransaction();
+      throw error;
+    } finally {
+      session.endSession();
+    }
   }
   
   /**
