@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useAuth } from './AuthContext';
-import api from '../services/api';
+import { apiClient } from '../services/api';
 
 interface NotificationContextType {
   unreadCount: number;
@@ -34,7 +34,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
     }
 
     try {
-      const response = await api.get('/notifications?limit=1');
+      const response = await apiClient.get('/notifications?limit=1');
       if (response.data.success) {
         setUnreadCount(response.data.data.unread_count || 0);
       }
@@ -45,7 +45,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
 
   const markAsRead = async (notificationId: string) => {
     try {
-      await api.put(`/notifications/${notificationId}/read`);
+      await apiClient.put(`/notifications/${notificationId}/read`);
       await refreshUnreadCount();
     } catch (error) {
       console.error('Failed to mark notification as read:', error);
@@ -54,7 +54,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
 
   const markAllAsRead = async () => {
     try {
-      await api.put('/notifications/read-all');
+      await apiClient.put('/notifications/read-all');
       setUnreadCount(0);
     } catch (error) {
       console.error('Failed to mark all notifications as read:', error);
