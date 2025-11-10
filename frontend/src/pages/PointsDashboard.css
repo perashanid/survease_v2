@@ -1,0 +1,151 @@
+.points-dashboard-page {
+  min-height: 100vh;
+  background: var(--color-background);
+  padding: 40px 0;
+}
+
+.points-dashboard-page .container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 16px;
+  border: 2px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 32px;
+}
+
+.back-btn:hover {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(74, 222, 128, 0.3);
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 48px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.page-header h1 {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0 0 12px 0;
+}
+
+.page-header p {
+  font-size: 18px;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 32px;
+}
+
+.dashboard-main {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.dashboard-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-sidebar {
+    order: -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .points-dashboard-page {
+    padding: 24px 0;
+  }
+
+  .page-header h1 {
+    font-size: 28px;
+  }
+
+  .page-header p {
+    font-size: 16px;
+  }
+
+  .dashboard-grid {
+    gap: 24px;
+  }
+
+  .dashboard-main,
+  .dashboard-sidebar {
+    gap: 24px;
+  }
+}
+
+
+/* Light mode specific styling */
+:root[data-theme="light"] .points-dashboard-page {
+  background: linear-gradient(135deg, #f0f9f4 0%, #ecfdf5 100%);
+}
+
+:root[data-theme="light"] .page-header h1 {
+  color: #0f172a !important;
+}
+
+:root[data-theme="light"] .page-header p {
+  color: #334155 !important;
+}
+
+:root[data-theme="light"] .back-btn {
+  background: #ffffff;
+  border: 1px solid #d1fae5;
+  color: #16a34a;
+}
+
+:root[data-theme="light"] .back-btn:hover {
+  background: #86efac;
+  color: white;
+  border-color: #86efac;
+}
+
+
+/* Dark mode specific styling */
+:root[data-theme="dark"] .points-dashboard-page {
+  background: #0f172a;
+}
+
+:root[data-theme="dark"] .back-btn {
+  background: #1e293b;
+  border: 1px solid #475569;
+  color: #86efac;
+}
+
+:root[data-theme="dark"] .back-btn:hover {
+  background: #86efac;
+  color: #0f172a;
+  border-color: #86efac;
+}
