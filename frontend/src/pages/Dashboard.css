@@ -329,7 +329,7 @@
   border-color: var(--color-primary);
 }
 
-.stat-number {
+.dashboard-stats .stat-number {
   font-size: 36px;
   font-weight: 800;
   color: #ffffff !important;
@@ -344,7 +344,7 @@
   background-clip: unset !important;
 }
 
-.stat-label {
+.dashboard-stats .stat-label {
   font-size: 14px;
   font-weight: 700;
   color: #ffffff !important;
@@ -360,15 +360,15 @@
 }
 
 /* Light mode override - darker gradient for better contrast */
-[data-theme="light"] .stat-card {
+[data-theme="light"] .dashboard-stats .stat-card {
   background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%);
 }
 
 /* Force white text in light mode too */
-[data-theme="light"] .stat-card .stat-number,
-[data-theme="light"] .stat-card .stat-label,
-[data-theme="light"] .stat-card .stat-icon,
-[data-theme="light"] .stat-card .stat-icon svg {
+[data-theme="light"] .dashboard-stats .stat-card .stat-number,
+[data-theme="light"] .dashboard-stats .stat-card .stat-label,
+[data-theme="light"] .dashboard-stats .stat-card .stat-icon,
+[data-theme="light"] .dashboard-stats .stat-card .stat-icon svg {
   color: #ffffff !important;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
@@ -961,11 +961,11 @@ tics Dropdown */
   justify-content: center;
 }
 
-/* Force white text for stat cards in all themes */
-.stat-card .stat-number,
-.stat-card .stat-label,
-.stat-card .stat-icon,
-.stat-card .stat-icon svg {
+/* Force white text for stat cards in all themes (only for dashboard stat cards) */
+.dashboard-stats .stat-card .stat-number,
+.dashboard-stats .stat-card .stat-label,
+.dashboard-stats .stat-card .stat-icon,
+.dashboard-stats .stat-card .stat-icon svg {
   color: #ffffff !important;
 }
 
