@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { adminService, AdminSurvey, AdminStats } from '../services/adminService';
 import { useToast } from '../components/shared/ToastContainer';
+import ReciprocalAdminPanel from '../components/admin/ReciprocalAdminPanel';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {
@@ -17,7 +18,7 @@ const AdminDashboard = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('all');
-  const [activeTab, setActiveTab] = useState<'overview' | 'surveys' | 'users'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'surveys' | 'users' | 'reciprocal'>('overview');
 
   useEffect(() => {
     // Check if user is admin
@@ -123,6 +124,12 @@ const AdminDashboard = () => {
           onClick={() => setActiveTab('users')}
         >
           👥 Users
+        </button>
+        <button
+          className={`tab-button ${activeTab === 'reciprocal' ? 'active' : ''}`}
+          onClick={() => setActiveTab('reciprocal')}
+        >
+          🎁 Reciprocal System
         </button>
       </div>
 
@@ -329,6 +336,10 @@ const AdminDashboard = () => {
         <div className="users-section">
           <p className="coming-soon">User management coming soon...</p>
         </div>
+      )}
+
+      {activeTab === 'reciprocal' && (
+        <ReciprocalAdminPanel />
       )}
     </div>
   );

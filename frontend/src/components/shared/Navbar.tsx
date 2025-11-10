@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import AuthModal from '../auth/AuthModal';
+import PointsBadge from '../reciprocal/PointsBadge';
 import { 
   FiSun, 
   FiMoon, 
@@ -14,7 +15,8 @@ import {
   FiMail, 
   FiShield,
   FiBell,
-  FiUser
+  FiUser,
+  FiZap
 } from 'react-icons/fi';
 import './Navbar.css';
 
@@ -80,6 +82,10 @@ const Navbar: React.FC = () => {
                 <FiList className="nav-icon" />
                 <span>Public Surveys</span>
               </Link>
+              <Link to="/surveys/boosted" className="navbar-link">
+                <FiZap className="nav-icon" />
+                <span>Boosted Surveys</span>
+              </Link>
               
               {isAuthenticated && (
                 <>
@@ -119,6 +125,7 @@ const Navbar: React.FC = () => {
             <div className="navbar-actions">
               {isAuthenticated ? (
                 <div className="navbar-user">
+                  <PointsBadge />
                   <span className="user-name">
                     {user?.firstName && user?.lastName 
                       ? `${user.firstName} ${user.lastName}`

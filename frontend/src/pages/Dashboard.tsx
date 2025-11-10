@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { SurveyService, Survey } from '../services/surveyService';
 import { useAuth } from '../contexts/AuthContext';
@@ -12,6 +12,8 @@ import {
 import Analytics from './Analytics';
 import InvitationManager from '../components/survey/InvitationManager';
 import AttentionPanel from '../components/analytics/AttentionPanel';
+import PointsBalance from '../components/reciprocal/PointsBalance';
+import BoostSurveyDialog from '../components/reciprocal/BoostSurveyDialog';
 import './Dashboard.css';
 
 const Dashboard: React.FC = () => {
@@ -22,28 +24,29 @@ const Dashboard: React.FC = () => {
   const [copiedUrl, setCopiedUrl] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'overview' | 'analytics'>('overview');
   const [showInvitationManager, setShowInvitationManager] = useState<{ surveyId: string; surveyTitle: string } | null>(null);
+  const [showBoostDialog, setShowBoostDialog] = useState<{ surveyId: string; currentBoost?: any } | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
-  useEffect(() => {
-    fetchSurveys();
-  }, []);
-
-  const fetchSurveys = async () => {
+  const fetchSurveys = useCallback(async () => {
     try {
       setLoading(true);
       const data = await SurveyService.getUserSurveys();
       setSurveys(data);
+      setError('');
     } catch (err: any) {
       setError('Failed to load surveys');
       console.error('Error fetching surveys:', err);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const handleCopyUrl = async (slug: string) => {
+  useEffect(() => {
+    fetchSurveys();
+  }, [fetchSurveys]);
+
+  const handleCopyUrl = useCallback(async (slug: string) => {
     try {
-      // Generate the correct frontend URL with hash routing
       const frontendUrl = `${window.location.origin}/#/survey/${slug}`;
       await navigator.clipboard.writeText(frontendUrl);
       setCopiedUrl(frontendUrl);
@@ -51,28 +54,28 @@ const Dashboard: React.FC = () => {
     } catch (err) {
       console.error('Failed to copy URL:', err);
     }
-  };
+  }, []);
 
-  const handleDeleteSurvey = async (surveyId: string, surveyTitle: string) => {
+  const handleDeleteSurvey = useCallback(async (surveyId: string, surveyTitle: string) => {
     if (window.confirm(`Are you sure you want to delete "${surveyTitle}"? This action cannot be undone.`)) {
       try {
         await SurveyService.deleteSurvey(surveyId);
-        setSurveys(surveys.filter(s => s.id !== surveyId));
+        setSurveys(prev => prev.filter(s => s.id !== surveyId));
       } catch (err: any) {
         setError('Failed to delete survey');
         console.error('Error deleting survey:', err);
       }
     }
-  };
+  }, []);
 
-  const handleToggleVisibility = async (surveyId: string, currentVisibility: boolean, surveyTitle: string) => {
+  const handleToggleVisibility = useCallback(async (surveyId: string, currentVisibility: boolean, surveyTitle: string) => {
     const newVisibility = !currentVisibility;
     const action = newVisibility ? 'public' : 'private';
     
     if (window.confirm(`Are you sure you want to make "${surveyTitle}" ${action}?`)) {
       try {
         await SurveyService.toggleSurveyVisibility(surveyId, newVisibility);
-        setSurveys(surveys.map(s => 
+        setSurveys(prev => prev.map(s => 
           s.id === surveyId 
             ? { ...s, is_public: newVisibility }
             : s
@@ -82,17 +85,23 @@ const Dashboard: React.FC = () => {
         console.error('Error updating survey visibility:', err);
       }
     }
-  };
+  }, []);
 
-  // Filter surveys based on search query
-  const filteredSurveys = surveys.filter(survey =>
-    survey.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (survey.description && survey.description.toLowerCase().includes(searchQuery.toLowerCase()))
+  // Memoize filtered surveys to prevent recalculation on every render
+  const filteredSurveys = useMemo(() => 
+    surveys.filter(survey =>
+      survey.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (survey.description && survey.description.toLowerCase().includes(searchQuery.toLowerCase()))
+    ),
+    [surveys, searchQuery]
   );
 
-  const totalResponses = surveys.reduce((sum, survey) => sum + survey.response_count, 0);
-  const activeSurveys = surveys.filter(s => s.is_active).length;
-  const publicSurveys = surveys.filter(s => s.is_public).length;
+  // Memoize statistics calculations
+  const stats = useMemo(() => ({
+    totalResponses: surveys.reduce((sum, survey) => sum + survey.response_count, 0),
+    activeSurveys: surveys.filter(s => s.is_active).length,
+    publicSurveys: surveys.filter(s => s.is_public).length,
+  }), [surveys]);
 
   if (activeTab !== 'overview') {
     return <Analytics />;
@@ -129,6 +138,9 @@ const Dashboard: React.FC = () => {
 
         {error && <div className="error">{error}</div>}
 
+        {/* Points Balance */}
+        <PointsBalance />
+
         {/* Statistics */}
         <div className="stats-grid">
           <motion.div 
@@ -148,7 +160,7 @@ const Dashboard: React.FC = () => {
             transition={{ duration: 0.3, delay: 0.1 }}
           >
             <div className="stat-icon"><FiUsers /></div>
-            <div className="stat-number">{totalResponses}</div>
+            <div className="stat-number">{stats.totalResponses}</div>
             <div className="stat-label">Total Responses</div>
           </motion.div>
           <motion.div 
@@ -158,7 +170,7 @@ const Dashboard: React.FC = () => {
             transition={{ duration: 0.3, delay: 0.2 }}
           >
             <div className="stat-icon"><FiCheckCircle /></div>
-            <div className="stat-number">{activeSurveys}</div>
+            <div className="stat-number">{stats.activeSurveys}</div>
             <div className="stat-label">Active Surveys</div>
           </motion.div>
           <motion.div 
@@ -168,7 +180,7 @@ const Dashboard: React.FC = () => {
             transition={{ duration: 0.3, delay: 0.3 }}
           >
             <div className="stat-icon"><FiGlobe /></div>
-            <div className="stat-number">{publicSurveys}</div>
+            <div className="stat-number">{stats.publicSurveys}</div>
             <div className="stat-label">Public Surveys</div>
           </motion.div>
         </div>
@@ -330,6 +342,13 @@ const Dashboard: React.FC = () => {
                         <FiLink /> Invitations
                       </button>
                     )}
+                    <button
+                      onClick={() => setShowBoostDialog({ surveyId: survey.id })}
+                      className="btn btn-outline btn-sm"
+                      title="Boost this survey"
+                    >
+                      <FiZap /> Boost
+                    </button>
                     <Link
                       to={`/survey/${survey.slug}`}
                       className="btn btn-outline btn-sm"
@@ -389,6 +408,19 @@ const Dashboard: React.FC = () => {
             />
           </div>
         </div>
+      )}
+
+      {/* Boost Survey Dialog */}
+      {showBoostDialog && (
+        <BoostSurveyDialog
+          surveyId={showBoostDialog.surveyId}
+          currentBoost={showBoostDialog.currentBoost}
+          onClose={() => setShowBoostDialog(null)}
+          onSuccess={() => {
+            fetchSurveys();
+            setShowBoostDialog(null);
+          }}
+        />
       )}
     </div>
   );
