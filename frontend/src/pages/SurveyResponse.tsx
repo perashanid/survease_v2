@@ -13,13 +13,14 @@ interface QuestionResponse {
 }
 
 const SurveyResponse: React.FC = () => {
-  const { slug } = useParams<{ slug: string }>();
+  const { slug, token } = useParams<{ slug?: string; token?: string }>();
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   
   // Get invitation token from URL parameters
   const urlParams = new URLSearchParams(window.location.search);
   const invitationToken = urlParams.get('token');
+  const customLinkToken = token; // From route params for /survey/custom/:token
   
   const [survey, setSurvey] = useState<Survey | null>(null);
   const [responses, setResponses] = useState<QuestionResponse>({});
@@ -34,9 +35,14 @@ const SurveyResponse: React.FC = () => {
   // New states for anonymous voting flow
   const [showAuthChoice, setShowAuthChoice] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [isAnonymous, setIsAnonymous] = useState(false);
   
   // Timing tracking states
   const [, setCompletionTime] = useState<number | null>(null);
+  
+  // Points preview
+  const basePoints = 10;
+  const bonusPoints = (survey as any)?.boost?.bonusPoints || 0;
 
   useEffect(() => {
     if (slug) {
@@ -165,10 +171,12 @@ const SurveyResponse: React.FC = () => {
         ...(respondentEmail && { respondent_email: respondentEmail }),
         ...(calculatedCompletionTime && { completion_time: calculatedCompletionTime }),
         ...(surveyStartTime && { started_at: surveyStartTime }),
-        device_info: deviceInfo
+        device_info: deviceInfo,
+        is_anonymous: isAnonymous,
+        ...(customLinkToken && { custom_link_token: customLinkToken })
       };
 
-      await SurveyService.submitResponse(slug, submissionData);
+      await SurveyService.submitResponse(slug || '', submissionData);
       
       // Clear tracking data after successful submission
       timeTrackingService.clearSurveyTracking(slug);
@@ -566,14 +574,31 @@ const SurveyResponse: React.FC = () => {
                     Next
                   </button>
                 ) : (
-                  <button
-                    type="button"
-                    onClick={handleSubmit}
-                    disabled={submitting}
-                    className="btn btn-primary"
-                  >
-                    {submitting ? 'Submitting...' : 'Submit Survey'}
-                  </button>
+                  <>
+                    {isAuthenticated && (
+                      <div className="anonymous-toggle">
+                        <label>
+                          <input
+                            type="checkbox"
+                            checked={isAnonymous}
+                            onChange={(e) => setIsAnonymous(e.target.checked)}
+                          />
+                          <FiEyeOff /> Submit anonymously
+                        </label>
+                      </div>
+                    )}
+                    <div className="points-preview">
+                      🎁 Earn {basePoints} points{bonusPoints > 0 && ` + ${bonusPoints} bonus`} = {basePoints + bonusPoints} points!
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleSubmit}
+                      disabled={submitting}
+                      className="btn btn-primary"
+                    >
+                      {submitting ? 'Submitting...' : 'Submit Survey'}
+                    </button>
+                  </>
                 )}
               </div>
             </div>

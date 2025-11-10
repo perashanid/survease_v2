@@ -8,6 +8,9 @@ import {
   submitResponseSchema
 } from '../validation/schemas';
 import { NotificationService } from '../services/notificationService';
+import { ResponseLockingService } from '../services/ResponseLockingService';
+import { PointsService } from '../services/PointsService';
+import { CustomLinkService } from '../services/CustomLinkService';
 
 const router = express.Router();
 
@@ -1266,19 +1269,92 @@ router.post('/:slug/responses', optionalAuth, async (req: Request, res: Response
     const { parseUserAgent } = await import('../utils/deviceDetection');
     const deviceInfo = parseUserAgent(userAgent);
     
-    const surveyResponse = new SurveyResponse({
-      survey_id: survey._id,
-      user_id: req.user?.id || null,
-      response_data: responseData,
-      respondent_email: respondent_email || null,
-      is_anonymous: !req.user && !respondent_email, // Only truly anonymous if no user AND no email provided
-      ip_address: clientIP,
-      completion_time: completion_time || null,
-      started_at: started_at ? new Date(started_at) : null,
-      device_info: deviceInfo
-    });
-
-    await surveyResponse.save();
+    // Check if this is a custom link submission
+    const customLinkToken = req.query.custom_link_token as string;
+    let customLink = null;
+    let sourceType: 'platform' | 'custom_link' = 'platform';
+    
+    if (customLinkToken) {
+      customLink = await CustomLinkService.validateCustomLink(customLinkToken);
+      if (customLink && customLink.survey_id.toString() === (survey._id as mongoose.Types.ObjectId).toString()) {
+        sourceType = 'custom_link';
+        // Track link usage
+        await CustomLinkService.trackLinkUsage(customLink._id as mongoose.Types.ObjectId);
+      }
+    }
+    
+    const isAnonymous = !req.user && !respondent_email;
+    const respondentId = req.user?.id ? new mongoose.Types.ObjectId(req.user.id) : null;
+    
+    // Determine if response should be locked
+    const shouldLock = await ResponseLockingService.shouldLockResponse(
+      survey._id as mongoose.Types.ObjectId,
+      respondentId,
+      sourceType,
+      isAnonymous
+    );
+    
+    let surveyResponse;
+    
+    if (shouldLock) {
+      // Create locked response using the service
+      surveyResponse = await ResponseLockingService.createLockedResponse(
+        {
+          survey_id: survey._id as mongoose.Types.ObjectId,
+          user_id: respondentId || undefined,
+          response_data: responseData,
+          respondent_email: respondent_email || undefined,
+          is_anonymous: isAnonymous,
+          ip_address: clientIP,
+          completion_time: completion_time || undefined,
+          started_at: started_at ? new Date(started_at) : undefined,
+          device_info: deviceInfo,
+          source_type: sourceType,
+          custom_link_id: customLink?._id as mongoose.Types.ObjectId | undefined
+        },
+        respondentId,
+        survey._id as mongoose.Types.ObjectId
+      );
+    } else {
+      // Create unlocked response (custom link submission)
+      surveyResponse = new SurveyResponse({
+        survey_id: survey._id,
+        user_id: respondentId,
+        response_data: responseData,
+        respondent_email: respondent_email || null,
+        is_anonymous: isAnonymous,
+        ip_address: clientIP,
+        completion_time: completion_time || null,
+        started_at: started_at ? new Date(started_at) : null,
+        device_info: deviceInfo,
+        is_locked: false,
+        lock_reason: 'none',
+        source_type: sourceType,
+        custom_link_id: customLink?._id
+      });
+      
+      await surveyResponse.save();
+      
+      // Update survey unlocked response count
+      await Survey.findByIdAndUpdate(survey._id, {
+        $inc: { unlocked_response_count: 1 }
+      });
+    }
+    
+    // Award points for survey completion (only for identified, non-custom-link responses)
+    let pointsEarned = 0;
+    if (respondentId && sourceType === 'platform') {
+      const points = PointsService.calculateSurveyCompletionPoints(survey);
+      await PointsService.awardPoints(
+        respondentId,
+        points,
+        'survey_completion',
+        `Completed survey "${survey.title}"`,
+        survey._id as mongoose.Types.ObjectId,
+        surveyResponse._id as mongoose.Types.ObjectId
+      );
+      pointsEarned = points;
+    }
 
     // Track contribution if user is authenticated and not the survey owner
     if (req.user && survey.user_id.toString() !== req.user.id) {
@@ -1345,7 +1421,11 @@ router.post('/:slug/responses', optionalAuth, async (req: Request, res: Response
       success: true,
       data: {
         response_id: surveyResponse._id,
-        message: 'Response submitted successfully'
+        is_locked: surveyResponse.is_locked,
+        points_earned: pointsEarned,
+        message: surveyResponse.is_locked 
+          ? 'Response submitted and locked. The survey creator will need to complete a survey to unlock it.'
+          : 'Response submitted successfully'
       }
     });
   } catch (error: any) {

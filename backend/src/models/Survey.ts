@@ -41,6 +41,16 @@ export interface ISurvey extends Document {
   end_date?: Date;
   created_at: Date;
   updated_at: Date;
+  
+  // Reciprocal system fields
+  is_boosted: boolean;
+  boost_config?: {
+    bonus_points: number;
+    boosted_at: Date;
+    boosted_until?: Date;
+  };
+  locked_response_count: number;
+  unlocked_response_count: number;
 }
 
 const SurveySchema = new Schema<ISurvey>({
@@ -119,7 +129,24 @@ const SurveySchema = new Schema<ISurvey>({
     required: false
   },
   start_date: Date,
-  end_date: Date
+  end_date: Date,
+  is_boosted: {
+    type: Boolean,
+    default: false
+  },
+  boost_config: {
+    bonus_points: Number,
+    boosted_at: Date,
+    boosted_until: Date
+  },
+  locked_response_count: {
+    type: Number,
+    default: 0
+  },
+  unlocked_response_count: {
+    type: Number,
+    default: 0
+  }
 }, {
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 });
@@ -133,5 +160,8 @@ SurveySchema.index({ is_public: 1, allow_import: 1, is_active: 1 });
 SurveySchema.index({ created_at: -1 });
 SurveySchema.index({ original_survey_id: 1 });
 SurveySchema.index({ tags: 1 });
+// Reciprocal system indexes
+SurveySchema.index({ is_boosted: 1 });
+SurveySchema.index({ is_public: 1, is_boosted: 1, is_active: 1 });
 
 export const Survey = mongoose.model<ISurvey>('Survey', SurveySchema);

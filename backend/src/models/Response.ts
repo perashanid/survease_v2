@@ -58,6 +58,17 @@ export interface IResponse extends Document {
     overridden_at: Date;
     reason?: string;
   };
+  
+  // Reciprocal system fields
+  is_locked: boolean;
+  lock_reason: 'reciprocal' | 'none';
+  source_type: 'platform' | 'custom_link';
+  custom_link_id?: mongoose.Types.ObjectId;
+  unlock_requirement?: {
+    type: 'complete_survey' | 'complete_any_survey';
+    target_survey_id?: mongoose.Types.ObjectId;
+    target_user_id?: mongoose.Types.ObjectId;
+  };
 }
 
 const ResponseSchema = new Schema<IResponse>({
@@ -139,6 +150,38 @@ const ResponseSchema = new Schema<IResponse>({
     },
     overridden_at: Date,
     reason: String
+  },
+  is_locked: {
+    type: Boolean,
+    default: false
+  },
+  lock_reason: {
+    type: String,
+    enum: ['reciprocal', 'none'],
+    default: 'none'
+  },
+  source_type: {
+    type: String,
+    enum: ['platform', 'custom_link'],
+    default: 'platform'
+  },
+  custom_link_id: {
+    type: Schema.Types.ObjectId,
+    ref: 'CustomLink'
+  },
+  unlock_requirement: {
+    type: {
+      type: String,
+      enum: ['complete_survey', 'complete_any_survey']
+    },
+    target_survey_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'Survey'
+    },
+    target_user_id: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    }
   }
 });
 
@@ -153,5 +196,9 @@ ResponseSchema.index({ 'device_info.type': 1 });
 // Quality classification indexes
 ResponseSchema.index({ survey_id: 1, quality_status: 1 });
 ResponseSchema.index({ survey_id: 1, completion_time: 1 });
+// Reciprocal system indexes
+ResponseSchema.index({ is_locked: 1 });
+ResponseSchema.index({ source_type: 1 });
+ResponseSchema.index({ survey_id: 1, is_locked: 1 });
 
 export const Response = mongoose.model<IResponse>('Response', ResponseSchema);

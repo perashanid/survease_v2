@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { SurveyService as surveyService } from '../services/surveyService';
@@ -17,6 +17,8 @@ import {
   FiBarChart2,
   FiAlertTriangle
 } from 'react-icons/fi';
+import LockedResponsesList from '../components/reciprocal/LockedResponsesList';
+import CustomLinkGenerator from '../components/reciprocal/CustomLinkGenerator';
 import './SurveyAnalytics.css';
 
 interface SurveyAnalyticsData {
@@ -69,13 +71,7 @@ const SurveyAnalytics: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedQuestion, setSelectedQuestion] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (surveyId) {
-      fetchSurveyAnalytics();
-    }
-  }, [surveyId]);
-
-  const fetchSurveyAnalytics = async () => {
+  const fetchSurveyAnalytics = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -93,9 +89,15 @@ const SurveyAnalytics: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [surveyId]);
 
-  const downloadSurveyData = async (format: 'json' | 'csv') => {
+  useEffect(() => {
+    if (surveyId) {
+      fetchSurveyAnalytics();
+    }
+  }, [surveyId, fetchSurveyAnalytics]);
+
+  const downloadSurveyData = useCallback(async (format: 'json' | 'csv') => {
     try {
       const data = await surveyService.exportSurveyData(surveyId!, format);
       
@@ -114,7 +116,7 @@ const SurveyAnalytics: React.FC = () => {
       console.error('Export error:', err);
       alert('Failed to export data');
     }
-  };
+  }, [surveyId, analyticsData]);
 
   const renderPieChart = (data: Array<{ option?: string; rating?: number; count: number; percentage: number }>, title: string) => {
     const total = data.reduce((sum, item) => sum + item.count, 0);
@@ -453,6 +455,12 @@ const SurveyAnalytics: React.FC = () => {
             )}
           </div>
         )}
+
+        {/* Locked Responses Section */}
+        <LockedResponsesList surveyId={surveyId!} />
+
+        {/* Custom Links Section */}
+        <CustomLinkGenerator surveyId={surveyId!} />
       </div>
     </div>
   );
