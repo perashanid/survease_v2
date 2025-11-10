@@ -23,7 +23,7 @@
   padding: 0 24px;
   height: 100%;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: minmax(120px, auto) 1fr minmax(auto, max-content);
   align-items: center;
   gap: 24px;
 }
@@ -43,6 +43,7 @@
   display: flex;
   align-items: center;
   min-width: 120px;
+  margin-right: 32px;
 }
 
 .navbar-brand:hover {
@@ -631,5 +632,58 @@
   .user-name {
     max-width: 120px;
     font-size: 12px;
+  }
+}
+/*
+ Notification Badge Styles */
+.notification-link {
+  position: relative;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -4px;
+  right: -8px;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 10px;
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.4);
+  animation: pulse-badge 2s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes pulse-badge {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.4);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.6);
+  }
+}
+
+[data-theme="dark"] .notification-badge {
+  background: linear-gradient(135deg, #ff8787 0%, #ff6b6b 100%);
+  box-shadow: 0 2px 8px rgba(255, 135, 135, 0.5);
+}
+
+/* Mobile responsive notification badge */
+@media (max-width: 768px) {
+  .notification-badge {
+    top: -2px;
+    right: -6px;
+    font-size: 9px;
+    padding: 1px 5px;
+    min-width: 16px;
+    height: 16px;
   }
 }

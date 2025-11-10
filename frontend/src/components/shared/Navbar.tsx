@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useNotifications } from '../../contexts/NotificationContext';
 import AuthModal from '../auth/AuthModal';
 import PointsBadge from '../reciprocal/PointsBadge';
 import { 
@@ -23,6 +24,7 @@ import './Navbar.css';
 const Navbar: React.FC = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const { themeMode, setThemeMode } = useTheme();
+  const { unreadCount } = useNotifications();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authMode, setAuthMode] = useState<'login' | 'register' | 'forgot-password'>('login');
   const navigate = useNavigate();
@@ -101,9 +103,12 @@ const Navbar: React.FC = () => {
                     <FiBarChart2 className="nav-icon" />
                     <span>Analytics</span>
                   </Link>
-                  <Link to="/notifications" className="navbar-link">
+                  <Link to="/notifications" className="navbar-link notification-link">
                     <FiBell className="nav-icon" />
                     <span>Notifications</span>
+                    {unreadCount > 0 && (
+                      <span className="notification-badge">{unreadCount > 99 ? '99+' : unreadCount}</span>
+                    )}
                   </Link>
                   <Link to="/profile" className="navbar-link">
                     <FiUser className="nav-icon" />
