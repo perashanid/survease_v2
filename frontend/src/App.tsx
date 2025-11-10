@@ -9,6 +9,7 @@ import { ToastProvider } from './components/shared/ToastContainer';
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { PointsProvider } from './contexts/PointsContext';
+import { NotificationProvider } from './contexts/NotificationContext';
 import './App.css';
 
 // Lazy load pages for better performance
@@ -88,9 +89,10 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider>
         <AuthProvider>
-          <PointsProvider>
+          <NotificationProvider>
+            <PointsProvider>
               <ToastProvider>
-            <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+                <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
               <div className="App">
                 <RedirectHandler />
                 <ScrollToTop />
@@ -128,9 +130,10 @@ function App() {
                 </main>
                 <Footer />
               </div>
-            </Router>
-            </ToastProvider>
-          </PointsProvider>
+                </Router>
+              </ToastProvider>
+            </PointsProvider>
+          </NotificationProvider>
         </AuthProvider>
       </ThemeProvider>
     </ErrorBoundary>
