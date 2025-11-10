@@ -139,8 +139,8 @@ export const requireOwnership = (resourceUserIdField: string = 'user_id') => {
     next();
   };
 };
-/
-**
+
+/**
  * Middleware to check if user is an admin
  */
 export const requireAdmin = async (

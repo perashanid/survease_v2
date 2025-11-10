@@ -140,4 +140,144 @@ export class NotificationService {
       console.error('Error creating survey completion notification:', error);
     }
   }
+
+  /**
+   * RECIPROCAL SYSTEM NOTIFICATIONS
+   */
+
+  /**
+   * Notify user when they earn points
+   */
+  static async notifyPointsEarned(
+    userId: mongoose.Types.ObjectId,
+    points: number,
+    surveyTitle: string,
+    surveyId: mongoose.Types.ObjectId
+  ): Promise<void> {
+    try {
+      await Notification.create({
+        user_id: userId,
+        type: 'points_earned',
+        title: '🎁 Points Earned!',
+        message: `You earned ${points} points for completing "${surveyTitle}"!`,
+        related_survey_id: surveyId,
+        is_read: false
+      });
+    } catch (error) {
+      console.error('Error creating points earned notification:', error);
+    }
+  }
+
+  /**
+   * Notify survey creator when someone uses their custom link
+   */
+  static async notifyCustomLinkUsed(
+    surveyOwnerId: mongoose.Types.ObjectId,
+    surveyTitle: string,
+    surveyId: mongoose.Types.ObjectId
+  ): Promise<void> {
+    try {
+      await Notification.create({
+        user_id: surveyOwnerId,
+        type: 'custom_link_used',
+        title: '🔗 Custom Link Used',
+        message: `Someone used your custom link to respond to "${surveyTitle}"!`,
+        related_survey_id: surveyId,
+        is_read: false
+      });
+    } catch (error) {
+      console.error('Error creating custom link notification:', error);
+    }
+  }
+
+  /**
+   * Notify survey creator when their survey is boosted
+   */
+  static async notifySurveyBoosted(
+    userId: mongoose.Types.ObjectId,
+    surveyTitle: string,
+    surveyId: mongoose.Types.ObjectId,
+    bonusPoints: number,
+    durationDays: number
+  ): Promise<void> {
+    try {
+      await Notification.create({
+        user_id: userId,
+        type: 'survey_boosted',
+        title: '🚀 Survey Boosted!',
+        message: `Your survey "${surveyTitle}" is now boosted with ${bonusPoints} bonus points for ${durationDays} days!`,
+        related_survey_id: surveyId,
+        is_read: false
+      });
+    } catch (error) {
+      console.error('Error creating survey boosted notification:', error);
+    }
+  }
+
+  /**
+   * Notify user when a response is unlocked
+   */
+  static async notifyResponseUnlocked(
+    userId: mongoose.Types.ObjectId,
+    surveyTitle: string,
+    surveyId: mongoose.Types.ObjectId
+  ): Promise<void> {
+    try {
+      await Notification.create({
+        user_id: userId,
+        type: 'response_unlocked',
+        title: '🔓 Response Unlocked!',
+        message: `A response to your survey "${surveyTitle}" has been unlocked!`,
+        related_survey_id: surveyId,
+        is_read: false
+      });
+    } catch (error) {
+      console.error('Error creating response unlocked notification:', error);
+    }
+  }
+
+  /**
+   * Notify user when their response is locked
+   */
+  static async notifyResponseLocked(
+    surveyOwnerId: mongoose.Types.ObjectId,
+    surveyTitle: string,
+    surveyId: mongoose.Types.ObjectId
+  ): Promise<void> {
+    try {
+      await Notification.create({
+        user_id: surveyOwnerId,
+        type: 'response_locked',
+        title: '🔒 New Locked Response',
+        message: `Someone responded to "${surveyTitle}". Complete other surveys to unlock it!`,
+        related_survey_id: surveyId,
+        is_read: false
+      });
+    } catch (error) {
+      console.error('Error creating response locked notification:', error);
+    }
+  }
+
+  /**
+   * Notify user when boost is about to expire
+   */
+  static async notifyBoostExpiring(
+    userId: mongoose.Types.ObjectId,
+    surveyTitle: string,
+    surveyId: mongoose.Types.ObjectId,
+    hoursRemaining: number
+  ): Promise<void> {
+    try {
+      await Notification.create({
+        user_id: userId,
+        type: 'boost_expiring',
+        title: '⏰ Boost Expiring Soon',
+        message: `Your boost for "${surveyTitle}" expires in ${hoursRemaining} hours!`,
+        related_survey_id: surveyId,
+        is_read: false
+      });
+    } catch (error) {
+      console.error('Error creating boost expiring notification:', error);
+    }
+  }
 }
