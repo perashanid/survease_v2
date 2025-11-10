@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useNotifications } from '../contexts/NotificationContext';
 import { FiBell, FiCheck, FiTrash2, FiCheckCircle } from 'react-icons/fi';
 import './Notifications.css';
 
 interface Notification {
   id: string;
-  type: 'new_survey' | 'survey_contribution' | 'survey_response' | 'system';
+  type: 'new_survey' | 'survey_contribution' | 'survey_response' | 'system' | 'points_earned' | 'response_locked' | 'response_unlocked' | 'reciprocal_complete' | 'custom_link_used' | 'survey_boosted' | 'boost_expiring';
   title: string;
   message: string;
   is_read: boolean;
@@ -24,9 +25,9 @@ interface Notification {
 const Notifications: React.FC = () => {
   const navigate = useNavigate();
   const { isAuthenticated, loading: authLoading } = useAuth();
+  const { unreadCount, refreshUnreadCount, markAsRead: contextMarkAsRead, markAllAsRead: contextMarkAllAsRead } = useNotifications();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
-  const [unreadCount, setUnreadCount] = useState(0);
   const [filter, setFilter] = useState<'all' | 'unread'>('all');
 
   useEffect(() => {
@@ -55,7 +56,7 @@ const Notifications: React.FC = () => {
       if (response.ok) {
         const data = await response.json();
         setNotifications(data.data.notifications);
-        setUnreadCount(data.data.unread_count);
+        // unreadCount is managed by context, no need to set it here
       }
     } catch (err) {
       console.error('Failed to fetch notifications:', err);
@@ -66,18 +67,10 @@ const Notifications: React.FC = () => {
 
   const markAsRead = async (id: string) => {
     try {
-      const token = localStorage.getItem('accessToken');
-      await fetch(`${import.meta.env.VITE_API_BASE_URL}/notifications/${id}/read`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
+      await contextMarkAsRead(id);
       setNotifications(notifications.map(n => 
         n.id === id ? { ...n, is_read: true } : n
       ));
-      setUnreadCount(prev => Math.max(0, prev - 1));
     } catch (err) {
       console.error('Failed to mark notification as read:', err);
     }
@@ -85,16 +78,8 @@ const Notifications: React.FC = () => {
 
   const markAllAsRead = async () => {
     try {
-      const token = localStorage.getItem('accessToken');
-      await fetch(`${import.meta.env.VITE_API_BASE_URL}/notifications/read-all`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
+      await contextMarkAllAsRead();
       setNotifications(notifications.map(n => ({ ...n, is_read: true })));
-      setUnreadCount(0);
     } catch (err) {
       console.error('Failed to mark all as read:', err);
     }
