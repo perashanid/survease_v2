@@ -1,0 +1,209 @@
+.locked-responses-list {
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 8px 32px var(--color-shadow-light);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.locked-responses-list::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-primary);
+}
+
+.locked-responses-list:hover {
+  box-shadow: 0 24px 64px var(--color-shadow-medium);
+  transform: translateY(-4px);
+  border-color: var(--color-primary);
+}
+
+.locked-responses-list h3 {
+  margin: 0 0 8px 0;
+  color: var(--color-text-primary);
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.locked-responses-description {
+  color: var(--color-text-secondary);
+  margin-bottom: 24px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.locked-responses-loading,
+.locked-responses-error,
+.locked-responses-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+.locked-responses-error {
+  color: var(--color-error);
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 12px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.locked-responses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.locked-response-card {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.locked-response-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 8px 24px var(--color-shadow-light);
+  transform: translateY(-4px);
+}
+
+.locked-response-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.7;
+  color: var(--color-text-muted);
+}
+
+.locked-response-info {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.locked-response-date {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 8px 0;
+  font-size: 16px;
+}
+
+.locked-response-type {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.unlock-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 16px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  box-shadow: 0 8px 24px rgba(74, 222, 128, 0.3);
+}
+
+.unlock-button:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(74, 222, 128, 0.4);
+}
+
+.unlock-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 768px) {
+  .locked-responses-list {
+    padding: 24px;
+  }
+
+  .locked-responses-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* Light mode specific styling */
+:root[data-theme="light"] .locked-responses-list {
+  background: linear-gradient(135deg, #f7fee7 0%, #ecfdf5 100%);
+  border: 1px solid #d1fae5;
+  box-shadow: 0 8px 32px rgba(134, 239, 172, 0.1);
+}
+
+:root[data-theme="light"] .locked-responses-list:hover {
+  box-shadow: 0 24px 64px rgba(134, 239, 172, 0.2);
+  border-color: #86efac;
+}
+
+:root[data-theme="light"] .locked-responses-list h3 {
+  color: #0f172a;
+}
+
+:root[data-theme="light"] .locked-responses-description {
+  color: #475569;
+}
+
+:root[data-theme="light"] .locked-response-card {
+  background: #ffffff;
+  border: 2px solid #d1fae5;
+}
+
+:root[data-theme="light"] .locked-response-card:hover {
+  border-color: #86efac;
+  box-shadow: 0 8px 24px rgba(134, 239, 172, 0.1);
+}
+
+:root[data-theme="light"] .locked-response-date {
+  color: #0f172a;
+}
+
+:root[data-theme="light"] .locked-response-type {
+  color: #64748b;
+}
+
+:root[data-theme="light"] .locked-response-icon {
+  color: #94a3b8;
+}
+
+
+/* Dark mode specific styling */
+:root[data-theme="dark"] .locked-responses-list {
+  background: #1e293b;
+  border: 1px solid #475569;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+:root[data-theme="dark"] .locked-responses-list:hover {
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+  border-color: #86efac;
+}
+
+:root[data-theme="dark"] .locked-response-card {
+  background: #334155;
+  border: 2px solid #475569;
+}
+
+:root[data-theme="dark"] .locked-response-card:hover {
+  border-color: #86efac;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}

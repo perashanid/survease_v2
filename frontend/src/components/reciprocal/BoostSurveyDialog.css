@@ -1,0 +1,246 @@
+.boost-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.boost-dialog {
+  background: white;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.boost-dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.boost-dialog-header h2 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.5rem;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #6c757d;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+}
+
+.close-button:hover {
+  color: #2c3e50;
+}
+
+.boost-dialog-content {
+  padding: 1.5rem;
+}
+
+.current-boost-info {
+  background: #d4edda;
+  border: 2px solid #c3e6cb;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  color: #155724;
+}
+
+.current-boost-info p {
+  margin: 0.25rem 0;
+}
+
+.boost-explanation {
+  background: #e7f3ff;
+  border-left: 4px solid #007bff;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+}
+
+.boost-explanation p {
+  margin: 0;
+  color: #004085;
+}
+
+.points-balance {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
+.points-balance strong {
+  color: #007bff;
+  font-size: 1.3rem;
+}
+
+.boost-config {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.config-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.config-field label {
+  font-weight: 600;
+  color: #495057;
+}
+
+.config-field input {
+  padding: 0.75rem;
+  border: 2px solid #e9ecef;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.config-field input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.field-hint {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+.boost-cost {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.cost-breakdown {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  color: #495057;
+}
+
+.cost-total {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  margin-top: 0.5rem;
+  border-top: 2px solid #dee2e6;
+  font-size: 1.1rem;
+}
+
+.cost-total strong {
+  font-size: 1.3rem;
+}
+
+.cost-total .affordable {
+  color: #28a745;
+}
+
+.cost-total .too-expensive {
+  color: #dc3545;
+}
+
+.insufficient-points {
+  background: #f8d7da;
+  border: 2px solid #f5c6cb;
+  color: #721c24;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.boost-dialog-actions {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  border-top: 2px solid #e9ecef;
+}
+
+.boost-dialog-actions button {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-button {
+  background: #6c757d;
+  color: white;
+}
+
+.cancel-button:hover {
+  background: #5a6268;
+}
+
+.boost-button {
+  background: #007bff;
+  color: white;
+}
+
+.boost-button:hover:not(:disabled) {
+  background: #0056b3;
+}
+
+.boost-button:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.remove-boost-button {
+  background: #dc3545;
+  color: white;
+}
+
+.remove-boost-button:hover:not(:disabled) {
+  background: #c82333;
+}
+
+.remove-boost-button:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  .boost-dialog {
+    margin: 0;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  .boost-dialog-actions {
+    flex-direction: column;
+  }
+}

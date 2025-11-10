@@ -1,0 +1,203 @@
+.points-history {
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 8px 32px var(--color-shadow-light);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.points-history::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-primary);
+}
+
+.points-history:hover {
+  box-shadow: 0 24px 64px var(--color-shadow-medium);
+  transform: translateY(-4px);
+  border-color: var(--color-primary);
+}
+
+.points-history h3 {
+  margin: 0 0 24px 0;
+  color: var(--color-text-primary);
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.points-history-loading,
+.points-history-error,
+.points-history-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+.points-history-error {
+  color: var(--color-error);
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 12px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.transactions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.transaction-item {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transaction-item:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 8px 24px var(--color-shadow-light);
+  transform: translateX(4px);
+}
+
+.transaction-item.positive {
+  border-left: 4px solid var(--color-success);
+}
+
+.transaction-item.negative {
+  border-left: 4px solid var(--color-error);
+}
+
+.transaction-item.neutral {
+  border-left: 4px solid var(--color-info);
+}
+
+.transaction-icon {
+  font-size: 32px;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.transaction-details {
+  flex: 1;
+}
+
+.transaction-description {
+  margin: 0 0 4px 0;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-size: 16px;
+}
+
+.transaction-date {
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+.transaction-amount {
+  font-size: 20px;
+  font-weight: 700;
+  min-width: 80px;
+  text-align: right;
+}
+
+.transaction-amount.positive {
+  color: var(--color-success);
+}
+
+.transaction-amount.negative {
+  color: var(--color-error);
+}
+
+@media (max-width: 768px) {
+  .points-history {
+    padding: 24px;
+  }
+
+  .transaction-item {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    padding: 16px;
+  }
+
+  .transaction-amount {
+    align-self: flex-end;
+    font-size: 18px;
+  }
+
+  .transaction-icon {
+    font-size: 28px;
+  }
+}
+
+
+/* Light mode specific styling */
+:root[data-theme="light"] .points-history {
+  background: linear-gradient(135deg, #f7fee7 0%, #ecfdf5 100%);
+  border: 1px solid #d1fae5;
+  box-shadow: 0 8px 32px rgba(134, 239, 172, 0.1);
+}
+
+:root[data-theme="light"] .points-history:hover {
+  box-shadow: 0 24px 64px rgba(134, 239, 172, 0.2);
+  border-color: #86efac;
+}
+
+:root[data-theme="light"] .points-history h3 {
+  color: #0f172a !important;
+}
+
+:root[data-theme="light"] .transaction-item {
+  background: #ffffff;
+  border: 2px solid #d1fae5;
+}
+
+:root[data-theme="light"] .transaction-item:hover {
+  border-color: #86efac;
+  box-shadow: 0 8px 24px rgba(134, 239, 172, 0.1);
+}
+
+:root[data-theme="light"] .transaction-description {
+  color: #0f172a !important;
+}
+
+:root[data-theme="light"] .transaction-date {
+  color: #64748b !important;
+}
+
+
+/* Dark mode specific styling */
+:root[data-theme="dark"] .points-history {
+  background: #1e293b;
+  border: 1px solid #475569;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+:root[data-theme="dark"] .points-history:hover {
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+  border-color: #86efac;
+}
+
+:root[data-theme="dark"] .transaction-item {
+  background: #334155;
+  border: 2px solid #475569;
+}
+
+:root[data-theme="dark"] .transaction-item:hover {
+  border-color: #86efac;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
