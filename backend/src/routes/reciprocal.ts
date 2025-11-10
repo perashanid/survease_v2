@@ -310,12 +310,15 @@ router.get('/boosted-surveys', async (req: Request, res: Response) => {
 // Get user points
 router.get('/users/points', authenticateToken, async (req: Request, res: Response) => {
   try {
-    const userId = (req as any).user.userId;
+    const userId = req.user!.id;
+    console.log(`[Points API] Fetching points for user: ${userId}`);
     
     const [points, recentTransactions] = await Promise.all([
       PointsService.getUserPoints(new mongoose.Types.ObjectId(userId)),
       PointsService.getPointsHistory(new mongoose.Types.ObjectId(userId), 10)
     ]);
+    
+    console.log(`[Points API] User ${userId} points:`, points.total_points);
     
     res.json({
       success: true,
@@ -333,7 +336,7 @@ router.get('/users/points', authenticateToken, async (req: Request, res: Respons
 // Get points history
 router.get('/users/points/history', authenticateToken, async (req: Request, res: Response) => {
   try {
-    const userId = (req as any).user.userId;
+    const userId = req.user!.id;
     const limit = parseInt(req.query.limit as string) || 50;
     
     const transactions = await PointsService.getPointsHistory(
