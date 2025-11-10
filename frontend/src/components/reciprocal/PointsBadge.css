@@ -1,0 +1,49 @@
+.points-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border-radius: 20px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.points-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.points-icon {
+  font-size: 1.2rem;
+  animation: pulse 2s infinite;
+}
+
+.points-value {
+  font-size: 1rem;
+  min-width: 30px;
+  text-align: center;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@media (max-width: 768px) {
+  .points-badge {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .points-icon {
+    font-size: 1rem;
+  }
+}
