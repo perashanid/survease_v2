@@ -13,13 +13,14 @@
 }
 
 .boost-dialog {
-  background: white;
-  border-radius: 12px;
+  background: var(--color-surface-elevated);
+  border-radius: 16px;
   max-width: 500px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 40px var(--color-shadow-medium);
+  border: 1px solid var(--color-border);
 }
 
 .boost-dialog-header {
@@ -27,29 +28,41 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem;
-  border-bottom: 2px solid #e9ecef;
+  border-bottom: 2px solid var(--color-border);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  border-radius: 16px 16px 0 0;
 }
 
 .boost-dialog-header h2 {
   margin: 0;
-  color: #2c3e50;
+  color: white;
   font-size: 1.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .close-button {
-  background: none;
+  background: rgba(255, 255, 255, 0.2);
   border: none;
-  font-size: 2rem;
-  color: #6c757d;
+  font-size: 1.5rem;
+  color: white;
   cursor: pointer;
   line-height: 1;
   padding: 0;
   width: 32px;
   height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
 .close-button:hover {
-  color: #2c3e50;
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
 }
 
 .boost-dialog-content {
@@ -57,45 +70,49 @@
 }
 
 .current-boost-info {
-  background: #d4edda;
-  border: 2px solid #c3e6cb;
-  border-radius: 8px;
+  background: var(--color-primary-50);
+  border: 2px solid var(--color-primary-200);
+  border-radius: 12px;
   padding: 1rem;
   margin-bottom: 1.5rem;
-  color: #155724;
+  color: var(--color-primary-dark);
 }
 
 .current-boost-info p {
   margin: 0.25rem 0;
+  color: var(--color-text-primary);
 }
 
 .boost-explanation {
-  background: #e7f3ff;
-  border-left: 4px solid #007bff;
+  background: var(--color-primary-50);
+  border-left: 4px solid var(--color-primary);
   padding: 1rem;
   margin-bottom: 1.5rem;
-  border-radius: 4px;
+  border-radius: 8px;
 }
 
 .boost-explanation p {
   margin: 0;
-  color: #004085;
+  color: var(--color-text-secondary);
 }
 
 .points-balance {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  background: #f8f9fa;
-  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  background: var(--gradient-primary);
+  border-radius: 12px;
   margin-bottom: 1.5rem;
   font-size: 1.1rem;
+  color: white;
+  box-shadow: 0 4px 12px rgba(74, 222, 128, 0.3);
 }
 
 .points-balance strong {
-  color: #007bff;
-  font-size: 1.3rem;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 800;
 }
 
 .boost-config {
@@ -113,38 +130,43 @@
 
 .config-field label {
   font-weight: 600;
-  color: #495057;
+  color: var(--color-text-primary);
 }
 
 .config-field input {
   padding: 0.75rem;
-  border: 2px solid #e9ecef;
-  border-radius: 6px;
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
   font-size: 1rem;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  transition: all 0.2s ease;
 }
 
 .config-field input:focus {
   outline: none;
-  border-color: #007bff;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-50);
 }
 
 .field-hint {
   font-size: 0.85rem;
-  color: #6c757d;
+  color: var(--color-text-muted);
 }
 
 .boost-cost {
-  background: #f8f9fa;
-  border-radius: 8px;
-  padding: 1rem;
+  background: var(--color-surface);
+  border-radius: 12px;
+  padding: 1.25rem;
   margin-bottom: 1rem;
+  border: 1px solid var(--color-border);
 }
 
 .cost-breakdown {
   display: flex;
   justify-content: space-between;
   padding: 0.5rem 0;
-  color: #495057;
+  color: var(--color-text-secondary);
 }
 
 .cost-total {
@@ -152,85 +174,114 @@
   justify-content: space-between;
   padding: 0.75rem 0;
   margin-top: 0.5rem;
-  border-top: 2px solid #dee2e6;
+  border-top: 2px solid var(--color-border);
   font-size: 1.1rem;
+  color: var(--color-text-primary);
 }
 
 .cost-total strong {
-  font-size: 1.3rem;
+  font-size: 1.5rem;
+  font-weight: 800;
 }
 
 .cost-total .affordable {
-  color: #28a745;
+  color: var(--color-primary);
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .cost-total .too-expensive {
-  color: #dc3545;
+  color: var(--color-error);
 }
 
 .insufficient-points {
-  background: #f8d7da;
-  border: 2px solid #f5c6cb;
-  color: #721c24;
+  background: rgba(239, 68, 68, 0.1);
+  border: 2px solid rgba(239, 68, 68, 0.3);
+  color: var(--color-error);
   padding: 1rem;
-  border-radius: 8px;
+  border-radius: 12px;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .boost-dialog-actions {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.75rem;
   padding: 1.5rem;
-  border-top: 2px solid #e9ecef;
+  border-top: 2px solid var(--color-border);
+  background: var(--color-surface);
 }
 
 .boost-dialog-actions button {
   flex: 1;
-  padding: 0.75rem;
+  padding: 0.875rem 1.5rem;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
   font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .cancel-button {
-  background: #6c757d;
-  color: white;
+  background: var(--color-surface-elevated);
+  color: var(--color-text-secondary);
+  border: 2px solid var(--color-border);
 }
 
 .cancel-button:hover {
-  background: #5a6268;
+  background: var(--color-surface);
+  border-color: var(--color-text-muted);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--color-shadow-light);
 }
 
 .boost-button {
-  background: #007bff;
+  background: var(--gradient-primary);
   color: white;
+  box-shadow: 0 4px 12px rgba(74, 222, 128, 0.3);
 }
 
 .boost-button:hover:not(:disabled) {
-  background: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(74, 222, 128, 0.4);
 }
 
 .boost-button:disabled {
-  background: #6c757d;
+  background: var(--color-border);
+  color: var(--color-text-muted);
   cursor: not-allowed;
   opacity: 0.6;
+  box-shadow: none;
 }
 
 .remove-boost-button {
-  background: #dc3545;
+  background: var(--color-error);
   color: white;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
 .remove-boost-button:hover:not(:disabled) {
-  background: #c82333;
+  background: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
 }
 
 .remove-boost-button:disabled {
-  background: #6c757d;
+  background: var(--color-border);
+  color: var(--color-text-muted);
   cursor: not-allowed;
   opacity: 0.6;
+  box-shadow: none;
 }
 
 @media (max-width: 768px) {
