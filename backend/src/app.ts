@@ -20,6 +20,7 @@ validateEnvironment();
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import compression from 'compression';
 import rateLimit from 'express-rate-limit';
 import path from 'path';
 import { connectDatabase } from './config/database';
@@ -30,6 +31,17 @@ const PORT = process.env.PORT || 8000;
 
 // Trust proxy only for Render's IPs
 app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']);
+
+// Compression middleware - compress all responses
+app.use(compression({
+  filter: (req, res) => {
+    if (req.headers['x-no-compression']) {
+      return false;
+    }
+    return compression.filter(req, res);
+  },
+  level: 6 // Balance between speed and compression ratio
+}));
 
 // Security middleware with relaxed CSP for production
 app.use(helmet({
@@ -104,6 +116,7 @@ import predictionsRoutes from './routes/predictions';
 import notificationRoutes from './routes/notifications';
 import profileRoutes from './routes/profile';
 import adminRoutes from './routes/admin';
+import reciprocalRoutes from './routes/reciprocal';
 
 // API routes with /api prefix
 app.use('/api/health', healthRoutes);
@@ -122,6 +135,7 @@ app.use('/api/attention', attentionRoutes);
 app.use('/api/predictions', predictionsRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/profile', profileRoutes);
+app.use('/api', reciprocalRoutes);
 
 // Serve static files from frontend build (for production)
 if (process.env.NODE_ENV === 'production') {
