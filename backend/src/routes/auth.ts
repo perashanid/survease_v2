@@ -3,6 +3,7 @@ import Joi from 'joi';
 import { User } from '../models';
 import { AuthUtils } from '../utils/auth';
 import { authenticateToken } from '../middleware/auth';
+import { PointsService } from '../services/PointsService';
 
 const router = express.Router();
 
@@ -85,8 +86,11 @@ router.post('/register', async (req: Request, res: Response): Promise<void> => {
 
     await user.save();
 
-    // Generate tokens
+    // Initialize user points with welcome bonus
     const userId = (user._id as any).toString();
+    await PointsService.initializeUserPoints(user._id as any);
+
+    // Generate tokens
     const accessToken = AuthUtils.generateAccessToken(userId, user.email);
     const refreshToken = AuthUtils.generateRefreshToken(userId, user.email);
 
