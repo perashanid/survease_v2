@@ -251,8 +251,8 @@ export class NotificationService {
   ): Promise<void> {
     try {
       const message = respondentName 
-        ? `${respondentName} completed your survey "${surveyTitle}". Contribute to their survey to unlock the response!`
-        : `Someone completed your survey "${surveyTitle}". Complete other surveys to unlock it!`;
+        ? `${respondentName} responded to your survey "${surveyTitle}". Fill out their survey to register and view this response!`
+        : `Someone responded to your survey "${surveyTitle}". Complete other surveys to register and view this response!`;
       
       await Notification.create({
         user_id: surveyOwnerId,
@@ -285,8 +285,8 @@ export class NotificationService {
       await Notification.create({
         user_id: user1Id,
         type: 'reciprocal_complete',
-        title: '🎉 Reciprocal Exchange Complete!',
-        message: `You and another user have completed each other's surveys. Both responses are now unlocked!`,
+        title: '🎉 Response Registered!',
+        message: `Your response has been registered! The survey owner completed your survey. Both responses are now unlocked and viewable.`,
         related_survey_id: user1SurveyId, // Their own survey (to view analytics)
         related_user_id: user2Id,
         is_read: false
@@ -296,8 +296,8 @@ export class NotificationService {
       await Notification.create({
         user_id: user2Id,
         type: 'reciprocal_complete',
-        title: '🎉 Reciprocal Exchange Complete!',
-        message: `You and another user have completed each other's surveys. Both responses are now unlocked!`,
+        title: '🎉 Response Unlocked!',
+        message: `You completed the respondent's survey! The response to your survey is now registered and unlocked.`,
         related_survey_id: user2SurveyId, // Their own survey (to view analytics)
         related_user_id: user1Id,
         is_read: false

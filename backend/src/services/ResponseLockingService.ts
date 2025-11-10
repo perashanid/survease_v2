@@ -265,12 +265,12 @@ export class ResponseLockingService {
       // Send reciprocal complete notifications to both users
       if (response.user_id && survey) {
         await NotificationService.notifyReciprocalComplete(
-          creatorId,
           response.user_id as mongoose.Types.ObjectId,
-          survey.title,
+          creatorId,
           completedSurvey.title,
-          response.survey_id as mongoose.Types.ObjectId,
-          completedSurveyId
+          survey.title,
+          completedSurveyId,
+          response.survey_id as mongoose.Types.ObjectId
         );
       } else {
         // Fallback to individual unlock notifications if no respondent ID
