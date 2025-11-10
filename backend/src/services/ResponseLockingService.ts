@@ -87,20 +87,23 @@ export class ResponseLockingService {
         { session }
       );
       
-      // Send notification to survey creator
+      // Send notification to survey creator with respondent info
+      let respondentName: string | undefined;
       if (respondentId) {
-        await NotificationService.notifyResponseLocked(
-          survey.user_id as mongoose.Types.ObjectId,
-          survey.title,
-          surveyId
-        );
-      } else {
-        await NotificationService.notifyResponseLocked(
-          survey.user_id as mongoose.Types.ObjectId,
-          survey.title,
-          surveyId
-        );
+        const { User } = await import('../models');
+        const respondent = await User.findById(respondentId);
+        respondentName = respondent 
+          ? `${respondent.first_name || ''} ${respondent.last_name || ''}`.trim() || respondent.email
+          : undefined;
       }
+      
+      await NotificationService.notifyResponseLocked(
+        survey.user_id as mongoose.Types.ObjectId,
+        survey.title,
+        surveyId,
+        respondentId || undefined,
+        respondentName
+      );
       
       await session.commitTransaction();
       return response[0];
@@ -251,20 +254,24 @@ export class ResponseLockingService {
         );
       }
       
-      // Send notifications
-      if (response.user_id) {
-        await NotificationService.notifyResponseUnlocked(
+      // Send reciprocal complete notifications to both users
+      if (response.user_id && survey) {
+        await NotificationService.notifyReciprocalComplete(
+          creatorId,
           response.user_id as mongoose.Types.ObjectId,
+          survey.title,
+          completedSurvey.title,
+          response.survey_id as mongoose.Types.ObjectId,
+          completedSurveyId
+        );
+      } else {
+        // Fallback to individual unlock notifications if no respondent ID
+        await NotificationService.notifyResponseUnlocked(
+          creatorId,
           survey?.title || 'Survey',
           response.survey_id as mongoose.Types.ObjectId
         );
       }
-      
-      await NotificationService.notifyResponseUnlocked(
-        creatorId,
-        survey?.title || 'Survey',
-        response.survey_id as mongoose.Types.ObjectId
-      );
       
       await session.commitTransaction();
       return unlock[0];
