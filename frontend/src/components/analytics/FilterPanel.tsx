@@ -19,6 +19,8 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
   onFilterChange,
   onReset
 }) => {
+  const [selectedPeriod, setSelectedPeriod] = React.useState<string | null>(null);
+
   const handleDateChange = (field: 'start' | 'end', value: string) => {
     const newDateRange = {
       start: filters.dateRange?.start || new Date(),
@@ -26,10 +28,20 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
       [field]: new Date(value)
     };
     onFilterChange({ ...filters, dateRange: newDateRange });
+    setSelectedPeriod(null); // Clear quick select when manually changing dates
   };
 
   const handleSearchChange = (value: string) => {
     onFilterChange({ ...filters, searchQuery: value });
+  };
+
+  const handleQuickDateRange = (days: number, label: string) => {
+    const end = new Date();
+    const start = new Date();
+    start.setDate(start.getDate() - days);
+    
+    onFilterChange({ ...filters, dateRange: { start, end } });
+    setSelectedPeriod(label);
   };
 
   const hasActiveFilters = (): boolean => {
@@ -64,6 +76,34 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
             Reset All
           </button>
         )}
+      </div>
+
+      {/* Quick Date Range Buttons */}
+      <div className="quick-date-range">
+        <button
+          className={`quick-date-btn ${selectedPeriod === '7' ? 'active' : ''}`}
+          onClick={() => handleQuickDateRange(7, '7')}
+        >
+          7 Days
+        </button>
+        <button
+          className={`quick-date-btn ${selectedPeriod === '30' ? 'active' : ''}`}
+          onClick={() => handleQuickDateRange(30, '30')}
+        >
+          30 Days
+        </button>
+        <button
+          className={`quick-date-btn ${selectedPeriod === '90' ? 'active' : ''}`}
+          onClick={() => handleQuickDateRange(90, '90')}
+        >
+          90 Days
+        </button>
+        <button
+          className={`quick-date-btn ${selectedPeriod === '365' ? 'active' : ''}`}
+          onClick={() => handleQuickDateRange(365, '365')}
+        >
+          1 Year
+        </button>
       </div>
 
       <div className="filter-grid">

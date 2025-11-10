@@ -417,7 +417,7 @@
   }
 
   .admin-tabs {
-    overflow-x: auto;
+    flex-wrap: wrap;
   }
 
   .tab-button {
@@ -433,12 +433,8 @@
     flex-direction: column;
   }
 
-  .surveys-table {
-    overflow-x: auto;
-  }
-
   .surveys-table table {
-    min-width: 800px;
+    width: 100%;
   }
 
   .top-survey-item {

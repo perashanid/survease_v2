@@ -6,30 +6,19 @@
   padding: 32px 24px;
   background: transparent;
   min-height: 100vh;
-  overflow-x: hidden;
   width: 100%;
-  max-width: 100vw;
   box-sizing: border-box;
-}
-
-/* Hide horizontal scrollbar */
-.advanced-analytics::-webkit-scrollbar-x {
-  display: none;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Prevent horizontal scroll globally */
-* {
+.advanced-analytics *,
+.advanced-analytics *::before,
+.advanced-analytics *::after {
   box-sizing: border-box;
-}
-
-.advanced-analytics * {
-  max-width: 100%;
-}
-
-/* Ensure no element causes horizontal overflow */
-.advanced-analytics > * {
-  max-width: 100%;
-  overflow-x: hidden;
 }
 
 /* ===== HEADER SECTION ===== */
@@ -40,6 +29,8 @@
   margin-bottom: 40px;
   padding-bottom: 24px;
   border-bottom: 2px solid var(--color-border-light);
+  width: 100%;
+  max-width: 100%;
 }
 
 .analytics-page-title {
@@ -66,12 +57,16 @@
   gap: 4px;
   margin-bottom: 32px;
   border-bottom: 2px solid var(--color-border);
-  overflow-x: auto;
   padding: 0;
   background: transparent;
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-primary-200) transparent;
   flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  align-self: stretch;
 }
 
 .analytics-tabs::-webkit-scrollbar {
@@ -83,8 +78,12 @@
 }
 
 .analytics-tabs::-webkit-scrollbar-thumb {
-  background: var(--color-primary-200);
+  background: var(--color-border);
   border-radius: 2px;
+}
+
+.analytics-tabs::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
 }
 
 .tab-button {
@@ -151,8 +150,14 @@
 
 /* ===== CONTENT SECTION ===== */
 .analytics-content {
-  margin-top: 32px;
+  margin-top: 0;
   animation: fadeIn 0.4s ease-out;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 @keyframes fadeIn {
@@ -170,33 +175,46 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  align-items: center;
+}
+
+.analytics-section > * {
+  width: 100%;
+  max-width: 100%;
 }
 
 /* ===== METRIC CARDS ===== */
 .metric-cards {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
   margin-bottom: 32px;
-  flex-wrap: wrap;
   width: 100%;
-  overflow-x: hidden;
+  max-width: 100%;
+  overflow: visible;
+  justify-items: center;
 }
 
 .metric-card {
   background: var(--color-surface-elevated);
   border-radius: 16px;
-  padding: 28px 24px;
+  padding: 20px 16px;
   box-shadow: 0 2px 8px var(--color-shadow-light);
-  border: 1px solid var(--color-border);
+  border: 2px solid var(--color-border);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
   position: relative;
   overflow: hidden;
-  flex: 1;
-  min-width: 0;
+  min-height: 130px;
+  gap: 8px;
+  width: 100%;
 }
 
 .metric-card::before {
@@ -222,19 +240,20 @@
 }
 
 .metric-label {
-  font-size: 11px;
-  color: var(--color-text-muted);
-  font-weight: 700;
-  margin-bottom: 16px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  margin: 0;
   text-transform: uppercase;
-  letter-spacing: 1.2px;
+  letter-spacing: 0.8px;
+  line-height: 1.2;
 }
 
 .metric-value {
-  font-size: 36px;
+  font-size: 32px;
   font-weight: 800;
   color: var(--color-text-primary);
-  margin-bottom: 12px;
+  margin: 0;
   line-height: 1;
   letter-spacing: -0.5px;
 }
@@ -244,22 +263,23 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--color-text-muted);
-  margin-top: 4px;
+  margin: 0;
+  min-height: 24px;
 }
 
 /* ===== CHART CARDS ===== */
 .chart-card {
   background: var(--color-surface-elevated);
   border-radius: 16px;
-  padding: 28px;
+  padding: 24px;
   box-shadow: 0 2px 12px var(--color-shadow-light);
   border: 1px solid var(--color-border);
   transition: all 0.3s ease;
   width: 100%;
-  overflow-x: hidden;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .chart-card:hover {
@@ -287,10 +307,23 @@
 /* ===== CHART GRID ===== */
 .chart-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(450px, 100%), 1fr));
+  grid-template-columns: 1fr;
   gap: 24px;
   width: 100%;
-  overflow-x: hidden;
+  max-width: 100%;
+  overflow: visible;
+  justify-items: center;
+}
+
+.chart-grid > * {
+  width: 100%;
+  max-width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .chart-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 /* ===== LOADING & ERROR STATES ===== */
@@ -319,14 +352,12 @@
   
   .advanced-analytics {
     padding: 24px 16px;
-    overflow-x: hidden;
   }
 }
 
 @media (max-width: 768px) {
   .advanced-analytics {
-    padding: 20px 12px;
-    overflow-x: hidden;
+    padding: 20px 16px;
   }
 
   .analytics-page-header {
@@ -336,7 +367,7 @@
   }
 
   .analytics-page-title {
-    font-size: 26px;
+    font-size: 24px;
     word-break: break-word;
   }
 
@@ -345,33 +376,43 @@
   }
 
   .metric-cards {
-    flex-direction: column;
-    gap: 16px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
     width: 100%;
   }
 
   .metric-card {
-    padding: 24px 20px;
+    padding: 16px 12px;
     width: 100%;
+    min-height: 110px;
+  }
+
+  .metric-label {
+    font-size: 10px;
   }
 
   .metric-value {
-    font-size: 32px;
+    font-size: 24px;
+  }
+
+  .metric-trend {
+    font-size: 10px;
+    min-height: 18px;
   }
 
   .chart-card {
-    padding: 20px;
+    padding: 16px;
     width: 100%;
   }
 
   .chart-card h3 {
-    font-size: 18px;
+    font-size: 16px;
     word-break: break-word;
   }
   
   .chart-grid {
     width: 100%;
-    overflow-x: hidden;
+    grid-template-columns: 1fr;
   }
 
   /* Mobile tabs - wrap into consistent rows */
@@ -384,15 +425,15 @@
   }
 
   .tab-button {
-    padding: 10px 14px;
-    font-size: 12px;
+    padding: 10px 12px;
+    font-size: 11px;
     border-radius: 8px;
     border: 2px solid var(--color-border);
     flex: 1 1 calc(50% - 3px);
     min-width: calc(50% - 3px);
     max-width: calc(50% - 3px);
     justify-content: center;
-    gap: 6px;
+    gap: 4px;
   }
   
   .tab-button::before {
@@ -410,54 +451,60 @@
   }
 
   .tab-button svg {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
   }
 }
 
 @media (max-width: 480px) {
   .advanced-analytics {
-    padding: 16px 10px;
-    overflow-x: hidden;
+    padding: 16px 12px;
   }
   
   .analytics-page-title {
-    font-size: 22px;
+    font-size: 20px;
     word-break: break-word;
   }
 
+  .metric-cards {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
   .metric-value {
-    font-size: 28px;
+    font-size: 22px;
   }
   
   .metric-card {
-    padding: 20px 16px;
+    padding: 16px 12px;
     width: 100%;
+    min-height: 100px;
   }
   
   .chart-card {
-    padding: 16px;
+    padding: 14px;
     width: 100%;
   }
 
   .analytics-tabs {
-    gap: 8px;
+    gap: 6px;
     padding-bottom: 8px;
     width: 100%;
+    overflow-x: visible;
   }
 
   .tab-button {
-    padding: 10px 12px;
-    font-size: 11px;
-    flex: 1 1 calc(50% - 4px);
-    min-width: calc(50% - 4px);
-    max-width: calc(50% - 4px);
-    gap: 4px;
+    padding: 10px 10px;
+    font-size: 10px;
+    flex: 1 1 calc(50% - 3px);
+    min-width: calc(50% - 3px);
+    max-width: calc(50% - 3px);
+    gap: 3px;
   }
 
   .tab-button svg {
-    width: 12px;
-    height: 12px;
+    width: 11px;
+    height: 11px;
   }
 }
 
@@ -531,6 +578,8 @@
   background: var(--color-surface-elevated);
   border-radius: 12px;
   border: 1px solid var(--color-border);
+  width: 100%;
+  max-width: 100%;
 }
 
 .section-toggle-buttons {
@@ -564,6 +613,8 @@
   border: 1px solid var(--color-border);
   overflow: hidden;
   transition: all 0.3s ease;
+  width: 100%;
+  max-width: 100%;
 }
 
 .analytics-section-wrapper:hover {
@@ -691,69 +742,64 @@
   outline: 3px solid var(--color-primary-200);
   outline-offset: 2px;
 }
-/* ===
-== FORCE NO HORIZONTAL SCROLL ===== */
-/* This is a comprehensive fix to prevent any horizontal scrolling */
+/* ===== FORCE NO HORIZONTAL SCROLL ===== */
+/* Prevent horizontal scrolling on main containers */
+body {
+  overflow-x: hidden;
+}
 
 .advanced-analytics,
-.advanced-analytics *,
 .analytics-page-header,
-.analytics-tabs,
 .analytics-content,
 .analytics-section,
 .metric-cards,
-.metric-card,
 .chart-grid,
 .chart-card,
 .analytics-section-wrapper {
-  max-width: 100% !important;
-  overflow-x: hidden !important;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
-/* Hide all horizontal scrollbars */
-.advanced-analytics::-webkit-scrollbar-x,
-.analytics-content::-webkit-scrollbar-x,
-.chart-card::-webkit-scrollbar-x {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
+/* Allow only tabs to scroll horizontally if needed */
+.analytics-tabs {
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
-/* For Firefox */
-.advanced-analytics,
-.analytics-content,
-.chart-card {
-  scrollbar-width: none !important;
-}
-
-/* Ensure tables scroll within their containers, not the page */
+/* Ensure tables scroll within their containers */
 .question-table-container,
 .predictions-table-container,
 .responses-table,
 .comparison-table-container {
-  overflow-x: auto !important;
-  max-width: 100% !important;
+  overflow-x: auto;
+  max-width: 100%;
   -webkit-overflow-scrolling: touch;
 }
 
-/* But hide the scrollbar for table containers too */
 .question-table-container::-webkit-scrollbar,
 .predictions-table-container::-webkit-scrollbar,
-.responses-table::-webkit-scrollbar {
+.responses-table::-webkit-scrollbar,
+.comparison-table-container::-webkit-scrollbar {
   height: 6px;
 }
 
 .question-table-container::-webkit-scrollbar-thumb,
 .predictions-table-container::-webkit-scrollbar-thumb,
-.responses-table::-webkit-scrollbar-thumb {
+.responses-table::-webkit-scrollbar-thumb,
+.comparison-table-container::-webkit-scrollbar-thumb {
   background: var(--color-border);
   border-radius: 3px;
 }
 
-/* Ensure recharts components don't overflow */
+/* Ensure recharts components fit properly */
 .recharts-wrapper,
 .recharts-surface,
 .recharts-responsive-container {
-  max-width: 100% !important;
-  overflow: hidden !important;
+  max-width: 100%;
+  overflow: visible;
+}
+
+/* Ensure recharts doesn't cause overflow */
+.recharts-wrapper svg {
+  overflow: visible;
 }
