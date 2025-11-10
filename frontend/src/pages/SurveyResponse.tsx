@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { SurveyService, Survey } from '../services/surveyService';
 import { useAuth } from '../contexts/AuthContext';
+import { useNotifications } from '../contexts/NotificationContext';
 import { timeTrackingService } from '../services/timeTrackingService';
 import { detectDevice } from '../utils/deviceDetection';
 import AuthModal from '../components/auth/AuthModal';
@@ -16,6 +17,7 @@ const SurveyResponse: React.FC = () => {
   const { slug, token } = useParams<{ slug?: string; token?: string }>();
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
+  const { refreshUnreadCount } = useNotifications();
   
   // Get invitation token from URL parameters
   const urlParams = new URLSearchParams(window.location.search);
@@ -214,10 +216,14 @@ const SurveyResponse: React.FC = () => {
       console.log('[SurveyResponse] Dispatching pointsUpdated event (immediate)');
       window.dispatchEvent(new Event('pointsUpdated'));
       
+      // Refresh notification count
+      refreshUnreadCount();
+      
       // Also dispatch after a short delay to ensure backend processing is complete
       setTimeout(() => {
         console.log('[SurveyResponse] Dispatching pointsUpdated event (delayed)');
         window.dispatchEvent(new Event('pointsUpdated'));
+        refreshUnreadCount();
       }, 500);
       
       // Check if response is locked and redirect to unlock survey
