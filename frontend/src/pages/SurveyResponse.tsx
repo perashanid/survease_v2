@@ -46,6 +46,18 @@ const SurveyResponse: React.FC = () => {
     }
   }, [slug]);
 
+  // Scroll to top when question changes
+  useEffect(() => {
+    if (survey && currentQuestionIndex >= 0) {
+      const questionContainer = document.querySelector('.question-container');
+      if (questionContainer) {
+        questionContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+  }, [currentQuestionIndex, survey]);
+
   const fetchSurvey = async () => {
     try {
       setLoading(true);
@@ -109,9 +121,22 @@ const SurveyResponse: React.FC = () => {
     return true;
   };
 
+  const scrollToTop = () => {
+    // Scroll to the top of the question container smoothly
+    const questionContainer = document.querySelector('.question-container');
+    if (questionContainer) {
+      questionContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      // Fallback to window scroll
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   const nextQuestion = () => {
     if (validateCurrentQuestion() && currentQuestionIndex < survey!.questions.length - 1) {
       setCurrentQuestionIndex(prev => prev + 1);
+      // Scroll to top after state update
+      setTimeout(() => scrollToTop(), 100);
     }
   };
 
@@ -119,6 +144,8 @@ const SurveyResponse: React.FC = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(prev => prev - 1);
       setError('');
+      // Scroll to top after state update
+      setTimeout(() => scrollToTop(), 100);
     }
   };
 
