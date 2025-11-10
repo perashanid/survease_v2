@@ -2,7 +2,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 
 export interface INotification extends Document {
   user_id: mongoose.Types.ObjectId;
-  type: 'new_survey' | 'survey_contribution' | 'survey_response' | 'system' | 'points_earned' | 'response_locked';
+  type: 'new_survey' | 'survey_contribution' | 'survey_response' | 'system' | 'points_earned' | 'response_locked' | 'response_unlocked' | 'reciprocal_complete' | 'custom_link_used' | 'survey_boosted' | 'boost_expiring';
   title: string;
   message: string;
   related_survey_id?: mongoose.Types.ObjectId;
@@ -22,7 +22,7 @@ const NotificationSchema = new Schema<INotification>({
   type: {
     type: String,
     required: true,
-    enum: ['new_survey', 'survey_contribution', 'survey_response', 'system', 'points_earned', 'response_locked']
+    enum: ['new_survey', 'survey_contribution', 'survey_response', 'system', 'points_earned', 'response_locked', 'response_unlocked', 'reciprocal_complete', 'custom_link_used', 'survey_boosted', 'boost_expiring']
   },
   title: {
     type: String,
