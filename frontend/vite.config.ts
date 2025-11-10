@@ -27,35 +27,13 @@ export default defineConfig({
     },
     rollupOptions: {
       output: {
-        manualChunks: (id) => {
-          // Core React libraries
-          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
-            return 'react-vendor';
-          }
-          // Router
-          if (id.includes('node_modules/react-router-dom')) {
-            return 'router';
-          }
+        manualChunks: {
+          // Keep React core together to avoid loading issues
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
           // Chart libraries
-          if (id.includes('node_modules/chart.js') || id.includes('node_modules/react-chartjs-2') || id.includes('node_modules/recharts')) {
-            return 'charts';
-          }
-          // Framer Motion animations
-          if (id.includes('node_modules/framer-motion')) {
-            return 'animations';
-          }
-          // Icons
-          if (id.includes('node_modules/react-icons')) {
-            return 'icons';
-          }
-          // Analytics pages - separate chunk
-          if (id.includes('/pages/') && id.includes('Analytics')) {
-            return 'analytics-pages';
-          }
-          // Other node_modules
-          if (id.includes('node_modules')) {
-            return 'vendor';
-          }
+          'charts': ['chart.js', 'react-chartjs-2', 'recharts'],
+          // Animations
+          'animations': ['framer-motion'],
         },
       },
     },
