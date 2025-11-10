@@ -39,10 +39,6 @@ const SurveyResponse: React.FC = () => {
   
   // Timing tracking states
   const [, setCompletionTime] = useState<number | null>(null);
-  
-  // Points preview
-  const basePoints = 10;
-  const bonusPoints = (survey as any)?.boost?.bonusPoints || 0;
 
   useEffect(() => {
     if (slug) {
@@ -184,6 +180,18 @@ const SurveyResponse: React.FC = () => {
       
       // Clear tracking data after successful submission
       timeTrackingService.clearSurveyTracking(slug);
+      
+      console.log('[SurveyResponse] Survey submitted successfully');
+      
+      // Trigger points update event immediately
+      console.log('[SurveyResponse] Dispatching pointsUpdated event (immediate)');
+      window.dispatchEvent(new Event('pointsUpdated'));
+      
+      // Also dispatch after a short delay to ensure backend processing is complete
+      setTimeout(() => {
+        console.log('[SurveyResponse] Dispatching pointsUpdated event (delayed)');
+        window.dispatchEvent(new Event('pointsUpdated'));
+      }, 500);
       
       setSubmitted(true);
     } catch (err: any) {
@@ -578,19 +586,14 @@ const SurveyResponse: React.FC = () => {
                     Next
                   </button>
                 ) : (
-                  <>
-                    <div className="points-preview">
-                      🎁 Earn {basePoints} points{bonusPoints > 0 && ` + ${bonusPoints} bonus`} = {basePoints + bonusPoints} points!
-                    </div>
-                    <button
-                      type="button"
-                      onClick={handleSubmit}
-                      disabled={submitting}
-                      className="btn btn-primary"
-                    >
-                      {submitting ? 'Submitting...' : 'Submit Survey'}
-                    </button>
-                  </>
+                  <button
+                    type="button"
+                    onClick={handleSubmit}
+                    disabled={submitting}
+                    className="btn btn-primary"
+                  >
+                    {submitting ? 'Submitting...' : 'Submit Survey'}
+                  </button>
                 )}
               </div>
             </div>
