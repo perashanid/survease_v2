@@ -203,12 +203,12 @@ const SurveyResponse: React.FC = () => {
         ...(customLinkToken && { custom_link_token: customLinkToken })
       };
 
-      await SurveyService.submitResponse(slug || '', submissionData);
+      const result = await SurveyService.submitResponse(slug || '', submissionData);
       
       // Clear tracking data after successful submission
       timeTrackingService.clearSurveyTracking(slug);
       
-      console.log('[SurveyResponse] Survey submitted successfully');
+      console.log('[SurveyResponse] Survey submitted successfully', result);
       
       // Trigger points update event immediately
       console.log('[SurveyResponse] Dispatching pointsUpdated event (immediate)');
@@ -219,6 +219,30 @@ const SurveyResponse: React.FC = () => {
         console.log('[SurveyResponse] Dispatching pointsUpdated event (delayed)');
         window.dispatchEvent(new Event('pointsUpdated'));
       }, 500);
+      
+      // Check if response is locked and redirect to unlock survey
+      if (result.is_locked && result.unlock_requirement) {
+        const unlockReq = result.unlock_requirement;
+        
+        // Redirect to the survey that needs to be completed
+        if (unlockReq.type === 'complete_survey' && unlockReq.target_survey_slug) {
+          // Show a message about the locked response
+          const message = unlockReq.target_survey_title 
+            ? `Thank you! Your response is locked.\n\nTo unlock it, please complete: "${unlockReq.target_survey_title}"`
+            : 'Thank you! Your response is locked. Please complete the required survey to unlock it.';
+          
+          if (window.confirm(`${message}\n\nRedirect now?`)) {
+            navigate(`/survey/${unlockReq.target_survey_slug}`);
+            return;
+          }
+        } else if (unlockReq.type === 'complete_any_survey') {
+          // Show message and redirect to public surveys
+          if (window.confirm('Thank you! Your response is locked.\n\nTo unlock it, please complete any public survey.\n\nView public surveys now?')) {
+            navigate('/public-surveys');
+            return;
+          }
+        }
+      }
       
       setSubmitted(true);
     } catch (err: any) {

@@ -22,11 +22,10 @@
   margin: 0 auto;
   padding: 0 24px;
   height: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  overflow: visible;
+  gap: 24px;
 }
 
 .navbar-brand {
@@ -39,11 +38,11 @@
   text-decoration: none;
   transition: all 0.3s ease;
   letter-spacing: -0.5px;
-  flex-shrink: 0;
   white-space: nowrap;
   line-height: 1;
   display: flex;
   align-items: center;
+  min-width: 120px;
 }
 
 .navbar-brand:hover {
@@ -53,29 +52,25 @@
 .navbar-menu {
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex: 1;
+  justify-content: center;
+  gap: 4px;
   min-width: 0;
-  overflow: visible;
 }
 
 .navbar-nav {
   display: flex;
   align-items: center;
-  gap: 2px;
-  margin-right: auto;
+  gap: 4px;
   flex-wrap: nowrap;
-  overflow: visible;
-  flex: 0 1 auto;
-  min-width: 0;
+  justify-content: center;
 }
 
 .navbar-actions {
   display: flex;
   align-items: center;
   gap: 12px;
-  flex-shrink: 0;
-  flex-wrap: nowrap;
+  justify-content: flex-end;
+  min-width: fit-content;
 }
 
 .navbar-link {
@@ -83,7 +78,7 @@
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s ease;
-  padding: 8px 10px;
+  padding: 8px 12px;
   border-radius: 12px;
   position: relative;
   overflow: hidden;
@@ -91,11 +86,10 @@
   align-items: center;
   gap: 6px;
   white-space: nowrap;
-  flex-shrink: 1;
-  font-size: 13px;
+  flex-shrink: 0;
+  font-size: 14px;
   line-height: 1;
   height: 36px;
-  min-width: fit-content;
 }
 
 .navbar-link::before {
@@ -350,26 +344,34 @@
   font-size: 14px;
 }
 
-/* Desktop adjustments for better spacing */
+/* Desktop - full layout */
 @media (min-width: 1200px) {
+  .navbar-container {
+    gap: 32px;
+  }
+  
   .navbar-nav {
-    gap: 4px;
+    gap: 6px;
   }
   
   .navbar-link {
-    padding: 8px 12px;
+    padding: 8px 14px;
     font-size: 14px;
   }
 }
 
-/* Tablet - show text but smaller */
+/* Tablet - compact but with text */
 @media (min-width: 900px) and (max-width: 1199px) {
+  .navbar-container {
+    gap: 20px;
+  }
+  
   .navbar-nav {
-    gap: 2px;
+    gap: 3px;
   }
   
   .navbar-link {
-    padding: 6px 10px;
+    padding: 7px 11px;
     font-size: 13px;
   }
   
@@ -378,21 +380,29 @@
   }
   
   .nav-icon {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
   }
 }
 
-/* Mobile responsive - hide text, show icons only */
+/* Mobile - icons only */
 @media (max-width: 899px) {
+  .navbar-container {
+    gap: 16px;
+    grid-template-columns: auto 1fr auto;
+  }
+  
   .navbar-nav {
     gap: 2px;
   }
   
   .navbar-link {
-    padding: 6px 8px;
+    padding: 8px;
     font-size: 12px;
+    width: 36px;
+    height: 36px;
+    justify-content: center;
   }
   
   .navbar-link span {
@@ -400,57 +410,60 @@
   }
   
   .nav-icon {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
   }
 }
 
 @media (max-width: 1024px) {
   .navbar-container {
-    gap: 12px;
+    gap: 16px;
   }
   
   .navbar-menu {
-    gap: 8px;
+    gap: 4px;
   }
   
   .navbar-actions {
-    gap: 8px;
+    gap: 10px;
+  }
+  
+  .navbar-brand {
+    font-size: 18px;
+    min-width: 100px;
   }
 }
 
 @media (max-width: 768px) {
   .navbar {
-    height: 60px;
+    height: 64px;
   }
   
   .navbar-container {
-    padding: 0 12px;
-    gap: 8px;
+    padding: 0 16px;
+    gap: 12px;
   }
   
   .navbar-brand {
-    font-size: 16px;
+    font-size: 17px;
+    min-width: 90px;
   }
   
   .navbar-menu {
-    gap: 6px;
-    flex-wrap: nowrap;
-    overflow: hidden;
+    gap: 2px;
   }
   
   .navbar-nav {
     gap: 2px;
-    flex-wrap: nowrap;
-    overflow: hidden;
   }
   
   .navbar-link {
-    padding: 6px 8px;
+    padding: 8px;
     font-size: 12px;
-    height: 32px;
-    min-width: fit-content;
+    height: 36px;
+    width: 36px;
+    justify-content: center;
   }
   
   .navbar-link span {
@@ -458,18 +471,17 @@
   }
   
   .nav-icon {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
   }
   
   .navbar-actions {
-    gap: 6px;
-    flex-shrink: 0;
+    gap: 8px;
   }
   
   .navbar-auth {
-    gap: 6px;
+    gap: 8px;
   }
   
   .user-name {
@@ -484,14 +496,15 @@
   }
   
   .theme-toggle svg {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
   }
   
   .btn-sm {
-    padding: 6px 10px;
-    font-size: 12px;
-    min-height: 32px;
+    padding: 8px 12px;
+    font-size: 13px;
+    min-height: 36px;
+    white-space: nowrap;
   }
   
   .theme-menu {

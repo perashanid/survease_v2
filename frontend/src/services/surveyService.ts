@@ -98,13 +98,20 @@ export class SurveyService {
     await api.delete(`/surveys/${id}`);
   }
 
-  static async submitResponse(slug: string, data: SubmitResponseData): Promise<void> {
+  static async submitResponse(slug: string, data: SubmitResponseData): Promise<{
+    response_id: string;
+    is_locked: boolean;
+    points_earned?: number;
+    message: string;
+    unlock_requirement?: any;
+  }> {
     // Extract custom_link_token to send as query param
     const { custom_link_token, ...bodyData } = data;
     const url = custom_link_token 
       ? `/surveys/${slug}/responses?custom_link_token=${custom_link_token}`
       : `/surveys/${slug}/responses`;
-    await api.post(url, bodyData);
+    const response = await api.post(url, bodyData);
+    return response.data.data;
   }
 
   static async getPublicSurveys(page: number = 1, limit: number = 12): Promise<PublicSurveysResponse> {

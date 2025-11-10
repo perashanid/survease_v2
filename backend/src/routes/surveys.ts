@@ -1493,14 +1493,30 @@ router.post('/:slug/responses', optionalAuth, async (req: Request, res: Response
       survey.user_id
     ).catch(err => console.error('Failed to send response notification:', err));
 
+    // If response is locked, include unlock requirement with survey details
+    let unlockRequirement: any = null;
+    if (surveyResponse.is_locked && surveyResponse.unlock_requirement) {
+      unlockRequirement = { ...surveyResponse.unlock_requirement };
+      
+      // If there's a target survey, fetch its slug
+      if (unlockRequirement.target_survey_id) {
+        const targetSurvey = await Survey.findById(unlockRequirement.target_survey_id).select('slug title');
+        if (targetSurvey) {
+          unlockRequirement.target_survey_slug = targetSurvey.slug;
+          unlockRequirement.target_survey_title = targetSurvey.title;
+        }
+      }
+    }
+
     res.status(201).json({
       success: true,
       data: {
         response_id: surveyResponse._id,
         is_locked: surveyResponse.is_locked,
         points_earned: pointsEarned,
+        unlock_requirement: unlockRequirement,
         message: surveyResponse.is_locked 
-          ? 'Response submitted and locked. The survey creator will need to complete a survey to unlock it.'
+          ? 'Response submitted and locked. Complete a survey to unlock your response and help the survey creator.'
           : 'Response submitted successfully'
       }
     });
