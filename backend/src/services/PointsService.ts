@@ -127,12 +127,42 @@ export class PointsService {
   
   /**
    * Calculate points for survey completion
+   * @param survey - The survey being completed
+   * @param userHasOwnSurvey - Whether the user has their own active public survey
+   * @returns Points to award (0 if user has their own survey, unless it's featured)
    */
-  static calculateSurveyCompletionPoints(survey: ISurvey, isBoosted: boolean = false): number {
-    let points = this.BASE_POINTS;
+  static async calculateSurveyCompletionPoints(
+    survey: ISurvey,
+    userId: mongoose.Types.ObjectId
+  ): Promise<number> {
+    // Check if user has their own active public survey
+    const { Survey } = await import('../models/Survey');
+    const userHasOwnSurvey = await Survey.exists({
+      user_id: userId,
+      is_active: true,
+      is_public: true
+    });
     
-    // Add bonus points if survey is boosted
-    if (isBoosted && survey.boost_config?.bonus_points) {
+    let points = 0;
+    
+    // Base points logic: Only award if user doesn't have their own survey
+    if (!userHasOwnSurvey) {
+      points = this.BASE_POINTS;
+    }
+    
+    // Featured survey bonus
+    if (survey.is_featured) {
+      if (userHasOwnSurvey) {
+        // Small bonus for reciprocal users (have their own survey)
+        points += 5;
+      } else {
+        // Larger bonus for contributors without their own survey
+        points += 15;
+      }
+    }
+    
+    // Boosted survey bonus (applies to everyone)
+    if (survey.is_boosted && survey.boost_config?.bonus_points) {
       points += survey.boost_config.bonus_points;
     }
     

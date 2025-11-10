@@ -55,6 +55,9 @@ export interface SubmitResponseData {
   respondent_email?: string;
   completion_time?: number; // Time in seconds
   started_at?: Date;
+  device_info?: any;
+  is_anonymous?: boolean;
+  custom_link_token?: string;
 }
 
 export interface PublicSurveysResponse {
@@ -96,7 +99,12 @@ export class SurveyService {
   }
 
   static async submitResponse(slug: string, data: SubmitResponseData): Promise<void> {
-    await api.post(`/surveys/${slug}/responses`, data);
+    // Extract custom_link_token to send as query param
+    const { custom_link_token, ...bodyData } = data;
+    const url = custom_link_token 
+      ? `/surveys/${slug}/responses?custom_link_token=${custom_link_token}`
+      : `/surveys/${slug}/responses`;
+    await api.post(url, bodyData);
   }
 
   static async getPublicSurveys(page: number = 1, limit: number = 12): Promise<PublicSurveysResponse> {

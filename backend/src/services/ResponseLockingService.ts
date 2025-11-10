@@ -198,8 +198,11 @@ export class ResponseLockingService {
         throw new Error('You must complete the survey first');
       }
       
-      // Calculate points to award
-      const pointsToAward = PointsService.calculateSurveyCompletionPoints(completedSurvey);
+      // Calculate points to award to the survey owner whose survey was completed
+      const pointsToAward = await PointsService.calculateSurveyCompletionPoints(
+        completedSurvey,
+        completedSurvey.user_id as mongoose.Types.ObjectId
+      );
       
       // Unlock the response
       await Response.findByIdAndUpdate(
@@ -236,15 +239,17 @@ export class ResponseLockingService {
         points_awarded: pointsToAward
       }], { session });
       
-      // Award points to the completed survey owner
-      await PointsService.awardPoints(
-        completedSurvey.user_id,
-        pointsToAward,
-        'response_unlock',
-        `Response unlocked by completing your survey "${completedSurvey.title}"`,
-        completedSurveyId,
-        responseId
-      );
+      // Award points to the completed survey owner (if points > 0)
+      if (pointsToAward > 0) {
+        await PointsService.awardPoints(
+          completedSurvey.user_id,
+          pointsToAward,
+          'response_unlock',
+          `Response unlocked by completing your survey "${completedSurvey.title}"`,
+          completedSurveyId,
+          responseId
+        );
+      }
       
       // Send notifications
       if (response.user_id) {

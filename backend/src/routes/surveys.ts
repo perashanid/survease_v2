@@ -1344,16 +1344,20 @@ router.post('/:slug/responses', optionalAuth, async (req: Request, res: Response
     // Award points for survey completion (only for identified, non-custom-link responses)
     let pointsEarned = 0;
     if (respondentId && sourceType === 'platform') {
-      const points = PointsService.calculateSurveyCompletionPoints(survey);
-      await PointsService.awardPoints(
-        respondentId,
-        points,
-        'survey_completion',
-        `Completed survey "${survey.title}"`,
-        survey._id as mongoose.Types.ObjectId,
-        surveyResponse._id as mongoose.Types.ObjectId
-      );
-      pointsEarned = points;
+      const points = await PointsService.calculateSurveyCompletionPoints(survey, respondentId);
+      
+      // Only award points if greater than 0
+      if (points > 0) {
+        await PointsService.awardPoints(
+          respondentId,
+          points,
+          'survey_completion',
+          `Completed survey "${survey.title}"`,
+          survey._id as mongoose.Types.ObjectId,
+          surveyResponse._id as mongoose.Types.ObjectId
+        );
+        pointsEarned = points;
+      }
     }
 
     // Track contribution if user is authenticated and not the survey owner
