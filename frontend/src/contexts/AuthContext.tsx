@@ -36,19 +36,28 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isVerifying, setIsVerifying] = useState(false);
 
   useEffect(() => {
     // Check if user is already logged in
     const token = localStorage.getItem('accessToken');
-    if (token) {
+    if (token && !isVerifying) {
       verifyToken();
-    } else {
+    } else if (!token) {
       setLoading(false);
     }
   }, []);
 
   const verifyToken = async (retryCount = 0) => {
+    // Prevent duplicate verification calls
+    if (isVerifying) {
+      console.log('[AuthContext] Already verifying, skipping duplicate call');
+      return;
+    }
+    
+    setIsVerifying(true);
     let caughtError: any = null;
+    
     try {
       const response = await apiClient.get('/auth/verify');
       if (response.data.success) {
@@ -56,17 +65,34 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
     } catch (error: any) {
       caughtError = error;
-      // If connection refused and we haven't retried too many times, retry
-      if (error.code === 'ECONNREFUSED' && retryCount < 3) {
-        setTimeout(() => verifyToken(retryCount + 1), 1000);
+      
+      // Handle rate limiting with exponential backoff
+      if (error.response?.status === 429 && retryCount < 3) {
+        const delay = Math.pow(2, retryCount) * 1000; // 1s, 2s, 4s
+        console.log(`[AuthContext] Rate limited, retrying in ${delay}ms...`);
+        setTimeout(() => {
+          setIsVerifying(false);
+          verifyToken(retryCount + 1);
+        }, delay);
         return;
       }
+      
+      // If connection refused and we haven't retried too many times, retry
+      if (error.code === 'ECONNREFUSED' && retryCount < 3) {
+        setTimeout(() => {
+          setIsVerifying(false);
+          verifyToken(retryCount + 1);
+        }, 1000);
+        return;
+      }
+      
       // Token is invalid or backend unreachable, remove it
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
     } finally {
-      if (retryCount === 0 || caughtError?.code !== 'ECONNREFUSED') {
+      if (retryCount === 0 || (caughtError?.code !== 'ECONNREFUSED' && caughtError?.response?.status !== 429)) {
         setLoading(false);
+        setIsVerifying(false);
       }
     }
   };

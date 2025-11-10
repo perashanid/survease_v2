@@ -8,6 +8,7 @@ import ErrorBoundary from './components/shared/ErrorBoundary';
 import { ToastProvider } from './components/shared/ToastContainer';
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { PointsProvider } from './contexts/PointsContext';
 import './App.css';
 
 // Lazy load pages for better performance
@@ -87,7 +88,8 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider>
         <AuthProvider>
-          <ToastProvider>
+          <PointsProvider>
+              <ToastProvider>
             <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
               <div className="App">
                 <RedirectHandler />
@@ -127,7 +129,8 @@ function App() {
                 <Footer />
               </div>
             </Router>
-          </ToastProvider>
+            </ToastProvider>
+          </PointsProvider>
         </AuthProvider>
       </ThemeProvider>
     </ErrorBoundary>

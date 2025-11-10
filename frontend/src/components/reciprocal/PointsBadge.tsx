@@ -1,39 +1,44 @@
 import React, { useState, useEffect } from 'react';
-import { getUserPoints } from '../../services/api';
+import { usePoints } from '../../contexts/PointsContext';
 import { FiZap } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import './PointsBadge.css';
 
 const PointsBadge: React.FC = () => {
-  const [points, setPoints] = useState<number | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { points, loading, refreshPoints } = usePoints();
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [prevPoints, setPrevPoints] = useState<number | null>(null);
 
   useEffect(() => {
-    loadPoints();
-    // Refresh points every 30 seconds
-    const interval = setInterval(loadPoints, 30000);
-    return () => clearInterval(interval);
+    // Load points only once when component mounts
+    console.log('[PointsBadge] Component mounted, loading points...');
+    refreshPoints();
   }, []);
 
-  const loadPoints = async () => {
-    try {
-      const data = await getUserPoints();
-      setPoints(data.points?.total_points || 0);
-    } catch (err) {
-      console.error('Failed to load points:', err);
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    // Trigger animation when points change
+    if (points && prevPoints !== null && points.total_points !== prevPoints) {
+      console.log('[PointsBadge] Points changed from', prevPoints, 'to', points.total_points);
+      setIsUpdating(true);
+      setTimeout(() => setIsUpdating(false), 1000);
     }
-  };
+    if (points) {
+      setPrevPoints(points.total_points);
+    }
+  }, [points]);
 
-  if (loading || points === null) {
+  if (loading || !points) {
     return null;
   }
 
   return (
-    <Link to="/points" className="points-badge" title="View your points">
+    <Link 
+      to="/points" 
+      className={`points-badge ${isUpdating ? 'updating' : ''}`} 
+      title="View your points"
+    >
       <FiZap className="points-icon" />
-      <span className="points-value">{points}</span>
+      <span className="points-value">{points.total_points}</span>
     </Link>
   );
 };

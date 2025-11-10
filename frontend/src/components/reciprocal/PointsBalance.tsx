@@ -1,14 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { getUserPoints } from '../../services/api';
+import React, { useEffect } from 'react';
+import { usePoints } from '../../contexts/PointsContext';
 import { FiAward, FiTrendingUp } from 'react-icons/fi';
 import './PointsBalance.css';
-
-interface UserPoints {
-  total_points: number;
-  lifetime_points: number;
-  points_spent: number;
-  last_updated: string;
-}
 
 interface PointsBalanceProps {
   compact?: boolean;
@@ -16,25 +9,13 @@ interface PointsBalanceProps {
 }
 
 const PointsBalance: React.FC<PointsBalanceProps> = ({ compact = false, showHistory = false }) => {
-  const [points, setPoints] = useState<UserPoints | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { points, loading, error, refreshPoints } = usePoints();
 
   useEffect(() => {
-    fetchPoints();
+    // Load points only once when component mounts
+    console.log('[PointsBalance] Component mounted, loading points...');
+    refreshPoints();
   }, []);
-
-  const fetchPoints = async () => {
-    try {
-      setLoading(true);
-      const data = await getUserPoints();
-      setPoints(data.points);
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to load points');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   if (loading) {
     return (

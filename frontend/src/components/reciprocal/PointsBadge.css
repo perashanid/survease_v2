@@ -37,6 +37,36 @@
   }
 }
 
+.points-badge.updating {
+  animation: badge-update 0.5s ease;
+}
+
+@keyframes badge-update {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.points-badge.updating .points-value {
+  animation: value-update 0.5s ease;
+}
+
+@keyframes value-update {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
 @media (max-width: 768px) {
   .points-badge {
     padding: 0.4rem 0.8rem;
