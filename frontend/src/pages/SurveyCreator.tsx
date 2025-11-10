@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { usePoints } from '../contexts/PointsContext';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { SurveyService } from '../services/surveyService';
 import QuestionEditor, { Question } from '../components/survey/QuestionEditor';
 import SurveyPreview from '../components/survey/SurveyPreview';
 import { SUGGESTED_SURVEY_TAGS } from '../constants/surveyTags';
+import { POINTS_COSTS } from '../constants/points';
 import { motion } from 'framer-motion';
 import { 
   FiSave, FiEye, FiEyeOff, FiType, FiCheckSquare, 
-  FiList, FiStar, FiChevronDown 
+  FiList, FiStar, FiChevronDown, FiAlertCircle 
 } from 'react-icons/fi';
 import './SurveyCreator.css';
+
+const SURVEY_CREATION_COST = POINTS_COSTS.SURVEY_CREATION;
 
 interface SurveySettings {
   allowAnonymous: boolean;
@@ -24,6 +28,7 @@ interface SurveySettings {
 
 const SurveyCreator: React.FC = () => {
   const { isAuthenticated, loading } = useAuth();
+  const { points, refreshPoints } = usePoints();
   const navigate = useNavigate();
   
   const [title, setTitle] = useState('');
@@ -45,9 +50,16 @@ const SurveyCreator: React.FC = () => {
   const [error, setError] = useState('');
   const [showPreview, setShowPreview] = useState(false);
 
+  // Fetch points when component mounts
+  useEffect(() => {
+    refreshPoints();
+  }, [refreshPoints]);
+
   if (loading) {
     return <div className="loading"><div className="spinner"></div></div>;
   }
+
+  const hasEnoughPoints = points ? points.total_points >= SURVEY_CREATION_COST : true;
 
   if (!isAuthenticated) {
     return <Navigate to="/" replace />;
@@ -104,6 +116,12 @@ const SurveyCreator: React.FC = () => {
       return;
     }
 
+    // Check if user has enough points
+    if (!hasEnoughPoints) {
+      setError(`You need ${SURVEY_CREATION_COST} points to create a survey. You currently have ${points?.total_points || 0} points.`);
+      return;
+    }
+
     // Validate questions
     for (let i = 0; i < questions.length; i++) {
       const question = questions[i];
@@ -149,9 +167,19 @@ const SurveyCreator: React.FC = () => {
       };
 
       await SurveyService.createSurvey(surveyData);
+      
+      // Refresh points after successful creation
+      await refreshPoints();
+      
       navigate('/dashboard');
     } catch (err: any) {
-      setError(err.response?.data?.error?.message || 'Failed to create survey');
+      const errorMessage = err.response?.data?.error?.message || 'Failed to create survey';
+      setError(errorMessage);
+      
+      // If it's an insufficient points error, refresh points to show current balance
+      if (err.response?.data?.error?.code === 'INSUFFICIENT_POINTS') {
+        await refreshPoints();
+      }
     } finally {
       setSaving(false);
     }
@@ -182,13 +210,39 @@ const SurveyCreator: React.FC = () => {
               <button
                 type="button"
                 onClick={saveSurvey}
-                disabled={saving}
+                disabled={saving || !hasEnoughPoints}
                 className="btn btn-primary"
+                title={!hasEnoughPoints ? `You need ${SURVEY_CREATION_COST} points to create a survey` : ''}
               >
-                {saving ? 'Saving...' : <><FiSave /> Save Survey</>}
+                {saving ? 'Saving...' : <><FiSave /> Save Survey (${SURVEY_CREATION_COST} points)</>}
               </button>
             </div>
           </div>
+
+          {!hasEnoughPoints && (
+            <motion.div 
+              className="warning"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              style={{ 
+                background: '#fff3cd', 
+                color: '#856404', 
+                padding: '12px 16px', 
+                borderRadius: '8px', 
+                marginBottom: '20px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px'
+              }}
+            >
+              <FiAlertCircle size={20} />
+              <span>
+                You need {SURVEY_CREATION_COST} points to create a survey. 
+                You currently have {points?.total_points || 0} points. 
+                Complete surveys to earn more points!
+              </span>
+            </motion.div>
+          )}
 
           {error && (
             <motion.div 
