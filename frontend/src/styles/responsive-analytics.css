@@ -1,22 +1,38 @@
 /* Responsive Analytics Styles */
 
+/* Prevent horizontal scrolling globally */
+.analytics-container,
+.analytics-grid,
+.chart-container,
+.stats-card {
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
 /* Mobile First Approach */
 @media (max-width: 768px) {
   .analytics-container {
     padding: 1rem;
+    width: 100%;
+    overflow-x: hidden;
   }
 
   .analytics-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
+    width: 100%;
   }
 
   .chart-container {
     min-height: 250px;
+    width: 100%;
+    overflow-x: auto;
   }
 
   .stats-card {
     padding: 1rem;
+    width: 100%;
   }
 }
 
@@ -25,10 +41,12 @@
   .analytics-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
+    width: 100%;
   }
 
   .chart-container {
     min-height: 300px;
+    width: 100%;
   }
 }
 
@@ -37,9 +55,11 @@
   .analytics-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
+    width: 100%;
   }
 
   .chart-container {
     min-height: 350px;
+    width: 100%;
   }
 }

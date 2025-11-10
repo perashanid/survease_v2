@@ -3,9 +3,29 @@
 
 /* ===== GLOBAL RESPONSIVE UTILITIES ===== */
 
-/* Prevent horizontal scroll */
+/* Prevent horizontal scroll and hide scrollbar */
 html, body {
   overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
+/* Hide horizontal scrollbar globally */
+html::-webkit-scrollbar-x,
+body::-webkit-scrollbar-x {
+  display: none;
+}
+
+/* For Firefox */
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Ensure all containers respect viewport width */
+#root {
+  overflow-x: hidden;
+  max-width: 100vw;
   width: 100%;
 }
 
@@ -603,5 +623,100 @@ html, body {
   .form-textarea,
   .form-select {
     border: 2px solid currentColor;
+  }
+}
+
+/* ===== COMPREHENSIVE ANALYTICS RESPONSIVE FIXES ===== */
+@media (max-width: 1200px) {
+  .advanced-analytics {
+    overflow-x: hidden;
+    width: 100%;
+  }
+  
+  .chart-grid {
+    grid-template-columns: 1fr !important;
+    width: 100%;
+  }
+  
+  .metric-cards {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  
+  .chart-card,
+  .metric-card {
+    width: 100%;
+    overflow-x: auto;
+    box-sizing: border-box;
+  }
+  
+  /* Ensure charts are responsive */
+  .recharts-wrapper,
+  .recharts-surface {
+    max-width: 100% !important;
+  }
+  
+  /* Tables should scroll horizontally if needed */
+  .analytics-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+  
+  table {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .advanced-analytics {
+    padding: 20px 12px !important;
+    overflow-x: hidden;
+  }
+  
+  .analytics-page-header {
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
+  .analytics-tabs {
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .metric-cards {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .metric-card {
+    width: 100%;
+    min-width: 0;
+  }
+  
+  .chart-card {
+    padding: 16px !important;
+    width: 100%;
+  }
+  
+  /* Ensure all chart containers are responsive */
+  .chart-container,
+  .recharts-responsive-container {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .advanced-analytics {
+    padding: 16px 10px !important;
+  }
+  
+  .chart-card {
+    padding: 12px !important;
+  }
+  
+  .analytics-page-title {
+    font-size: 20px !important;
   }
 }
