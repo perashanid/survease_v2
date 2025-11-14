@@ -110,10 +110,6 @@ const Navbar: React.FC = () => {
                       <span className="notification-badge">{unreadCount > 99 ? '99+' : unreadCount}</span>
                     )}
                   </Link>
-                  <Link to="/profile" className="navbar-link">
-                    <FiUser className="nav-icon" />
-                    <span>Profile</span>
-                  </Link>
                 </>
               )}
               
@@ -131,11 +127,10 @@ const Navbar: React.FC = () => {
               {isAuthenticated ? (
                 <div className="navbar-user">
                   <PointsBadge />
-                  <span className="user-name">
-                    {user?.firstName && user?.lastName 
-                      ? `${user.firstName} ${user.lastName}`
-                      : user?.firstName || user?.email}
-                  </span>
+                  <Link to="/profile" className="btn btn-outline btn-sm">
+                    <FiUser />
+                    <span>Profile</span>
+                  </Link>
                   <button onClick={handleLogout} className="btn btn-outline btn-sm">
                     Logout
                   </button>
@@ -150,7 +145,7 @@ const Navbar: React.FC = () => {
                   </button>
                   <button 
                     onClick={() => handleAuthClick('register')} 
-                    className="btn btn-primary btn-sm"
+                    className="btn btn-outline btn-sm"
                   >
                     Sign Up
                   </button>
