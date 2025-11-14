@@ -22,7 +22,7 @@ import {
 import './Navbar.css';
 
 const Navbar: React.FC = () => {
-  const { user, logout, isAuthenticated } = useAuth();
+  const { logout, isAuthenticated } = useAuth();
   const { themeMode, setThemeMode } = useTheme();
   const { unreadCount } = useNotifications();
   const [showAuthModal, setShowAuthModal] = useState(false);
