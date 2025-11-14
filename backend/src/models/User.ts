@@ -9,6 +9,8 @@ export interface IUser extends Document {
   is_admin: boolean;
   password_reset_token?: string;
   password_reset_expires?: Date;
+  oauth_provider?: string;
+  oauth_id?: string;
   created_at: Date;
   updated_at: Date;
 }
@@ -23,7 +25,7 @@ const UserSchema = new Schema<IUser>({
   },
   password_hash: {
     type: String,
-    required: true
+    required: false
   },
   first_name: {
     type: String,
@@ -46,6 +48,15 @@ const UserSchema = new Schema<IUser>({
   },
   password_reset_expires: {
     type: Date
+  },
+  oauth_provider: {
+    type: String,
+    enum: ['google', 'facebook', 'github'],
+    required: false
+  },
+  oauth_id: {
+    type: String,
+    required: false
   }
 }, {
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }

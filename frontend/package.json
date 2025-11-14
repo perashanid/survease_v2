@@ -4,6 +4,7 @@
   "description": "Frontend React app for SurvEase",
   "private": true,
   "dependencies": {
+    "@react-oauth/google": "^0.12.2",
     "@types/react": "^18.2.42",
     "@types/react-dom": "^18.2.17",
     "@types/recharts": "^1.8.29",

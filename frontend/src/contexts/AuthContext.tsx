@@ -14,6 +14,7 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
+  loginWithGoogle: (credential: string) => Promise<void>;
   register: (email: string, password: string, firstName?: string, lastName?: string) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
@@ -120,6 +121,29 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const loginWithGoogle = async (credential: string) => {
+    try {
+      console.log('Logging in with Google');
+      
+      const response = await apiClient.post('/auth/google', { credential });
+      
+      console.log('Google login response:', response.data);
+      
+      if (response.data.success) {
+        const { user, tokens } = response.data.data;
+        
+        localStorage.setItem('accessToken', tokens.accessToken);
+        localStorage.setItem('refreshToken', tokens.refreshToken);
+        
+        setUser(user);
+      }
+    } catch (error: any) {
+      console.error('Google login error:', error);
+      const errorMessage = error.response?.data?.error?.message || error.message || 'Google login failed';
+      throw new Error(errorMessage);
+    }
+  };
+
   const register = async (email: string, password: string, firstName?: string, lastName?: string) => {
     try {
       console.log('Registering user:', { email, firstName, lastName });
@@ -167,6 +191,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     user,
     loading,
     login,
+    loginWithGoogle,
     register,
     logout,
     isAuthenticated: !!user

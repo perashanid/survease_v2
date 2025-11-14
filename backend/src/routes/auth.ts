@@ -1,11 +1,15 @@
 import express, { Request, Response } from 'express';
 import Joi from 'joi';
+import { OAuth2Client } from 'google-auth-library';
 import { User } from '../models';
 import { AuthUtils } from '../utils/auth';
 import { authenticateToken } from '../middleware/auth';
 import { PointsService } from '../services/PointsService';
 
 const router = express.Router();
+
+// Initialize Google OAuth client
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // Validation schemas
 const registerSchema = Joi.object({
@@ -446,6 +450,113 @@ router.post('/forgot-password', async (req: Request, res: Response): Promise<voi
       error: {
         code: 'INTERNAL_ERROR',
         message: 'Password reset failed'
+      }
+    });
+  }
+});
+
+/**
+ * POST /api/auth/google
+ * Authenticate with Google OAuth
+ */
+router.post('/google', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { credential } = req.body;
+
+    if (!credential) {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: 'MISSING_CREDENTIAL',
+          message: 'Google credential is required'
+        }
+      });
+      return;
+    }
+
+    // Verify Google token
+    const ticket = await googleClient.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID
+    });
+
+    const payload = ticket.getPayload();
+    
+    if (!payload || !payload.email) {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: 'INVALID_TOKEN',
+          message: 'Invalid Google token'
+        }
+      });
+      return;
+    }
+
+    const { email, given_name, family_name, email_verified } = payload;
+
+    // Check if user exists
+    let user = await User.findOne({ email: email.toLowerCase() });
+
+    if (!user) {
+      // Create new user
+      user = new User({
+        email: email.toLowerCase(),
+        first_name: given_name || '',
+        last_name: family_name || '',
+        email_verified: email_verified || true,
+        password_hash: '', // No password for OAuth users
+        oauth_provider: 'google',
+        oauth_id: payload.sub
+      });
+
+      await user.save();
+
+      // Initialize user points with welcome bonus
+      await PointsService.initializeUserPoints(user._id as any);
+    } else {
+      // Update OAuth info if not set
+      if (!user.oauth_provider) {
+        user.oauth_provider = 'google';
+        user.oauth_id = payload.sub;
+        user.email_verified = true;
+        await user.save();
+      }
+    }
+
+    // Generate tokens
+    const userId = (user._id as any).toString();
+    const accessToken = AuthUtils.generateAccessToken(userId, user.email);
+    const refreshToken = AuthUtils.generateRefreshToken(userId, user.email);
+
+    // Create session
+    await AuthUtils.createSession(userId, refreshToken);
+
+    res.json({
+      success: true,
+      data: {
+        user: {
+          id: userId,
+          email: user.email,
+          firstName: user.first_name,
+          lastName: user.last_name,
+          emailVerified: user.email_verified,
+          isAdmin: user.is_admin
+        },
+        tokens: {
+          accessToken,
+          refreshToken
+        }
+      }
+    });
+
+  } catch (error: any) {
+    console.error('Google authentication error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'GOOGLE_AUTH_FAILED',
+        message: 'Google authentication failed'
       }
     });
   }

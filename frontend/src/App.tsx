@@ -1,6 +1,7 @@
 
 import { HashRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, lazy, Suspense } from 'react';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import Navbar from './components/shared/Navbar';
 import Footer from './components/shared/Footer';
 import ConnectionStatus from './components/shared/ConnectionStatus';
@@ -11,6 +12,8 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import { PointsProvider } from './contexts/PointsContext';
 import { NotificationProvider } from './contexts/NotificationContext';
 import './App.css';
+
+const GOOGLE_CLIENT_ID = '117093420763-7o6hkotafmf8p8mi9bs8dhmc0gilh4n6.apps.googleusercontent.com';
 
 // Lazy load pages for better performance
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -87,13 +90,14 @@ function ScrollToTop() {
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider>
-        <AuthProvider>
-          <NotificationProvider>
-            <PointsProvider>
-              <ToastProvider>
-                <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-              <div className="App">
+      <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+        <ThemeProvider>
+          <AuthProvider>
+            <NotificationProvider>
+              <PointsProvider>
+                <ToastProvider>
+                  <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+                <div className="App">
                 <RedirectHandler />
                 <ScrollToTop />
                 <Navbar />
@@ -128,14 +132,15 @@ function App() {
                     </Routes>
                   </Suspense>
                 </main>
-                <Footer />
-              </div>
-                </Router>
-              </ToastProvider>
-            </PointsProvider>
-          </NotificationProvider>
-        </AuthProvider>
-      </ThemeProvider>
+                  <Footer />
+                </div>
+                  </Router>
+                </ToastProvider>
+              </PointsProvider>
+            </NotificationProvider>
+          </AuthProvider>
+        </ThemeProvider>
+      </GoogleOAuthProvider>
     </ErrorBoundary>
   );
 }

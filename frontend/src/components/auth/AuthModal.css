@@ -355,3 +355,18 @@
   margin-bottom: 20px;
   line-height: 1.5;
 }
+
+/* Google Sign-In Button Container */
+.google-signin-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.google-signin-container > div {
+  width: 100% !important;
+}
+
+.google-signin-container iframe {
+  width: 100% !important;
+}

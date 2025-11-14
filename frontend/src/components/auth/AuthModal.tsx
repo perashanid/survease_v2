@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import './AuthModal.css';
 
 interface AuthModalProps {
@@ -10,7 +11,7 @@ interface AuthModalProps {
 }
 
 const AuthModal: React.FC<AuthModalProps> = ({ mode, onClose, onSwitchMode }) => {
-  const { login, register } = useAuth();
+  const { login, loginWithGoogle, register } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -21,6 +22,30 @@ const AuthModal: React.FC<AuthModalProps> = ({ mode, onClose, onSwitchMode }) =>
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+
+  const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
+    if (!credentialResponse.credential) {
+      setError('Google authentication failed');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
+    try {
+      await loginWithGoogle(credentialResponse.credential);
+      onClose();
+    } catch (err: any) {
+      console.error('Google login error:', err);
+      setError(err.message || 'Google authentication failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleError = () => {
+    setError('Google authentication failed. Please try again.');
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -179,6 +204,32 @@ const AuthModal: React.FC<AuthModalProps> = ({ mode, onClose, onSwitchMode }) =>
              'Send Reset Link'}
           </button>
         </form>
+
+        {mode !== 'forgot-password' && (
+          <>
+            <div style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              margin: '24px 0',
+              gap: '12px'
+            }}>
+              <div style={{ flex: 1, height: '1px', background: 'var(--color-border)' }}></div>
+              <span style={{ color: 'var(--color-text-secondary)', fontSize: '14px' }}>OR</span>
+              <div style={{ flex: 1, height: '1px', background: 'var(--color-border)' }}></div>
+            </div>
+
+            <div className="google-signin-container">
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={handleGoogleError}
+                useOneTap={false}
+                text={mode === 'login' ? 'signin_with' : 'signup_with'}
+                shape="rectangular"
+                size="large"
+              />
+            </div>
+          </>
+        )}
 
         <div className="auth-switch">
           {mode === 'login' && (
