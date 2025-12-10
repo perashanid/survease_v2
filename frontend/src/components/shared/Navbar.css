@@ -345,6 +345,23 @@
   font-size: 14px;
 }
 
+/* Override button styles to match green theme */
+.navbar-auth .btn-outline,
+.navbar-user .btn-outline {
+  background: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  transition: all 0.3s ease;
+}
+
+.navbar-auth .btn-outline:hover,
+.navbar-user .btn-outline:hover {
+  background: var(--color-primary);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(74, 222, 128, 0.3);
+}
+
 /* Desktop - full layout */
 @media (min-width: 1200px) {
   .navbar-container {

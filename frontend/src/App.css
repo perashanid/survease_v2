@@ -93,7 +93,7 @@
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
   color: var(--color-primary);
-  border: 2px solid rgba(99, 102, 241, 0.3);
+  border: 2px solid rgba(74, 222, 128, 0.3);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
@@ -102,7 +102,7 @@
   color: white;
   border-color: var(--color-primary);
   transform: translateY(-3px);
-  box-shadow: 0 16px 40px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 16px 40px rgba(74, 222, 128, 0.3);
 }
 
 .btn-danger {
