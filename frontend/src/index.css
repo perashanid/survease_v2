@@ -22,27 +22,27 @@
 
 /* Light Theme Variables */
 :root[data-theme="light"] {
-  --color-primary: #4ade80;
-  --color-primary-light: #86efac;
-  --color-primary-lighter: #bbf7d0;
-  --color-primary-dark: #22c55e;
-  --color-primary-darker: #16a34a;
-  --color-primary-50: rgba(74, 222, 128, 0.05);
-  --color-primary-100: rgba(74, 222, 128, 0.1);
-  --color-primary-200: rgba(74, 222, 128, 0.2);
-  --color-primary-300: #86efac;
+  --color-primary: #16a34a;
+  --color-primary-light: #22c55e;
+  --color-primary-lighter: #4ade80;
+  --color-primary-dark: #15803d;
+  --color-primary-darker: #166534;
+  --color-primary-50: rgba(22, 163, 74, 0.05);
+  --color-primary-100: rgba(22, 163, 74, 0.1);
+  --color-primary-200: rgba(22, 163, 74, 0.2);
+  --color-primary-300: #22c55e;
   
-  --color-secondary: #14b8a6;
-  --color-secondary-light: #2dd4bf;
+  --color-secondary: #0d9488;
+  --color-secondary-light: #14b8a6;
   --color-secondary-dark: #0f766e;
   
   --color-accent: #1e40af;
   --color-accent-light: #3b82f6;
   --color-accent-dark: #1e3a8a;
   
-  --gradient-primary: linear-gradient(135deg, #bbf7d0 0%, #4ade80 50%, #14b8a6 100%);
-  --gradient-secondary: linear-gradient(135deg, #14b8a6 0%, #1e40af 100%);
-  --gradient-accent: linear-gradient(135deg, #4ade80 0%, #1e40af 100%);
+  --gradient-primary: linear-gradient(135deg, #22c55e 0%, #16a34a 50%, #0d9488 100%);
+  --gradient-secondary: linear-gradient(135deg, #0d9488 0%, #1e40af 100%);
+  --gradient-accent: linear-gradient(135deg, #16a34a 0%, #1e40af 100%);
   
   --color-background: #ffffff;
   --color-surface: #f8fafc;
@@ -65,27 +65,27 @@
 
 /* Dark Theme Variables */
 :root[data-theme="dark"] {
-  --color-primary: #86efac;
-  --color-primary-light: #bbf7d0;
-  --color-primary-lighter: #dcfce7;
-  --color-primary-dark: #4ade80;
-  --color-primary-darker: #22c55e;
-  --color-primary-50: rgba(134, 239, 172, 0.1);
-  --color-primary-100: rgba(134, 239, 172, 0.2);
-  --color-primary-200: rgba(134, 239, 172, 0.3);
-  --color-primary-300: #bbf7d0;
+  --color-primary: #22c55e;
+  --color-primary-light: #4ade80;
+  --color-primary-lighter: #86efac;
+  --color-primary-dark: #16a34a;
+  --color-primary-darker: #15803d;
+  --color-primary-50: rgba(34, 197, 94, 0.1);
+  --color-primary-100: rgba(34, 197, 94, 0.2);
+  --color-primary-200: rgba(34, 197, 94, 0.3);
+  --color-primary-300: #4ade80;
   
-  --color-secondary: #2dd4bf;
-  --color-secondary-light: #5eead4;
-  --color-secondary-dark: #14b8a6;
+  --color-secondary: #14b8a6;
+  --color-secondary-light: #2dd4bf;
+  --color-secondary-dark: #0d9488;
   
-  --color-accent: #60a5fa;
-  --color-accent-light: #93c5fd;
-  --color-accent-dark: #3b82f6;
+  --color-accent: #3b82f6;
+  --color-accent-light: #60a5fa;
+  --color-accent-dark: #2563eb;
   
-  --gradient-primary: linear-gradient(135deg, #86efac 0%, #2dd4bf 50%, #60a5fa 100%);
-  --gradient-secondary: linear-gradient(135deg, #2dd4bf 0%, #60a5fa 100%);
-  --gradient-accent: linear-gradient(135deg, #86efac 0%, #60a5fa 100%);
+  --gradient-primary: linear-gradient(135deg, #22c55e 0%, #14b8a6 50%, #3b82f6 100%);
+  --gradient-secondary: linear-gradient(135deg, #14b8a6 0%, #3b82f6 100%);
+  --gradient-accent: linear-gradient(135deg, #22c55e 0%, #3b82f6 100%);
   
   --color-background: #0f172a;
   --color-surface: #1e293b;
