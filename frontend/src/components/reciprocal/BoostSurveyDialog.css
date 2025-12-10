@@ -233,16 +233,16 @@
 }
 
 .cancel-button {
-  background: var(--color-surface-elevated);
-  color: var(--color-text-secondary);
-  border: 2px solid var(--color-border);
+  background: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
 }
 
 .cancel-button:hover {
-  background: var(--color-surface);
-  border-color: var(--color-text-muted);
+  background: var(--color-primary-50);
+  border-color: var(--color-primary);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px var(--color-shadow-light);
+  box-shadow: 0 4px 12px rgba(74, 222, 128, 0.2);
 }
 
 .boost-button {
@@ -257,8 +257,9 @@
 }
 
 .boost-button:disabled {
-  background: var(--color-border);
-  color: var(--color-text-muted);
+  background: var(--color-primary);
+  opacity: 0.5;
+  color: white;
   cursor: not-allowed;
   opacity: 0.6;
   box-shadow: none;
@@ -277,8 +278,9 @@
 }
 
 .remove-boost-button:disabled {
-  background: var(--color-border);
-  color: var(--color-text-muted);
+  background: var(--color-error);
+  opacity: 0.5;
+  color: white;
   cursor: not-allowed;
   opacity: 0.6;
   box-shadow: none;

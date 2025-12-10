@@ -78,9 +78,9 @@
 }
 
 .leaderboard-entry.rank-2 {
-  background: linear-gradient(135deg, rgba(192, 192, 192, 0.15) 0%, rgba(232, 232, 232, 0.15) 100%);
-  border-color: #c0c0c0;
-  box-shadow: 0 8px 24px rgba(192, 192, 192, 0.2);
+  background: linear-gradient(135deg, rgba(134, 239, 172, 0.15) 0%, rgba(187, 247, 208, 0.15) 100%);
+  border-color: #86efac;
+  box-shadow: 0 8px 24px rgba(134, 239, 172, 0.2);
 }
 
 .leaderboard-entry.rank-3 {
