@@ -241,6 +241,19 @@
   z-index: 1;
 }
 
+.survey-actions .btn-outline {
+  background: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+}
+
+.survey-actions .btn-outline:hover {
+  background: var(--color-primary);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(74, 222, 128, 0.3);
+}
+
 /* Empty State */
 .empty-state {
   text-align: center;
@@ -295,6 +308,24 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+}
+
+.pagination .btn-outline {
+  background: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+}
+
+.pagination .btn-outline:hover:not(:disabled) {
+  background: var(--color-primary);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(74, 222, 128, 0.3);
+}
+
+.pagination .btn-outline:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 

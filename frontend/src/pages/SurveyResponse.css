@@ -978,14 +978,15 @@
 }
 
 .auth-choice-btn.btn-outline {
-  background: var(--color-surface);
-  border-color: var(--color-border);
-  color: var(--color-text-primary);
+  background: transparent;
+  border-color: var(--color-primary);
+  color: var(--color-primary);
 }
 
 .auth-choice-btn.btn-outline:hover {
-  background: var(--color-surface-elevated);
+  background: var(--color-primary-50);
   border-color: var(--color-primary);
+  color: var(--color-primary-dark);
 }
 
 .choice-content {
