@@ -272,13 +272,15 @@
 }
 
 .btn-secondary {
-  background: var(--color-surface);
-  color: var(--color-text-primary);
-  border: 2px solid var(--color-border);
+  background: var(--color-secondary);
+  color: white;
+  border: 2px solid var(--color-secondary);
 }
 
 .btn-secondary:hover {
-  background: var(--color-surface-elevated);
+  background: var(--color-secondary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(20, 184, 166, 0.3);
 }
 
 .btn-outline {
