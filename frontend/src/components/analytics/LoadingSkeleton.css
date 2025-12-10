@@ -1,6 +1,6 @@
 .skeleton-line {
   height: 16px;
-  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background: linear-gradient(90deg, rgba(74, 222, 128, 0.1) 25%, rgba(74, 222, 128, 0.2) 50%, rgba(74, 222, 128, 0.1) 75%);
   background-size: 200% 100%;
   animation: skeleton-loading 1.5s ease-in-out infinite;
   border-radius: 4px;
@@ -33,7 +33,7 @@
 
 .skeleton-bar {
   flex: 1;
-  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background: linear-gradient(90deg, rgba(74, 222, 128, 0.1) 25%, rgba(74, 222, 128, 0.2) 50%, rgba(74, 222, 128, 0.1) 75%);
   background-size: 200% 100%;
   animation: skeleton-loading 1.5s ease-in-out infinite;
   border-radius: 4px 4px 0 0;
