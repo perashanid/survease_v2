@@ -66,8 +66,8 @@
 }
 
 .status.inactive {
-  background: rgba(107, 114, 128, 0.1);
-  color: var(--color-text-muted);
+  background: rgba(74, 222, 128, 0.1);
+  color: var(--color-primary-dark);
 }
 
 /* Analytics Options */

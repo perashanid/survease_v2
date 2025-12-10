@@ -944,8 +944,8 @@ tics Dropdown */
 }
 
 .analytics-dropdown-menu .dropdown-item:hover {
-  background: #f9fafb;
-  color: #3b82f6;
+  background: var(--color-primary-50);
+  color: var(--color-primary);
 }
 
 .analytics-dropdown-menu .dropdown-item:first-child {

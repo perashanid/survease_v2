@@ -1031,9 +1031,9 @@
 }
 
 .status-badges .badge.inactive {
-  background-color: rgba(156, 163, 175, 0.1);
-  color: var(--color-text-muted);
-  border: 1px solid rgba(156, 163, 175, 0.2);
+  background-color: rgba(74, 222, 128, 0.1);
+  color: var(--color-primary-dark);
+  border: 1px solid rgba(74, 222, 128, 0.2);
 }
 
 .responses-per-day {
@@ -1567,12 +1567,12 @@ Response Trends Chart Improvements */
 /* A
 dvanced Features Showcase */
 .advanced-features-showcase {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #4ade80 0%, #14b8a6 100%);
   border-radius: 16px;
   padding: 32px;
   margin-bottom: 32px;
   color: white;
-  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 10px 30px rgba(74, 222, 128, 0.3);
 }
 
 .advanced-features-showcase h3 {
